@@ -2,6 +2,8 @@ package es.uji.geonews.model;
 
 import java.util.List;
 
+import es.uji.geonews.model.Services.ServiceManager;
+
 public class LocationManager {
     private List<Location> activeLocations;
     private List<Location> nonActiveLocations;

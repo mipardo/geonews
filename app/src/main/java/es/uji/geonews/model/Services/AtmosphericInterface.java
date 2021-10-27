@@ -1,4 +1,4 @@
-package es.uji.geonews.model;
+package es.uji.geonews.model.Services;
 
 public interface AtmosphericInterface {
 }
