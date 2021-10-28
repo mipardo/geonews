@@ -1,8 +1,6 @@
-package es.uji.geonews.model.Services;
+package es.uji.geonews.model.services;
 
 import java.util.List;
-
-import es.uji.geonews.model.Services.Service;
 
 public class ServiceManager {
     private List<Service> services;

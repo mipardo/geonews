@@ -1,9 +1,9 @@
-package es.uji.geonews.model.Services;
+package es.uji.geonews.model.services;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class OpenWeatherService extends Service implements AtmosphericInterface, WeatherInterface {
-    public OpenWeatherService(String serviceName, String serviceType, Date activationDate) {
+    public OpenWeatherService(String serviceName, String serviceType, LocalDate activationDate) {
         super(serviceName, serviceType, activationDate);
     }
 }

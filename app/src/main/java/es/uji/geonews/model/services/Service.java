@@ -1,13 +1,13 @@
-package es.uji.geonews.model.Services;
+package es.uji.geonews.model.services;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public abstract class Service {
     private String serviceName;
     private String serviceType;
-    private Date activationDate;
+    private LocalDate activationDate;
 
-    public Service(String serviceName, String serviceType, Date activationDate) {
+    public Service(String serviceName, String serviceType, LocalDate activationDate) {
         this.serviceName = serviceName;
         this.serviceType = serviceType;
         this.activationDate = activationDate;
@@ -29,11 +29,11 @@ public abstract class Service {
         this.serviceType = serviceType;
     }
 
-    public Date getActivationDate() {
+    public LocalDate getActivationDate() {
         return activationDate;
     }
 
-    public void setActivationDate(Date activationDate) {
+    public void setActivationDate(LocalDate activationDate) {
         this.activationDate = activationDate;
     }
 }
