@@ -1,9 +1,9 @@
-package es.uji.geonews.model;
+package es.uji.geonews.model.services;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class AirVisualService extends Service implements AtmosphericInterface, WeatherInterface {
-    public AirVisualService(String serviceName, String serviceType, Date activationDate) {
+    public AirVisualService(String serviceName, String serviceType, LocalDate activationDate) {
         super(serviceName, serviceType, activationDate);
     }
 }
