@@ -4,4 +4,7 @@
 /.idea/
 /.gradle/
 local.properties
+gradlew.bat
+gradlew
+gradle/wrapper/gradle-wrapper.jar
 
