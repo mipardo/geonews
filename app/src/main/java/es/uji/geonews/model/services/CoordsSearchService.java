@@ -1,11 +1,10 @@
 package es.uji.geonews.model.services;
 
-import androidx.annotation.NonNull;
 
 import java.io.IOException;
 
-import okhttp3.Call;
-import okhttp3.Callback;
+import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
+import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -30,22 +29,42 @@ public class CoordsSearchService extends Service  {
         return true;
     }
 
-    public GeographCoords getCoordsFrom(String placeName){
+    public GeographCoords getCoordsFrom(String placeName)
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
         String url = "https://geocode.xyz/"+ placeName +"?json=1&auth=" + GEOCODE_API_KEY;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
-        GeographCoords geographCoords = new GeographCoords();
+        GeographCoords geographCoords;
 
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
+            if (jsonObject.has("error")){
+               throw new UnrecognizedPlaceNameException();
+            }
             double longt = jsonObject.getDouble("longt");
             double latt = jsonObject.getDouble("latt");
-            geographCoords.setPrint(jsonObject.toString());
-            geographCoords.setLatitude(latt);
-            geographCoords.setLongitude(longt);
+            geographCoords = new GeographCoords(latt, longt);
+        } catch (IOException | JSONException exception){
+            throw new ServiceNotAvailableException();
+        }
+        return geographCoords;
+    }
+
+    public String getPlaceNameFromCoords(GeographCoords coords) {
+        String url = "https://geocode.xyz/"+ coords.toString() +"?json=1&auth=" + GEOCODE_API_KEY;
+        Request request = new Request.Builder().url(url).build();
+        final JSONObject jsonObject;
+        String placeName = null;
+
+        try (Response response = client.newCall(request).execute()) {
+            jsonObject = new JSONObject(response.body().string());
+            if (jsonObject.has("error")){
+                return null;
+            }
+            placeName = jsonObject.getJSONObject("osmtags").getString("name_es");
         } catch (IOException | JSONException exception){
             exception.printStackTrace();
         }
-        return geographCoords;
+        return placeName;
     }
 }

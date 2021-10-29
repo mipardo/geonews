@@ -1,12 +1,14 @@
 package es.uji.geonews.model;
 
+import androidx.annotation.NonNull;
+
 public class GeographCoords {
     private double latitude;
     private double longitude;
-    private String print;
 
-    public GeographCoords() {
-        super();
+    public GeographCoords(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public double getLatitude() {
@@ -25,11 +27,9 @@ public class GeographCoords {
         this.longitude = longitude;
     }
 
-    public String getPrint() {
-        return print;
-    }
-
-    public void setPrint(String print) {
-        this.print = print;
+    @NonNull
+    @Override
+    public String toString() {
+        return latitude + "," + longitude;
     }
 }

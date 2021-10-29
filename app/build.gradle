@@ -44,6 +44,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.mockito/mockito-all
     testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
 
+    // Para las respuestas de las APIS
     testImplementation 'org.json:json:20140107'
 
 

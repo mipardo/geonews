@@ -14,4 +14,8 @@ public class ServiceManager {
     public void addService(Service service){
         serviceMap.put(service.getServiceName(), service);
     }
+
+    public Service getService(String name) {
+        return serviceMap.get(name);
+    }
 }
