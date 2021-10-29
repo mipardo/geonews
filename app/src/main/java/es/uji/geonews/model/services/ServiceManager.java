@@ -1,15 +1,17 @@
 package es.uji.geonews.model.services;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServiceManager {
-    private List<Service> services;
 
-    public List<Service> getServices() {
-        return services;
+    private final Map<String, Service> serviceMap;
+
+    public ServiceManager(){
+        serviceMap = new HashMap<>();
     }
 
-    public void setServices(List<Service> services) {
-        this.services = services;
+    public void addService(Service service){
+        serviceMap.put(service.getServiceName(), service);
     }
 }

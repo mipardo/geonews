@@ -1,14 +1,15 @@
 package es.uji.geonews.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Location {
     private int id;
     private String placeName;
     private GeographCoords geographCoords;
-    private Date registrationDate;
+    private LocalDate registrationDate;
 
-    public Location(int id, String placeName, GeographCoords geographCoords, Date registrationDate) {
+    public Location(int id, String placeName, GeographCoords geographCoords, LocalDate registrationDate ) {
         this.id = id;
         this.placeName = placeName;
         this.geographCoords = geographCoords;
@@ -39,11 +40,11 @@ public class Location {
         this.geographCoords = geographCoords;
     }
 
-    public Date getRegistrationDate() {
+    public LocalDate getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
+    public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
     }
 }

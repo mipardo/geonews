@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "es.uji.geonews"
-        minSdk 21
+        minSdk 26
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -44,4 +44,14 @@ dependencies {
     // https://mvnrepository.com/artifact/org.mockito/mockito-all
     testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
 
+    testImplementation 'org.json:json:20140107'
+
+
+    // https://square.github.io/okhttp/
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    // define a BOM and its version
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.0"))
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
 }

@@ -3,10 +3,10 @@ package es.uji.geonews.model;
 public class GeographCoords {
     private double latitude;
     private double longitude;
+    private String print;
 
-    public GeographCoords(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public GeographCoords() {
+        super();
     }
 
     public double getLatitude() {
@@ -23,5 +23,13 @@ public class GeographCoords {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getPrint() {
+        return print;
+    }
+
+    public void setPrint(String print) {
+        this.print = print;
     }
 }

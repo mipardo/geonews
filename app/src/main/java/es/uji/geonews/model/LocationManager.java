@@ -1,19 +1,20 @@
 package es.uji.geonews.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.uji.geonews.model.services.Service;
+import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class LocationManager {
     private final List<Location> activeLocations;
     private final List<Location> nonActiveLocations;
     private final List<Location> favoriteLocations;
-    private final Service coordsSearchService;
+    private final ServiceManager serviceManager;
 
-    public LocationManager(Service coordsSearchService) {
-        this.coordsSearchService = coordsSearchService;
+    public LocationManager(ServiceManager serviceManager) {
+        this.serviceManager = serviceManager;
         activeLocations = new ArrayList<>();
         nonActiveLocations = new ArrayList<>();
         favoriteLocations = new ArrayList<>();
@@ -32,11 +33,18 @@ public class LocationManager {
     }
 
     public Location addLocationByPlaceName(String placeName){
+        CoordsSearchService coordsSearchService = new CoordsSearchService();
+        if(coordsSearchService.isAvailable()){
+            GeographCoords coords = coordsSearchService.getCoordsFrom(placeName);
+            Location location = new Location(1,placeName, coords, LocalDate.now());
+            nonActiveLocations.add(location);
+            return location;
+        }
         return null;
     }
 
 
-    public Service getCoordsSearchService() {
-        return coordsSearchService;
+    public ServiceManager getCoordsSearchService() {
+        return serviceManager;
     }
 }
