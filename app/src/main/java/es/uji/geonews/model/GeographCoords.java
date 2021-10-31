@@ -1,7 +1,5 @@
 package es.uji.geonews.model;
 
-import androidx.annotation.NonNull;
-
 public class GeographCoords {
     private double latitude;
     private double longitude;
@@ -28,7 +26,6 @@ public class GeographCoords {
         this.longitude = longitude;
     }
 
-    @NonNull
     @Override
     public String toString() {
         return latitude + "," + longitude;

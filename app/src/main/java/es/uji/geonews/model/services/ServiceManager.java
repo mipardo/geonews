@@ -1,6 +1,8 @@
 package es.uji.geonews.model.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ServiceManager {
@@ -9,6 +11,11 @@ public class ServiceManager {
 
     public ServiceManager(){
         serviceMap = new HashMap<>();
+    }
+
+
+    public List<Service> getServices(){
+        return new ArrayList<>(serviceMap.values());
     }
 
     public void addService(Service service){

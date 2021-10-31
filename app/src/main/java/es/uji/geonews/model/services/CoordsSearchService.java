@@ -2,27 +2,22 @@ package es.uji.geonews.model.services;
 
 
 import java.io.IOException;
-
+import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.time.LocalDate;
-
 import es.uji.geonews.model.GeographCoords;
 
 public class CoordsSearchService extends Service  {
 
-    private static final  String GEOCODE_API_KEY = "739559811684314511027x58957";
-    private final OkHttpClient client;
-
     public CoordsSearchService() {
-        super("Geocode", "Coordinates Search Service", LocalDate.now());
-        client = new OkHttpClient();
+        super("Geocode", "Coordinates Search Service");
+        apiKey = "739559811684314511027x58957";
+
     }
 
     public boolean isAvailable(){
@@ -31,7 +26,7 @@ public class CoordsSearchService extends Service  {
 
     public GeographCoords getCoordsFrom(String placeName)
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
-        String url = "https://geocode.xyz/"+ placeName +"?json=1&auth=" + GEOCODE_API_KEY;
+        String url = "https://geocode.xyz/"+ placeName +"?json=1&auth=" + apiKey;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
         GeographCoords geographCoords;
@@ -52,10 +47,10 @@ public class CoordsSearchService extends Service  {
 
     public String getPlaceNameFromCoords(GeographCoords coords)
             throws ServiceNotAvailableException{
-        String url = "https://geocode.xyz/"+ coords.toString() +"?json=1&auth=" + GEOCODE_API_KEY;
+        String url = "https://geocode.xyz/"+ coords.toString() +"?json=1&auth=" + apiKey;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
-        String placeName = null;
+        String placeName;
 
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
@@ -67,5 +62,10 @@ public class CoordsSearchService extends Service  {
             throw new ServiceNotAvailableException();
         }
         return placeName;
+    }
+
+    @Override
+    public boolean validateLocation(Location location){
+        return true;
     }
 }

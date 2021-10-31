@@ -14,10 +14,10 @@ import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
-import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class R1_HU02 {
     private static LocationManager locationManager;
