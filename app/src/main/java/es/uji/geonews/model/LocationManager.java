@@ -8,7 +8,6 @@ import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
-import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class LocationManager {
@@ -55,6 +54,11 @@ public class LocationManager {
         if(!areValidCoords(coords)){
             throw new NotValidCoordinatesException();
         }
+
+        if (!hasEnoughPrecision(coords)) {
+            return null;
+        }
+
         if (coordsSearchService.isAvailable()) {
             String placeName = coordsSearchService.getPlaceNameFromCoords(coords);
             Location location = new Location(1, placeName, coords, LocalDate.now());
@@ -67,10 +71,17 @@ public class LocationManager {
     }
 
     private boolean areValidCoords(GeographCoords coords){
-
         return (coords.getLatitude()<90 && coords.getLatitude()>-90 && coords.getLongitude()<180 && coords.getLongitude()>-180);
 
     }
+
+    private boolean hasEnoughPrecision(GeographCoords coords) {
+        String latString = String.valueOf(coords.getLatitude()).split("\\.")[1];
+        String lonString = String.valueOf(coords.getLatitude()).split("\\.")[1];
+
+        return latString.length() >= 4 && lonString.length() >= 4;
+    }
+
     public ServiceManager getCoordsSearchService() {
         return serviceManager;
     }

@@ -7,6 +7,7 @@ public class GeographCoords {
     private double longitude;
 
     public GeographCoords(double latitude, double longitude) {
+
         this.latitude = latitude;
         this.longitude = longitude;
     }

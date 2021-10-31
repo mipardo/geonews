@@ -62,7 +62,7 @@ public class CoordsSearchService extends Service  {
             if (jsonObject.has("error")){
                 return null;
             }
-            placeName = jsonObject.getJSONObject("osmtags").getString("name_es");
+            placeName = jsonObject.getJSONObject("osmtags").getString("name");
         } catch (IOException | JSONException exception){
             throw new ServiceNotAvailableException();
         }
