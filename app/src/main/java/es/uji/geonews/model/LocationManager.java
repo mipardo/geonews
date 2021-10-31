@@ -111,16 +111,15 @@ public class LocationManager {
         return false;
     }
 
-    public ServiceManager getCoordsSearchService() {
-        return serviceManager;
-    }
-
-
     public boolean hasActiveLocation(int id) {
         return activeLocations.containsKey(id);
     }
 
     public boolean hasNonActiveLocation(int id) {
         return nonActiveLocations.containsKey(id);
+    }
+
+    public ServiceManager getServiceManager() {
+        return serviceManager;
     }
 }
