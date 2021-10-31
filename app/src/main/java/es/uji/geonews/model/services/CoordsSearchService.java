@@ -50,7 +50,8 @@ public class CoordsSearchService extends Service  {
         return geographCoords;
     }
 
-    public String getPlaceNameFromCoords(GeographCoords coords) {
+    public String getPlaceNameFromCoords(GeographCoords coords)
+            throws ServiceNotAvailableException{
         String url = "https://geocode.xyz/"+ coords.toString() +"?json=1&auth=" + GEOCODE_API_KEY;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
@@ -63,7 +64,7 @@ public class CoordsSearchService extends Service  {
             }
             placeName = jsonObject.getJSONObject("osmtags").getString("name_es");
         } catch (IOException | JSONException exception){
-            exception.printStackTrace();
+            throw new ServiceNotAvailableException();
         }
         return placeName;
     }

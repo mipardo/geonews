@@ -50,13 +50,13 @@ public class R1_HU01 {
         assertEquals(1, locationManager.getNonActiveLocations().size());
     }
 
-//    @Test(expected=ServiceNotAvailableException.class)
-//    public void registerLocationByPlaceName_withoutConnection_ServiceNotAvailableException()
-//            throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
-//        // When
-//        Location newLocation = locationManager.addLocationByPlaceName("Bilbao");
-//        // Then
-//        assertEquals(1, locationManager.getNonActiveLocations().size());
-//    }
+    @Test(expected=ServiceNotAvailableException.class)
+    public void registerLocationByPlaceName_withoutConnection_ServiceNotAvailableException()
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
+        // When
+        Location newLocation = locationManager.addLocationByPlaceName("Bilbao");
+        // Then
+        //assertEquals(1, locationManager.getNonActiveLocations().size());
+    }
 
 }

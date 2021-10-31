@@ -50,16 +50,17 @@ public class LocationManager {
         return null;
     }
 
-    public Location addLocationByCoords(GeographCoords coords) throws NotValidCoordinatesException {
+    public Location addLocationByCoords(GeographCoords coords)
+            throws NotValidCoordinatesException, ServiceNotAvailableException{
         if(!areValidCoords(coords)){
             throw new NotValidCoordinatesException();
         }
-            if (coordsSearchService.isAvailable()) {
-                String placeName = coordsSearchService.getPlaceNameFromCoords(coords);
-                Location location = new Location(1, placeName, coords, LocalDate.now());
-                nonActiveLocations.add(location);
-                return location;
-            }
+        if (coordsSearchService.isAvailable()) {
+            String placeName = coordsSearchService.getPlaceNameFromCoords(coords);
+            Location location = new Location(1, placeName, coords, LocalDate.now());
+            nonActiveLocations.add(location);
+            return location;
+        }
 
         return null;
 

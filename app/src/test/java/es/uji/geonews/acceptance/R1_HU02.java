@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
@@ -15,7 +17,7 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
-
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class R1_HU02 {
     private static LocationManager locationManager;
 
@@ -52,10 +54,20 @@ public class R1_HU02 {
     }
 
     @Test(expected = NotValidCoordinatesException.class)
-    public void registerLocationByPlaceName_invalidCoords_Location()
+    public void registerLocationByCoords_invalidCoords_Location()
             throws NotValidCoordinatesException, ServiceNotAvailableException {
         // When
         GeographCoords coords = new GeographCoords(100.0, -41.19);
+        Location newLocation = locationManager.addLocationByCoords(coords);
+        // Then
+        //assertEquals(2, locationManager.getNonActiveLocations().size());
+    }
+
+    @Test(expected=ServiceNotAvailableException.class)
+    public void registerLocationByCoords_withoutConnection_ServiceNotAvailableException()
+            throws NotValidCoordinatesException, ServiceNotAvailableException {
+        // When
+        GeographCoords coords = new GeographCoords(39.0, -0.0);
         Location newLocation = locationManager.addLocationByCoords(coords);
         // Then
         //assertEquals(2, locationManager.getNonActiveLocations().size());
