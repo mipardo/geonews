@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -50,7 +51,11 @@ public class LocationManager {
     }
 
     public Location addLocationByCoords(GeographCoords coords)
-            throws NotValidCoordinatesException, ServiceNotAvailableException{
+            throws NotValidCoordinatesException, ServiceNotAvailableException, GPSNotAvailableException {
+        if (coords == null) {
+            throw new GPSNotAvailableException();
+        }
+
         if(!areValidCoords(coords)){
             throw new NotValidCoordinatesException();
         }
