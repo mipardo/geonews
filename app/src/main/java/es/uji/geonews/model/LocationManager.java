@@ -101,9 +101,26 @@ public class LocationManager {
         return latString.length() >= 4 && lonString.length() >= 4;
     }
 
+    public boolean activateLocation(int id) {
+        Location location = nonActiveLocations.get(id);
+        if (location != null) {
+            activeLocations.put(id, location);
+            nonActiveLocations.remove(id);
+            return  true;
+        }
+        return false;
+    }
+
     public ServiceManager getCoordsSearchService() {
         return serviceManager;
     }
 
 
+    public boolean hasActiveLocation(int id) {
+        return activeLocations.containsKey(id);
+    }
+
+    public boolean hasNonActiveLocation(int id) {
+        return nonActiveLocations.containsKey(id);
+    }
 }
