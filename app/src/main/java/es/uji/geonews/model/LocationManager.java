@@ -78,7 +78,7 @@ public class LocationManager {
         return null;
     }
 
-    public boolean remove(int locationId){
+    public boolean removeLocation(int locationId){
         if ( nonActiveLocations.containsKey(locationId)){
             nonActiveLocations.remove(locationId);
             return true;
@@ -155,6 +155,16 @@ public class LocationManager {
         return false;
     }
 
+    public boolean deactivateLocation(int id) {
+        Location location = activeLocations.get(id);
+        if (location != null) {
+            nonActiveLocations.put(id, location);
+            activeLocations.remove(id);
+            return  true;
+        }
+        return false;
+    }
+
     public boolean hasActiveLocation(int id) {
         return activeLocations.containsKey(id);
     }
@@ -166,4 +176,5 @@ public class LocationManager {
     public ServiceManager getServiceManager() {
         return serviceManager;
     }
+
 }

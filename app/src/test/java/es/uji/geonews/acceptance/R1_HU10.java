@@ -5,7 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
@@ -16,11 +18,10 @@ import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
-
-public class R1_HU11 {
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class R1_HU10 {
     private static LocationManager locationManager;
-    private static Location castellon;
-    private static Location valencia;
+    private static Location location;
 
     @BeforeClass
     public static void init()
@@ -30,34 +31,28 @@ public class R1_HU11 {
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
-        castellon = locationManager.addLocationByPlaceName("Castelló de la plana");
-        valencia = locationManager.addLocationByPlaceName("Valencia");
+        location = locationManager.addLocationByPlaceName("Castelló de la Plana");
+        locationManager.activateLocation(location.getId());
     }
 
     @Test
-    public void removeLocation_LocationNotInActiveLocations_True()
-            throws ServiceNotAvailableException, NotValidCoordinatesException {
+    public void deactivateLocation_activeLocation_True()
+            throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // When
-        boolean result = locationManager.removeLocation(castellon.getId());
+        boolean result = locationManager.deactivateLocation(location.getId());
 
         // Then
         assertTrue(result);
+        assertEquals(0, locationManager.getActiveLocations().size());
         assertEquals(1, locationManager.getNonActiveLocations().size());
     }
 
     @Test
-    public void removeLocation_LocationInActiveLocations_False()
-            throws ServiceNotAvailableException, NotValidCoordinatesException {
-        //Given
-        locationManager.activateLocation(valencia.getId());
-
+    public void deactivateLocation_nonActiveLocation_False() {
         // When
-        boolean result = locationManager.removeLocation(valencia.getId());
+        boolean result = locationManager.deactivateLocation(location.getId());
 
         // Then
         assertFalse(result);
-        assertEquals(0, locationManager.getNonActiveLocations().size());
-        assertEquals(1, locationManager.getActiveLocations().size());
     }
-
 }
