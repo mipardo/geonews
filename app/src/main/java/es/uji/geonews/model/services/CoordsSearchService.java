@@ -3,6 +3,8 @@ package es.uji.geonews.model.services;
 
 import java.io.IOException;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.exceptions.GPSNotAvailableException;
+import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import okhttp3.Request;
@@ -46,7 +48,13 @@ public class CoordsSearchService extends Service  {
     }
 
     public String getPlaceNameFromCoords(GeographCoords coords)
-            throws ServiceNotAvailableException{
+            throws ServiceNotAvailableException, NotValidCoordinatesException{
+
+        if(!areValidCoords(coords)){
+            throw new NotValidCoordinatesException();
+        }
+
+
         String url = "https://geocode.xyz/"+ coords.toString() +"?json=1&auth=" + apiKey;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
@@ -68,4 +76,12 @@ public class CoordsSearchService extends Service  {
     public boolean validateLocation(Location location){
         return true;
     }
+
+    private boolean areValidCoords(GeographCoords coords){
+        return (coords.getLatitude() < 90 && coords.getLatitude() > -90 &&
+                coords.getLongitude()<180 && coords.getLongitude()>-180);
+    }
+
+
+
 }
