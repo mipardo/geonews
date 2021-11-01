@@ -5,6 +5,7 @@ public class GeographCoords {
     private double longitude;
 
     public GeographCoords(double latitude, double longitude) {
+
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -23,5 +24,10 @@ public class GeographCoords {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    @Override
+    public String toString() {
+        return latitude + "," + longitude;
     }
 }
