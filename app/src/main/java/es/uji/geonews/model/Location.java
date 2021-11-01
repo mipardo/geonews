@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class Location {
     private int id;
+    private String alias;
     private String placeName;
     private GeographCoords geographCoords;
     private LocalDate registrationDate;
@@ -13,6 +14,7 @@ public class Location {
         this.placeName = placeName;
         this.geographCoords = geographCoords;
         this.registrationDate = registrationDate;
+        this.alias = "";
     }
 
     public int getId() {
@@ -23,6 +25,14 @@ public class Location {
         this.id = id;
     }
 
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
     public String getPlaceName() {
         return placeName;
     }
@@ -30,6 +40,7 @@ public class Location {
     public void setPlaceName(String placeName) {
         this.placeName = placeName;
     }
+
 
     public GeographCoords getGeographCoords() {
         return geographCoords;

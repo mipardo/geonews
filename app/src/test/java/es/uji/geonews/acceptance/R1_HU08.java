@@ -30,25 +30,25 @@ import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU08 {
 
-        private static LocationManager locationManager;
+    private static LocationManager locationManager;
 
-        @Test
-        public void getPlaceName_knownCoords_nextPlaceName()
-                throws ServiceNotAvailableException, NotValidCoordinatesException {
-            // Given
-            ServiceManager serviceManager = new ServiceManager();
-            Service GeoCode = new CoordsSearchService();
-            serviceManager.addService(GeoCode);
-            locationManager = new LocationManager(serviceManager);
-            // When
-            GeographCoords coords = new GeographCoords(39.98920,-0.03621);
-            String placeName = ((CoordsSearchService) locationManager.getServiceManager().
-                    getService("Geocode")).getPlaceNameFromCoords(coords);
+    @Test
+    public void getPlaceName_knownCoords_nextPlaceName()
+            throws ServiceNotAvailableException, NotValidCoordinatesException {
+        // Given
+        ServiceManager serviceManager = new ServiceManager();
+        Service GeoCode = new CoordsSearchService();
+        serviceManager.addService(GeoCode);
+        locationManager = new LocationManager(serviceManager);
+        // When
+        GeographCoords coords = new GeographCoords(39.98920,-0.03621);
+        String placeName = ((CoordsSearchService) locationManager.getServiceManager().
+                getService("Geocode")).getPlaceNameFromCoords(coords);
 
-            // Then
-            assertEquals("Castelló de la Plana", placeName);
+        // Then
+        assertEquals("Castelló de la Plana", placeName);
+    }
 
-        }
     @Test
     public void getPlaceName_unknownCoords_nextPlaceName()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
@@ -64,8 +64,8 @@ public class R1_HU08 {
 
         // Then
         assertNull(placeName);
-
     }
+
     @Test(expected = NotValidCoordinatesException.class)
     public void getPlaceName_knownCoords_nextPlaceName_NotValidCoordinatesException()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
@@ -81,9 +81,8 @@ public class R1_HU08 {
                 getService("Geocode")).getPlaceNameFromCoords(coords);
 
         // Then
-
-
     }
+
     @Test(expected = ServiceNotAvailableException.class)
     public void getPlaceName_knownCoords_nextPlaceName_ServiceNotAvailableException()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
@@ -97,9 +96,6 @@ public class R1_HU08 {
 
         String placeName = ((CoordsSearchService) locationManager.getServiceManager().
                 getService("Geocode")).getPlaceNameFromCoords(coords);
-
-        // Then
-
 
     }
 

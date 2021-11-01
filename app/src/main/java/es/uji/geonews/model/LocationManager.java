@@ -78,6 +78,14 @@ public class LocationManager {
         return null;
     }
 
+    public boolean remove(int locationId){
+        if ( nonActiveLocations.containsKey(locationId)){
+            nonActiveLocations.remove(locationId);
+            return true;
+        }
+        return false;
+    }
+
     public List<String> validateLocation(int locationId){
         Location location = nonActiveLocations.get(locationId);
         List<String> services = new ArrayList<>();
@@ -87,6 +95,42 @@ public class LocationManager {
             }
         }
         return services;
+    }
+
+    public boolean setAliasToLocation(String alias, int locationId){
+        //Check if alias is already asign to any other locaton
+        if (checkIfExistAlias(alias)) return false;
+
+        //Check if location is in active and inactive locations
+        Location location = getLocaton(locationId);
+
+        if (alias != null && !alias.equals("")) {
+            location.setAlias(alias);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkIfExistAlias(String newAlias){
+        for(Location location: activeLocations.values()){
+            if (location.getAlias().equals(newAlias)){
+                return true;
+            }
+        }
+        for(Location location: nonActiveLocations.values()){
+            if (location.getAlias().equals(newAlias)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Location getLocaton(int idLocation){
+        Location location = activeLocations.get(idLocation);
+        if (location == null){
+            location = nonActiveLocations.get(idLocation);
+        }
+        return location;
     }
 
     private boolean areValidCoords(GeographCoords coords){
