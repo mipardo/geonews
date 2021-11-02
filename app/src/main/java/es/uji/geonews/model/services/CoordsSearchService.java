@@ -19,7 +19,6 @@ public class CoordsSearchService extends Service  {
     public CoordsSearchService() {
         super("Geocode", "Coordinates Search Service");
         apiKey = "739559811684314511027x58957";
-
     }
 
     public boolean isAvailable(){
@@ -53,7 +52,6 @@ public class CoordsSearchService extends Service  {
         if(!areValidCoords(coords)){
             throw new NotValidCoordinatesException();
         }
-
 
         String url = "https://geocode.xyz/"+ coords.toString() +"?json=1&auth=" + apiKey;
         Request request = new Request.Builder().url(url).build();
