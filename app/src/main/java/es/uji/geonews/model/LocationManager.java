@@ -40,7 +40,7 @@ public class LocationManager {
         return new ArrayList<>(nonActiveLocations.values());
     }
 
-    public List<Location> getFavoriteLocations() {
+    public List<Location> getFavouriteLocations() {
         return new ArrayList<>(favoriteLocations.values());    }
 
     public Location addLocationByPlaceName(String placeName)
