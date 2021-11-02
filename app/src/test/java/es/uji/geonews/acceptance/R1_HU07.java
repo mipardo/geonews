@@ -22,12 +22,12 @@ public class R1_HU07 {
     throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new CoordsSearchService();
-        serviceManager.addService(GeoCode);
+        Service geocode = new CoordsSearchService();
+        serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
         // When
-        GeographCoords coords = ((CoordsSearchService) locationManager.getServiceManager()
-                .getService("Geocode")).getCoordsFrom("Castelló de la Plana");
+        GeographCoords coords = ((CoordsSearchService) locationManager.getService("Geocode"))
+                .getCoordsFrom("Castelló de la Plana");
         // Then
         assertEquals(39.98920, coords.getLatitude(), 0.01);
         assertEquals(-0.03621, coords.getLongitude(), 0.01);
@@ -38,12 +38,12 @@ public class R1_HU07 {
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new CoordsSearchService();
-        serviceManager.addService(GeoCode);
+        Service geocode = new CoordsSearchService();
+        serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
         // When
-        GeographCoords coords = ((CoordsSearchService) locationManager.getServiceManager()
-                .getService("Geocode")).getCoordsFrom("asdfxxrtg");
+        ((CoordsSearchService) locationManager.getService("Geocode"))
+                .getCoordsFrom("asdfxxrtg");
     }
 
     @Test (expected = ServiceNotAvailableException.class)
@@ -51,11 +51,11 @@ public class R1_HU07 {
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new CoordsSearchService();
-        serviceManager.addService(GeoCode);
+        Service geocode = new CoordsSearchService();
+        serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
         // When
-        GeographCoords coords = ((CoordsSearchService) locationManager.getServiceManager()
-                .getService("Geocode")).getCoordsFrom("Castellón de la Plana");
+        ((CoordsSearchService) locationManager.getService("Geocode"))
+                .getCoordsFrom("Castellón de la Plana");
     }
 }

@@ -14,6 +14,7 @@ import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
+import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
@@ -33,20 +34,24 @@ public class R1_HU02 {
 
     @Test
     public void registerLocationByCoords_knownPlaceName_Location()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, GPSNotAvailableException {
-        // When
+            throws NotValidCoordinatesException, ServiceNotAvailableException,
+            GPSNotAvailableException, UnrecognizedPlaceNameException {
+        //Given
         GeographCoords coords = new GeographCoords(39.98920, -0.03621);
-        Location newLocation = locationManager.addLocationByCoords(coords);
+        // When
+        Location newLocation = locationManager.addLocation(coords.toString());
         // Then
         assertEquals(1, locationManager.getNonActiveLocations().size());
         assertEquals("Castelló de la Plana", newLocation.getPlaceName());
     }
     @Test
     public void registerLocationByCoords_unknownPlaceName_Location()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, GPSNotAvailableException {
-        // When
+            throws NotValidCoordinatesException, ServiceNotAvailableException,
+            GPSNotAvailableException, UnrecognizedPlaceNameException {
+        //Given
         GeographCoords coords = new GeographCoords(33.65001, -41.19001);
-        Location newLocation = locationManager.addLocationByCoords(coords);
+        // When
+        Location newLocation = locationManager.addLocation(coords.toString());
         // Then
         assertEquals(2, locationManager.getNonActiveLocations().size());
         assertEquals(33.65, newLocation.getGeographCoords().getLatitude(), 0.01);
@@ -56,30 +61,36 @@ public class R1_HU02 {
 
     @Test(expected = NotValidCoordinatesException.class)
     public void registerLocationByCoords_invalidCoords_Location()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, GPSNotAvailableException {
-        // When
+            throws NotValidCoordinatesException, ServiceNotAvailableException,
+            GPSNotAvailableException, UnrecognizedPlaceNameException {
+        //Given
         GeographCoords coords = new GeographCoords(100.00001, -41.19001);
-        Location newLocation = locationManager.addLocationByCoords(coords);
+        // When
+        Location newLocation = locationManager.addLocation(coords.toString());
         // Then
         //assertEquals(2, locationManager.getNonActiveLocations().size());
     }
 
     @Test
     public void registerLocationByCoords_NotAccurateCoords_null()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, GPSNotAvailableException {
-        // When
+            throws NotValidCoordinatesException, ServiceNotAvailableException,
+            GPSNotAvailableException, UnrecognizedPlaceNameException {
+        //Given
         GeographCoords coords = new GeographCoords(39, 0.0);
-        Location newLocation = locationManager.addLocationByCoords(coords);
+        // When
+        Location newLocation = locationManager.addLocation(coords.toString());
         // Then
         assertNull(newLocation);
     }
 
     @Test(expected=ServiceNotAvailableException.class)
     public void registerLocationByCoords_withoutConnection_ServiceNotAvailableException()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, GPSNotAvailableException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException,
+            GPSNotAvailableException, UnrecognizedPlaceNameException {
+        //Given
+        GeographCoords coords = new GeographCoords(39.98920, -0.03621);
         // When
-        GeographCoords coords = new GeographCoords(39.98001, -0.04901);
-        Location newLocation = locationManager.addLocationByCoords(coords);
+        locationManager.addLocation(coords.toString());
         // Then
         //assertEquals(2, locationManager.getNonActiveLocations().size());
     }

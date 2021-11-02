@@ -8,6 +8,7 @@ public class Location {
     private String placeName;
     private GeographCoords geographCoords;
     private LocalDate registrationDate;
+    private boolean isActive;
 
     public Location(int id, String placeName, GeographCoords geographCoords, LocalDate registrationDate ) {
         this.id = id;
@@ -15,6 +16,7 @@ public class Location {
         this.geographCoords = geographCoords;
         this.registrationDate = registrationDate;
         this.alias = "";
+        this.isActive = false;
     }
 
     public int getId() {
@@ -48,6 +50,26 @@ public class Location {
 
     public void setGeographCoords(GeographCoords geographCoords) {
         this.geographCoords = geographCoords;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public boolean activate() {
+        if (!isActive) {
+            isActive = true;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deactivate() {
+        if (isActive) {
+            isActive = false;
+            return true;
+        }
+        return false;
     }
 
     public LocalDate getRegistrationDate() {

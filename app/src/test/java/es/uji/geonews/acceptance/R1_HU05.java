@@ -13,6 +13,7 @@ import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
+import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.OpenWeatherService;
@@ -24,7 +25,8 @@ public class R1_HU05 {
 
     @Test
     public void validatePlaceName_PlaceNameRecognized_ListWithTwoActiveServices()
-            throws ServiceNotAvailableException, NotValidCoordinatesException, GPSNotAvailableException {
+            throws ServiceNotAvailableException, NotValidCoordinatesException,
+            GPSNotAvailableException, UnrecognizedPlaceNameException {
         ServiceManager serviceManager = new ServiceManager();
         Service GeoCode = new CoordsSearchService();
         Service OpenWeather = new OpenWeatherService();
@@ -35,7 +37,7 @@ public class R1_HU05 {
         locationManager = new LocationManager(serviceManager);
         // When
         GeographCoords coords = new GeographCoords(39.98001, -0.049900);
-        Location newLocation = locationManager.addLocationByCoords(coords);
+        Location newLocation = locationManager.addLocation(coords.toString());
         List<String> services = locationManager.validateLocation(newLocation.getId());
         // Then
         assertEquals(2, services.size());
@@ -45,14 +47,15 @@ public class R1_HU05 {
 
     @Test
     public void validateCoords_NoApiAvailable_EmptyList()
-            throws ServiceNotAvailableException, NotValidCoordinatesException, GPSNotAvailableException {
+            throws ServiceNotAvailableException, NotValidCoordinatesException,
+            GPSNotAvailableException, UnrecognizedPlaceNameException {
         ServiceManager serviceManager = new ServiceManager();
         Service GeoCode = new CoordsSearchService();
         serviceManager.addService(GeoCode);
         locationManager = new LocationManager(serviceManager);
         // When
         GeographCoords coords = new GeographCoords(39.98001, -0.049900);
-        Location newLocation = locationManager.addLocationByCoords(coords);
+        Location newLocation = locationManager.addLocation(coords.toString());
         List<String> services = locationManager.validateLocation(newLocation.getId());
         // Then
         assertEquals(0, services.size());

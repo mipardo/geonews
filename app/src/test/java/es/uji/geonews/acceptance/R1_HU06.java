@@ -34,30 +34,30 @@ public class R1_HU06 {
 
     @Test
     public void activateLocation_knownPlaceName_true()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
+            NotValidCoordinatesException, GPSNotAvailableException {
 
-        Location newLocation = locationManager.addLocationByPlaceName("Castelló de la Plana");
+        Location newLocation = locationManager.addLocation("Castelló de la Plana");
         locationManager.validateLocation(newLocation.getId());
         // When
         boolean result = locationManager.activateLocation(newLocation.getId());
         // Then
         assertTrue(result);
-        assertTrue(locationManager.hasActiveLocation(newLocation.getId()));
-        assertFalse(locationManager.hasNonActiveLocation(newLocation.getId()));
+        assertTrue(locationManager.getLocaton(newLocation.getId()).isActive());
     }
 
     @Test
     public void activateLocation_unKnownPlaceName_true()
-            throws ServiceNotAvailableException, GPSNotAvailableException, NotValidCoordinatesException {
+            throws ServiceNotAvailableException, GPSNotAvailableException,
+            NotValidCoordinatesException, UnrecognizedPlaceNameException {
         GeographCoords coords = new GeographCoords(33.65001, -41.19001);
-        Location newLocation = locationManager.addLocationByCoords(coords);
+        Location newLocation = locationManager.addLocation(coords.toString());
         locationManager.validateLocation(newLocation.getId());
         // When
         boolean result = locationManager.activateLocation(newLocation.getId());
         // Then
         assertTrue(result);
-        assertTrue(locationManager.hasActiveLocation(newLocation.getId()));
-        assertFalse(locationManager.hasNonActiveLocation(newLocation.getId()));
+        assertTrue(locationManager.getLocaton(newLocation.getId()).isActive());
     }
 
     @Test

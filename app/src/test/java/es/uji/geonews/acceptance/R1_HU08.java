@@ -37,13 +37,13 @@ public class R1_HU08 {
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new CoordsSearchService();
-        serviceManager.addService(GeoCode);
+        Service geocode = new CoordsSearchService();
+        serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
         // When
         GeographCoords coords = new GeographCoords(39.98920,-0.03621);
-        String placeName = ((CoordsSearchService) locationManager.getServiceManager().
-                getService("Geocode")).getPlaceNameFromCoords(coords);
+        String placeName = ((CoordsSearchService) locationManager.getService("Geocode")).
+                getPlaceNameFromCoords(coords);
 
         // Then
         assertEquals("Castelló de la Plana", placeName);
@@ -59,7 +59,7 @@ public class R1_HU08 {
         locationManager = new LocationManager(serviceManager);
         // When
         GeographCoords coords = new GeographCoords(33.6500,-41.1900);
-        String placeName = ((CoordsSearchService) locationManager.getServiceManager().
+        String placeName = ((CoordsSearchService) locationManager.
                 getService("Geocode")).getPlaceNameFromCoords(coords);
 
         // Then
@@ -77,10 +77,8 @@ public class R1_HU08 {
         // When
         GeographCoords coords = new GeographCoords(100.0000,-41.1900);
 
-        String placeName = ((CoordsSearchService) locationManager.getServiceManager().
+        ((CoordsSearchService) locationManager.
                 getService("Geocode")).getPlaceNameFromCoords(coords);
-
-        // Then
     }
 
     @Test(expected = ServiceNotAvailableException.class)
@@ -94,7 +92,7 @@ public class R1_HU08 {
         // When
         GeographCoords coords = new GeographCoords(39.98920,-0.03621);
 
-        String placeName = ((CoordsSearchService) locationManager.getServiceManager().
+        ((CoordsSearchService) locationManager.
                 getService("Geocode")).getPlaceNameFromCoords(coords);
 
     }

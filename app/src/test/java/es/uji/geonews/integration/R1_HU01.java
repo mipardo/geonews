@@ -13,6 +13,8 @@ import org.junit.Test;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.exceptions.GPSNotAvailableException;
+import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
@@ -23,7 +25,7 @@ public class R1_HU01 {
 
     @Test
     public void registerLocationByPlaceName_knownPlaceName_Location()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException, NotValidCoordinatesException, GPSNotAvailableException {
         // Arrange
         CoordsSearchService mockCoordsSearchSrv = mock(CoordsSearchService.class);
         when(mockCoordsSearchSrv.isAvailable()).thenReturn(true);
@@ -32,7 +34,7 @@ public class R1_HU01 {
         when(mockServiceManager.getService("Geocode")).thenReturn(mockCoordsSearchSrv);
         LocationManager locationManager = new LocationManager(mockServiceManager);
         // Act
-        Location location = locationManager.addLocationByPlaceName("Castellon de la Plana");
+        Location location = locationManager.addLocation("Castellon de la Plana");
         // Assert
         verify(mockCoordsSearchSrv, times(1)).isAvailable();
         verify(mockCoordsSearchSrv, times(1)).getCoordsFrom("Castellon de la Plana");
@@ -41,7 +43,8 @@ public class R1_HU01 {
 
     @Test(expected=UnrecognizedPlaceNameException.class)
     public void registerLocationByPlaceName_unknownPlaceName_UnrecognizedPlaceNameException()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException, GPSNotAvailableException {
         // Arrange
         CoordsSearchService mockCoordsSearchSrv = mock(CoordsSearchService.class);
         when(mockCoordsSearchSrv.isAvailable()).thenReturn(true);
@@ -50,7 +53,7 @@ public class R1_HU01 {
         when(mockServiceManager.getService("Geocode")).thenReturn(mockCoordsSearchSrv);
         LocationManager locationManager = new LocationManager(mockServiceManager);
         // Act
-        locationManager.addLocationByPlaceName("asddf");
+        locationManager.addLocation("asddf");
         // Assert
         //verify()
 
@@ -58,7 +61,8 @@ public class R1_HU01 {
 
     @Test(expected= ServiceNotAvailableException.class)
     public void registerLocationByPlaceName_withoutConnection_ServiceNotAvailableException()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException, GPSNotAvailableException {
         // Arrange
         CoordsSearchService mockCoordsSearchSrv = mock(CoordsSearchService.class);
         when(mockCoordsSearchSrv.isAvailable()).thenReturn(true);
@@ -67,7 +71,7 @@ public class R1_HU01 {
         when(mockServiceManager.getService("Geocode")).thenReturn(mockCoordsSearchSrv);
         LocationManager locationManager = new LocationManager(mockServiceManager);
         // Act
-        locationManager.addLocationByPlaceName("Bilbao");
+        locationManager.addLocation("Bilbao");
         // Assert
         //verify()
     }

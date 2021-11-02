@@ -9,6 +9,8 @@ import org.junit.Test;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.exceptions.GPSNotAvailableException;
+import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
@@ -30,9 +32,10 @@ public class R1_HU01 {
 
     @Test
     public void registerLocationByPlaceName_knownPlaceName_Location()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException, GPSNotAvailableException {
         // When
-        Location newLocation = locationManager.addLocationByPlaceName("Castellon de la Plana");
+        Location newLocation = locationManager.addLocation("Castellon de la Plana");
         // Then
         assertEquals(1, locationManager.getNonActiveLocations().size());
         assertEquals("Castellon de la Plana", newLocation.getPlaceName());
@@ -43,18 +46,20 @@ public class R1_HU01 {
 
     @Test(expected=UnrecognizedPlaceNameException.class)
     public void registerLocationByPlaceName_unknownPlaceName_UnrecognizedPlaceNameException()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException, GPSNotAvailableException {
         // When
-        Location newLocation = locationManager.addLocationByPlaceName("asddf");
+        Location newLocation = locationManager.addLocation("asddf");
         // Then
         assertEquals(1, locationManager.getNonActiveLocations().size());
     }
 
     @Test(expected=ServiceNotAvailableException.class)
     public void registerLocationByPlaceName_withoutConnection_ServiceNotAvailableException()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException, GPSNotAvailableException {
         // When
-        Location newLocation = locationManager.addLocationByPlaceName("Bilbao");
+        Location newLocation = locationManager.addLocation("Bilbao");
         // Then
         //assertEquals(1, locationManager.getNonActiveLocations().size());
     }

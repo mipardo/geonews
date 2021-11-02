@@ -14,6 +14,8 @@ import org.junit.runners.MethodSorters;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.exceptions.GPSNotAvailableException;
+import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
@@ -27,13 +29,14 @@ public class R1_HU09 {
 
     @BeforeClass
     public static void init()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
+            NotValidCoordinatesException, GPSNotAvailableException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
         Service geocode = new CoordsSearchService();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
-        locationManager.addLocationByPlaceName("Castelló de la Plana");
+        locationManager.addLocation("Castelló de la Plana");
     }
 
     @Test
