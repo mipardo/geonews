@@ -17,17 +17,16 @@ public class LocationFactory {
         this.idLocationCounter = 1; // TODO: Recojer de la DB
     }
 
-    public Location addLocation(String location)
-            throws GPSNotAvailableException, NotValidCoordinatesException,
+    public Location createLocation(String location) throws NotValidCoordinatesException,
             ServiceNotAvailableException, UnrecognizedPlaceNameException {
         if(isGeographCoords(location)){
             GeographCoords coords = convertStringToCoords(location);
-            return addLocationByCoords(coords);
+            return createLocationByCoords(coords);
         }
-        return addLocationByPlaceName(location);
+        return createLocationByPlaceName(location);
     }
 
-    private Location addLocationByPlaceName(String placeName)
+    private Location createLocationByPlaceName(String placeName)
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
         if(coordsSearchService.isAvailable()){
             GeographCoords coords = coordsSearchService.getCoordsFrom(placeName);
@@ -36,10 +35,8 @@ public class LocationFactory {
         return null;
     }
 
-    private Location addLocationByCoords(GeographCoords coords)
-            throws NotValidCoordinatesException, ServiceNotAvailableException, GPSNotAvailableException {
-        if (coords == null) throw new GPSNotAvailableException();
-
+    private Location createLocationByCoords(GeographCoords coords)
+            throws NotValidCoordinatesException, ServiceNotAvailableException {
         if(!areValidCoords(coords)) throw new NotValidCoordinatesException();
 
         if (!hasEnoughPrecision(coords)) return null;
@@ -70,7 +67,6 @@ public class LocationFactory {
     private boolean hasEnoughPrecision(GeographCoords coords) {
         String latString = String.valueOf(coords.getLatitude()).split("\\.")[1];
         String lonString = String.valueOf(coords.getLatitude()).split("\\.")[1];
-
         return latString.length() >= 4 && lonString.length() >= 4;
     }
 }

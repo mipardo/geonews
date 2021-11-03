@@ -21,9 +21,6 @@ public class CoordsSearchService extends Service  {
         //apiKey = "739559811684314511027x58957";
     }
 
-    public boolean isAvailable(){
-        return true;
-    }
 
     public GeographCoords getCoordsFrom(String placeName)
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
@@ -70,13 +67,19 @@ public class CoordsSearchService extends Service  {
         return placeName;
     }
 
+    private boolean areValidCoords(GeographCoords coords){
+        return (coords.getLatitude() < 90 && coords.getLatitude() > -90 &&
+                coords.getLongitude()<180 && coords.getLongitude()>-180);
+    }
+
     @Override
     public boolean validateLocation(Location location){
         return true;
     }
 
-    private boolean areValidCoords(GeographCoords coords){
-        return (coords.getLatitude() < 90 && coords.getLatitude() > -90 &&
-                coords.getLongitude()<180 && coords.getLongitude()>-180);
+    @Override
+    public void checkConnection() {
+        isActive = true;
     }
+
 }

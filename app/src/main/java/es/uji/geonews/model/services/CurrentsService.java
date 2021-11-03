@@ -34,4 +34,9 @@ public class CurrentsService extends Service implements NewsInterface {
             return false;
         }
     }
+
+    @Override
+    public void checkConnection() {
+        isActive = true;
+    }
 }

@@ -40,4 +40,9 @@ public class AirVisualService extends Service implements AtmosphericInterface, W
         }
     }
 
+    @Override
+    public void checkConnection() {
+        isActive = true;
+    }
+
 }
