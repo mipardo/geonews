@@ -11,6 +11,7 @@ import org.junit.runners.MethodSorters;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -25,18 +26,19 @@ public class R1_HU10 {
 
     @BeforeClass
     public static void init()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
+            NotValidCoordinatesException, GPSNotAvailableException {
         //Given
         Service geocode = new CoordsSearchService();
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
-        location = locationManager.addLocationByPlaceName("Castelló de la Plana");
+        location = locationManager.addLocation("Castelló de la Plana");
         locationManager.activateLocation(location.getId());
     }
 
     @Test
-    public void deactivateLocation_activeLocation_True()
+    public void deactivateLocation_E1ActiveLocation_True()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // When
         boolean result = locationManager.deactivateLocation(location.getId());
@@ -48,7 +50,7 @@ public class R1_HU10 {
     }
 
     @Test
-    public void deactivateLocation_nonActiveLocation_False() {
+    public void deactivateLocation_E2NonActiveLocation_False() {
         // When
         boolean result = locationManager.deactivateLocation(location.getId());
 

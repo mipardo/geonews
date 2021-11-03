@@ -14,6 +14,8 @@ import org.junit.runners.MethodSorters;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.exceptions.GPSNotAvailableException;
+import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
@@ -27,17 +29,18 @@ public class R1_HU09 {
 
     @BeforeClass
     public static void init()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
+            NotValidCoordinatesException, GPSNotAvailableException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
         Service geocode = new CoordsSearchService();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
-        locationManager.addLocationByPlaceName("Castelló de la Plana");
+        locationManager.addLocation("Castelló de la Plana");
     }
 
     @Test
-    public void assignAlias1_validNewAlias_True() {
+    public void assignAlias_E1ValidNewAlias_True() {
         // When
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
         boolean result = locationManager.setAliasToLocation("Casa", idLocation);
@@ -48,7 +51,7 @@ public class R1_HU09 {
     }
 
     @Test
-    public void assignAlias2_invalidNewAlias_False() {
+    public void assignAlias_E2InvalidNewAlias_False() {
         // When
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
         boolean result = locationManager.setAliasToLocation("Casa", idLocation);
@@ -58,7 +61,7 @@ public class R1_HU09 {
     }
 
     @Test
-    public void modifyAlias3_validAlias_True() {
+    public void modifyAlias_E3ValidAlias_True() {
         // When
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
         boolean result = locationManager.setAliasToLocation("Mi casa", idLocation);
@@ -70,7 +73,7 @@ public class R1_HU09 {
     }
 
     @Test
-    public void modifyAlias4_invalidAlias_False() {
+    public void modifyAlias_E4InvalidAlias_False() {
         // When
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
         boolean result = locationManager.setAliasToLocation("Mi casa", idLocation);
