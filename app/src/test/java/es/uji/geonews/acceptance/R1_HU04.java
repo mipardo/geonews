@@ -3,7 +3,9 @@ package es.uji.geonews.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import java.util.List;
 
@@ -22,23 +24,24 @@ import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class R1_HU04 {
     private static LocationManager locationManager;
 
     @Test
-    public void validatePlaceName_PlaceNameRecognized_ListWithTwoActiveServices()
+    public void validatePlaceName_E1PlaceNameRecognized_ListWithTwoActiveServices()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, GPSNotAvailableException {
         ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new CoordsSearchService();
-        Service OpenWeather = new OpenWeatherService();
-        Service AirVisual = new AirVisualService();
-        serviceManager.addService(GeoCode);
-        serviceManager.addService(OpenWeather);
-        serviceManager.addService(AirVisual);
+        Service geocode = new CoordsSearchService();
+        Service openWeather = new OpenWeatherService();
+        Service airVisual = new AirVisualService();
+        serviceManager.addService(geocode);
+        serviceManager.addService(openWeather);
+        serviceManager.addService(airVisual);
         locationManager = new LocationManager(serviceManager);
         // When
-        Location newLocation = locationManager.addLocation("Castelló de la Plana");
+        Location newLocation = locationManager.addLocation("Castellon de la Plana");
         List<String> services = locationManager.validateLocation(newLocation.getId());
         // Then
         assertEquals(2, services.size());
@@ -47,15 +50,15 @@ public class R1_HU04 {
     }
 
     @Test
-    public void validatePlaceName_NoApiAvailable_EmptyList()
+    public void validatePlaceName_E2NoApiAvailable_EmptyList()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, GPSNotAvailableException {
         ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new CoordsSearchService();
-        serviceManager.addService(GeoCode);
+        Service geocode = new CoordsSearchService();
+        serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
         // When
-        Location newLocation = locationManager.addLocation("Castelló de la Plana");
+        Location newLocation = locationManager.addLocation("Castellon de la Plana");
         List<String> services = locationManager.validateLocation(newLocation.getId());
         // Then
         assertEquals(0, services.size());

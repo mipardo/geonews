@@ -40,7 +40,7 @@ public class R1_HU09 {
     }
 
     @Test
-    public void assignAlias1_validNewAlias_True() {
+    public void assignAlias_E1ValidNewAlias_True() {
         // When
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
         boolean result = locationManager.setAliasToLocation("Casa", idLocation);
@@ -51,7 +51,7 @@ public class R1_HU09 {
     }
 
     @Test
-    public void assignAlias2_invalidNewAlias_False() {
+    public void assignAlias_E2InvalidNewAlias_False() {
         // When
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
         boolean result = locationManager.setAliasToLocation("Casa", idLocation);
@@ -61,7 +61,7 @@ public class R1_HU09 {
     }
 
     @Test
-    public void modifyAlias3_validAlias_True() {
+    public void modifyAlias_E3ValidAlias_True() {
         // When
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
         boolean result = locationManager.setAliasToLocation("Mi casa", idLocation);
@@ -73,7 +73,7 @@ public class R1_HU09 {
     }
 
     @Test
-    public void modifyAlias4_invalidAlias_False() {
+    public void modifyAlias_E4InvalidAlias_False() {
         // When
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
         boolean result = locationManager.setAliasToLocation("Mi casa", idLocation);

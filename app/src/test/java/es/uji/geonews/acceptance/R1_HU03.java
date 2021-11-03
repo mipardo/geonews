@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import es.uji.geonews.model.GPSManager;
 import es.uji.geonews.model.GeographCoords;
@@ -18,6 +20,7 @@ import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class R1_HU03 {
     private static LocationManager locationManager;
 
@@ -31,7 +34,7 @@ public class R1_HU03 {
     }
 
     @Test
-    public void registerLocationByCurrentPosition_GPSAvailableKnownPlaceName_Location()
+    public void registerLocationByCurrentPosition_E1GPSAvailableKnownPlaceName_Location()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
         GeographCoords coords = GPSManager.getMyCoords();
@@ -42,7 +45,7 @@ public class R1_HU03 {
     }
 
     @Test
-    public void registerLocationByCurrentPosition_GPSAvailableUnknownPlaceName_Location()
+    public void registerLocationByCurrentPosition_E2GPSAvailableUnknownPlaceName_Location()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
         GeographCoords coords = GPSManager.getMyCoords();
@@ -55,14 +58,14 @@ public class R1_HU03 {
     }
 
     @Test (expected = GPSNotAvailableException.class)
-    public void registerLocationByCurrentPosition_GPSNotAvailable_GPSNotAvailableException()
+    public void registerLocationByCurrentPosition_E3GPSNotAvailable_GPSNotAvailableException()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
-        locationManager.addLocation(null);
+        locationManager.addLocation(GPSManager.getMyCoords().toString());
     }
 
     @Test (expected = ServiceNotAvailableException.class)
-    public void registerLocationByCurrentPosition_ServiceNotAvailable_ServiceNotAvailableException()
+    public void registerLocationByCurrentPosition_E4ServiceNotAvailable_ServiceNotAvailableException()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
         GeographCoords coords = new GeographCoords(39.98001, -0.04901);

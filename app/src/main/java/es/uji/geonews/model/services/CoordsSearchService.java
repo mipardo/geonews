@@ -18,7 +18,7 @@ public class CoordsSearchService extends Service  {
 
     public CoordsSearchService() {
         super("Geocode", "Coordinates Search Service");
-        apiKey = "739559811684314511027x58957";
+        //apiKey = "739559811684314511027x58957";
     }
 
     public boolean isAvailable(){
@@ -27,7 +27,7 @@ public class CoordsSearchService extends Service  {
 
     public GeographCoords getCoordsFrom(String placeName)
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
-        String url = "https://geocode.xyz/"+ placeName +"?json=1&auth=" + apiKey;
+        String url = "https://geocode.xyz/"+ placeName +"?json=1";
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
         GeographCoords geographCoords;
@@ -53,7 +53,7 @@ public class CoordsSearchService extends Service  {
             throw new NotValidCoordinatesException();
         }
 
-        String url = "https://geocode.xyz/"+ coords.toString() +"?json=1&auth=" + apiKey;
+        String url = "https://geocode.xyz/"+ coords.toString() +"?json=1";
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
         String placeName;
@@ -79,7 +79,4 @@ public class CoordsSearchService extends Service  {
         return (coords.getLatitude() < 90 && coords.getLatitude() > -90 &&
                 coords.getLongitude()<180 && coords.getLongitude()>-180);
     }
-
-
-
 }

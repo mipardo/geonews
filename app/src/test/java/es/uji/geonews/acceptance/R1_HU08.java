@@ -2,6 +2,7 @@ package es.uji.geonews.acceptance;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 
 import es.uji.geonews.model.GeographCoords;
@@ -18,6 +19,7 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.LocationManager;
@@ -28,12 +30,13 @@ import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class R1_HU08 {
 
     private static LocationManager locationManager;
 
     @Test
-    public void getPlaceName_knownCoords_nextPlaceName()
+    public void getPlaceName_E1KnownCoords_nearestPlaceName()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
@@ -50,7 +53,7 @@ public class R1_HU08 {
     }
 
     @Test
-    public void getPlaceName_unknownCoords_nextPlaceName()
+    public void getPlaceName_E2UnknownCoords_nearestPlaceName()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
@@ -67,7 +70,7 @@ public class R1_HU08 {
     }
 
     @Test(expected = NotValidCoordinatesException.class)
-    public void getPlaceName_knownCoords_nextPlaceName_NotValidCoordinatesException()
+    public void getPlaceName_E3InvalidCoords_NotValidCoordinatesException()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
@@ -82,7 +85,7 @@ public class R1_HU08 {
     }
 
     @Test(expected = ServiceNotAvailableException.class)
-    public void getPlaceName_knownCoords_nextPlaceName_ServiceNotAvailableException()
+    public void getPlaceName_E4GeocodeNotAvailable_ServiceNotAvailableException()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         // Given
         ServiceManager serviceManager = new ServiceManager();

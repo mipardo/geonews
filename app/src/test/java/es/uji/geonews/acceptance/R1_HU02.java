@@ -33,7 +33,7 @@ public class R1_HU02 {
     }
 
     @Test
-    public void registerLocationByCoords_knownPlaceName_Location()
+    public void registerLocationByCoords_E1KnownPlaceName_Location()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
         //Given
@@ -45,7 +45,7 @@ public class R1_HU02 {
         assertEquals("Castelló de la Plana", newLocation.getPlaceName());
     }
     @Test
-    public void registerLocationByCoords_unknownPlaceName_Location()
+    public void registerLocationByCoords_E2UnknownPlaceName_Location()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
         //Given
@@ -60,7 +60,7 @@ public class R1_HU02 {
     }
 
     @Test(expected = NotValidCoordinatesException.class)
-    public void registerLocationByCoords_invalidCoords_Location()
+    public void registerLocationByCoords_E3InvalidCoords_Location()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
         //Given
@@ -72,7 +72,7 @@ public class R1_HU02 {
     }
 
     @Test
-    public void registerLocationByCoords_NotAccurateCoords_null()
+    public void registerLocationByCoords_E4NotAccurateCoords_null()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
         //Given
@@ -84,7 +84,7 @@ public class R1_HU02 {
     }
 
     @Test(expected=ServiceNotAvailableException.class)
-    public void registerLocationByCoords_withoutConnection_ServiceNotAvailableException()
+    public void registerLocationByCoords_E5WithoutConnection_ServiceNotAvailableException()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
         //Given

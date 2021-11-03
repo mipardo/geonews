@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
@@ -17,7 +19,7 @@ import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
-
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class R1_HU01 {
     private static LocationManager locationManager;
 
@@ -31,7 +33,7 @@ public class R1_HU01 {
     }
 
     @Test
-    public void registerLocationByPlaceName_knownPlaceName_Location()
+    public void registerLocationByPlaceName_E1KnownPlaceName_Location()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, GPSNotAvailableException {
         // When
@@ -45,7 +47,7 @@ public class R1_HU01 {
 
 
     @Test(expected=UnrecognizedPlaceNameException.class)
-    public void registerLocationByPlaceName_unknownPlaceName_UnrecognizedPlaceNameException()
+    public void registerLocationByPlaceName_E2UnknownPlaceName_UnrecognizedPlaceNameException()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, GPSNotAvailableException {
         // When
@@ -55,7 +57,7 @@ public class R1_HU01 {
     }
 
     @Test(expected=ServiceNotAvailableException.class)
-    public void registerLocationByPlaceName_withoutConnection_ServiceNotAvailableException()
+    public void registerLocationByPlaceName_E3WithoutConnection_ServiceNotAvailableException()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, GPSNotAvailableException {
         // When

@@ -38,7 +38,7 @@ public class R1_HU10 {
     }
 
     @Test
-    public void deactivateLocation_activeLocation_True()
+    public void deactivateLocation_E1ActiveLocation_True()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // When
         boolean result = locationManager.deactivateLocation(location.getId());
@@ -50,7 +50,7 @@ public class R1_HU10 {
     }
 
     @Test
-    public void deactivateLocation_nonActiveLocation_False() {
+    public void deactivateLocation_E2NonActiveLocation_False() {
         // When
         boolean result = locationManager.deactivateLocation(location.getId());
 

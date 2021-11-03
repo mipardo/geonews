@@ -5,7 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
@@ -19,6 +21,7 @@ import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class R1_HU06 {
     private static LocationManager locationManager;
 
@@ -33,7 +36,7 @@ public class R1_HU06 {
     }
 
     @Test
-    public void activateLocation_knownPlaceName_true()
+    public void activateLocation_E1KnownPlaceName_true()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, GPSNotAvailableException {
 
@@ -47,7 +50,7 @@ public class R1_HU06 {
     }
 
     @Test
-    public void activateLocation_unKnownPlaceName_true()
+    public void activateLocation_E2UnKnownPlaceName_true()
             throws ServiceNotAvailableException, GPSNotAvailableException,
             NotValidCoordinatesException, UnrecognizedPlaceNameException {
         GeographCoords coords = new GeographCoords(33.65001, -41.19001);
@@ -61,7 +64,7 @@ public class R1_HU06 {
     }
 
     @Test
-    public void activateLocation_locationAlreadyActive_false() {
+    public void activateLocation_E3LocationAlreadyActive_false() {
         // Given
         Location location = locationManager.getActiveLocations().get(0);
         // When
