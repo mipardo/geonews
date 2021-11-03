@@ -49,7 +49,7 @@ public class R1_HU03 {
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
         GeographCoords coords = GPSManager.getMyCoords();
-        coords.setLatitude(33.65001);
+        coords.setLatitude(33.65001); // TODO: [Preguntar]
         coords.setLongitude(-41.19001);
         Location newLocation = locationManager.addLocation(coords.toString());
         // Then
@@ -68,7 +68,6 @@ public class R1_HU03 {
     public void registerLocationByCurrentPosition_E4ServiceNotAvailable_ServiceNotAvailableException()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
-        GeographCoords coords = new GeographCoords(39.98001, -0.04901);
-        locationManager.addLocation(coords.toString());
+        locationManager.addLocation(GPSManager.getMyCoords().toString());
     }
 }

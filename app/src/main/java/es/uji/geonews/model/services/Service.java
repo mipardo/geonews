@@ -9,6 +9,7 @@ public abstract class Service {
     private String serviceName;
     private String serviceType;
     private LocalDate activationDate;
+    protected boolean isActive;
     protected final OkHttpClient client;
     protected String apiKey;
 
@@ -17,7 +18,13 @@ public abstract class Service {
         this.serviceType = serviceType;
         this.activationDate = LocalDate.now();
         this.client = new OkHttpClient();
+        checkConnection();
     }
+
+    public boolean isAvailable(){
+        return isActive;
+    }
+
 
     public String getServiceName() {
         return serviceName;
@@ -45,4 +52,5 @@ public abstract class Service {
 
     public abstract boolean validateLocation(Location location);
 
+    public abstract void checkConnection();
 }

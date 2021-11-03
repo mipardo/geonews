@@ -35,4 +35,9 @@ public class OpenWeatherService extends Service implements AtmosphericInterface,
             return false;
         }
     }
+
+    @Override
+    public void checkConnection() {
+        isActive = true;
+    }
 }

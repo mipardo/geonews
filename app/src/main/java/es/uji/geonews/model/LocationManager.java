@@ -46,10 +46,9 @@ public class LocationManager {
     public List<Location> getFavouriteLocations() {
         return new ArrayList<>(favoriteLocations.values());    }
 
-    public Location addLocation(String string)
-            throws UnrecognizedPlaceNameException, GPSNotAvailableException,
+    public Location addLocation(String string) throws UnrecognizedPlaceNameException,
             ServiceNotAvailableException, NotValidCoordinatesException {
-        Location location = locationFactory.addLocation(string);
+        Location location = locationFactory.createLocation(string);
         if (location!= null) locations.put(location.getId(), location);
        return location;
     }
