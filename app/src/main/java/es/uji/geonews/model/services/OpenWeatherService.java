@@ -38,6 +38,7 @@ public class OpenWeatherService extends Service implements AtmosphericInterface,
 
     @Override
     public void checkConnection() {
+        //TODO: This method should connect to the API to check if it is possible to connect
         isActive = true;
     }
 }

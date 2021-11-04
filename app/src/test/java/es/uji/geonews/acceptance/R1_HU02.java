@@ -34,8 +34,8 @@ public class R1_HU02 {
 
     @Test
     public void registerLocationByCoords_E1KnownPlaceName_Location()
-            throws NotValidCoordinatesException, ServiceNotAvailableException,
-            GPSNotAvailableException, UnrecognizedPlaceNameException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException
+            , UnrecognizedPlaceNameException {
         //Given
         GeographCoords coords = new GeographCoords(39.98920, -0.03621);
         // When

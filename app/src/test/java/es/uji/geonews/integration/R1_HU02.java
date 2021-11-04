@@ -26,7 +26,7 @@ public class R1_HU02 {
     @Test
     public void registerLocationByCoords_E1KnownPlaceName_Location()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, GPSNotAvailableException {
+            NotValidCoordinatesException {
         // Arrange
         CoordsSearchService mockCoordsSearchService = mock(CoordsSearchService.class);
         when(mockCoordsSearchService.isAvailable()).thenReturn(true);

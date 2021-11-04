@@ -40,7 +40,6 @@ public class R1_HU01 {
         // Assert
         verify(mockCoordsSearchSrv, times(1)).isAvailable();
         verify(mockCoordsSearchSrv, times(1)).getCoordsFrom("Castellon de la Plana");
-        // TODO: Asserts can be use to see the state?
         assertEquals(0, locationManager.getActiveLocations().size());
         assertEquals(1, locationManager.getNonActiveLocations().size());
         assertEquals("Castellon de la Plana", locationManager.getLocaton(location.getId()).getPlaceName());
@@ -70,7 +69,7 @@ public class R1_HU01 {
     @Test(expected= ServiceNotAvailableException.class)
     public void registerLocationByPlaceName_withoutConnection_ServiceNotAvailableException()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, GPSNotAvailableException {
+            NotValidCoordinatesException {
         // Arrange
         CoordsSearchService mockCoordsSearchSrv = mock(CoordsSearchService.class);
         when(mockCoordsSearchSrv.isAvailable()).thenReturn(true);

@@ -44,12 +44,7 @@ public class CoordsSearchService extends Service  {
     }
 
     public String getPlaceNameFromCoords(GeographCoords coords)
-            throws ServiceNotAvailableException, NotValidCoordinatesException{
-
-        if(!areValidCoords(coords)){
-            throw new NotValidCoordinatesException();
-        }
-
+            throws ServiceNotAvailableException, NotValidCoordinatesException {
         String url = "https://geocode.xyz/"+ coords.toString() +"?json=1";
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
@@ -58,18 +53,13 @@ public class CoordsSearchService extends Service  {
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
             if (jsonObject.has("error")){
-                return null;
+                throw new NotValidCoordinatesException();
             }
             placeName = jsonObject.getJSONObject("osmtags").getString("name");
         } catch (IOException | JSONException exception){
             throw new ServiceNotAvailableException();
         }
         return placeName;
-    }
-
-    private boolean areValidCoords(GeographCoords coords){
-        return (coords.getLatitude() < 90 && coords.getLatitude() > -90 &&
-                coords.getLongitude()<180 && coords.getLongitude()>-180);
     }
 
     @Override
@@ -79,6 +69,7 @@ public class CoordsSearchService extends Service  {
 
     @Override
     public void checkConnection() {
+        //TODO: This method should connect to the API to check if it is possible to connect
         isActive = true;
     }
 

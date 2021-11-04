@@ -37,6 +37,7 @@ public class CurrentsService extends Service implements NewsInterface {
 
     @Override
     public void checkConnection() {
+        //TODO: This method should connect to the API to check if it is possible to connect
         isActive = true;
     }
 }
