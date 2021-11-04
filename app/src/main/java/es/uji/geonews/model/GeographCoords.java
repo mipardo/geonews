@@ -29,4 +29,9 @@ public class GeographCoords {
     public String toString() {
         return latitude + ", " + longitude;
     }
+
+    public void normalize() {
+        latitude = latitude + 0.0001;
+        longitude = longitude + 0.0001;
+    }
 }

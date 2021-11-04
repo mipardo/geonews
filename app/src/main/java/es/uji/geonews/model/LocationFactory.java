@@ -39,7 +39,9 @@ public class LocationFactory {
             throws NotValidCoordinatesException, ServiceNotAvailableException {
         if(!areValidCoords(coords)) throw new NotValidCoordinatesException();
 
-        if (!hasEnoughPrecision(coords)) return null; // TODO: Aqui deberiamos hacer algo
+        if (!hasEnoughPrecision(coords)){
+            coords.normalize();
+        }
 
         if (coordsSearchService.isAvailable()) {
             String placeName = coordsSearchService.getPlaceNameFromCoords(coords);

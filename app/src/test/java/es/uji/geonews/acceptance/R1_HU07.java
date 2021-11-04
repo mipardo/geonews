@@ -49,16 +49,4 @@ public class R1_HU07 {
                 .getCoordsFrom("asdfxxrtg");
     }
 
-    @Test (expected = ServiceNotAvailableException.class)
-    public void getCoords_E3GeocodeNotAvailable_ServiceNotAvailableException()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
-        // Given
-        ServiceManager serviceManager = new ServiceManager();
-        Service geocode = new CoordsSearchService();
-        serviceManager.addService(geocode);
-        locationManager = new LocationManager(serviceManager);
-        // When
-        ((CoordsSearchService) locationManager.getService("Geocode"))
-                .getCoordsFrom("Castellón de la Plana");
-    }
 }

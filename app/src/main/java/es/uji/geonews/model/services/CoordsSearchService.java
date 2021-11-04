@@ -18,13 +18,14 @@ public class CoordsSearchService extends Service  {
 
     public CoordsSearchService() {
         super("Geocode", "Coordinates Search Service");
-        //apiKey = "739559811684314511027x58957";
+        apiKey = "271396854740131169450x27226";
     }
 
 
     public GeographCoords getCoordsFrom(String placeName)
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
-        String url = "https://geocode.xyz/"+ placeName +"?json=1";
+        String url = "https://geocode.xyz/"+ placeName +"?json=1" +
+                "&auth=" + apiKey;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
         GeographCoords geographCoords;
@@ -45,7 +46,8 @@ public class CoordsSearchService extends Service  {
 
     public String getPlaceNameFromCoords(GeographCoords coords)
             throws ServiceNotAvailableException, NotValidCoordinatesException {
-        String url = "https://geocode.xyz/"+ coords.toString() +"?json=1";
+        String url = "https://geocode.xyz/"+ coords.toString() +"?json=1" +
+        "&auth=" + apiKey;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
         String placeName;

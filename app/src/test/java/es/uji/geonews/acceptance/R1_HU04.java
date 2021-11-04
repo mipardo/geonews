@@ -3,14 +3,10 @@ package es.uji.geonews.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import java.util.List;
 
-import es.uji.geonews.model.GPSManager;
-import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
@@ -24,12 +20,11 @@ import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class R1_HU04 {
     private static LocationManager locationManager;
 
     @Test
-    public void validatePlaceName_E1PlaceNameRecognized_ListWithTwoActiveServices()
+    public void validatePlaceName_PlaceNameRecognized_ListWithTwoActiveServices()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, GPSNotAvailableException {
         ServiceManager serviceManager = new ServiceManager();
@@ -50,7 +45,7 @@ public class R1_HU04 {
     }
 
     @Test
-    public void validatePlaceName_E2NoApiAvailable_EmptyList()
+    public void validatePlaceName_NoApiAvailable_EmptyList()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, GPSNotAvailableException {
         ServiceManager serviceManager = new ServiceManager();

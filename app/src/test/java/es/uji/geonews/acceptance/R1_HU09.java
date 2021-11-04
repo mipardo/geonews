@@ -4,12 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 
 import es.uji.geonews.model.Location;
@@ -22,13 +18,12 @@ import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class R1_HU09 {
 
     private static LocationManager locationManager;
 
-    @BeforeClass
-    public static void init()
+    @Before
+    public void init()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, GPSNotAvailableException {
         // Given
@@ -40,7 +35,7 @@ public class R1_HU09 {
     }
 
     @Test
-    public void assignAlias_E1ValidNewAlias_True() {
+    public void assignAlias_ValidNewAlias_True() {
         // When
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
         boolean result = locationManager.setAliasToLocation("Casa", idLocation);
@@ -51,9 +46,14 @@ public class R1_HU09 {
     }
 
     @Test
-    public void assignAlias_E2InvalidNewAlias_False() {
-        // When
+    public void assignAlias_InvalidNewAlias_False() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+        // Given
+        locationManager.addLocation("Valencia");
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
+        locationManager.setAliasToLocation("Casa", idLocation);
+
+        // When
+        idLocation = locationManager.getNonActiveLocations().get(1).getId();
         boolean result = locationManager.setAliasToLocation("Casa", idLocation);
 
         // Then
@@ -61,9 +61,11 @@ public class R1_HU09 {
     }
 
     @Test
-    public void modifyAlias_E3ValidAlias_True() {
-        // When
+    public void modifyAlias_ValidAlias_True() {
+        // Given
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
+        locationManager.setAliasToLocation("Casa", idLocation);
+        // When
         boolean result = locationManager.setAliasToLocation("Mi casa", idLocation);
 
         // Then
@@ -73,9 +75,12 @@ public class R1_HU09 {
     }
 
     @Test
-    public void modifyAlias_E4InvalidAlias_False() {
-        // When
+    public void modifyAlias_InvalidAlias_False() {
+        // Given
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
+        locationManager.setAliasToLocation("Mi casa", idLocation);
+
+        // When
         boolean result = locationManager.setAliasToLocation("Mi casa", idLocation);
 
         // Then

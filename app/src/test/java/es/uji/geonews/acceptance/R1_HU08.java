@@ -84,20 +84,6 @@ public class R1_HU08 {
                 getService("Geocode")).getPlaceNameFromCoords(coords);
     }
 
-    @Test(expected = ServiceNotAvailableException.class)
-    public void getPlaceName_E4GeocodeNotAvailable_ServiceNotAvailableException()
-            throws ServiceNotAvailableException, NotValidCoordinatesException {
-        // Given
-        ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new CoordsSearchService();
-        serviceManager.addService(GeoCode);
-        locationManager = new LocationManager(serviceManager);
-        // When
-        GeographCoords coords = new GeographCoords(39.98920,-0.03621);
 
-        ((CoordsSearchService) locationManager.
-                getService("Geocode")).getPlaceNameFromCoords(coords);
-
-    }
 
 }

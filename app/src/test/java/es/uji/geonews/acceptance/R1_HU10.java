@@ -4,10 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
@@ -19,13 +17,12 @@ import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class R1_HU10 {
     private static LocationManager locationManager;
     private static Location location;
 
-    @BeforeClass
-    public static void init()
+    @Before
+    public void init()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, GPSNotAvailableException {
         //Given
@@ -51,6 +48,9 @@ public class R1_HU10 {
 
     @Test
     public void deactivateLocation_E2NonActiveLocation_False() {
+        // Given
+        locationManager.deactivateLocation(location.getId());
+
         // When
         boolean result = locationManager.deactivateLocation(location.getId());
 

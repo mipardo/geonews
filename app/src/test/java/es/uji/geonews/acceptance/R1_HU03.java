@@ -3,10 +3,8 @@ package es.uji.geonews.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import es.uji.geonews.model.GPSManager;
 import es.uji.geonews.model.GeographCoords;
@@ -20,12 +18,11 @@ import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class R1_HU03 {
     private static LocationManager locationManager;
 
-    @BeforeClass
-    public static void init(){
+    @Before
+    public void init(){
         // Given
         Service coordsSearchSrv = new CoordsSearchService();
         ServiceManager serviceManager = new ServiceManager();
@@ -34,7 +31,7 @@ public class R1_HU03 {
     }
 
     @Test
-    public void registerLocationByCurrentPosition_E1GPSAvailableKnownPlaceName_Location()
+    public void registerLocationByCurrentPosition_GPSAvailableKnownPlaceName_Location()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
         GeographCoords coords = GPSManager.getMyCoords();
@@ -45,9 +42,10 @@ public class R1_HU03 {
     }
 
     @Test
-    public void registerLocationByCurrentPosition_E2GPSAvailableUnknownPlaceName_Location()
+    public void registerLocationByCurrentPosition_GPSAvailableUnknownPlaceName_Location()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
+        locationManager.addLocation("Castelló de la Plana");
         GeographCoords coords = GPSManager.getMyCoords();
         coords.setLatitude(33.65001); // TODO: [Preguntar]
         coords.setLongitude(-41.19001);
@@ -58,16 +56,12 @@ public class R1_HU03 {
     }
 
     @Test (expected = GPSNotAvailableException.class)
-    public void registerLocationByCurrentPosition_E3GPSNotAvailable_GPSNotAvailableException()
+    public void registerLocationByCurrentPosition_GPSNotAvailable_GPSNotAvailableException()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             GPSNotAvailableException, UnrecognizedPlaceNameException {
+        locationManager.addLocation("Castelló de la Plana");
+        locationManager.addLocation("Valencia");
         locationManager.addLocation(GPSManager.getMyCoords().toString());
     }
 
-    @Test (expected = ServiceNotAvailableException.class)
-    public void registerLocationByCurrentPosition_E4ServiceNotAvailable_ServiceNotAvailableException()
-            throws NotValidCoordinatesException, ServiceNotAvailableException,
-            GPSNotAvailableException, UnrecognizedPlaceNameException {
-        locationManager.addLocation(GPSManager.getMyCoords().toString());
-    }
 }
