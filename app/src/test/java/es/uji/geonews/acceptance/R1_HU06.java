@@ -37,10 +37,9 @@ public class R1_HU06 {
 
     @Test
     public void activateLocation_KnownPlaceName_true()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
-            NotValidCoordinatesException {
+            throws ServiceNotAvailableException, UnrecognizedPlaceNameException, NotValidCoordinatesException {
 
-        Location newLocation = locationManager.addLocation("Castelló de la Plana");
+        Location newLocation = locationManager.addLocation("Castello de la Plana");
         locationManager.validateLocation(newLocation.getId());
         // When
         boolean result = locationManager.activateLocation(newLocation.getId());
@@ -52,7 +51,7 @@ public class R1_HU06 {
     @Test
     public void activateLocation_UnKnownPlaceName_true()
             throws ServiceNotAvailableException, NotValidCoordinatesException, UnrecognizedPlaceNameException {
-        Location castellon = locationManager.addLocation("Castelló de la Plana");
+        Location castellon = locationManager.addLocation("Castello de la Plana");
         locationManager.validateLocation(castellon.getId());
         Location valencia = locationManager.addLocation("Valencia");
         locationManager.validateLocation(valencia.getId());
@@ -70,9 +69,10 @@ public class R1_HU06 {
     }
 
     @Test
-    public void activateLocation_LocationAlreadyActive_false() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void activateLocation_LocationAlreadyActive_false()
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
-        Location castellon = locationManager.addLocation("Castelló de la Plana");
+        Location castellon = locationManager.addLocation("Castello de la Plana");
         locationManager.validateLocation(castellon.getId());
         Location valencia = locationManager.addLocation("Valencia");
         locationManager.validateLocation(valencia.getId());

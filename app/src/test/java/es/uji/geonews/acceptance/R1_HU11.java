@@ -22,15 +22,14 @@ public class R1_HU11 {
     private static Location valencia;
 
     @Before
-    public void init()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
-            NotValidCoordinatesException {
+    public void init() throws ServiceNotAvailableException,
+            UnrecognizedPlaceNameException, NotValidCoordinatesException {
         //Given
         Service geocode = new CoordsSearchService();
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
-        castellon = locationManager.addLocation("Castellon de la Plana");
+        castellon = locationManager.addLocation("Castello de la Plana");
         valencia = locationManager.addLocation("Valencia");
     }
 

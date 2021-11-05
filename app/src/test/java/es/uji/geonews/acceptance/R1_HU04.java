@@ -26,7 +26,7 @@ public class R1_HU04 {
     @Test
     public void validatePlaceName_PlaceNameRecognized_ListWithTwoActiveServices()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
-            NotValidCoordinatesException, GPSNotAvailableException {
+            NotValidCoordinatesException {
         ServiceManager serviceManager = new ServiceManager();
         Service geocode = new CoordsSearchService();
         Service openWeather = new OpenWeatherService();
@@ -36,7 +36,7 @@ public class R1_HU04 {
         serviceManager.addService(airVisual);
         locationManager = new LocationManager(serviceManager);
         // When
-        Location newLocation = locationManager.addLocation("Castellon de la Plana");
+        Location newLocation = locationManager.addLocation("Castello de la Plana");
         List<String> services = locationManager.validateLocation(newLocation.getId());
         // Then
         assertEquals(2, services.size());
@@ -47,13 +47,13 @@ public class R1_HU04 {
     @Test
     public void validatePlaceName_NoApiAvailable_EmptyList()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
-            NotValidCoordinatesException, GPSNotAvailableException {
+            NotValidCoordinatesException {
         ServiceManager serviceManager = new ServiceManager();
         Service geocode = new CoordsSearchService();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
         // When
-        Location newLocation = locationManager.addLocation("Castellon de la Plana");
+        Location newLocation = locationManager.addLocation("Castello de la Plana");
         List<String> services = locationManager.validateLocation(newLocation.getId());
         // Then
         assertEquals(0, services.size());

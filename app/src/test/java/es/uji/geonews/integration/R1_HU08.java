@@ -22,7 +22,7 @@ import es.uji.geonews.model.services.ServiceManager;
 public class R1_HU08 {
 
     @Test
-    public void getPlaceName_E1KnownCoords_nearestPlaceName()
+    public void getPlaceName_KnownCoords_nearestPlaceName()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
@@ -40,7 +40,7 @@ public class R1_HU08 {
 
 
     @Test
-    public void getPlaceName_E2UnknownCoords_nearestPlaceName()
+    public void getPlaceName_UnknownCoords_nearestPlaceName()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
@@ -57,7 +57,7 @@ public class R1_HU08 {
     }
 
     @Test(expected= ServiceNotAvailableException.class)
-    public void getPlaceName_E4GeocodeNotAvailable_ServiceNotAvailableException()
+    public void getPlaceName_GeocodeNotAvailable_ServiceNotAvailableException()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange

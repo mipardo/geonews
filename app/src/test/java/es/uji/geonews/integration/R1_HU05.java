@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -25,39 +26,76 @@ import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU05 {
+    private CoordsSearchService coordsSearchServiceMocked;
+    private OpenWeatherService openWeatherServiceMocked;
+    private AirVisualService airVisualServiceMocked;
+    private ArrayList<Service> services;
+    private ServiceManager serviceManagerMocked;
+    private LocationManager locationManager;
+
+
+    @Before
+    public void init(){
+        coordsSearchServiceMocked = mock(CoordsSearchService.class);
+        airVisualServiceMocked = mock(AirVisualService.class);
+        openWeatherServiceMocked = mock(OpenWeatherService.class);
+        serviceManagerMocked = mock(ServiceManager.class);
+        when(serviceManagerMocked.getService("Geocode")).thenReturn(coordsSearchServiceMocked);
+        locationManager = new LocationManager(serviceManagerMocked);
+        services = new ArrayList<>();
+    }
 
     @Test
-    public void validateLocation_E1PlaceNameRecognized_ListWithTwoActiveServices()
+    public void validateLocation_PlaceNameRecognized_ListWithTwoActiveServices()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
-        CoordsSearchService mockCoordsSearchService = mock(CoordsSearchService.class);
-        when(mockCoordsSearchService.isAvailable()).thenReturn(true);
-        when(mockCoordsSearchService.getCoordsFrom(any())).thenReturn(new GeographCoords(39.98920, -0.03621));
-        ServiceManager mockServiceManager = mock(ServiceManager.class);
-        when(mockServiceManager.getService("Geocode")).thenReturn(mockCoordsSearchService);
-        ArrayList<Service> services = new ArrayList<>();
-        OpenWeatherService mockOpenWeatherService = mock(OpenWeatherService.class);
-        AirVisualService mockAirVisualService = mock(AirVisualService.class);
-        services.add(mockOpenWeatherService); services.add(mockAirVisualService);
-        when(mockServiceManager.getServices()).thenReturn(services);
-        when(mockAirVisualService.getServiceName()).thenReturn("AirVisual");
-        when(mockOpenWeatherService.getServiceName()).thenReturn("OpenWeather");
-        when(mockAirVisualService.validateLocation(any())).thenReturn(true);
-        when(mockOpenWeatherService.validateLocation(any())).thenReturn(true);
-        LocationManager locationManager = new LocationManager(mockServiceManager);
+        when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
+        when(coordsSearchServiceMocked.getCoordsFrom(any()))
+                .thenReturn(new GeographCoords(39.98920, -0.03621));
+        services.add(openWeatherServiceMocked);
+        services.add(airVisualServiceMocked);
+        when(serviceManagerMocked.getServices()).thenReturn(services);
+        when(airVisualServiceMocked.getServiceName()).thenReturn("AirVisual");
+        when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
+        when(airVisualServiceMocked.validateLocation(any())).thenReturn(true);
+        when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
         // Act
         Location location = locationManager.addLocation("Castellon de la Plana");
         locationManager.validateLocation(location.getId());
         // Assert
-        verify(mockServiceManager, times(1)).getServices();
-        verify(mockAirVisualService, times(2)).getServiceName();
-        verify(mockOpenWeatherService, times(2)).getServiceName();
-        verify(mockAirVisualService, times(1)).validateLocation(any());
-        verify(mockOpenWeatherService, times(1)).validateLocation(any());
+        verify(serviceManagerMocked, times(1)).getServices();
+        verify(airVisualServiceMocked, times(2)).getServiceName();
+        verify(openWeatherServiceMocked, times(2)).getServiceName();
+        verify(airVisualServiceMocked, times(1)).validateLocation(any());
+        verify(openWeatherServiceMocked, times(1)).validateLocation(any());
     }
 
-
+    @Test
+    public void validateLocation__ListWithTwoActiveServices()
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException {
+        // Arrange
+        when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
+        when(coordsSearchServiceMocked.getCoordsFrom(any()))
+                .thenReturn(new GeographCoords(39.98920, -0.03621));
+        services.add(openWeatherServiceMocked);
+        services.add(airVisualServiceMocked);
+        when(serviceManagerMocked.getServices()).thenReturn(services);
+        when(airVisualServiceMocked.getServiceName()).thenReturn("AirVisual");
+        when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
+        when(airVisualServiceMocked.validateLocation(any())).thenReturn(true);
+        when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
+        // Act
+        Location location = locationManager.addLocation("Castellon de la Plana");
+        locationManager.validateLocation(location.getId());
+        // Assert
+        verify(serviceManagerMocked, times(1)).getServices();
+        verify(airVisualServiceMocked, times(2)).getServiceName();
+        verify(openWeatherServiceMocked, times(2)).getServiceName();
+        verify(airVisualServiceMocked, times(1)).validateLocation(any());
+        verify(openWeatherServiceMocked, times(1)).validateLocation(any());
+    }
 
 
 }

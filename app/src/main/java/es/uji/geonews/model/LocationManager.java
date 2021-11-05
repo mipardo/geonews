@@ -53,6 +53,12 @@ public class LocationManager {
        return location;
     }
 
+    public Location addLocationByGPS() throws GPSNotAvailableException, NotValidCoordinatesException,
+            ServiceNotAvailableException, UnrecognizedPlaceNameException {
+        GPSManager gpsManager = new GPSManager();
+        return addLocation(gpsManager.getMyCoords().toString());
+    }
+
     public boolean removeLocation(int locationId){
         Location location = locations.get(locationId);
         if (location != null && !location.isActive()){

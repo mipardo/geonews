@@ -30,12 +30,12 @@ public class R1_HU10 {
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
-        location = locationManager.addLocation("Castelló de la Plana");
+        location = locationManager.addLocation("Castello de la Plana");
         locationManager.activateLocation(location.getId());
     }
 
     @Test
-    public void deactivateLocation_E1ActiveLocation_True()
+    public void deactivateLocation_ActiveLocation_True()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // When
         boolean result = locationManager.deactivateLocation(location.getId());
@@ -47,7 +47,7 @@ public class R1_HU10 {
     }
 
     @Test
-    public void deactivateLocation_E2NonActiveLocation_False() {
+    public void deactivateLocation_NonActiveLocation_False() {
         // Given
         locationManager.deactivateLocation(location.getId());
 

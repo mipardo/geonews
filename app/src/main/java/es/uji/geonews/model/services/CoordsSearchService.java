@@ -55,7 +55,11 @@ public class CoordsSearchService extends Service  {
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
             if (jsonObject.has("error")){
-                throw new NotValidCoordinatesException();
+                if (jsonObject.getJSONObject("error").get("code").equals("008")){
+                    // If error code == 008 => place name not found
+                    return null;
+                }
+                else throw new NotValidCoordinatesException();
             }
             placeName = jsonObject.getJSONObject("osmtags").getString("name");
         } catch (IOException | JSONException exception){

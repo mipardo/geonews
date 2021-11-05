@@ -25,7 +25,7 @@ public class R1_HU05 {
     @Test
     public void validateLocation_PlaceNameRecognized_ListWithTwoActiveServices()
             throws ServiceNotAvailableException, NotValidCoordinatesException,
-            GPSNotAvailableException, UnrecognizedPlaceNameException {
+            UnrecognizedPlaceNameException {
         ServiceManager serviceManager = new ServiceManager();
         Service GeoCode = new CoordsSearchService();
         Service OpenWeather = new OpenWeatherService();
@@ -45,9 +45,9 @@ public class R1_HU05 {
     }
 
     @Test
-    public void validateLocation_E2NoApiAvailable_EmptyList()
+    public void validateLocation_NoApiAvailable_EmptyList()
             throws ServiceNotAvailableException, NotValidCoordinatesException,
-            GPSNotAvailableException, UnrecognizedPlaceNameException {
+            UnrecognizedPlaceNameException {
         ServiceManager serviceManager = new ServiceManager();
         Service GeoCode = new CoordsSearchService();
         serviceManager.addService(GeoCode);

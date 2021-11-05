@@ -9,7 +9,6 @@ import org.junit.Test;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
-import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -44,9 +43,9 @@ public class R1_HU02 {
     @Test
     public void registerLocationByCoords_UnknownPlaceName_Location()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
-            GPSNotAvailableException, UnrecognizedPlaceNameException {
+            UnrecognizedPlaceNameException {
         //Given
-        locationManager.addLocation("Castelló de la Plana");
+        locationManager.addLocation("Castello de la Plana");
         GeographCoords coords = new GeographCoords(33.65001, -41.19001);
         // When
         Location newLocation = locationManager.addLocation(coords.toString());
@@ -54,21 +53,20 @@ public class R1_HU02 {
         assertEquals(2, locationManager.getNonActiveLocations().size());
         assertEquals(33.65, newLocation.getGeographCoords().getLatitude(), 0.01);
         assertEquals(-41.19, newLocation.getGeographCoords().getLongitude(),0.01);
-        assertNull( newLocation.getPlaceName());
+        assertNull(newLocation.getPlaceName());
     }
 
     @Test(expected = NotValidCoordinatesException.class)
-    public void registerLocationByCoords_InvalidCoords_Location()
+    public void registerLocationByCoords_InvalidCoords_NotValidCoordinatesException()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
-            GPSNotAvailableException, UnrecognizedPlaceNameException {
+            UnrecognizedPlaceNameException {
         //Given
-        locationManager.addLocation("Castelló de la Plana");
+        locationManager.addLocation("Castello de la Plana");
         locationManager.addLocation("Valencia");
         GeographCoords coords = new GeographCoords(100.00001, -41.19001);
         // When
-        Location newLocation = locationManager.addLocation(coords.toString());
+        locationManager.addLocation(coords.toString());
         // Then
-        //assertEquals(2, locationManager.getNonActiveLocations().size());
     }
 
 

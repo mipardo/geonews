@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -25,13 +24,13 @@ public class R1_HU09 {
     @Before
     public void init()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
-            NotValidCoordinatesException, GPSNotAvailableException {
+            NotValidCoordinatesException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
         Service geocode = new CoordsSearchService();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
-        locationManager.addLocation("Castelló de la Plana");
+        locationManager.addLocation("Castello de la Plana");
     }
 
     @Test

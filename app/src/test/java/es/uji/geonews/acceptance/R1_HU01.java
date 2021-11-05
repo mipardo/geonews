@@ -30,12 +30,12 @@ public class R1_HU01 {
     @Test
     public void registerLocationByPlaceName_KnownPlaceName_Location()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, GPSNotAvailableException {
+            NotValidCoordinatesException {
         // When
-        Location newLocation = locationManager.addLocation("Castellon de la Plana");
+        Location newLocation = locationManager.addLocation("Castello de la Plana");
         // Then
         assertEquals(1, locationManager.getNonActiveLocations().size());
-        assertEquals("Castellon de la Plana", newLocation.getPlaceName());
+        assertEquals("Castello de la Plana", newLocation.getPlaceName());
         assertEquals(39.98920, newLocation.getGeographCoords().getLatitude(), 0.01);
         assertEquals(-0.03621, newLocation.getGeographCoords().getLongitude(),0.01);
     }
@@ -43,12 +43,11 @@ public class R1_HU01 {
 
     @Test(expected=UnrecognizedPlaceNameException.class)
     public void registerLocationByPlaceName_UnknownPlaceName_UnrecognizedPlaceNameException()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, GPSNotAvailableException {
-        locationManager.addLocation("Castellon de la Plana");
-
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException, NotValidCoordinatesException {
+        // Given
+        locationManager.addLocation("Castello de la Plana");
         // When
-        Location newLocation = locationManager.addLocation("asddf");
+        locationManager.addLocation("asddf");
         // Then
         assertEquals(1, locationManager.getNonActiveLocations().size());
     }
