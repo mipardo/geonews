@@ -14,17 +14,18 @@ import org.json.JSONObject;
 
 import es.uji.geonews.model.GeographCoords;
 
-public class CoordsSearchService extends Service  {
+public class CoordsSearchService extends ServiceHttp  {
 
     public CoordsSearchService() {
         super("Geocode", "Coordinates Search Service");
-        //apiKey = "739559811684314511027x58957";
+        apiKey = "271396854740131169450x27226";
     }
 
 
     public GeographCoords getCoordsFrom(String placeName)
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
-        String url = "https://geocode.xyz/"+ placeName +"?json=1";
+        String url = "https://geocode.xyz/"+ placeName +"?json=1" +
+                "&auth=" + apiKey;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
         GeographCoords geographCoords;
@@ -44,13 +45,9 @@ public class CoordsSearchService extends Service  {
     }
 
     public String getPlaceNameFromCoords(GeographCoords coords)
-            throws ServiceNotAvailableException, NotValidCoordinatesException{
-
-        if(!areValidCoords(coords)){
-            throw new NotValidCoordinatesException();
-        }
-
-        String url = "https://geocode.xyz/"+ coords.toString() +"?json=1";
+            throws ServiceNotAvailableException, NotValidCoordinatesException {
+        String url = "https://geocode.xyz/"+ coords.toString() +"?json=1" +
+        "&auth=" + apiKey;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
         String placeName;
@@ -58,18 +55,17 @@ public class CoordsSearchService extends Service  {
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
             if (jsonObject.has("error")){
-                return null;
+                if (jsonObject.getJSONObject("error").get("code").equals("008")){
+                    // If error code == 008 => place name not found
+                    return null;
+                }
+                else throw new NotValidCoordinatesException();
             }
             placeName = jsonObject.getJSONObject("osmtags").getString("name");
         } catch (IOException | JSONException exception){
             throw new ServiceNotAvailableException();
         }
         return placeName;
-    }
-
-    private boolean areValidCoords(GeographCoords coords){
-        return (coords.getLatitude() < 90 && coords.getLatitude() > -90 &&
-                coords.getLongitude()<180 && coords.getLongitude()>-180);
     }
 
     @Override
@@ -79,6 +75,7 @@ public class CoordsSearchService extends Service  {
 
     @Override
     public void checkConnection() {
+        //TODO: This method should connect to the API to check if it is possible to connect
         isActive = true;
     }
 

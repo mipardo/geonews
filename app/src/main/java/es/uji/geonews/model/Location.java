@@ -43,7 +43,6 @@ public class Location {
         this.placeName = placeName;
     }
 
-
     public GeographCoords getGeographCoords() {
         return geographCoords;
     }

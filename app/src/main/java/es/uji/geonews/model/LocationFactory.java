@@ -32,36 +32,51 @@ public class LocationFactory {
             GeographCoords coords = coordsSearchService.getCoordsFrom(placeName);
             return new Location(idLocationCounter++,placeName, coords, LocalDate.now());
         }
-        return null;
+        throw  new ServiceNotAvailableException();
     }
 
     private Location createLocationByCoords(GeographCoords coords)
             throws NotValidCoordinatesException, ServiceNotAvailableException {
         if(!areValidCoords(coords)) throw new NotValidCoordinatesException();
 
-        if (!hasEnoughPrecision(coords)) return null;
+        if (!hasEnoughPrecision(coords)){
+            coords.normalize();
+        }
 
         if (coordsSearchService.isAvailable()) {
             String placeName = coordsSearchService.getPlaceNameFromCoords(coords);
             return new Location(idLocationCounter++, placeName, coords, LocalDate.now());
         }
-        return null;
+        throw  new ServiceNotAvailableException();
     }
 
-    private boolean isGeographCoords(String location){
-        return location.contains(","); // TODO: Be more specific
+    private boolean isGeographCoords(String coords){
+        boolean isCoord = true;
+
+        String[] coordsSplitted = coords.trim().split(",");
+        if (coordsSplitted.length == 2){
+            try{
+                Double.parseDouble(coordsSplitted[0].trim());
+                Double.parseDouble(coordsSplitted[1].trim());
+            } catch (Exception e){
+                isCoord = false;
+            }
+        } else {
+            isCoord = false;
+        }
+        return isCoord;
     }
 
     private GeographCoords convertStringToCoords(String coords){
-        String[] coordsSplitted = coords.trim().split(", ");
-        double latitude = Double.parseDouble(coordsSplitted[0]);
-        double longitude = Double.parseDouble(coordsSplitted[1]);
+        String[] coordsSplitted = coords.trim().split(",");
+        double latitude = Double.parseDouble(coordsSplitted[0].trim());
+        double longitude = Double.parseDouble(coordsSplitted[1].trim());
         return new GeographCoords(latitude, longitude);
     }
 
     private boolean areValidCoords(GeographCoords coords){
         return (coords.getLatitude() < 90 && coords.getLatitude() > -90 &&
-                coords.getLongitude()<180 && coords.getLongitude()>-180);
+                coords.getLongitude() < 180 && coords.getLongitude() > -180);
     }
 
     private boolean hasEnoughPrecision(GeographCoords coords) {

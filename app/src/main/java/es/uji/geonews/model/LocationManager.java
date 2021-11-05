@@ -10,7 +10,9 @@ import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GpsService;
 import es.uji.geonews.model.services.Service;
+import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class LocationManager {
@@ -65,7 +67,7 @@ public class LocationManager {
     public List<String> validateLocation(int locationId){
         Location location = locations.get(locationId);
         List<String> services = new ArrayList<>();
-        for(Service service: serviceManager.getServices()){
+        for(ServiceHttp service: serviceManager.getHttpServices()){
             if(!service.getServiceName().equals("Geocode") && service.validateLocation(location)){
                 services.add(service.getServiceName());
             }

@@ -2,41 +2,23 @@ package es.uji.geonews.acceptance;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.LocationManager;
-import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
-import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-
-import es.uji.geonews.model.GeographCoords;
-import es.uji.geonews.model.LocationManager;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
-import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.CoordsSearchService;
-import es.uji.geonews.model.services.OpenWeatherService;
-import es.uji.geonews.model.services.Service;
-import es.uji.geonews.model.services.ServiceManager;
-
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class R1_HU08 {
 
     private static LocationManager locationManager;
 
     @Test
-    public void getPlaceName_E1KnownCoords_nearestPlaceName()
+    public void getPlaceName_KnownCoords_nearestPlaceName()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
@@ -53,7 +35,7 @@ public class R1_HU08 {
     }
 
     @Test
-    public void getPlaceName_E2UnknownCoords_nearestPlaceName()
+    public void getPlaceName_UnknownCoords_nearestPlaceName()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
@@ -70,7 +52,7 @@ public class R1_HU08 {
     }
 
     @Test(expected = NotValidCoordinatesException.class)
-    public void getPlaceName_E3InvalidCoords_NotValidCoordinatesException()
+    public void getPlaceName_InvalidCoords_NotValidCoordinatesException()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
@@ -84,20 +66,6 @@ public class R1_HU08 {
                 getService("Geocode")).getPlaceNameFromCoords(coords);
     }
 
-    @Test(expected = ServiceNotAvailableException.class)
-    public void getPlaceName_E4GeocodeNotAvailable_ServiceNotAvailableException()
-            throws ServiceNotAvailableException, NotValidCoordinatesException {
-        // Given
-        ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new CoordsSearchService();
-        serviceManager.addService(GeoCode);
-        locationManager = new LocationManager(serviceManager);
-        // When
-        GeographCoords coords = new GeographCoords(39.98920,-0.03621);
 
-        ((CoordsSearchService) locationManager.
-                getService("Geocode")).getPlaceNameFromCoords(coords);
-
-    }
 
 }

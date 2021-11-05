@@ -1,0 +1,71 @@
+package es.uji.geonews.integration;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.junit.Test;
+
+import es.uji.geonews.model.GeographCoords;
+import es.uji.geonews.model.LocationFactory;
+import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.exceptions.GPSNotAvailableException;
+import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
+import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
+import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
+import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.ServiceManager;
+
+public class R1_HU08 {
+
+    @Test
+    public void getPlaceName_KnownCoords_nearestPlaceName()
+            throws ServiceNotAvailableException,
+            NotValidCoordinatesException {
+        // Arrange
+        CoordsSearchService coordsSearchService = new CoordsSearchService();
+        CoordsSearchService spyCoordsSearchService = spy(coordsSearchService);
+        doReturn("Castello de la Plana").when(spyCoordsSearchService).getPlaceNameFromCoords(any());
+        // Act
+        spyCoordsSearchService.getPlaceNameFromCoords(new GeographCoords(39.98920, -0.03621));
+        // Assert
+        //verify(spyCoordsSearchService, times(1)).isAvailable();
+        verify(spyCoordsSearchService, times(1)).getPlaceNameFromCoords(any());
+    }
+
+
+    @Test
+    public void getPlaceName_UnknownCoords_nearestPlaceName()
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException {
+        CoordsSearchService coordsSearchService = new CoordsSearchService();
+        CoordsSearchService spyCoordsSearchService = spy(coordsSearchService);
+        doReturn(null).when(spyCoordsSearchService).getPlaceNameFromCoords(any());
+        // Act
+        spyCoordsSearchService.getPlaceNameFromCoords(new GeographCoords(33.65001, -41.19001));
+        // Assert
+        //verify(spyCoordsSearchService, times(1)).isAvailable();
+        verify(spyCoordsSearchService, times(1)).getPlaceNameFromCoords(any());
+
+    }
+
+    @Test(expected= ServiceNotAvailableException.class)
+    public void getPlaceName_GeocodeNotAvailable_ServiceNotAvailableException()
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException {
+        // Arrange
+        CoordsSearchService coordsSearchService = new CoordsSearchService();
+        CoordsSearchService spyCoordsSearchService = spy(coordsSearchService);
+        doThrow(new ServiceNotAvailableException()).when(spyCoordsSearchService).getPlaceNameFromCoords(any());
+        // Act
+        spyCoordsSearchService.getPlaceNameFromCoords(new GeographCoords(33.65001, -41.19001));
+    }
+
+}

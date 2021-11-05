@@ -4,15 +4,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-
-import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
-import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AirVisualService extends Service implements AtmosphericInterface, WeatherInterface {
+public class AirVisualService extends ServiceHttp {
 
     public AirVisualService() {
         super("AirVisual", "Air cuality descritption");
@@ -21,8 +17,8 @@ public class AirVisualService extends Service implements AtmosphericInterface, W
 
     @Override
     public boolean validateLocation(Location location){
-        String url = "http://api.airvisual.com/v2/nearest_city?lat=" +
-                location.getGeographCoords().getLatitude()
+        String url = "http://api.airvisual.com/v2/nearest_city?"
+                + "lat=" + location.getGeographCoords().getLatitude()
                 + "&lon=" + location.getGeographCoords().getLongitude()
                 + "&key=" + apiKey;
         Request request = new Request.Builder().url(url).build();
@@ -42,6 +38,7 @@ public class AirVisualService extends Service implements AtmosphericInterface, W
 
     @Override
     public void checkConnection() {
+        //TODO: This method should connect to the API to check if it is possible to connect
         isActive = true;
     }
 
