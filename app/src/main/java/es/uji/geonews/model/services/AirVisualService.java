@@ -4,11 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-
-import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
-import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import okhttp3.Request;
 import okhttp3.Response;
 
