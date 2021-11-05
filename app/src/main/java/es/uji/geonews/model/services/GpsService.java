@@ -1,10 +1,11 @@
-package es.uji.geonews.model;
+package es.uji.geonews.model.services;
 
+import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 
-public class GPSManager {
-    public GPSManager(){
-        super();
+public class GpsService extends Service{
+    public GpsService(){
+        super("GpsService", "Servicio GPS para la obtención de la ubicacion actual");
     }
 
     public GeographCoords getMyCoords() throws GPSNotAvailableException {
@@ -14,7 +15,4 @@ public class GPSManager {
         throw new GPSNotAvailableException();
     }
 
-    private boolean isAvailable(){
-        return true;
-    }
 }

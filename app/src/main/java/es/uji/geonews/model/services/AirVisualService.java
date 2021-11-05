@@ -8,7 +8,7 @@ import es.uji.geonews.model.Location;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AirVisualService extends Service implements AtmosphericInterface, WeatherInterface {
+public class AirVisualService extends ServiceHttp {
 
     public AirVisualService() {
         super("AirVisual", "Air cuality descritption");
@@ -17,8 +17,8 @@ public class AirVisualService extends Service implements AtmosphericInterface, W
 
     @Override
     public boolean validateLocation(Location location){
-        String url = "http://api.airvisual.com/v2/nearest_city?lat=" +
-                location.getGeographCoords().getLatitude()
+        String url = "http://api.airvisual.com/v2/nearest_city?"
+                + "lat=" + location.getGeographCoords().getLatitude()
                 + "&lon=" + location.getGeographCoords().getLongitude()
                 + "&key=" + apiKey;
         Request request = new Request.Builder().url(url).build();

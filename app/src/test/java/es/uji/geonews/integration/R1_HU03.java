@@ -11,7 +11,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
-import es.uji.geonews.model.GPSManager;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
@@ -20,19 +19,20 @@ import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GpsService;
 import es.uji.geonews.model.services.ServiceManager;
 
-public class R1_HU03_m {
+public class R1_HU03 {
     private CoordsSearchService coordsSearchServiceMocked;
     private ServiceManager serviceManagerMocked;
     private LocationManager locationManager;
-    private GPSManager gpsManagerMocked;
+    private GpsService gpsServiceMocked;
 
     @Before
     public void init(){
         coordsSearchServiceMocked = mock(CoordsSearchService.class);
         serviceManagerMocked = mock(ServiceManager.class);
-        gpsManagerMocked = mock(GPSManager.class);
+        gpsServiceMocked = mock(GpsService.class);
         when(serviceManagerMocked.getService("Geocode")).thenReturn(coordsSearchServiceMocked);
         locationManager = new LocationManager(serviceManagerMocked);
     }
@@ -42,12 +42,12 @@ public class R1_HU03_m {
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, GPSNotAvailableException {
         // Arrange
-        when(gpsManagerMocked.getMyCoords()).thenReturn(new GeographCoords(39.98920, -0.03621));
+        when(gpsServiceMocked.getMyCoords()).thenReturn(new GeographCoords(39.98920, -0.03621));
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn("Castellon de la Plana");
         // Act
         //TODO: diseño ?
-        Location newLocation = locationManager.addLocation(gpsManagerMocked.getMyCoords().toString());
+        Location newLocation = locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
         //locationManager.addLocationByGPS();
         // Assert
         verify(coordsSearchServiceMocked, times(1)).isAvailable();
@@ -61,12 +61,12 @@ public class R1_HU03_m {
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, GPSNotAvailableException {
         // Arrange
-        when(gpsManagerMocked.getMyCoords()).thenReturn(new GeographCoords(33.65000,-41.19000));
+        when(gpsServiceMocked.getMyCoords()).thenReturn(new GeographCoords(33.65000,-41.19000));
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn(null);
         // Act
         //TODO: diseño ?
-        Location newLocation = locationManager.addLocation(gpsManagerMocked.getMyCoords().toString());
+        Location newLocation = locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
         //locationManager.addLocationByGPS();
         // Assert
         verify(coordsSearchServiceMocked, times(1)).isAvailable();
@@ -84,12 +84,12 @@ public class R1_HU03_m {
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, GPSNotAvailableException {
         // Arrange
-        when(gpsManagerMocked.getMyCoords()).thenThrow(new GPSNotAvailableException());
+        when(gpsServiceMocked.getMyCoords()).thenThrow(new GPSNotAvailableException());
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn(null);
         // Act
         //TODO: diseño ?
-        locationManager.addLocation(gpsManagerMocked.getMyCoords().toString());
+        locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
 
     }
 
@@ -98,12 +98,12 @@ public class R1_HU03_m {
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, GPSNotAvailableException {
         // Arrange
-        when(gpsManagerMocked.getMyCoords()).thenReturn(new GeographCoords(33.65000,-41.19000));
+        when(gpsServiceMocked.getMyCoords()).thenReturn(new GeographCoords(33.65000,-41.19000));
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenThrow(new ServiceNotAvailableException());
         // Act
         //TODO: diseño ?
-        locationManager.addLocation(gpsManagerMocked.getMyCoords().toString());
+        locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
 
     }
 

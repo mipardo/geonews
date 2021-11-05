@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 import es.uji.geonews.model.GeographCoords;
 
-public class CoordsSearchService extends Service  {
+public class CoordsSearchService extends ServiceHttp  {
 
     public CoordsSearchService() {
         super("Geocode", "Coordinates Search Service");

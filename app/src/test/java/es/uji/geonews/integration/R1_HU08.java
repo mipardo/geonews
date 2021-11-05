@@ -3,13 +3,17 @@ package es.uji.geonews.integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 
+import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.LocationFactory;
 import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
@@ -23,19 +27,17 @@ public class R1_HU08 {
 
     @Test
     public void getPlaceName_KnownCoords_nearestPlaceName()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            throws ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
-        CoordsSearchService mockCoordsSearchService = mock(CoordsSearchService.class);
-        when(mockCoordsSearchService.isAvailable()).thenReturn(true);
-        when(mockCoordsSearchService.getPlaceNameFromCoords(any())).thenReturn("Castellon de la Plana");
-        LocationFactory locationFactory = new LocationFactory(mockCoordsSearchService);
+        CoordsSearchService coordsSearchService = new CoordsSearchService();
+        CoordsSearchService spyCoordsSearchService = spy(coordsSearchService);
+        doReturn("Castello de la Plana").when(spyCoordsSearchService).getPlaceNameFromCoords(any());
         // Act
-        //TODO: el metodo getPlaceFromCoords es privado y se usa al hacer el createLocation, ¿es correcto?
-        locationFactory.createLocation("39.98920, -0.03621");
+        spyCoordsSearchService.getPlaceNameFromCoords(new GeographCoords(39.98920, -0.03621));
         // Assert
-        verify(mockCoordsSearchService, times(1)).isAvailable();
-        verify(mockCoordsSearchService, times(1)).getPlaceNameFromCoords(any());
+        //verify(spyCoordsSearchService, times(1)).isAvailable();
+        verify(spyCoordsSearchService, times(1)).getPlaceNameFromCoords(any());
     }
 
 
@@ -43,17 +45,15 @@ public class R1_HU08 {
     public void getPlaceName_UnknownCoords_nearestPlaceName()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
-        // Arrange
-        CoordsSearchService mockCoordsSearchService = mock(CoordsSearchService.class);
-        when(mockCoordsSearchService.isAvailable()).thenReturn(true);
-        when(mockCoordsSearchService.getPlaceNameFromCoords(any())).thenReturn(null);
-        LocationFactory locationFactory = new LocationFactory(mockCoordsSearchService);
+        CoordsSearchService coordsSearchService = new CoordsSearchService();
+        CoordsSearchService spyCoordsSearchService = spy(coordsSearchService);
+        doReturn(null).when(spyCoordsSearchService).getPlaceNameFromCoords(any());
         // Act
-        //TODO: el metodo getPlaceFromCoords es privado y se usa al hacer el createLocation, ¿es correcto?
-        locationFactory.createLocation("33.65001, -41.19001");
+        spyCoordsSearchService.getPlaceNameFromCoords(new GeographCoords(33.65001, -41.19001));
         // Assert
-        verify(mockCoordsSearchService, times(1)).isAvailable();
-        verify(mockCoordsSearchService, times(1)).getPlaceNameFromCoords(any());
+        //verify(spyCoordsSearchService, times(1)).isAvailable();
+        verify(spyCoordsSearchService, times(1)).getPlaceNameFromCoords(any());
+
     }
 
     @Test(expected= ServiceNotAvailableException.class)
@@ -61,16 +61,11 @@ public class R1_HU08 {
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
-        CoordsSearchService mockCoordsSearchService = mock(CoordsSearchService.class);
-        when(mockCoordsSearchService.isAvailable()).thenReturn(true);
-        when(mockCoordsSearchService.getPlaceNameFromCoords(any())).thenThrow(new ServiceNotAvailableException());
-        LocationFactory locationFactory = new LocationFactory(mockCoordsSearchService);
+        CoordsSearchService coordsSearchService = new CoordsSearchService();
+        CoordsSearchService spyCoordsSearchService = spy(coordsSearchService);
+        doThrow(new ServiceNotAvailableException()).when(spyCoordsSearchService).getPlaceNameFromCoords(any());
         // Act
-        //TODO: el metodo getPlaceFromCoords es privado y se usa al hacer el createLocation, ¿es correcto?
-        locationFactory.createLocation("33.65001, -41.19001");
-        // Assert
-        verify(mockCoordsSearchService, times(1)).isAvailable();
-        verify(mockCoordsSearchService, times(1)).getPlaceNameFromCoords(any());
+        spyCoordsSearchService.getPlaceNameFromCoords(new GeographCoords(33.65001, -41.19001));
     }
 
 }

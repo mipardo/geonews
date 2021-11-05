@@ -9,16 +9,16 @@ import es.uji.geonews.model.Location;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CurrentsService extends Service implements NewsInterface {
+public class CurrentsService extends ServiceHttp {
     public CurrentsService() {
         super("Currents", "News service");
         apiKey = "uVh9kGUA3ZArfrYzCaLkX4iW6nR1vy2LMHwesz40aEY4OHaj";
     }
 
-    @Override
     public boolean validateLocation(Location location){
-        String url = "https://api.currentsapi.services/v1/latest-news?language=es&amp;"
-                + "apiKey=" + apiKey;
+        String url = "https://api.currentsapi.services/v1/search?language=es&amp;"
+                + "keywords=" + location.getPlaceName()
+                + "&amp;apiKey=" + apiKey;
 
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
