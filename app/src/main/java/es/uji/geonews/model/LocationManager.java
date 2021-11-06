@@ -122,4 +122,18 @@ public class LocationManager {
         return serviceManager.getService(serviceName);
     }
 
+    public OpenWeatherLocationData getServiceData(String serviceName, int locationId) {
+        Location location = locations.get(locationId);
+        if (location != null && location.hasService(serviceName)) {
+            return serviceManager.getService(serviceName).getDataFrom(location.getPlaceName());
+        }
+        return null;
+    }
+
+    public void addLocationService(String serviceName, int locationId) {
+        Location location = locations.get(locationId);
+        if (location != null) {
+            location.addService(serviceName);
+        }
+    }
 }

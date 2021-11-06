@@ -1,6 +1,12 @@
 package es.uji.geonews.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import es.uji.geonews.model.services.Service;
 
 public class Location {
     private int id;
@@ -9,6 +15,7 @@ public class Location {
     private GeographCoords geographCoords;
     private LocalDate registrationDate;
     private boolean isActive;
+    private List<String> services;
 
     public Location(int id, String placeName, GeographCoords geographCoords, LocalDate registrationDate ) {
         this.id = id;
@@ -17,6 +24,7 @@ public class Location {
         this.registrationDate = registrationDate;
         this.alias = "";
         this.isActive = false;
+        this.services = new ArrayList<>();
     }
 
     public int getId() {
@@ -77,5 +85,13 @@ public class Location {
 
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public void addService(String serviceName) {
+        services.add(serviceName);
+    }
+
+    public boolean hasService(String serviceName) {
+        return services.contains(serviceName);
     }
 }

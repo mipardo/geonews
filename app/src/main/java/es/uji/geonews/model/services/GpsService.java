@@ -1,6 +1,7 @@
 package es.uji.geonews.model.services;
 
 import es.uji.geonews.model.GeographCoords;
+import es.uji.geonews.model.OpenWeatherLocationData;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 
 public class GpsService extends Service{
@@ -15,4 +16,8 @@ public class GpsService extends Service{
         throw new GPSNotAvailableException();
     }
 
+    @Override
+    public OpenWeatherLocationData getDataFrom(String placeName) {
+        return null;
+    }
 }
