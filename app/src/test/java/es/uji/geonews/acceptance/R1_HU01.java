@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
-import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -16,6 +15,7 @@ import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU01 {
+
     private LocationManager locationManager;
 
     @Before
@@ -51,6 +51,4 @@ public class R1_HU01 {
         // Then
         assertEquals(1, locationManager.getNonActiveLocations().size());
     }
-
-
 }

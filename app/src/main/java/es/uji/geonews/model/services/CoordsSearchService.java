@@ -3,7 +3,6 @@ package es.uji.geonews.model.services;
 
 import java.io.IOException;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;

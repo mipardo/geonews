@@ -60,7 +60,4 @@ public class R1_HU08 {
         ((CoordsSearchService) locationManager.
                 getService("Geocode")).getPlaceNameFromCoords(coords);
     }
-
-
-
 }

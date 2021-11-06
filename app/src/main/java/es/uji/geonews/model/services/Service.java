@@ -2,9 +2,6 @@ package es.uji.geonews.model.services;
 
 import java.time.LocalDate;
 
-import es.uji.geonews.model.Location;
-import okhttp3.OkHttpClient;
-
 public abstract class Service {
     private String serviceName;
     private String serviceType;

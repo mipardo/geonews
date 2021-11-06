@@ -12,12 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.LocationFactory;
 import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -25,7 +23,6 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.OpenWeatherService;
-import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.services.ServiceManager;
 

@@ -56,5 +56,4 @@ public class R1_HU11 {
         assertEquals(1, locationManager.getNonActiveLocations().size());
         assertEquals(1, locationManager.getActiveLocations().size());
     }
-
 }

@@ -17,6 +17,7 @@ import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU02 {
+
     private LocationManager locationManager;
 
     @Before
@@ -68,7 +69,4 @@ public class R1_HU02 {
         locationManager.addLocation(coords.toString());
         // Then
     }
-
-
-
 }
