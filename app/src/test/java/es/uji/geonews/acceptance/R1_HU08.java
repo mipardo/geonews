@@ -2,6 +2,7 @@ package es.uji.geonews.acceptance;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import es.uji.geonews.model.GeographCoords;
@@ -15,16 +16,20 @@ import static org.junit.Assert.assertNull;
 
 public class R1_HU08 {
 
-    private static LocationManager locationManager;
+    private LocationManager locationManager;
+
+    @Before
+    public void init(){
+        // Given
+        ServiceManager serviceManager = new ServiceManager();
+        Service GeoCode = new CoordsSearchService();
+        serviceManager.addService(GeoCode);
+        locationManager = new LocationManager(serviceManager);
+    }
 
     @Test
     public void getPlaceName_KnownCoords_nearestPlaceName()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
-        // Given
-        ServiceManager serviceManager = new ServiceManager();
-        Service geocode = new CoordsSearchService();
-        serviceManager.addService(geocode);
-        locationManager = new LocationManager(serviceManager);
         // When
         GeographCoords coords = new GeographCoords(39.98920,-0.03621);
         String placeName = ((CoordsSearchService) locationManager.getService("Geocode")).
@@ -37,11 +42,6 @@ public class R1_HU08 {
     @Test
     public void getPlaceName_UnknownCoords_nearestPlaceName()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
-        // Given
-        ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new CoordsSearchService();
-        serviceManager.addService(GeoCode);
-        locationManager = new LocationManager(serviceManager);
         // When
         GeographCoords coords = new GeographCoords(33.6500,-41.1900);
         String placeName = ((CoordsSearchService) locationManager.
@@ -54,11 +54,6 @@ public class R1_HU08 {
     @Test(expected = NotValidCoordinatesException.class)
     public void getPlaceName_InvalidCoords_NotValidCoordinatesException()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
-        // Given
-        ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new CoordsSearchService();
-        serviceManager.addService(GeoCode);
-        locationManager = new LocationManager(serviceManager);
         // When
         GeographCoords coords = new GeographCoords(100.0000,-41.1900);
 

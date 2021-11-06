@@ -46,7 +46,6 @@ public class R1_HU03 {
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn("Castellon de la Plana");
         // Act
-        //TODO: diseño ?
         Location newLocation = locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
         //locationManager.addLocationByGPS();
         // Assert
@@ -65,7 +64,6 @@ public class R1_HU03 {
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn(null);
         // Act
-        //TODO: diseño ?
         Location newLocation = locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
         //locationManager.addLocationByGPS();
         // Assert
@@ -88,7 +86,6 @@ public class R1_HU03 {
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn(null);
         // Act
-        //TODO: diseño ?
         locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
 
     }
@@ -102,7 +99,6 @@ public class R1_HU03 {
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenThrow(new ServiceNotAvailableException());
         // Act
-        //TODO: diseño ?
         locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
 
     }

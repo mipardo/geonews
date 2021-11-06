@@ -1,5 +1,7 @@
 package es.uji.geonews.integration;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -10,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
@@ -44,7 +47,7 @@ public class R1_HU04 {
     }
 
     @Test
-    public void validateLocation_PlaceNameRecognized_ListWithTwoActiveServices()
+    public void validatePlaceName_PlaceNameRecognized_ListWithOneServiceActive()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
@@ -58,16 +61,18 @@ public class R1_HU04 {
 
         // Act
         Location location = locationManager.addLocation("Valencia");
-        locationManager.validateLocation(location.getId());
+        List<String> activeServices = locationManager.validateLocation(location.getId());
         // Assert
         verify(serviceManagerMocked, times(1)).getHttpServices();
         verify(currentsServiceMocked, times(2)).getServiceName();
         verify(currentsServiceMocked, times(1)).validateLocation(any());
+        assertEquals(1, activeServices.size());
+        assertTrue(activeServices.contains("Currents"));
 
     }
 
     @Test
-    public void validateLocation__ListWithTwoActiveServices()
+    public void validatePlaceName_NoApiAvailable_EmptyList()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
@@ -77,15 +82,15 @@ public class R1_HU04 {
         services.add(currentsServiceMocked);
         when(serviceManagerMocked.getHttpServices()).thenReturn(services);
         when(currentsServiceMocked.getServiceName()).thenReturn("Currents");
-        when(currentsServiceMocked.validateLocation(any())).thenReturn(true);
+        when(currentsServiceMocked.validateLocation(any())).thenReturn(false);
         // Act
         Location location = locationManager.addLocation("Valencia");
-        locationManager.validateLocation(location.getId());
+        List<String> activeServices = locationManager.validateLocation(location.getId());
         // Assert
         verify(serviceManagerMocked, times(1)).getHttpServices();
-        verify(currentsServiceMocked, times(2)).getServiceName();
+        verify(currentsServiceMocked, times(1)).getServiceName();
         verify(currentsServiceMocked, times(1)).validateLocation(any());
-
+        assertEquals(0, activeServices.size());
     }
 
 

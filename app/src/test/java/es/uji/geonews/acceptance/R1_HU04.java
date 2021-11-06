@@ -3,6 +3,7 @@ package es.uji.geonews.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -21,18 +22,25 @@ import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU04 {
-    private static LocationManager locationManager;
+    private LocationManager locationManager;
+    private ServiceManager serviceManager;
 
-    @Test
+    @Before
+    public void init(){
+        // Given
+        serviceManager = new ServiceManager();
+        Service geocode = new CoordsSearchService();
+        serviceManager.addService(geocode);
+        locationManager = new LocationManager(serviceManager);
+    }
+
+    @Test(timeout = 30000)
     public void validatePlaceName_PlaceNameRecognized_ListWithOneServiceActive()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException {
-        ServiceManager serviceManager = new ServiceManager();
-        Service geocode = new CoordsSearchService();
+        // Given
         Service currents = new CurrentsService();
-        serviceManager.addService(geocode);
         serviceManager.addService(currents);
-        locationManager = new LocationManager(serviceManager);
         // When
         Location newLocation = locationManager.addLocation("Valencia");
         List<String> services = locationManager.validateLocation(newLocation.getId());
@@ -45,10 +53,6 @@ public class R1_HU04 {
     public void validatePlaceName_NoApiAvailable_EmptyList()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException {
-        ServiceManager serviceManager = new ServiceManager();
-        Service geocode = new CoordsSearchService();
-        serviceManager.addService(geocode);
-        locationManager = new LocationManager(serviceManager);
         // When
         Location newLocation = locationManager.addLocation("Valencia");
         List<String> services = locationManager.validateLocation(newLocation.getId());

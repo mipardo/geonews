@@ -1,5 +1,7 @@
 package es.uji.geonews.integration;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -11,6 +13,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
@@ -63,17 +66,20 @@ public class R1_HU05 {
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
         // Act
         Location location = locationManager.addLocation("Castellon de la Plana");
-        locationManager.validateLocation(location.getId());
+        List<String> activeServices = locationManager.validateLocation(location.getId());
         // Assert
         verify(serviceManagerMocked, times(1)).getHttpServices();
         verify(airVisualServiceMocked, times(2)).getServiceName();
         verify(openWeatherServiceMocked, times(2)).getServiceName();
         verify(airVisualServiceMocked, times(1)).validateLocation(any());
         verify(openWeatherServiceMocked, times(1)).validateLocation(any());
+        assertEquals(2, activeServices.size());
+        assertTrue(activeServices.contains("AirVisual"));
+        assertTrue(activeServices.contains("OpenWeather"));
     }
 
     @Test
-    public void validateLocation__ListWithTwoActiveServices()
+    public void validateLocation_NoApiAvailable_EmptyList()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
@@ -85,17 +91,18 @@ public class R1_HU05 {
         when(serviceManagerMocked.getHttpServices()).thenReturn(services);
         when(airVisualServiceMocked.getServiceName()).thenReturn("AirVisual");
         when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
-        when(airVisualServiceMocked.validateLocation(any())).thenReturn(true);
-        when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
+        when(airVisualServiceMocked.validateLocation(any())).thenReturn(false);
+        when(openWeatherServiceMocked.validateLocation(any())).thenReturn(false);
         // Act
         Location location = locationManager.addLocation("Castellon de la Plana");
-        locationManager.validateLocation(location.getId());
+        List<String> activeServices = locationManager.validateLocation(location.getId());
         // Assert
         verify(serviceManagerMocked, times(1)).getHttpServices();
-        verify(airVisualServiceMocked, times(2)).getServiceName();
-        verify(openWeatherServiceMocked, times(2)).getServiceName();
+        verify(airVisualServiceMocked, times(1)).getServiceName();
+        verify(openWeatherServiceMocked, times(1)).getServiceName();
         verify(airVisualServiceMocked, times(1)).validateLocation(any());
         verify(openWeatherServiceMocked, times(1)).validateLocation(any());
+        assertEquals(0, activeServices.size());
     }
 
 

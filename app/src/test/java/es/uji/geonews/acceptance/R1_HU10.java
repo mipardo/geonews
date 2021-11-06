@@ -18,8 +18,8 @@ import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU10 {
-    private static LocationManager locationManager;
-    private static Location location;
+    private LocationManager locationManager;
+    private Location location;
 
     @Before
     public void init()

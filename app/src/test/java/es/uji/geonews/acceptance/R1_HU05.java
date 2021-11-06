@@ -3,6 +3,7 @@ package es.uji.geonews.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 import java.util.List;
 
@@ -20,20 +21,25 @@ import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU05 {
-    private static LocationManager locationManager;
+    private LocationManager locationManager;
+    private ServiceManager serviceManager;
+
+    @Before
+    public void init(){
+        serviceManager = new ServiceManager();
+        Service GeoCode = new CoordsSearchService();
+        serviceManager.addService(GeoCode);
+        locationManager = new LocationManager(serviceManager);
+    }
 
     @Test
     public void validateLocation_PlaceNameRecognized_ListWithTwoActiveServices()
             throws ServiceNotAvailableException, NotValidCoordinatesException,
             UnrecognizedPlaceNameException {
-        ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new CoordsSearchService();
         Service OpenWeather = new OpenWeatherService();
         Service AirVisual = new AirVisualService();
-        serviceManager.addService(GeoCode);
         serviceManager.addService(OpenWeather);
         serviceManager.addService(AirVisual);
-        locationManager = new LocationManager(serviceManager);
         // When
         GeographCoords coords = new GeographCoords(39.98001, -0.049900);
         Location newLocation = locationManager.addLocation(coords.toString());
@@ -48,10 +54,6 @@ public class R1_HU05 {
     public void validateLocation_NoApiAvailable_EmptyList()
             throws ServiceNotAvailableException, NotValidCoordinatesException,
             UnrecognizedPlaceNameException {
-        ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new CoordsSearchService();
-        serviceManager.addService(GeoCode);
-        locationManager = new LocationManager(serviceManager);
         // When
         GeographCoords coords = new GeographCoords(39.98001, -0.049900);
         Location newLocation = locationManager.addLocation(coords.toString());

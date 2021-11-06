@@ -19,7 +19,7 @@ import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU09 {
 
-    private static LocationManager locationManager;
+    private LocationManager locationManager;
 
     @Before
     public void init()

@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -16,7 +17,7 @@ public class AirVisualService extends ServiceHttp {
     }
 
     @Override
-    public boolean validateLocation(Location location){
+    public boolean validateLocation(Location location) {
         String url = "http://api.airvisual.com/v2/nearest_city?"
                 + "lat=" + location.getGeographCoords().getLatitude()
                 + "&lon=" + location.getGeographCoords().getLongitude()
@@ -32,6 +33,8 @@ public class AirVisualService extends ServiceHttp {
             return false;
 
         } catch (IOException | JSONException exception){
+            //TODO: Al validar la ubicacion, si no tenemos conexion no es
+            // mejor lanzar ServiceNotAvailableException ??
             return false;
         }
     }

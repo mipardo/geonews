@@ -17,9 +17,9 @@ import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU11 {
-    private static LocationManager locationManager;
-    private static Location castellon;
-    private static Location valencia;
+    private LocationManager locationManager;
+    private Location castellon;
+    private Location valencia;
 
     @Before
     public void init() throws ServiceNotAvailableException,
