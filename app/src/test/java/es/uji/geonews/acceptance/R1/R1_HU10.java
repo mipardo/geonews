@@ -10,6 +10,7 @@ import org.junit.Test;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -36,7 +37,7 @@ public class R1_HU10 {
 
     @Test
     public void deactivateLocation_ActiveLocation_True()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // When
         boolean result = locationManager.deactivateLocation(location.getId());
 

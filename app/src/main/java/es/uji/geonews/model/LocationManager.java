@@ -38,10 +38,13 @@ public class LocationManager {
         return activeLocations;
     }
 
-    public List<Location> getNonActiveLocations() {
+    public List<Location> getNonActiveLocations() throws NoLocationRegisteredException {
         List<Location> nonActiveLocations = new ArrayList<>();
         for (Location location: locations.values()){
             if (!location.isActive()) nonActiveLocations.add(location);
+        }
+        if(locations.size()==0){
+            throw new NoLocationRegisteredException();
         }
         return nonActiveLocations;
     }
@@ -157,14 +160,33 @@ public class LocationManager {
         return null;
     }
 
-    public void addLocationService(String serviceName, int locationId) {
+    public boolean addLocationService(String serviceName, int locationId) {
         Location location = locations.get(locationId);
         if (location != null) {
             if (!locationServices.get(locationId).contains(serviceName)) {
                 List<String> actualLocationServices = locationServices.get(locationId);
                 actualLocationServices.add(serviceName);
                 locationServices.put(locationId, actualLocationServices);
+                return true;
             }
         }
+        return false;
+    }
+    public boolean removeLocationService(String serviceName, int locationId) {
+        Location location = locations.get(locationId);
+        if (location != null) {
+            if (locationServices.get(locationId).contains(serviceName)) {
+                List<String> actualLocationServices = locationServices.get(locationId);
+                actualLocationServices.remove(serviceName);
+                locationServices.remove(locationId);
+                locationServices.put(locationId,actualLocationServices);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<String> getLocationService(int locationId){
+        return locationServices.get(locationId);
     }
 }

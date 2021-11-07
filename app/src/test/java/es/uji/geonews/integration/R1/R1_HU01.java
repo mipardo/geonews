@@ -14,6 +14,7 @@ import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -36,7 +37,7 @@ public class R1_HU01 {
     @Test
     public void registerLocationByPlaceName_knownPlaceName_Location()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+            NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getCoordsFrom(anyString()))
