@@ -14,6 +14,7 @@ import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -36,7 +37,7 @@ public class R1_HU01 {
     @Test
     public void registerLocationByPlaceName_knownPlaceName_Location()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+            NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getCoordsFrom(anyString()))
@@ -48,9 +49,9 @@ public class R1_HU01 {
         verify(coordsSearchServiceMocked, times(1)).getCoordsFrom("Castello de la Plana");
         assertEquals(0, locationManager.getActiveLocations().size());
         assertEquals(1, locationManager.getNonActiveLocations().size());
-        assertEquals("Castello de la Plana", locationManager.getLocaton(location.getId()).getPlaceName());
-        assertEquals(39.98920, locationManager.getLocaton(location.getId()).getGeographCoords().getLatitude(), 0.01);
-        assertEquals(-0.03621, locationManager.getLocaton(location.getId()).getGeographCoords().getLongitude(), 0.01);
+        assertEquals("Castello de la Plana", locationManager.getLocation(location.getId()).getPlaceName());
+        assertEquals(39.98920, locationManager.getLocation(location.getId()).getGeographCoords().getLatitude(), 0.01);
+        assertEquals(-0.03621, locationManager.getLocation(location.getId()).getGeographCoords().getLongitude(), 0.01);
     }
 
 

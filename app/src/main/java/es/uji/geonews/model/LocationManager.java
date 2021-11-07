@@ -104,12 +104,12 @@ public class LocationManager {
         return services;
     }
 
-    public boolean setAliasToLocation(String alias, int locationId){
+    public boolean setAliasToLocation(String alias, int locationId) throws NoLocationRegisteredException {
         //Check if alias is already asign to any other locaton
         if (checkIfExistAlias(alias)) return false;
 
         //Check if location is in active and inactive locations
-        Location location = getLocaton(locationId);
+        Location location = getLocation(locationId);
 
         if (alias != null && !alias.equals("")) {
             location.setAlias(alias);
@@ -127,8 +127,12 @@ public class LocationManager {
         return false;
     }
 
-    public Location getLocaton(int idLocation){
-        return locations.get(idLocation);
+    public Location getLocation(int idLocation) throws NoLocationRegisteredException {
+        Location location = locations.get(idLocation);
+        if (location == null) {
+            throw new NoLocationRegisteredException();
+        }
+        return location;
     }
 
     public boolean activateLocation(int id) {

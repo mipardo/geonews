@@ -9,6 +9,7 @@ import org.junit.Test;
 
 
 import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -33,18 +34,18 @@ public class R1_HU09 {
     }
 
     @Test
-    public void assignAlias_ValidNewAlias_True() {
+    public void assignAlias_ValidNewAlias_True() throws NoLocationRegisteredException {
         // When
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
         boolean result = locationManager.setAliasToLocation("Casa", idLocation);
 
         // Then
         assertTrue(result);
-        assertEquals("Casa", locationManager.getLocaton(idLocation).getAlias());
+        assertEquals("Casa", locationManager.getLocation(idLocation).getAlias());
     }
 
     @Test
-    public void assignAlias_InvalidNewAlias_False() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void assignAlias_InvalidNewAlias_False() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         locationManager.addLocation("Valencia");
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
@@ -59,7 +60,7 @@ public class R1_HU09 {
     }
 
     @Test
-    public void modifyAlias_ValidAlias_True() {
+    public void modifyAlias_ValidAlias_True() throws NoLocationRegisteredException {
         // Given
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
         locationManager.setAliasToLocation("Casa", idLocation);
@@ -68,12 +69,12 @@ public class R1_HU09 {
 
         // Then
         assertTrue(result);
-        assertEquals("Mi casa", locationManager.getLocaton(idLocation).getAlias());
+        assertEquals("Mi casa", locationManager.getLocation(idLocation).getAlias());
 
     }
 
     @Test
-    public void modifyAlias_InvalidAlias_False() {
+    public void modifyAlias_InvalidAlias_False() throws NoLocationRegisteredException {
         // Given
         int idLocation = locationManager.getNonActiveLocations().get(0).getId();
         locationManager.setAliasToLocation("Mi casa", idLocation);

@@ -10,6 +10,7 @@ import org.junit.Test;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -33,7 +34,7 @@ public class R1_HU06 {
 
     @Test
     public void activateLocation_KnownPlaceName_true()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException, NotValidCoordinatesException {
+            throws ServiceNotAvailableException, UnrecognizedPlaceNameException, NotValidCoordinatesException, NoLocationRegisteredException {
 
         Location newLocation = locationManager.addLocation("Castello de la Plana");
         locationManager.validateLocation(newLocation.getId());
@@ -41,12 +42,12 @@ public class R1_HU06 {
         boolean result = locationManager.activateLocation(newLocation.getId());
         // Then
         assertTrue(result);
-        assertTrue(locationManager.getLocaton(newLocation.getId()).isActive());
+        assertTrue(locationManager.getLocation(newLocation.getId()).isActive());
     }
 
     @Test
     public void activateLocation_UnKnownPlaceName_true()
-            throws ServiceNotAvailableException, NotValidCoordinatesException, UnrecognizedPlaceNameException {
+            throws ServiceNotAvailableException, NotValidCoordinatesException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         Location castellon = locationManager.addLocation("Castello de la Plana");
         locationManager.validateLocation(castellon.getId());
         Location valencia = locationManager.addLocation("Valencia");
@@ -61,7 +62,7 @@ public class R1_HU06 {
         boolean result = locationManager.activateLocation(newLocation.getId());
         // Then
         assertTrue(result);
-        assertTrue(locationManager.getLocaton(newLocation.getId()).isActive());
+        assertTrue(locationManager.getLocation(newLocation.getId()).isActive());
     }
 
     @Test
