@@ -1,4 +1,4 @@
-package es.uji.geonews.acceptance;
+package es.uji.geonews.acceptance.R1;
 
 import static org.junit.Assert.assertEquals;
 

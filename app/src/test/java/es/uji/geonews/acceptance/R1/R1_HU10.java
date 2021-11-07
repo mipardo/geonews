@@ -1,4 +1,4 @@
-package es.uji.geonews.acceptance;
+package es.uji.geonews.acceptance.R1;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -16,44 +17,44 @@ import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
-public class R1_HU11 {
+public class R1_HU10 {
     private LocationManager locationManager;
-    private Location castellon;
-    private Location valencia;
+    private Location location;
 
     @Before
-    public void init() throws ServiceNotAvailableException,
-            UnrecognizedPlaceNameException, NotValidCoordinatesException {
+    public void init()
+            throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
+            NotValidCoordinatesException, GPSNotAvailableException {
         //Given
         Service geocode = new CoordsSearchService();
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
-        castellon = locationManager.addLocation("Castello de la Plana");
-        valencia = locationManager.addLocation("Valencia");
+        location = locationManager.addLocation("Castello de la Plana");
+        locationManager.activateLocation(location.getId());
     }
 
     @Test
-    public void removeLocation_LocationNotInActiveLocations_True() {
+    public void deactivateLocation_ActiveLocation_True()
+            throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // When
-        boolean result = locationManager.removeLocation(castellon.getId());
+        boolean result = locationManager.deactivateLocation(location.getId());
 
         // Then
         assertTrue(result);
+        assertEquals(0, locationManager.getActiveLocations().size());
         assertEquals(1, locationManager.getNonActiveLocations().size());
     }
 
     @Test
-    public void removeLocation_LocationInActiveLocations_False() {
-        //Given
-        locationManager.activateLocation(valencia.getId());
+    public void deactivateLocation_NonActiveLocation_False() {
+        // Given
+        locationManager.deactivateLocation(location.getId());
 
         // When
-        boolean result = locationManager.removeLocation(valencia.getId());
+        boolean result = locationManager.deactivateLocation(location.getId());
 
         // Then
         assertFalse(result);
-        assertEquals(1, locationManager.getNonActiveLocations().size());
-        assertEquals(1, locationManager.getActiveLocations().size());
     }
 }

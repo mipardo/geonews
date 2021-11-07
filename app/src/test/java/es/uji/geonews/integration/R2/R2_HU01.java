@@ -1,4 +1,4 @@
-package es.uji.geonews.integration;
+package es.uji.geonews.integration.R2;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;

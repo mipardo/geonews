@@ -1,8 +1,7 @@
-package es.uji.geonews.acceptance;
+package es.uji.geonews.acceptance.R2;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -20,7 +19,7 @@ import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
-public class R2_HU04_1 {
+public class R2_HU04_3 {
 
     private LocationManager locationManager;
 
@@ -34,55 +33,38 @@ public class R2_HU04_1 {
     }
 
     @Test
-    public void getFavoriteLocations_AllAreFavorite_ListWithThreeLocations()
+    public void addFavoriteLocation_NoFavoriteLocation_True()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             UnrecognizedPlaceNameException, NoLocationRegisteredException {
         //Given
         Location castellon = locationManager.addLocation("39.99207, -0.03621");
         Location valencia = locationManager.addLocation("39.50337, -0.40466");
         Location alicante = locationManager.addLocation("38.53996, -0.50579");
-        locationManager.addToFavorites(castellon.getId());
         locationManager.addToFavorites(valencia.getId());
         locationManager.addToFavorites(alicante.getId());
+
         // When
-        List<Location> favouriteLocations = locationManager.getFavouriteLocations();
+        boolean castellonToFavorites = locationManager.addToFavorites(castellon.getId());
+
         // Then
-        assertEquals(3, favouriteLocations.size());
+        assertEquals(3, locationManager.getFavouriteLocations().size());
+        assertTrue(castellonToFavorites);
     }
 
     @Test
-    public void getFavoriteLocations_SomeAreFavorite_ListWithOneLocation()
+    public void addFavoriteLocation_FavoriteLocation_False()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             UnrecognizedPlaceNameException, NoLocationRegisteredException {
         //Given
         Location castellon = locationManager.addLocation("39.99207, -0.03621");
-        Location alicante = locationManager.addLocation("38.53996, -0.50579");
+        Location valencia = locationManager.addLocation("38.53996, -0.50579");
+        locationManager.addToFavorites(valencia.getId());
         locationManager.addToFavorites(castellon.getId());
         // When
-        List<Location> favouriteLocations = locationManager.getFavouriteLocations();
+        boolean castellonToFavorites = locationManager.addToFavorites(castellon.getId());
         // Then
-        assertEquals(1, favouriteLocations.size());
-        assertEquals(castellon.getPlaceName(), favouriteLocations.get(0).getPlaceName());
+        assertFalse(castellonToFavorites);
+        assertEquals(2, locationManager.getFavouriteLocations().size());
     }
-
-    @Test
-    public void getFavoriteLocations_AnyAreFavorite_EmtpyList()
-            throws NotValidCoordinatesException, ServiceNotAvailableException,
-            UnrecognizedPlaceNameException, NoLocationRegisteredException {
-        //Given
-        locationManager.addLocation("39.99207, -0.03621");
-        // When
-        List<Location> favouriteLocations = locationManager.getFavouriteLocations();
-        // Then
-        assertEquals(0, favouriteLocations.size());
-    }
-
-    @Test(expected = NoLocationRegisteredException.class)
-    public void getFavoriteLocations_NoLocations_NoLocationRegisteredException()
-            throws NoLocationRegisteredException {
-        // When
-        locationManager.getFavouriteLocations();
-    }
-
 
 }
