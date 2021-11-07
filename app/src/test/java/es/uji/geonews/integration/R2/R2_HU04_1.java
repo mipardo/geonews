@@ -3,7 +3,6 @@ package es.uji.geonews.integration.R2;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,9 +42,9 @@ public class R2_HU04_1 {
             NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
-        when(coordsSearchServiceMocked.getCoordsFrom("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
-        when(coordsSearchServiceMocked.getCoordsFrom("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
+        when(coordsSearchServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
+        when(coordsSearchServiceMocked.getCoords("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
+        when(coordsSearchServiceMocked.getCoords("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         Location valencia = locationManager.addLocation("Valencia");
         Location alicante = locationManager.addLocation("Alicante");
@@ -64,8 +63,8 @@ public class R2_HU04_1 {
             NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
-        when(coordsSearchServiceMocked.getCoordsFrom("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
+        when(coordsSearchServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
+        when(coordsSearchServiceMocked.getCoords("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         Location alicante = locationManager.addLocation("Alicante");
         locationManager.addToFavorites(castellon.getId());
@@ -82,7 +81,7 @@ public class R2_HU04_1 {
             NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
+        when(coordsSearchServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         // Act
         List<Location> favorites = locationManager.getFavouriteLocations();

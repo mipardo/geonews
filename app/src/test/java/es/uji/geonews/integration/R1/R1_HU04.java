@@ -13,7 +13,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import es.uji.geonews.model.GeographCoords;
@@ -24,7 +23,6 @@ import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.CurrentsService;
-import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU04 {
@@ -51,7 +49,7 @@ public class R1_HU04 {
             NotValidCoordinatesException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom(any()))
+        when(coordsSearchServiceMocked.getCoords(any()))
                 .thenReturn(new GeographCoords(39.46975, -0.3739));
         serviceManagerSpied.addService(currentsServiceMocked);
         when(currentsServiceMocked.validateLocation(any())).thenReturn(true);
@@ -73,7 +71,7 @@ public class R1_HU04 {
             NotValidCoordinatesException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom(any()))
+        when(coordsSearchServiceMocked.getCoords(any()))
                 .thenReturn(new GeographCoords(39.46975, -0.3739));
         serviceManagerSpied.addService(currentsServiceMocked);
         when(currentsServiceMocked.validateLocation(any())).thenReturn(false);

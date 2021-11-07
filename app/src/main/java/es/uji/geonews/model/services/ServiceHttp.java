@@ -10,7 +10,7 @@ public abstract class ServiceHttp extends Service{
     public ServiceHttp(String serviceName, String serviceType) {
         super(serviceName, serviceType);
         this.client = new OkHttpClient();
-        checkConnection();
+        checkConnection(); //isActive = ckeckConnection();
     }
 
     public abstract boolean validateLocation(Location location);

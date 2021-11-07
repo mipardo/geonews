@@ -30,22 +30,22 @@ public class R1_HU08 {
     public void getPlaceName_KnownCoords_nearestPlaceName()
             throws ServiceNotAvailableException,
             NotValidCoordinatesException {
-        doReturn("Castello de la Plana").when(spyCoordsSearchService).getPlaceNameFromCoords(any());
+        doReturn("Castello de la Plana").when(spyCoordsSearchService).getPlaceName(any());
         // Act
-        spyCoordsSearchService.getPlaceNameFromCoords(new GeographCoords(39.98920, -0.03621));
+        spyCoordsSearchService.getPlaceName(new GeographCoords(39.98920, -0.03621));
         // Assert
-        verify(spyCoordsSearchService, times(1)).getPlaceNameFromCoords(any());
+        verify(spyCoordsSearchService, times(1)).getPlaceName(any());
     }
 
 
     @Test
     public void getPlaceName_UnknownCoords_nearestPlaceName()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
-        doReturn(null).when(spyCoordsSearchService).getPlaceNameFromCoords(any());
+        doReturn(null).when(spyCoordsSearchService).getPlaceName(any());
         // Act
-        spyCoordsSearchService.getPlaceNameFromCoords(new GeographCoords(33.65001, -41.19001));
+        spyCoordsSearchService.getPlaceName(new GeographCoords(33.65001, -41.19001));
         // Assert
-        verify(spyCoordsSearchService, times(1)).getPlaceNameFromCoords(any());
+        verify(spyCoordsSearchService, times(1)).getPlaceName(any());
 
     }
 
@@ -53,9 +53,9 @@ public class R1_HU08 {
     public void getPlaceName_GeocodeNotAvailable_ServiceNotAvailableException()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         // Arrange
-        doThrow(new ServiceNotAvailableException()).when(spyCoordsSearchService).getPlaceNameFromCoords(any());
+        doThrow(new ServiceNotAvailableException()).when(spyCoordsSearchService).getPlaceName(any());
         // Act
-        spyCoordsSearchService.getPlaceNameFromCoords(new GeographCoords(33.65001, -41.19001));
+        spyCoordsSearchService.getPlaceName(new GeographCoords(33.65001, -41.19001));
     }
 
 }

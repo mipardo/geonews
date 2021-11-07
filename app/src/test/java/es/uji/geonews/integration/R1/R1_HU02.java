@@ -37,12 +37,12 @@ public class R1_HU02 {
             NotValidCoordinatesException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn("Castellon de la Plana");
+        when(coordsSearchServiceMocked.getPlaceName(any())).thenReturn("Castellon de la Plana");
         // Act
         locationManager.addLocation("39.98920, -0.03621");
         // Assert
         verify(coordsSearchServiceMocked, times(1)).isAvailable();
-        verify(coordsSearchServiceMocked, times(1)).getPlaceNameFromCoords(any());
+        verify(coordsSearchServiceMocked, times(1)).getPlaceName(any());
         assertEquals(1, locationManager.getNonActiveLocations().size());
         assertEquals(0, locationManager.getActiveLocations().size());
     }
@@ -53,11 +53,11 @@ public class R1_HU02 {
             NotValidCoordinatesException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn(null);
+        when(coordsSearchServiceMocked.getPlaceName(any())).thenReturn(null);
         // Act
         locationManager.addLocation("33.6500, -41.1900");
         // Assert
-        verify(coordsSearchServiceMocked, times(1)).getPlaceNameFromCoords(any());
+        verify(coordsSearchServiceMocked, times(1)).getPlaceName(any());
         verify(coordsSearchServiceMocked, times(1)).isAvailable();
         assertEquals(1, locationManager.getNonActiveLocations().size());
         assertNull(locationManager.getNonActiveLocations().get(0).getPlaceName());
@@ -70,7 +70,7 @@ public class R1_HU02 {
             NotValidCoordinatesException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenThrow(new ServiceNotAvailableException());
+        when(coordsSearchServiceMocked.getPlaceName(any())).thenThrow(new ServiceNotAvailableException());
         // Act
         locationManager.addLocation("39.98920, -0.03621");
     }

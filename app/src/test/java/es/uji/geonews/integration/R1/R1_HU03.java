@@ -44,13 +44,13 @@ public class R1_HU03 {
         // Arrange
         when(gpsServiceMocked.getMyCoords()).thenReturn(new GeographCoords(39.98920, -0.03621));
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn("Castellon de la Plana");
+        when(coordsSearchServiceMocked.getPlaceName(any())).thenReturn("Castellon de la Plana");
         // Act
         Location newLocation = locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
         //locationManager.addLocationByGPS();
         // Assert
         verify(coordsSearchServiceMocked, times(1)).isAvailable();
-        verify(coordsSearchServiceMocked, times(1)).getPlaceNameFromCoords(any());
+        verify(coordsSearchServiceMocked, times(1)).getPlaceName(any());
         assertEquals(1, locationManager.getNonActiveLocations().size());
         assertEquals(0, locationManager.getActiveLocations().size());
     }
@@ -62,13 +62,13 @@ public class R1_HU03 {
         // Arrange
         when(gpsServiceMocked.getMyCoords()).thenReturn(new GeographCoords(33.65000,-41.19000));
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn(null);
+        when(coordsSearchServiceMocked.getPlaceName(any())).thenReturn(null);
         // Act
         Location newLocation = locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
         //locationManager.addLocationByGPS();
         // Assert
         verify(coordsSearchServiceMocked, times(1)).isAvailable();
-        verify(coordsSearchServiceMocked, times(1)).getPlaceNameFromCoords(any());
+        verify(coordsSearchServiceMocked, times(1)).getPlaceName(any());
         assertEquals(1, locationManager.getNonActiveLocations().size());
         assertEquals(0, locationManager.getActiveLocations().size());
         assertEquals(33.65000, newLocation.getGeographCoords().getLatitude(), 0.01);
@@ -84,7 +84,7 @@ public class R1_HU03 {
         // Arrange
         when(gpsServiceMocked.getMyCoords()).thenThrow(new GPSNotAvailableException());
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn(null);
+        when(coordsSearchServiceMocked.getPlaceName(any())).thenReturn(null);
         // Act
         locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
 
@@ -97,7 +97,7 @@ public class R1_HU03 {
         // Arrange
         when(gpsServiceMocked.getMyCoords()).thenReturn(new GeographCoords(33.65000,-41.19000));
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenThrow(new ServiceNotAvailableException());
+        when(coordsSearchServiceMocked.getPlaceName(any())).thenThrow(new ServiceNotAvailableException());
         // Act
         locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
 

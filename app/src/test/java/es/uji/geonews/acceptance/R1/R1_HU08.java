@@ -33,7 +33,7 @@ public class R1_HU08 {
         // When
         GeographCoords coords = new GeographCoords(39.98920,-0.03621);
         String placeName = ((CoordsSearchService) locationManager.getService("Geocode")).
-                getPlaceNameFromCoords(coords);
+                getPlaceName(coords);
 
         // Then
         assertEquals("Castelló de la Plana", placeName);
@@ -45,7 +45,7 @@ public class R1_HU08 {
         // When
         GeographCoords coords = new GeographCoords(33.6500,-41.1900);
         String placeName = ((CoordsSearchService) locationManager.
-                getService("Geocode")).getPlaceNameFromCoords(coords);
+                getService("Geocode")).getPlaceName(coords);
 
         // Then
         assertNull(placeName);
@@ -58,6 +58,6 @@ public class R1_HU08 {
         GeographCoords coords = new GeographCoords(100.0000,-41.1900);
 
         ((CoordsSearchService) locationManager.
-                getService("Geocode")).getPlaceNameFromCoords(coords);
+                getService("Geocode")).getPlaceName(coords);
     }
 }
