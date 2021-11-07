@@ -45,7 +45,7 @@ public class R2_HU01 {
         locationManager.addLocationService("OpenWeather", castellon.getId());
 
         // When
-        OpenWeatherData serviceData = (OpenWeatherData) locationManager.getServiceData("OpenWeather", castellon.getId());
+        OpenWeatherData serviceData = (OpenWeatherData) locationManager.getData("OpenWeather", castellon.getId());
 
         // Then
         assertNotNull(serviceData.getMaxTemp());
@@ -64,7 +64,7 @@ public class R2_HU01 {
         Location castellon = locationManager.addLocation("Castelló de la Plana");
 
         // When
-        Data serviceData = locationManager.getServiceData("OpenWeather", castellon.getId());
+        Data serviceData = locationManager.getData("OpenWeather", castellon.getId());
 
         // Then
         assertNull(serviceData);

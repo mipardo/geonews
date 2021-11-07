@@ -12,7 +12,7 @@ import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class OpenWeatherService extends ServiceHttp implements DataGetterInterface {
+public class OpenWeatherService extends ServiceHttp implements DataGetterStrategy {
     public OpenWeatherService() {
         super("OpenWeather", "Wheather service");
         apiKey = "4002e2da22764a672b4a488d77b9b54a";
@@ -42,6 +42,7 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterInterfa
     @Override
     public void checkConnection() {
         //TODO: This method should connect to the API to check if it is possible to connect
+        // ping -c1 api.openweathermap.org //Yo creo que deberia funcionar
         isActive = true;
     }
 

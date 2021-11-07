@@ -10,7 +10,7 @@ import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AirVisualService extends ServiceHttp implements DataGetterInterface{
+public class AirVisualService extends ServiceHttp implements DataGetterStrategy {
 
     public AirVisualService() {
         super("AirVisual", "Air cuality descritption");

@@ -10,7 +10,7 @@ import es.uji.geonews.model.Location;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CurrentsService extends ServiceHttp implements DataGetterInterface {
+public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
     public CurrentsService() {
         super("Currents", "News service");
         apiKey = "uVh9kGUA3ZArfrYzCaLkX4iW6nR1vy2LMHwesz40aEY4OHaj";

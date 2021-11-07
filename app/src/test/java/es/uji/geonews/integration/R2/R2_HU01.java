@@ -49,6 +49,6 @@ public class R2_HU01 {
         when(serviceManagerMocked.getService("OpenWeather")).thenReturn(mockedOpenWeatherService);
         locationManager.addLocationService("OpenWeather", castellon.getId());
         // Act
-        locationManager.getServiceData("OpenWeather", castellon.getId());
+        locationManager.getData("OpenWeather", castellon.getId());
     }
 }
