@@ -5,12 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import es.uji.geonews.model.exceptions.GPSNotAvailableException;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
-import es.uji.geonews.model.services.GpsService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.services.ServiceManager;
@@ -47,8 +46,10 @@ public class LocationManager {
         return nonActiveLocations;
     }
 
-    public List<Location> getFavouriteLocations() {
-        return new ArrayList<>(favoriteLocations.values());    }
+    public List<Location> getFavouriteLocations() throws NoLocationRegisteredException {
+        if(favoriteLocations.size() == 0 && locations.size() == 0) throw new NoLocationRegisteredException();
+        return new ArrayList<>(favoriteLocations.values());
+    }
 
     public Location addLocation(String string) throws UnrecognizedPlaceNameException,
             ServiceNotAvailableException, NotValidCoordinatesException {
@@ -65,6 +66,26 @@ public class LocationManager {
         if (location != null && !location.isActive()){
             locations.remove(locationId);
             locationServices.remove(locationId);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addToFavorites(int locationId){
+        Location location = locations.get(locationId);
+        if (location != null){
+            favoriteLocations.put(locationId, location);
+            locations.remove(locationId);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeFromFavorites(int locationId){
+        Location location = favoriteLocations.get(locationId);
+        if (location != null){
+            locations.put(locationId, location);
+            favoriteLocations.remove(locationId);
             return true;
         }
         return false;

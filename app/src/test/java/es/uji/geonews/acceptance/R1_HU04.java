@@ -10,14 +10,11 @@ import java.util.List;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
-import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.CurrentsService;
-import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
@@ -34,7 +31,7 @@ public class R1_HU04 {
         locationManager = new LocationManager(serviceManager);
     }
 
-    @Test(timeout = 30000)
+    @Test(timeout = 50000)
     public void validatePlaceName_PlaceNameRecognized_ListWithOneServiceActive()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException {

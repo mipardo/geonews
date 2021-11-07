@@ -102,5 +102,4 @@ public class R1_HU03 {
         locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
 
     }
-
 }

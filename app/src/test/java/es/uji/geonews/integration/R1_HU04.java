@@ -20,11 +20,8 @@ import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.CurrentsService;
-import es.uji.geonews.model.services.OpenWeatherService;
-import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.services.ServiceManager;
 
@@ -92,6 +89,4 @@ public class R1_HU04 {
         verify(currentsServiceMocked, times(1)).validateLocation(any());
         assertEquals(0, activeServices.size());
     }
-
-
 }
