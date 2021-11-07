@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -34,7 +35,7 @@ public class R1_HU02 {
     @Test
     public void registerLocationByCoords_KnownPlaceName_Location()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+            NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn("Castellon de la Plana");
@@ -50,7 +51,7 @@ public class R1_HU02 {
     @Test
     public void registerLocationByCoords_UnknownPlaceName_Location()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+            NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getPlaceNameFromCoords(any())).thenReturn(null);

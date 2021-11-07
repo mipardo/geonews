@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -34,7 +35,7 @@ public class R1_HU11 {
     }
 
     @Test
-    public void removeLocation_LocationNotInActiveLocations_True() {
+    public void removeLocation_LocationNotInActiveLocations_True() throws NoLocationRegisteredException {
         // When
         boolean result = locationManager.removeLocation(castellon.getId());
 
@@ -44,7 +45,7 @@ public class R1_HU11 {
     }
 
     @Test
-    public void removeLocation_LocationInActiveLocations_False() {
+    public void removeLocation_LocationInActiveLocations_False() throws NoLocationRegisteredException {
         //Given
         locationManager.activateLocation(valencia.getId());
 

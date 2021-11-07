@@ -9,6 +9,7 @@ import org.junit.Test;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -32,7 +33,7 @@ public class R1_HU02 {
     @Test
     public void registerLocationByCoords_KnownPlaceName_Location()
             throws NotValidCoordinatesException, ServiceNotAvailableException
-            , UnrecognizedPlaceNameException {
+            , UnrecognizedPlaceNameException, NoLocationRegisteredException {
         //Given
         GeographCoords coords = new GeographCoords(39.98920, -0.03621);
         // When
@@ -44,7 +45,7 @@ public class R1_HU02 {
     @Test
     public void registerLocationByCoords_UnknownPlaceName_Location()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
-            UnrecognizedPlaceNameException {
+            UnrecognizedPlaceNameException, NoLocationRegisteredException {
         //Given
         locationManager.addLocation("Castello de la Plana");
         GeographCoords coords = new GeographCoords(33.65001, -41.19001);

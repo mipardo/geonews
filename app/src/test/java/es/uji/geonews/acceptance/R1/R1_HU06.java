@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
@@ -39,9 +41,9 @@ public class R1_HU06 {
         Location newLocation = locationManager.addLocation("Castello de la Plana");
         locationManager.validateLocation(newLocation.getId());
         // When
-        boolean result = locationManager.activateLocation(newLocation.getId());
+        List<String> services = locationManager.activateLocation(newLocation.getId());
         // Then
-        assertTrue(result);
+        assertTrue(services.size() > 0);
         assertTrue(locationManager.getLocation(newLocation.getId()).isActive());
     }
 
@@ -59,9 +61,9 @@ public class R1_HU06 {
         Location newLocation = locationManager.addLocation(coords.toString());
         locationManager.validateLocation(newLocation.getId());
         // When
-        boolean result = locationManager.activateLocation(newLocation.getId());
+        List<String> services = locationManager.activateLocation(newLocation.getId());
         // Then
-        assertTrue(result);
+        assertTrue(services.size() > 0);
         assertTrue(locationManager.getLocation(newLocation.getId()).isActive());
     }
 
@@ -78,9 +80,9 @@ public class R1_HU06 {
 
         Location location = locationManager.getActiveLocations().get(0);
         // When
-        boolean result = locationManager.activateLocation(location.getId());
+        List<String> services = locationManager.activateLocation(location.getId());
         // Then
-        assertFalse(result);
+        assertFalse(services.size() > 0);
         assertEquals(2, locationManager.getActiveLocations().size());
     }
 }

@@ -40,7 +40,11 @@ public class LocationManager {
         return activeLocations;
     }
 
-    public List<Location> getNonActiveLocations() {
+    public List<Location> getNonActiveLocations() throws NoLocationRegisteredException {
+        if (locations.isEmpty()) {
+            throw new NoLocationRegisteredException();
+        }
+
         List<Location> nonActiveLocations = new ArrayList<>();
         for (Location location: locations.values()){
             if (!location.isActive()) nonActiveLocations.add(location);
@@ -135,12 +139,23 @@ public class LocationManager {
         return location;
     }
 
-    public boolean activateLocation(int id) {
+    public List<String> activateLocation(int id) {
         Location location = locations.get(id);
         if (location != null && !location.isActive()){
-            return location.activate();
+            List<String> services = new ArrayList<>();
+            for (Service service: serviceManager.getServices()) {
+                if (!service.getServiceName().equals("Geocode"))
+                    services.add(service.getServiceName());
+            }
+
+            // Solo la activamos si hay más de un servicio disponible
+            if (services.size() > 0) {
+                location.activate();
+            }
+
+            return services;
         }
-        return false;
+        return null;
     }
 
     public boolean deactivateLocation(int id) {

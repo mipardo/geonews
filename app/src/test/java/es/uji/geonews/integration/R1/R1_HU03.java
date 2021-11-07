@@ -15,6 +15,7 @@ import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -40,7 +41,7 @@ public class R1_HU03 {
     @Test
     public void registerLocationByCurrentPosition_GPSAvailableKnownPlaceName_Location()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, GPSNotAvailableException {
+            NotValidCoordinatesException, GPSNotAvailableException, NoLocationRegisteredException {
         // Arrange
         when(gpsServiceMocked.getMyCoords()).thenReturn(new GeographCoords(39.98920, -0.03621));
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
@@ -58,7 +59,7 @@ public class R1_HU03 {
     @Test
     public void registerLocationByCurrentPosition_GPSAvailableUnknownPlaceName_Location()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, GPSNotAvailableException {
+            NotValidCoordinatesException, GPSNotAvailableException, NoLocationRegisteredException {
         // Arrange
         when(gpsServiceMocked.getMyCoords()).thenReturn(new GeographCoords(33.65000,-41.19000));
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
