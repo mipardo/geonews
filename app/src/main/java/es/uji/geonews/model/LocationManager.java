@@ -18,6 +18,7 @@ import es.uji.geonews.model.services.ServiceManager;
 public class LocationManager {
     private final Map<Integer, Location> locations;
     private final Map<Integer, Location> favoriteLocations;
+    private final Map<Integer, List<String>> locationServices;
     private final ServiceManager serviceManager;
     private LocationFactory locationFactory;
 
@@ -25,6 +26,7 @@ public class LocationManager {
         this.serviceManager = serviceManager;
         this.locations = new HashMap<>();
         this.favoriteLocations = new HashMap<>();
+        this.locationServices = new HashMap<>();
         CoordsSearchService coordsSearchService = (CoordsSearchService) serviceManager.getService("Geocode");
         this.locationFactory = new LocationFactory(coordsSearchService);
     }
@@ -51,7 +53,10 @@ public class LocationManager {
     public Location addLocation(String string) throws UnrecognizedPlaceNameException,
             ServiceNotAvailableException, NotValidCoordinatesException {
         Location location = locationFactory.createLocation(string);
-        if (location!= null) locations.put(location.getId(), location);
+        if (location!= null) {
+            locations.put(location.getId(), location);
+            locationServices.put(location.getId(), new ArrayList<>());
+        }
        return location;
     }
 
@@ -59,6 +64,7 @@ public class LocationManager {
         Location location = locations.get(locationId);
         if (location != null && !location.isActive()){
             locations.remove(locationId);
+            locationServices.remove(locationId);
             return true;
         }
         return false;
@@ -122,4 +128,22 @@ public class LocationManager {
         return serviceManager.getService(serviceName);
     }
 
+    public ServiceLocationData getServiceData(String serviceName, int locationId) throws ServiceNotAvailableException {
+        Location location = locations.get(locationId);
+        if (location != null && locationServices.get(locationId).contains(serviceName)) {
+            return serviceManager.getService(serviceName).getDataFrom(location);
+        }
+        return null;
+    }
+
+    public void addLocationService(String serviceName, int locationId) {
+        Location location = locations.get(locationId);
+        if (location != null) {
+            if (!locationServices.get(locationId).contains(serviceName)) {
+                List<String> actualLocationServices = locationServices.get(locationId);
+                actualLocationServices.add(serviceName);
+                locationServices.put(locationId, actualLocationServices);
+            }
+        }
+    }
 }

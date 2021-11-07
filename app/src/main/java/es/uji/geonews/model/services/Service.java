@@ -3,6 +3,9 @@ package es.uji.geonews.model.services;
 import java.time.LocalDate;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.OpenWeatherLocationData;
+import es.uji.geonews.model.ServiceLocationData;
+import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import okhttp3.OkHttpClient;
 
 public abstract class Service {
@@ -45,4 +48,9 @@ public abstract class Service {
         this.activationDate = activationDate;
     }
 
+    public void deactivate() {
+        isActive = false;
+    }
+
+    public abstract ServiceLocationData getDataFrom(Location location) throws ServiceNotAvailableException;
 }

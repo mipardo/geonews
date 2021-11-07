@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.OpenWeatherLocationData;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -39,5 +40,10 @@ public class CurrentsService extends ServiceHttp {
     public void checkConnection() {
         //TODO: This method should connect to the API to check if it is possible to connect
         isActive = true;
+    }
+
+    @Override
+    public OpenWeatherLocationData getDataFrom(Location location) {
+        return null;
     }
 }
