@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
-import es.uji.geonews.model.OpenWeatherLocationData;
-import es.uji.geonews.model.ServiceLocationData;
+import es.uji.geonews.model.data.OpenWeatherData;
+import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -45,7 +45,7 @@ public class R2_HU01 {
         locationManager.addLocationService("OpenWeather", castellon.getId());
 
         // When
-        OpenWeatherLocationData serviceData = (OpenWeatherLocationData) locationManager.getServiceData("OpenWeather", castellon.getId());
+        OpenWeatherData serviceData = (OpenWeatherData) locationManager.getServiceData("OpenWeather", castellon.getId());
 
         // Then
         assertNotNull(serviceData.getMaxTemp());
@@ -64,7 +64,7 @@ public class R2_HU01 {
         Location castellon = locationManager.addLocation("Castelló de la Plana");
 
         // When
-        ServiceLocationData serviceData = locationManager.getServiceData("OpenWeather", castellon.getId());
+        Data serviceData = locationManager.getServiceData("OpenWeather", castellon.getId());
 
         // Then
         assertNull(serviceData);
