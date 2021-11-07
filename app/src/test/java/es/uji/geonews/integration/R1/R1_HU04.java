@@ -3,7 +3,9 @@ package es.uji.geonews.integration.R1;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,8 +30,7 @@ import es.uji.geonews.model.services.ServiceManager;
 public class R1_HU04 {
     private CoordsSearchService coordsSearchServiceMocked;
     private CurrentsService currentsServiceMocked;
-    private ArrayList<ServiceHttp> services;
-    private ServiceManager serviceManagerMocked;
+    private ServiceManager serviceManagerSpied;
     private LocationManager locationManager;
 
 
@@ -37,10 +38,11 @@ public class R1_HU04 {
     public void init(){
         coordsSearchServiceMocked = mock(CoordsSearchService.class);
         currentsServiceMocked = mock(CurrentsService.class);
-        serviceManagerMocked = mock(ServiceManager.class);
-        when(serviceManagerMocked.getService("Geocode")).thenReturn(coordsSearchServiceMocked);
-        locationManager = new LocationManager(serviceManagerMocked);
-        services = new ArrayList<>();
+        when(currentsServiceMocked.getServiceName()).thenReturn("Currents");
+        ServiceManager serviceManager = new ServiceManager();
+        serviceManagerSpied = spy(serviceManager);
+        doReturn(coordsSearchServiceMocked).when(serviceManagerSpied).getService("Geocode");
+        locationManager = new LocationManager(serviceManagerSpied);
     }
 
     @Test
@@ -51,17 +53,14 @@ public class R1_HU04 {
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getCoordsFrom(any()))
                 .thenReturn(new GeographCoords(39.46975, -0.3739));
-        services.add(currentsServiceMocked);
-        when(serviceManagerMocked.getHttpServices()).thenReturn(services);
-        when(currentsServiceMocked.getServiceName()).thenReturn("Currents");
+        serviceManagerSpied.addService(currentsServiceMocked);
         when(currentsServiceMocked.validateLocation(any())).thenReturn(true);
 
         // Act
         Location location = locationManager.addLocation("Valencia");
         List<String> activeServices = locationManager.validateLocation(location.getId());
         // Assert
-        verify(serviceManagerMocked, times(1)).getHttpServices();
-        verify(currentsServiceMocked, times(2)).getServiceName();
+        verify(serviceManagerSpied, times(1)).getHttpServices();
         verify(currentsServiceMocked, times(1)).validateLocation(any());
         assertEquals(1, activeServices.size());
         assertTrue(activeServices.contains("Currents"));
@@ -76,16 +75,13 @@ public class R1_HU04 {
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
         when(coordsSearchServiceMocked.getCoordsFrom(any()))
                 .thenReturn(new GeographCoords(39.46975, -0.3739));
-        services.add(currentsServiceMocked);
-        when(serviceManagerMocked.getHttpServices()).thenReturn(services);
-        when(currentsServiceMocked.getServiceName()).thenReturn("Currents");
+        serviceManagerSpied.addService(currentsServiceMocked);
         when(currentsServiceMocked.validateLocation(any())).thenReturn(false);
         // Act
         Location location = locationManager.addLocation("Valencia");
         List<String> activeServices = locationManager.validateLocation(location.getId());
         // Assert
-        verify(serviceManagerMocked, times(1)).getHttpServices();
-        verify(currentsServiceMocked, times(1)).getServiceName();
+        verify(serviceManagerSpied, times(1)).getHttpServices();
         verify(currentsServiceMocked, times(1)).validateLocation(any());
         assertEquals(0, activeServices.size());
     }

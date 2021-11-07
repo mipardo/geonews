@@ -2,7 +2,9 @@ package es.uji.geonews.integration.R1;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,15 +24,16 @@ import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU01 {
     private CoordsSearchService coordsSearchServiceMocked;
-    private ServiceManager serviceManagerMocked;
+    private ServiceManager serviceManagerSpied;
     private LocationManager locationManager;
 
     @Before
     public void init(){
         coordsSearchServiceMocked = mock(CoordsSearchService.class);
-        serviceManagerMocked = mock(ServiceManager.class);
-        when(serviceManagerMocked.getService("Geocode")).thenReturn(coordsSearchServiceMocked);
-        locationManager = new LocationManager(serviceManagerMocked);
+        ServiceManager serviceManager = new ServiceManager();
+        serviceManagerSpied = spy(serviceManager);
+        doReturn(coordsSearchServiceMocked).when(serviceManagerSpied).getService("Geocode");
+        locationManager = new LocationManager(serviceManagerSpied);
     }
 
     @Test
