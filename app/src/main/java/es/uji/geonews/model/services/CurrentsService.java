@@ -5,12 +5,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.OpenWeatherLocationData;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CurrentsService extends ServiceHttp {
+public class CurrentsService extends ServiceHttp implements DataGetterInterface {
     public CurrentsService() {
         super("Currents", "News service");
         apiKey = "uVh9kGUA3ZArfrYzCaLkX4iW6nR1vy2LMHwesz40aEY4OHaj";
@@ -43,7 +43,7 @@ public class CurrentsService extends ServiceHttp {
     }
 
     @Override
-    public OpenWeatherLocationData getDataFrom(Location location) {
+    public Data getData(Location location) {
         return null;
     }
 }

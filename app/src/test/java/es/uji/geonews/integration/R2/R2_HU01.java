@@ -2,9 +2,7 @@ package es.uji.geonews.integration.R2;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -14,7 +12,6 @@ import org.junit.Test;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
-import es.uji.geonews.model.OpenWeatherLocationData;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -48,7 +45,7 @@ public class R2_HU01 {
         locationManager.addLocation("Valencia");
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         OpenWeatherService mockedOpenWeatherService = mock(OpenWeatherService.class);
-        when(mockedOpenWeatherService.getDataFrom(any(Location.class))).thenThrow(new ServiceNotAvailableException());
+        when(mockedOpenWeatherService.getData(any(Location.class))).thenThrow(new ServiceNotAvailableException());
         when(serviceManagerMocked.getService("OpenWeather")).thenReturn(mockedOpenWeatherService);
         locationManager.addLocationService("OpenWeather", castellon.getId());
         // Act

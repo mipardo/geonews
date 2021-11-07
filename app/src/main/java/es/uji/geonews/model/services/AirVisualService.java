@@ -5,12 +5,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.OpenWeatherLocationData;
+import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AirVisualService extends ServiceHttp {
+public class AirVisualService extends ServiceHttp implements DataGetterInterface{
 
     public AirVisualService() {
         super("AirVisual", "Air cuality descritption");
@@ -47,7 +47,7 @@ public class AirVisualService extends ServiceHttp {
     }
 
     @Override
-    public OpenWeatherLocationData getDataFrom(Location location) {
+    public Data getData(Location location) throws ServiceNotAvailableException {
         return null;
     }
 }

@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.DataGetterInterface;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.services.ServiceManager;
@@ -149,10 +151,11 @@ public class LocationManager {
         return serviceManager.getService(serviceName);
     }
 
-    public ServiceLocationData getServiceData(String serviceName, int locationId) throws ServiceNotAvailableException {
+    public Data getServiceData(String serviceName, int locationId) throws ServiceNotAvailableException {
         Location location = locations.get(locationId);
         if (location != null && locationServices.get(locationId).contains(serviceName)) {
-            return serviceManager.getService(serviceName).getDataFrom(location);
+            DataGetterInterface service = (DataGetterInterface) serviceManager.getService(serviceName);
+            return service.getData(location);
         }
         return null;
     }
