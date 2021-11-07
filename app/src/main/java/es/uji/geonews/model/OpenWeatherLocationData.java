@@ -1,6 +1,6 @@
 package es.uji.geonews.model;
 
-public class OpenWeatherLocationData {
+public class OpenWeatherLocationData implements ServiceLocationData {
     private double maxTemp;
     private double minTemp;
     private double actTemp;

@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.OpenWeatherLocationData;
+import es.uji.geonews.model.ServiceLocationData;
+import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -44,9 +46,9 @@ public class OpenWeatherService extends ServiceHttp {
     }
 
     @Override
-    public OpenWeatherLocationData getDataFrom(String placeName) {
+    public ServiceLocationData getDataFrom(Location location) throws ServiceNotAvailableException {
         String url = "https://api.openweathermap.org/data/2.5/weather?"
-                + "q=" + placeName
+                + "q=" + location.getPlaceName()
                 + "&appid=" + apiKey;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
@@ -66,7 +68,7 @@ public class OpenWeatherService extends ServiceHttp {
             return null;
 
         } catch (IOException | JSONException exception){
-            return null;
+            throw new ServiceNotAvailableException();
         }
     }
 }

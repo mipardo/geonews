@@ -81,7 +81,7 @@ public class CoordsSearchService extends ServiceHttp  {
     }
 
     @Override
-    public OpenWeatherLocationData getDataFrom(String placeName) {
+    public OpenWeatherLocationData getDataFrom(Location location) {
         return null;
     }
 }
