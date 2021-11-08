@@ -36,4 +36,7 @@ public class ServiceManager {
     }
 
 
+    public void removeService(String serviceName) {
+        serviceMap.remove(serviceName);
+    }
 }

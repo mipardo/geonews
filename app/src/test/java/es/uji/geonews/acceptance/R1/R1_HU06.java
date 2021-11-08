@@ -41,9 +41,9 @@ public class R1_HU06 {
         Location newLocation = locationManager.addLocation("Castello de la Plana");
         locationManager.validateLocation(newLocation.getId());
         // When
-        List<String> services = locationManager.activateLocation(newLocation.getId());
+        boolean result = locationManager.activateLocation(newLocation.getId());
         // Then
-        assertTrue(services.size() > 0);
+        assertTrue(result);
         assertTrue(locationManager.getLocation(newLocation.getId()).isActive());
     }
 
@@ -61,15 +61,15 @@ public class R1_HU06 {
         Location newLocation = locationManager.addLocation(coords.toString());
         locationManager.validateLocation(newLocation.getId());
         // When
-        List<String> services = locationManager.activateLocation(newLocation.getId());
+        boolean result = locationManager.activateLocation(newLocation.getId());
         // Then
-        assertTrue(services.size() > 0);
+        assertTrue(result);
         assertTrue(locationManager.getLocation(newLocation.getId()).isActive());
     }
 
     @Test
     public void activateLocation_LocationAlreadyActive_false()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         Location castellon = locationManager.addLocation("Castello de la Plana");
         locationManager.validateLocation(castellon.getId());
@@ -80,9 +80,9 @@ public class R1_HU06 {
 
         Location location = locationManager.getActiveLocations().get(0);
         // When
-        List<String> services = locationManager.activateLocation(location.getId());
+        boolean result = locationManager.activateLocation(location.getId());
         // Then
-        assertFalse(services.size() > 0);
+        assertFalse(result);
         assertEquals(2, locationManager.getActiveLocations().size());
     }
 }

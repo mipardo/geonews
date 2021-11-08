@@ -25,7 +25,7 @@ public class R1_HU10 {
     @Before
     public void init()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
-            NotValidCoordinatesException, GPSNotAvailableException {
+            NotValidCoordinatesException, GPSNotAvailableException, NoLocationRegisteredException {
         //Given
         Service geocode = new CoordsSearchService();
         ServiceManager serviceManager = new ServiceManager();
