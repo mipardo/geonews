@@ -16,7 +16,7 @@ public class CoordsSearchService extends ServiceHttp  {
 
     public CoordsSearchService() {
         super("Geocode", "Coordinates Search Service");
-        apiKey = "375488105344812237611x41680";
+        apiKey = "658551006620647870337x73703";
     }
 
 
@@ -72,9 +72,9 @@ public class CoordsSearchService extends ServiceHttp  {
     }
 
     @Override
-    public void checkConnection() {
+    public boolean checkConnection() {
         //TODO: This method should connect to the API to check if it is possible to connect
-        isActive = true;
+        return true;
     }
 
 }
