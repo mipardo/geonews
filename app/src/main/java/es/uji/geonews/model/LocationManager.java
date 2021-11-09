@@ -10,6 +10,7 @@ import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
+import es.uji.geonews.model.services.ContextDataGetter;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.DataGetterStrategy;
 import es.uji.geonews.model.services.Service;
@@ -165,7 +166,7 @@ public class LocationManager {
         Location location = locations.get(locationId);
         if (location != null && locationServices.get(locationId).contains(serviceName)) {
             DataGetterStrategy service = (DataGetterStrategy) serviceManager.getService(serviceName);
-            return service.getData(location);
+            return serviceManager.getData(service, location);
         }
         return null;
     }
@@ -174,9 +175,9 @@ public class LocationManager {
         Location location = locations.get(locationId);
         if (location != null) {
             if (!locationServices.get(locationId).contains(serviceName)) {
-                List<String> actualLocationServices = locationServices.get(locationId);
-                actualLocationServices.add(serviceName);
-                locationServices.put(locationId, actualLocationServices);
+                List<String> currentServicesInLocation = locationServices.get(locationId);
+                currentServicesInLocation.add(serviceName);
+                locationServices.put(locationId, currentServicesInLocation);
                 return true;
             }
         }
@@ -201,3 +202,4 @@ public class LocationManager {
         serviceManager.removeService(serviceName);
     }
 }
+

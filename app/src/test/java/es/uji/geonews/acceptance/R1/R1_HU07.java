@@ -30,7 +30,7 @@ public class R1_HU07 {
     throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // When
         GeographCoords coords = ((CoordsSearchService) locationManager.getService("Geocode"))
-                .getCoordsFrom("Castello de la Plana");
+                .getCoords("Castello de la Plana");
         // Then
         assertEquals(39.98920, coords.getLatitude(), 0.01);
         assertEquals(-0.03621, coords.getLongitude(), 0.01);
@@ -41,7 +41,7 @@ public class R1_HU07 {
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // When
         ((CoordsSearchService) locationManager.getService("Geocode"))
-                .getCoordsFrom("asdfxxrtg");
+                .getCoords("asdfxxrtg");
     }
 
 }

@@ -2,7 +2,9 @@ package es.uji.geonews.integration.R1;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,15 +25,16 @@ import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU01 {
     private CoordsSearchService coordsSearchServiceMocked;
-    private ServiceManager serviceManagerMocked;
+    private ServiceManager serviceManagerSpied;
     private LocationManager locationManager;
 
     @Before
     public void init(){
         coordsSearchServiceMocked = mock(CoordsSearchService.class);
-        serviceManagerMocked = mock(ServiceManager.class);
-        when(serviceManagerMocked.getService("Geocode")).thenReturn(coordsSearchServiceMocked);
-        locationManager = new LocationManager(serviceManagerMocked);
+        ServiceManager serviceManager = new ServiceManager();
+        serviceManagerSpied = spy(serviceManager);
+        doReturn(coordsSearchServiceMocked).when(serviceManagerSpied).getService("Geocode");
+        locationManager = new LocationManager(serviceManagerSpied);
     }
 
     @Test
@@ -40,13 +43,13 @@ public class R1_HU01 {
             NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom(anyString()))
+        when(coordsSearchServiceMocked.getCoords(anyString()))
                 .thenReturn(new GeographCoords(39.98920, -0.03621));
         // Act
         Location location = locationManager.addLocation("Castello de la Plana");
         // Assert
         verify(coordsSearchServiceMocked, times(1)).isAvailable();
-        verify(coordsSearchServiceMocked, times(1)).getCoordsFrom("Castello de la Plana");
+        verify(coordsSearchServiceMocked, times(1)).getCoords("Castello de la Plana");
         assertEquals(0, locationManager.getActiveLocations().size());
         assertEquals(1, locationManager.getNonActiveLocations().size());
         assertEquals("Castello de la Plana", locationManager.getLocation(location.getId()).getPlaceName());
@@ -61,7 +64,7 @@ public class R1_HU01 {
             NotValidCoordinatesException, GPSNotAvailableException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom(anyString())).thenThrow(new UnrecognizedPlaceNameException());
+        when(coordsSearchServiceMocked.getCoords(anyString())).thenThrow(new UnrecognizedPlaceNameException());
         // Act
         locationManager.addLocation("asddf");
     }
@@ -72,7 +75,7 @@ public class R1_HU01 {
             NotValidCoordinatesException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom(anyString()))
+        when(coordsSearchServiceMocked.getCoords(anyString()))
                 .thenThrow(new ServiceNotAvailableException());
         // Act
         locationManager.addLocation("Bilbao");

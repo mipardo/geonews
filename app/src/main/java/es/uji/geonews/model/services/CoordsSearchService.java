@@ -1,6 +1,5 @@
 package es.uji.geonews.model.services;
 
-
 import java.io.IOException;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -21,7 +20,7 @@ public class CoordsSearchService extends ServiceHttp  {
     }
 
 
-    public GeographCoords getCoordsFrom(String placeName)
+    public GeographCoords getCoords(String placeName)
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
         String url = "https://geocode.xyz/"+ placeName +"?json=1" +
                 "&auth=" + apiKey;
@@ -43,7 +42,7 @@ public class CoordsSearchService extends ServiceHttp  {
         return geographCoords;
     }
 
-    public String getPlaceNameFromCoords(GeographCoords coords)
+    public String getPlaceName(GeographCoords coords)
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         String url = "https://geocode.xyz/"+ coords.toString() +"?json=1" +
         "&auth=" + apiKey;
@@ -73,9 +72,9 @@ public class CoordsSearchService extends ServiceHttp  {
     }
 
     @Override
-    public void checkConnection() {
+    public boolean checkConnection() {
         //TODO: This method should connect to the API to check if it is possible to connect
-        isActive = true;
+        return true;
     }
 
 }

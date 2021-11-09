@@ -37,9 +37,9 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
     }
 
     @Override
-    public void checkConnection() {
+    public boolean checkConnection() {
         //TODO: This method should connect to the API to check if it is possible to connect
-        isActive = true;
+        return true;
     }
 
     @Override

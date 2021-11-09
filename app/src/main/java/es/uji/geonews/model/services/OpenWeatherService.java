@@ -40,10 +40,10 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
     }
 
     @Override
-    public void checkConnection() {
+    public boolean checkConnection() {
         //TODO: This method should connect to the API to check if it is possible to connect
         // ping -c1 api.openweathermap.org //Yo creo que deberia funcionar
-        isActive = true;
+        return true;
     }
 
     @Override

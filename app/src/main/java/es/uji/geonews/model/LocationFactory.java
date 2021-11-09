@@ -28,7 +28,7 @@ public class LocationFactory {
     private Location createLocationByPlaceName(String placeName)
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
         if(coordsSearchService.isAvailable()){
-            GeographCoords coords = coordsSearchService.getCoordsFrom(placeName);
+            GeographCoords coords = coordsSearchService.getCoords(placeName);
             return new Location(idLocationCounter++,placeName, coords, LocalDate.now());
         }
         throw  new ServiceNotAvailableException();
@@ -43,7 +43,7 @@ public class LocationFactory {
         }
 
         if (coordsSearchService.isAvailable()) {
-            String placeName = coordsSearchService.getPlaceNameFromCoords(coords);
+            String placeName = coordsSearchService.getPlaceName(coords);
             return new Location(idLocationCounter++, placeName, coords, LocalDate.now());
         }
         throw  new ServiceNotAvailableException();

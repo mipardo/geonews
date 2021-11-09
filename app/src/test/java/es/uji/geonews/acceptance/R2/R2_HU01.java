@@ -42,7 +42,7 @@ public class R2_HU01 {
         locationManager.addLocation("Valencia");
         locationManager.addLocation("Alicante");
         Location castellon = locationManager.addLocation("Castelló de la Plana");
-        locationManager.addLocationService("OpenWeather", castellon.getId());
+        locationManager.addServiceToLocation("OpenWeather", castellon.getId());
 
         // When
         OpenWeatherData serviceData = (OpenWeatherData) locationManager.getData("OpenWeather", castellon.getId());

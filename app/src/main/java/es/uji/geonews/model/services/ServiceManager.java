@@ -5,14 +5,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.uji.geonews.model.Location;
+import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
+
 public class ServiceManager {
 
     private final Map<String, Service> serviceMap;
+    private ContextDataGetter contextDataGetter;
+
 
     public ServiceManager(){
         serviceMap = new HashMap<>();
+        contextDataGetter = new ContextDataGetter();
     }
-
 
     public List<Service> getServices(){
         return new ArrayList<>(serviceMap.values());
@@ -35,6 +41,11 @@ public class ServiceManager {
         return serviceMap.get(name);
     }
 
+    public Data getData(DataGetterStrategy dataGetterStrategy, Location location)
+            throws ServiceNotAvailableException {
+        contextDataGetter.setService(dataGetterStrategy);
+        return contextDataGetter.getData(location);
+    }
 
     public void removeService(String serviceName) {
         serviceMap.remove(serviceName);
