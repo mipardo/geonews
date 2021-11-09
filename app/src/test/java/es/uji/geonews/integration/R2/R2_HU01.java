@@ -2,7 +2,9 @@ package es.uji.geonews.integration.R2;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -21,33 +23,34 @@ import es.uji.geonews.model.services.ServiceManager;
 
 public class R2_HU01 {
     CoordsSearchService coordsSearchServiceMocked;
-    ServiceManager serviceManagerMocked;
+    ServiceManager serviceManagerSpied;
     LocationManager locationManager;
 
     @Before
     public void init() {
         coordsSearchServiceMocked = mock(CoordsSearchService.class);
-        serviceManagerMocked = mock(ServiceManager.class);
-        when(serviceManagerMocked.getService("Geocode")).thenReturn(coordsSearchServiceMocked);
-        locationManager = new LocationManager(serviceManagerMocked);
+        ServiceManager serviceManager = new ServiceManager();
+        serviceManagerSpied = spy(serviceManager);
+        doReturn(coordsSearchServiceMocked).when(serviceManagerSpied).getService("Geocode");
+        locationManager = new LocationManager(serviceManagerSpied);
     }
 
     @Test (expected = ServiceNotAvailableException.class)
-    public void registerLocationByPlaceName_knownPlaceName_Location()
+    public void checkServiceData_notAvailabe_ServiceNotAvailableException()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
-        when(coordsSearchServiceMocked.getCoordsFrom("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
-        when(coordsSearchServiceMocked.getCoordsFrom("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
+        when(coordsSearchServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
+        when(coordsSearchServiceMocked.getCoords("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
+        when(coordsSearchServiceMocked.getCoords("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
         locationManager.addLocation("Alicante");
         locationManager.addLocation("Valencia");
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         OpenWeatherService mockedOpenWeatherService = mock(OpenWeatherService.class);
         when(mockedOpenWeatherService.getData(any(Location.class))).thenThrow(new ServiceNotAvailableException());
-        when(serviceManagerMocked.getService("OpenWeather")).thenReturn(mockedOpenWeatherService);
-        locationManager.addLocationService("OpenWeather", castellon.getId());
+        doReturn(mockedOpenWeatherService).when(serviceManagerSpied).getService("OpenWeather");
+        locationManager.addServiceToLocation("OpenWeather", castellon.getId());
         // Act
         locationManager.getData("OpenWeather", castellon.getId());
     }

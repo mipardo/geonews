@@ -28,6 +28,8 @@ public class R1_HU04 {
         serviceManager = new ServiceManager();
         Service geocode = new CoordsSearchService();
         serviceManager.addService(geocode);
+        Service currents = new CurrentsService();
+        serviceManager.addService(currents);
         locationManager = new LocationManager(serviceManager);
     }
 
@@ -36,11 +38,12 @@ public class R1_HU04 {
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException {
         // Given
-        Service currents = new CurrentsService();
-        serviceManager.addService(currents);
-        // When
         Location newLocation = locationManager.addLocation("Valencia");
+        locationManager.addServiceToLocation("Currents", newLocation.getId());
+
+        // When
         List<String> services = locationManager.validateLocation(newLocation.getId());
+
         // Then
         assertEquals(1, services.size());
         assertTrue(services.contains("Currents"));

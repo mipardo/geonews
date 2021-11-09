@@ -9,8 +9,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
@@ -41,9 +39,9 @@ public class R2_HU04_2 {
             NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
-        when(coordsSearchServiceMocked.getCoordsFrom("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
-        when(coordsSearchServiceMocked.getCoordsFrom("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
+        when(coordsSearchServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
+        when(coordsSearchServiceMocked.getCoords("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
+        when(coordsSearchServiceMocked.getCoords("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         Location valencia = locationManager.addLocation("Valencia");
         Location alicante = locationManager.addLocation("Alicante");
@@ -64,8 +62,8 @@ public class R2_HU04_2 {
             NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
-        when(coordsSearchServiceMocked.getCoordsFrom("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
+        when(coordsSearchServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
+        when(coordsSearchServiceMocked.getCoords("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         Location valencia = locationManager.addLocation("Valencia");
         // Act

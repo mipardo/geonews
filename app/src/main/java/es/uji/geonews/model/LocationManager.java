@@ -10,6 +10,7 @@ import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
+import es.uji.geonews.model.services.ContextDataGetter;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.DataGetterStrategy;
 import es.uji.geonews.model.services.Service;
@@ -40,7 +41,11 @@ public class LocationManager {
         return activeLocations;
     }
 
-    public List<Location> getNonActiveLocations() {
+    public List<Location> getNonActiveLocations() throws NoLocationRegisteredException {
+        if (locations.isEmpty()) {
+            throw new NoLocationRegisteredException();
+        }
+
         List<Location> nonActiveLocations = new ArrayList<>();
         for (Location location: locations.values()){
             if (!location.isActive()) nonActiveLocations.add(location);
@@ -104,12 +109,12 @@ public class LocationManager {
         return services;
     }
 
-    public boolean setAliasToLocation(String alias, int locationId){
+    public boolean setAliasToLocation(String alias, int locationId) throws NoLocationRegisteredException {
         //Check if alias is already asign to any other locaton
         if (checkIfExistAlias(alias)) return false;
 
         //Check if location is in active and inactive locations
-        Location location = getLocaton(locationId);
+        Location location = getLocation(locationId);
 
         if (alias != null && !alias.equals("")) {
             location.setAlias(alias);
@@ -127,14 +132,20 @@ public class LocationManager {
         return false;
     }
 
-    public Location getLocaton(int idLocation){
-        return locations.get(idLocation);
+    public Location getLocation(int idLocation) throws NoLocationRegisteredException {
+        Location location = locations.get(idLocation);
+        if (location == null) {
+            throw new NoLocationRegisteredException();
+        }
+        return location;
     }
 
-    public boolean activateLocation(int id) {
-        Location location = locations.get(id);
-        if (location != null && !location.isActive()){
-            return location.activate();
+    public boolean activateLocation(int id) throws NoLocationRegisteredException {
+        List<String> services = validateLocation(id);
+        Location location = getLocation(id);
+        if (location != null && !location.isActive() && services.size() > 0) {
+            getLocation(id).activate();
+            return true;
         }
         return false;
     }
@@ -155,19 +166,40 @@ public class LocationManager {
         Location location = locations.get(locationId);
         if (location != null && locationServices.get(locationId).contains(serviceName)) {
             DataGetterStrategy service = (DataGetterStrategy) serviceManager.getService(serviceName);
-            return service.getData(location);
+            return serviceManager.getData(service, location);
         }
         return null;
     }
 
-    public void addLocationService(String serviceName, int locationId) {
+    public boolean addServiceToLocation(String serviceName, int locationId) {
         Location location = locations.get(locationId);
         if (location != null) {
             if (!locationServices.get(locationId).contains(serviceName)) {
-                List<String> actualLocationServices = locationServices.get(locationId);
-                actualLocationServices.add(serviceName);
-                locationServices.put(locationId, actualLocationServices);
+                List<String> currentServicesInLocation = locationServices.get(locationId);
+                currentServicesInLocation.add(serviceName);
+                locationServices.put(locationId, currentServicesInLocation);
+                return true;
             }
         }
+        return false;
+    }
+    public boolean removeServiceFromLocation(String serviceName, int locationId) {
+        Location location = locations.get(locationId);
+        if (location != null) {
+            if (locationServices.get(locationId).contains(serviceName)) {
+                locationServices.get(locationId).remove(serviceName);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<String> getLocationService(int locationId){
+        return locationServices.get(locationId);
+    }
+
+    public void deactivateService(String serviceName) {
+        serviceManager.removeService(serviceName);
     }
 }
+

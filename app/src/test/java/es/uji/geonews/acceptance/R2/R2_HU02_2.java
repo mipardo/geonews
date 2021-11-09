@@ -1,17 +1,18 @@
 package es.uji.geonews.acceptance.R2;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
-import es.uji.geonews.model.data.OpenWeatherData;
-import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -20,9 +21,11 @@ import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
-public class R2_HU01 {
+public class R2_HU02_2 {
     private LocationManager locationManager;
     private ServiceManager serviceManager;
+    private List<Location> activeList;
+    private List<Location> nonActiveList;
 
     @Before
     public void init(){
@@ -33,40 +36,37 @@ public class R2_HU01 {
         OpenWeatherService openWeatherService = new OpenWeatherService();
         serviceManager.addService(openWeatherService);
         locationManager = new LocationManager(serviceManager);
+        activeList = new ArrayList<Location>();
     }
 
     @Test
-    public void checkServiceData_activeAndAvailable_OpenWeatherLocationData()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void checkService_OneDesactivation_True()
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
-        locationManager.addLocation("Valencia");
-        locationManager.addLocation("Alicante");
         Location castellon = locationManager.addLocation("Castelló de la Plana");
-        locationManager.addServiceToLocation("OpenWeather", castellon.getId());
-
+        int id = castellon.getId();
+        locationManager.addServiceToLocation("OpenWeather", id);
         // When
-        OpenWeatherData serviceData = (OpenWeatherData) locationManager.getData("OpenWeather", castellon.getId());
-
+        boolean confirmation = locationManager.removeServiceFromLocation("OpenWeather", id);
         // Then
-        assertNotNull(serviceData.getMaxTemp());
-        assertNotNull(serviceData.getMinTemp());
-        assertNotNull(serviceData.getActTemp());
-        assertNotNull(serviceData.getMain());
-        assertNotNull(serviceData.getDescription());
-        assertNotNull(serviceData.getIcon());
-    }
+        assertEquals(0, locationManager.getLocationService(id).size());
+        assertFalse( locationManager.getLocationService(id).contains("OpenWeather"));
+        assertTrue(confirmation);
 
+    }
     @Test
-    public void checkServiceData_activeAndAvailable_null() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void checkService_OneDesactivation_False()
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
-        locationManager.addLocation("Valencia");
-        locationManager.addLocation("Alicante");
         Location castellon = locationManager.addLocation("Castelló de la Plana");
-
+        int id = castellon.getId();
         // When
-        Data serviceData = locationManager.getData("OpenWeather", castellon.getId());
-
+        boolean confirmation = locationManager.removeServiceFromLocation("OpenWeather", id);
         // Then
-        assertNull(serviceData);
+        assertEquals(0, locationManager.getLocationService(id).size());
+        assertFalse( locationManager.getLocationService(id).contains("OpenWeather"));
+        assertFalse(confirmation);
     }
+
+
 }

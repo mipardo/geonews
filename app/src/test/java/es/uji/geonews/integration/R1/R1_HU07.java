@@ -33,10 +33,10 @@ public class R1_HU07 {
     public void getCoords_KnownPlaceName_validCoords()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Arrange
-        when(coordsSearchServiceMocked.getCoordsFrom("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
+        when(coordsSearchServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
         // Act
         GeographCoords coords = ((CoordsSearchService) locationManager.getService("Geocode"))
-                .getCoordsFrom("Castelló de la Plana");
+                .getCoords("Castelló de la Plana");
         // Assert
         assertEquals(39.98920, coords.getLatitude(), 0.01);
         assertEquals(-0.03621, coords.getLongitude(), 0.01);
@@ -47,19 +47,19 @@ public class R1_HU07 {
     public void getCoords_UnknownPlaceName_UnrecognizedPlaceNameException()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Arrange
-        when(coordsSearchServiceMocked.getCoordsFrom(anyString())).thenThrow(new UnrecognizedPlaceNameException());
+        when(coordsSearchServiceMocked.getCoords(anyString())).thenThrow(new UnrecognizedPlaceNameException());
         // Act
         ((CoordsSearchService) locationManager.getService("Geocode"))
-                .getCoordsFrom("asdfxxrtg");
+                .getCoords("asdfxxrtg");
     }
 
     @Test (expected = ServiceNotAvailableException.class)
     public void getCoords_GeocodeNotAvailable_ServiceNotAvailableException()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Arrange
-        when(coordsSearchServiceMocked.getCoordsFrom(anyString())).thenThrow(new ServiceNotAvailableException());
+        when(coordsSearchServiceMocked.getCoords(anyString())).thenThrow(new ServiceNotAvailableException());
         // Act
         ((CoordsSearchService) locationManager.getService("Geocode"))
-                .getCoordsFrom("Castellón de la Plana");
+                .getCoords("Castellón de la Plana");
     }
 }

@@ -10,10 +10,15 @@ public abstract class ServiceHttp extends Service{
     public ServiceHttp(String serviceName, String serviceType) {
         super(serviceName, serviceType);
         this.client = new OkHttpClient();
-        checkConnection();
+        isActive = checkConnection();
+    }
+
+    @Override
+    public boolean isAvailable(){
+        return isActive && checkConnection();
     }
 
     public abstract boolean validateLocation(Location location);
 
-    public abstract void checkConnection();
+    public abstract boolean checkConnection();
 }
