@@ -170,15 +170,31 @@ public class LocationManager {
         return null;
     }
 
-    public void addLocationService(String serviceName, int locationId) {
+    public boolean addLocationService(String serviceName, int locationId) {
         Location location = locations.get(locationId);
         if (location != null) {
             if (!locationServices.get(locationId).contains(serviceName)) {
                 List<String> actualLocationServices = locationServices.get(locationId);
                 actualLocationServices.add(serviceName);
                 locationServices.put(locationId, actualLocationServices);
+                return true;
             }
         }
+        return false;
+    }
+    public boolean removeLocationService(String serviceName, int locationId) {
+        Location location = locations.get(locationId);
+        if (location != null) {
+            if (locationServices.get(locationId).contains(serviceName)) {
+                locationServices.get(locationId).remove(serviceName);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<String> getLocationService(int locationId){
+        return locationServices.get(locationId);
     }
 
     public void deactivateService(String serviceName) {
