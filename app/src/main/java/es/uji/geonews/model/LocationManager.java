@@ -19,16 +19,11 @@ import es.uji.geonews.model.services.ServiceManager;
 public class LocationManager {
     private final Map<Integer, Location> locations;
     private final Map<Integer, Location> favoriteLocations;
-    private final Map<Integer, List<String>> locationServices;
-    private final ServiceManager serviceManager;
-    private LocationFactory locationFactory;
+    private final LocationFactory locationFactory;
 
-    public LocationManager(ServiceManager serviceManager) {
-        this.serviceManager = serviceManager;
+    public LocationManager(GeocodeService geocodeService) {
         this.locations = new HashMap<>();
         this.favoriteLocations = new HashMap<>();
-        this.locationServices = new HashMap<>();
-        GeocodeService geocodeService = (GeocodeService) serviceManager.getService("Geocode");
         this.locationFactory = new LocationFactory(geocodeService);
     }
 
@@ -41,9 +36,7 @@ public class LocationManager {
     }
 
     public List<Location> getNonActiveLocations() throws NoLocationRegisteredException {
-        if (locations.isEmpty()) {
-            throw new NoLocationRegisteredException();
-        }
+        if (locations.isEmpty() && favoriteLocations.isEmpty()) throw new NoLocationRegisteredException();
 
         List<Location> nonActiveLocations = new ArrayList<>();
         for (Location location: locations.values()){
@@ -53,7 +46,7 @@ public class LocationManager {
     }
 
     public List<Location> getFavouriteLocations() throws NoLocationRegisteredException {
-        if(favoriteLocations.size() == 0 && locations.size() == 0) throw new NoLocationRegisteredException();
+        if(favoriteLocations.isEmpty() && locations.isEmpty()) throw new NoLocationRegisteredException();
         return new ArrayList<>(favoriteLocations.values());
     }
 
@@ -62,7 +55,6 @@ public class LocationManager {
         Location location = locationFactory.createLocation(string);
         if (location!= null) {
             locations.put(location.getId(), location);
-            locationServices.put(location.getId(), new ArrayList<>());
         }
        return location;
     }
@@ -71,7 +63,6 @@ public class LocationManager {
         Location location = locations.get(locationId);
         if (location != null && !location.isActive()){
             locations.remove(locationId);
-            locationServices.remove(locationId);
             return true;
         }
         return false;
@@ -97,24 +88,9 @@ public class LocationManager {
         return false;
     }
 
-    public List<String> validateLocation(int locationId){
-        Location location = locations.get(locationId);
-        List<String> services = new ArrayList<>();
-        for(ServiceHttp service: serviceManager.getHttpServices()){
-            if(!service.getServiceName().equals("Geocode") && service.validateLocation(location)){
-                services.add(service.getServiceName());
-            }
-        }
-        return services;
-    }
-
     public boolean setAliasToLocation(String alias, int locationId) throws NoLocationRegisteredException {
-        //Check if alias is already asign to any other locaton
         if (checkIfExistAlias(alias)) return false;
-
-        //Check if location is in active and inactive locations
         Location location = getLocation(locationId);
-
         if (alias != null && !alias.equals("")) {
             location.setAlias(alias);
             return true;
@@ -140,9 +116,8 @@ public class LocationManager {
     }
 
     public boolean activateLocation(int id) throws NoLocationRegisteredException {
-        List<String> services = validateLocation(id);
         Location location = getLocation(id);
-        if (location != null && !location.isActive() && services.size() > 0) {
+        if (location != null && !location.isActive()) {
             getLocation(id).activate();
             return true;
         }
@@ -155,50 +130,6 @@ public class LocationManager {
             return location.deactivate();
         }
         return false;
-    }
-
-    public Service getService(String serviceName) {
-        return serviceManager.getService(serviceName);
-    }
-
-    public Data getData(String serviceName, int locationId) throws ServiceNotAvailableException {
-        Location location = locations.get(locationId);
-        if (location != null && locationServices.get(locationId).contains(serviceName)) {
-            DataGetterStrategy service = (DataGetterStrategy) serviceManager.getService(serviceName);
-            return serviceManager.getData(service, location);
-        }
-        return null;
-    }
-
-    public boolean addServiceToLocation(String serviceName, int locationId) {
-        Location location = locations.get(locationId);
-        if (location != null) {
-            if (!locationServices.get(locationId).contains(serviceName)) {
-                List<String> currentServicesInLocation = locationServices.get(locationId);
-                currentServicesInLocation.add(serviceName);
-                locationServices.put(locationId, currentServicesInLocation);
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean removeServiceFromLocation(String serviceName, int locationId) {
-        Location location = locations.get(locationId);
-        if (location != null) {
-            if (locationServices.get(locationId).contains(serviceName)) {
-                locationServices.get(locationId).remove(serviceName);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public List<String> getLocationService(int locationId){
-        return locationServices.get(locationId);
-    }
-
-    public void deactivateService(String serviceName) {
-        serviceManager.removeService(serviceName);
     }
 }
 
