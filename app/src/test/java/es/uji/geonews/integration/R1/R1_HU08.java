@@ -13,39 +13,39 @@ import org.junit.Test;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
-import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GeocodeService;
 
 public class R1_HU08 {
 
-    private CoordsSearchService spyCoordsSearchService;
+    private GeocodeService spyGeocodeService;
 
     @Before
     public void init(){
         // Arrange
-        CoordsSearchService coordsSearchService = new CoordsSearchService();
-        spyCoordsSearchService = spy(coordsSearchService);
+        GeocodeService geocodeService = new GeocodeService();
+        spyGeocodeService = spy(geocodeService);
     }
 
     @Test
     public void getPlaceName_KnownCoords_nearestPlaceName()
             throws ServiceNotAvailableException,
             NotValidCoordinatesException {
-        doReturn("Castello de la Plana").when(spyCoordsSearchService).getPlaceName(any());
+        doReturn("Castello de la Plana").when(spyGeocodeService).getPlaceName(any());
         // Act
-        spyCoordsSearchService.getPlaceName(new GeographCoords(39.98920, -0.03621));
+        spyGeocodeService.getPlaceName(new GeographCoords(39.98920, -0.03621));
         // Assert
-        verify(spyCoordsSearchService, times(1)).getPlaceName(any());
+        verify(spyGeocodeService, times(1)).getPlaceName(any());
     }
 
 
     @Test
     public void getPlaceName_UnknownCoords_nearestPlaceName()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
-        doReturn(null).when(spyCoordsSearchService).getPlaceName(any());
+        doReturn(null).when(spyGeocodeService).getPlaceName(any());
         // Act
-        spyCoordsSearchService.getPlaceName(new GeographCoords(33.65001, -41.19001));
+        spyGeocodeService.getPlaceName(new GeographCoords(33.65001, -41.19001));
         // Assert
-        verify(spyCoordsSearchService, times(1)).getPlaceName(any());
+        verify(spyGeocodeService, times(1)).getPlaceName(any());
 
     }
 
@@ -53,9 +53,9 @@ public class R1_HU08 {
     public void getPlaceName_GeocodeNotAvailable_ServiceNotAvailableException()
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         // Arrange
-        doThrow(new ServiceNotAvailableException()).when(spyCoordsSearchService).getPlaceName(any());
+        doThrow(new ServiceNotAvailableException()).when(spyGeocodeService).getPlaceName(any());
         // Act
-        spyCoordsSearchService.getPlaceName(new GeographCoords(33.65001, -41.19001));
+        spyGeocodeService.getPlaceName(new GeographCoords(33.65001, -41.19001));
     }
 
 }

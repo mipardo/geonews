@@ -14,7 +14,7 @@ import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.AirVisualService;
-import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
@@ -28,7 +28,7 @@ public class R1_HU11 {
     public void init() throws ServiceNotAvailableException,
             UnrecognizedPlaceNameException, NotValidCoordinatesException {
         //Given
-        Service geocode = new CoordsSearchService();
+        Service geocode = new GeocodeService();
         serviceManager = new ServiceManager();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);

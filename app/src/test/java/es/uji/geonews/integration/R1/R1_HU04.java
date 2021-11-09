@@ -21,12 +21,12 @@ import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.CurrentsService;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU04 {
-    private CoordsSearchService coordsSearchServiceMocked;
+    private GeocodeService geocodeServiceMocked;
     private CurrentsService currentsServiceMocked;
     private ServiceManager serviceManagerSpied;
     private LocationManager locationManager;
@@ -34,12 +34,12 @@ public class R1_HU04 {
 
     @Before
     public void init(){
-        coordsSearchServiceMocked = mock(CoordsSearchService.class);
+        geocodeServiceMocked = mock(GeocodeService.class);
         currentsServiceMocked = mock(CurrentsService.class);
         when(currentsServiceMocked.getServiceName()).thenReturn("Currents");
         ServiceManager serviceManager = new ServiceManager();
         serviceManagerSpied = spy(serviceManager);
-        doReturn(coordsSearchServiceMocked).when(serviceManagerSpied).getService("Geocode");
+        doReturn(geocodeServiceMocked).when(serviceManagerSpied).getService("Geocode");
         locationManager = new LocationManager(serviceManagerSpied);
     }
 
@@ -48,8 +48,8 @@ public class R1_HU04 {
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
-        when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoords(any()))
+        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
+        when(geocodeServiceMocked.getCoords(any()))
                 .thenReturn(new GeographCoords(39.46975, -0.3739));
         serviceManagerSpied.addService(currentsServiceMocked);
         when(currentsServiceMocked.validateLocation(any())).thenReturn(true);
@@ -70,8 +70,8 @@ public class R1_HU04 {
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
-        when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoords(any()))
+        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
+        when(geocodeServiceMocked.getCoords(any()))
                 .thenReturn(new GeographCoords(39.46975, -0.3739));
         serviceManagerSpied.addService(currentsServiceMocked);
         when(currentsServiceMocked.validateLocation(any())).thenReturn(false);

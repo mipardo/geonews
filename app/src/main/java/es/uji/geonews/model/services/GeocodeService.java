@@ -12,9 +12,9 @@ import org.json.JSONObject;
 
 import es.uji.geonews.model.GeographCoords;
 
-public class CoordsSearchService extends ServiceHttp  {
+public class GeocodeService extends ServiceHttp  {
 
-    public CoordsSearchService() {
+    public GeocodeService() {
         super("Geocode", "Coordinates Search Service");
         apiKey = "12216521514520531718x123825";
     }

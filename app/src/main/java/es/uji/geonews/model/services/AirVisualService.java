@@ -47,7 +47,7 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
     }
 
     @Override
-    public Data getData(Location location) throws ServiceNotAvailableException {
+    public Data getData(Location location) {
         return null;
     }
 }

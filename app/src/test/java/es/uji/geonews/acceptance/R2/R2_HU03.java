@@ -2,10 +2,8 @@ package es.uji.geonews.acceptance.R2;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +16,7 @@ import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
@@ -32,7 +30,7 @@ public class R2_HU03 {
     @Before
     public void init(){
         // Given
-        Service coordsSearchSrv = new CoordsSearchService();
+        Service coordsSearchSrv = new GeocodeService();
         serviceManager = new ServiceManager();
         serviceManager.addService(coordsSearchSrv);
         OpenWeatherService openWeatherService = new OpenWeatherService();
@@ -43,7 +41,7 @@ public class R2_HU03 {
 
     @Test
     public void checkListActiveLocations_threeActiveLocations_()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         Location valencia =locationManager.addLocation("Valencia");
         Location alicante =locationManager.addLocation("Alicante");
@@ -64,7 +62,7 @@ public class R2_HU03 {
     }
     @Test
     public void checkListActiveLocations_oneActiveLocations()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         Location alicante =locationManager.addLocation("Alicante");
         Location castellon = locationManager.addLocation("Castelló de la Plana");
@@ -82,7 +80,7 @@ public class R2_HU03 {
 
     @Test
     public void checkListActiveLocations_noneActiveLocations()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         // When

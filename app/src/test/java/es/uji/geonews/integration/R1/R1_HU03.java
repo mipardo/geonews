@@ -19,22 +19,22 @@ import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.GpsService;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU03 {
-    private CoordsSearchService coordsSearchServiceMocked;
+    private GeocodeService geocodeServiceMocked;
     private ServiceManager serviceManagerMocked;
     private LocationManager locationManager;
     private GpsService gpsServiceMocked;
 
     @Before
     public void init(){
-        coordsSearchServiceMocked = mock(CoordsSearchService.class);
+        geocodeServiceMocked = mock(GeocodeService.class);
         serviceManagerMocked = mock(ServiceManager.class);
         gpsServiceMocked = mock(GpsService.class);
-        when(serviceManagerMocked.getService("Geocode")).thenReturn(coordsSearchServiceMocked);
+        when(serviceManagerMocked.getService("Geocode")).thenReturn(geocodeServiceMocked);
         locationManager = new LocationManager(serviceManagerMocked);
     }
 
@@ -44,14 +44,14 @@ public class R1_HU03 {
             NotValidCoordinatesException, GPSNotAvailableException, NoLocationRegisteredException {
         // Arrange
         when(gpsServiceMocked.getMyCoords()).thenReturn(new GeographCoords(39.98920, -0.03621));
-        when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getPlaceName(any())).thenReturn("Castellon de la Plana");
+        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
+        when(geocodeServiceMocked.getPlaceName(any())).thenReturn("Castellon de la Plana");
         // Act
         Location newLocation = locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
         //locationManager.addLocationByGPS();
         // Assert
-        verify(coordsSearchServiceMocked, times(1)).isAvailable();
-        verify(coordsSearchServiceMocked, times(1)).getPlaceName(any());
+        verify(geocodeServiceMocked, times(1)).isAvailable();
+        verify(geocodeServiceMocked, times(1)).getPlaceName(any());
         assertEquals(1, locationManager.getNonActiveLocations().size());
         assertEquals(0, locationManager.getActiveLocations().size());
     }
@@ -62,14 +62,14 @@ public class R1_HU03 {
             NotValidCoordinatesException, GPSNotAvailableException, NoLocationRegisteredException {
         // Arrange
         when(gpsServiceMocked.getMyCoords()).thenReturn(new GeographCoords(33.65000,-41.19000));
-        when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getPlaceName(any())).thenReturn(null);
+        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
+        when(geocodeServiceMocked.getPlaceName(any())).thenReturn(null);
         // Act
         Location newLocation = locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
         //locationManager.addLocationByGPS();
         // Assert
-        verify(coordsSearchServiceMocked, times(1)).isAvailable();
-        verify(coordsSearchServiceMocked, times(1)).getPlaceName(any());
+        verify(geocodeServiceMocked, times(1)).isAvailable();
+        verify(geocodeServiceMocked, times(1)).getPlaceName(any());
         assertEquals(1, locationManager.getNonActiveLocations().size());
         assertEquals(0, locationManager.getActiveLocations().size());
         assertEquals(33.65000, newLocation.getGeographCoords().getLatitude(), 0.01);
@@ -84,8 +84,8 @@ public class R1_HU03 {
             NotValidCoordinatesException, GPSNotAvailableException {
         // Arrange
         when(gpsServiceMocked.getMyCoords()).thenThrow(new GPSNotAvailableException());
-        when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getPlaceName(any())).thenReturn(null);
+        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
+        when(geocodeServiceMocked.getPlaceName(any())).thenReturn(null);
         // Act
         locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
 
@@ -97,8 +97,8 @@ public class R1_HU03 {
             NotValidCoordinatesException, GPSNotAvailableException {
         // Arrange
         when(gpsServiceMocked.getMyCoords()).thenReturn(new GeographCoords(33.65000,-41.19000));
-        when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getPlaceName(any())).thenThrow(new ServiceNotAvailableException());
+        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
+        when(geocodeServiceMocked.getPlaceName(any())).thenThrow(new ServiceNotAvailableException());
         // Act
         locationManager.addLocation(gpsServiceMocked.getMyCoords().toString());
 

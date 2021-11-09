@@ -12,19 +12,19 @@ import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU07 {
     private LocationManager locationManager;
-    private CoordsSearchService coordsSearchServiceMocked;
+    private GeocodeService geocodeServiceMocked;
     private ServiceManager serviceManagerMocked;
 
     @Before
     public void init(){
-        coordsSearchServiceMocked = mock(CoordsSearchService.class);
+        geocodeServiceMocked = mock(GeocodeService.class);
         serviceManagerMocked = mock(ServiceManager.class);
-        when(serviceManagerMocked.getService("Geocode")).thenReturn(coordsSearchServiceMocked);
+        when(serviceManagerMocked.getService("Geocode")).thenReturn(geocodeServiceMocked);
         locationManager = new LocationManager(serviceManagerMocked);
     }
 
@@ -33,9 +33,9 @@ public class R1_HU07 {
     public void getCoords_KnownPlaceName_validCoords()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Arrange
-        when(coordsSearchServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
+        when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
         // Act
-        GeographCoords coords = ((CoordsSearchService) locationManager.getService("Geocode"))
+        GeographCoords coords = ((GeocodeService) locationManager.getService("Geocode"))
                 .getCoords("Castelló de la Plana");
         // Assert
         assertEquals(39.98920, coords.getLatitude(), 0.01);
@@ -47,9 +47,9 @@ public class R1_HU07 {
     public void getCoords_UnknownPlaceName_UnrecognizedPlaceNameException()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Arrange
-        when(coordsSearchServiceMocked.getCoords(anyString())).thenThrow(new UnrecognizedPlaceNameException());
+        when(geocodeServiceMocked.getCoords(anyString())).thenThrow(new UnrecognizedPlaceNameException());
         // Act
-        ((CoordsSearchService) locationManager.getService("Geocode"))
+        ((GeocodeService) locationManager.getService("Geocode"))
                 .getCoords("asdfxxrtg");
     }
 
@@ -57,9 +57,9 @@ public class R1_HU07 {
     public void getCoords_GeocodeNotAvailable_ServiceNotAvailableException()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Arrange
-        when(coordsSearchServiceMocked.getCoords(anyString())).thenThrow(new ServiceNotAvailableException());
+        when(geocodeServiceMocked.getCoords(anyString())).thenThrow(new ServiceNotAvailableException());
         // Act
-        ((CoordsSearchService) locationManager.getService("Geocode"))
+        ((GeocodeService) locationManager.getService("Geocode"))
                 .getCoords("Castellón de la Plana");
     }
 }

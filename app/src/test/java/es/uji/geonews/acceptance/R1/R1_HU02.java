@@ -13,7 +13,7 @@ import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
@@ -24,7 +24,7 @@ public class R1_HU02 {
     @Before
     public void init(){
         // Given
-        Service coordsSearchSrv = new CoordsSearchService();
+        Service coordsSearchSrv = new GeocodeService();
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(coordsSearchSrv);
         locationManager = new LocationManager(serviceManager);

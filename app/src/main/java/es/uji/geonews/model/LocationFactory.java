@@ -5,14 +5,14 @@ import java.time.LocalDate;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GeocodeService;
 
 public class LocationFactory {
-    private CoordsSearchService coordsSearchService;
+    private GeocodeService geocodeService;
     private int idLocationCounter;
 
-    public LocationFactory(CoordsSearchService coordsSearchService){
-        this.coordsSearchService = coordsSearchService;
+    public LocationFactory(GeocodeService geocodeService){
+        this.geocodeService = geocodeService;
         this.idLocationCounter = 1; // TODO: Recojer de la DB
     }
 
@@ -27,8 +27,8 @@ public class LocationFactory {
 
     private Location createLocationByPlaceName(String placeName)
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
-        if(coordsSearchService.isAvailable()){
-            GeographCoords coords = coordsSearchService.getCoords(placeName);
+        if(geocodeService.isAvailable()){
+            GeographCoords coords = geocodeService.getCoords(placeName);
             return new Location(idLocationCounter++,placeName, coords, LocalDate.now());
         }
         throw  new ServiceNotAvailableException();
@@ -42,8 +42,8 @@ public class LocationFactory {
             coords.normalize();
         }
 
-        if (coordsSearchService.isAvailable()) {
-            String placeName = coordsSearchService.getPlaceName(coords);
+        if (geocodeService.isAvailable()) {
+            String placeName = geocodeService.getPlaceName(coords);
             return new Location(idLocationCounter++, placeName, coords, LocalDate.now());
         }
         throw  new ServiceNotAvailableException();

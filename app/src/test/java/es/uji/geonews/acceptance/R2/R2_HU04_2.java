@@ -7,15 +7,13 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
@@ -26,7 +24,7 @@ public class R2_HU04_2 {
     @Before
     public void init(){
         // Given
-        Service coordsSearchSrv = new CoordsSearchService();
+        Service coordsSearchSrv = new GeocodeService();
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(coordsSearchSrv);
         locationManager = new LocationManager(serviceManager);

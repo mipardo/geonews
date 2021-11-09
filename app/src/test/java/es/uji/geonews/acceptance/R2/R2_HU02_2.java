@@ -16,7 +16,7 @@ import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
@@ -30,7 +30,7 @@ public class R2_HU02_2 {
     @Before
     public void init(){
         // Given
-        Service coordsSearchSrv = new CoordsSearchService();
+        Service coordsSearchSrv = new GeocodeService();
         serviceManager = new ServiceManager();
         serviceManager.addService(coordsSearchSrv);
         OpenWeatherService openWeatherService = new OpenWeatherService();
@@ -41,7 +41,7 @@ public class R2_HU02_2 {
 
     @Test
     public void checkService_OneDesactivation_True()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         int id = castellon.getId();
@@ -56,7 +56,7 @@ public class R2_HU02_2 {
     }
     @Test
     public void checkService_OneDesactivation_False()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         int id = castellon.getId();

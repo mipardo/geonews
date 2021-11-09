@@ -22,12 +22,12 @@ import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.AirVisualService;
-import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU05 {
-    private CoordsSearchService coordsSearchServiceMocked;
+    private GeocodeService geocodeServiceMocked;
     private OpenWeatherService openWeatherServiceMocked;
     private AirVisualService airVisualServiceMocked;
     private ServiceManager serviceManagerSpied;
@@ -36,14 +36,14 @@ public class R1_HU05 {
 
     @Before
     public void init(){
-        coordsSearchServiceMocked = mock(CoordsSearchService.class);
+        geocodeServiceMocked = mock(GeocodeService.class);
         airVisualServiceMocked = mock(AirVisualService.class);
         openWeatherServiceMocked = mock(OpenWeatherService.class);
         when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
         when(airVisualServiceMocked.getServiceName()).thenReturn("AirVisual");
         ServiceManager serviceManager = new ServiceManager();
         serviceManagerSpied = spy(serviceManager);
-        doReturn(coordsSearchServiceMocked).when(serviceManagerSpied).getService("Geocode");
+        doReturn(geocodeServiceMocked).when(serviceManagerSpied).getService("Geocode");
         locationManager = new LocationManager(serviceManagerSpied);
     }
 
@@ -54,8 +54,8 @@ public class R1_HU05 {
         // Arrange
         serviceManagerSpied.addService(airVisualServiceMocked);
         serviceManagerSpied.addService(openWeatherServiceMocked);
-        when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoords(any()))
+        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
+        when(geocodeServiceMocked.getCoords(any()))
                 .thenReturn(new GeographCoords(39.98920, -0.03621));
         when(airVisualServiceMocked.validateLocation(any())).thenReturn(true);
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
@@ -78,8 +78,8 @@ public class R1_HU05 {
         // Arrange
         serviceManagerSpied.addService(airVisualServiceMocked);
         serviceManagerSpied.addService(openWeatherServiceMocked);
-        when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoords(any()))
+        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
+        when(geocodeServiceMocked.getCoords(any()))
                 .thenReturn(new GeographCoords(39.98920, -0.03621));
         when(airVisualServiceMocked.validateLocation(any())).thenReturn(false);
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(false);

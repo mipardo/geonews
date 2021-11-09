@@ -1,12 +1,6 @@
 package es.uji.geonews.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import es.uji.geonews.model.services.Service;
 
 public class Location {
     private int id;

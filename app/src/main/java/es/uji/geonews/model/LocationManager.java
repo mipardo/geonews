@@ -10,8 +10,7 @@ import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.ContextDataGetter;
-import es.uji.geonews.model.services.CoordsSearchService;
+import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.DataGetterStrategy;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceHttp;
@@ -29,8 +28,8 @@ public class LocationManager {
         this.locations = new HashMap<>();
         this.favoriteLocations = new HashMap<>();
         this.locationServices = new HashMap<>();
-        CoordsSearchService coordsSearchService = (CoordsSearchService) serviceManager.getService("Geocode");
-        this.locationFactory = new LocationFactory(coordsSearchService);
+        GeocodeService geocodeService = (GeocodeService) serviceManager.getService("Geocode");
+        this.locationFactory = new LocationFactory(geocodeService);
     }
 
     public List<Location> getActiveLocations() {
