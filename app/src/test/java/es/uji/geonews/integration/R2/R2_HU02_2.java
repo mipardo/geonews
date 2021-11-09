@@ -51,14 +51,14 @@ public class R2_HU02_2 {
             NotValidCoordinatesException {
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
+        when(coordsSearchServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
-        locationManager.addLocationService(openWeatherServiceMocked.getServiceName(),castellon.getId());
+        locationManager.addServiceToLocation(openWeatherServiceMocked.getServiceName(),castellon.getId());
         // Act
 
-        boolean confirmation =locationManager.removeLocationService(openWeatherServiceMocked.getServiceName(),castellon.getId());
+        boolean confirmation =locationManager.removeServiceFromLocation(openWeatherServiceMocked.getServiceName(),castellon.getId());
         // Assert
         assertEquals(locationManager.getLocationService(castellon.getId()).size(),0);
         assertTrue(confirmation);
@@ -72,13 +72,13 @@ public class R2_HU02_2 {
         // Arrange
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
+        when(coordsSearchServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
         // Act
 
-        boolean confirmation =locationManager.removeLocationService(openWeatherServiceMocked.getServiceName(),castellon.getId());
+        boolean confirmation =locationManager.removeServiceFromLocation(openWeatherServiceMocked.getServiceName(),castellon.getId());
         // Assert
         assertEquals(locationManager.getLocationService(castellon.getId()).size(),0);
         assertFalse(confirmation);
@@ -93,14 +93,14 @@ public class R2_HU02_2 {
         // Arrange
         // Arrange
         when(coordsSearchServiceMocked.isAvailable()).thenReturn(true);
-        when(coordsSearchServiceMocked.getCoordsFrom("Castelló de la Plana")).thenThrow(new ServiceNotAvailableException());
+        when(coordsSearchServiceMocked.getCoords("Castelló de la Plana")).thenThrow(new ServiceNotAvailableException());
 
         when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
         //locationManager.addLocationService(openWeatherServiceMocked.getServiceName(),castellon.getId());
         // Act
         Location castellon = locationManager.addLocation("Castelló de la Plana");
-        boolean confirmation =locationManager.removeLocationService(openWeatherServiceMocked.getServiceName(),castellon.getId());
+        boolean confirmation =locationManager.removeServiceFromLocation(openWeatherServiceMocked.getServiceName(),castellon.getId());
         // Assert
 
 

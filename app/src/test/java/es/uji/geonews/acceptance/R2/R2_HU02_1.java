@@ -46,7 +46,7 @@ public class R2_HU02_1 {
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         int id = castellon.getId();
         // When
-        boolean confirmation = locationManager.addLocationService("OpenWeather", id);
+        boolean confirmation = locationManager.addServiceToLocation("OpenWeather", id);
         // Then
         assertEquals(1, locationManager.getLocationService(id).size());
         assertTrue( locationManager.getLocationService(id).contains("OpenWeather"));
@@ -59,9 +59,9 @@ public class R2_HU02_1 {
         // Given
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         int id = castellon.getId();
-        locationManager.addLocationService("OpenWeather", id);
+        locationManager.addServiceToLocation("OpenWeather", id);
         // When
-        boolean confirmation = locationManager.addLocationService("OpenWeather", id);
+        boolean confirmation = locationManager.addServiceToLocation("OpenWeather", id);
         // Then
         assertEquals(1, locationManager.getLocationService(id).size());
         assertTrue( locationManager.getLocationService(id).contains("OpenWeather"));

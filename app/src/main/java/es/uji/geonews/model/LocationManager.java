@@ -171,7 +171,7 @@ public class LocationManager {
         return null;
     }
 
-    public boolean addLocationService(String serviceName, int locationId) {
+    public boolean addServiceToLocation(String serviceName, int locationId) {
         Location location = locations.get(locationId);
         if (location != null) {
             if (!locationServices.get(locationId).contains(serviceName)) {
@@ -183,7 +183,7 @@ public class LocationManager {
         }
         return false;
     }
-    public boolean removeLocationService(String serviceName, int locationId) {
+    public boolean removeServiceFromLocation(String serviceName, int locationId) {
         Location location = locations.get(locationId);
         if (location != null) {
             if (locationServices.get(locationId).contains(serviceName)) {

@@ -14,7 +14,6 @@ import java.util.List;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
-import es.uji.geonews.model.OpenWeatherLocationData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;

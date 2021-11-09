@@ -14,6 +14,7 @@ import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
+import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
@@ -30,6 +31,7 @@ public class R1_HU10 {
         Service geocode = new CoordsSearchService();
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(geocode);
+        serviceManager.addService(new AirVisualService());
         locationManager = new LocationManager(serviceManager);
         location = locationManager.addLocation("Castello de la Plana");
         locationManager.activateLocation(location.getId());
@@ -37,7 +39,7 @@ public class R1_HU10 {
 
     @Test
     public void deactivateLocation_ActiveLocation_True()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            throws NoLocationRegisteredException {
         // When
         boolean result = locationManager.deactivateLocation(location.getId());
 
