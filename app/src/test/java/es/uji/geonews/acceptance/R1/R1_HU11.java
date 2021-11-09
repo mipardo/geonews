@@ -13,12 +13,14 @@ import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
+import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.CoordsSearchService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU11 {
     private LocationManager locationManager;
+    private ServiceManager serviceManager;
     private Location castellon;
     private Location valencia;
 
@@ -27,7 +29,7 @@ public class R1_HU11 {
             UnrecognizedPlaceNameException, NotValidCoordinatesException {
         //Given
         Service geocode = new CoordsSearchService();
-        ServiceManager serviceManager = new ServiceManager();
+        serviceManager = new ServiceManager();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(serviceManager);
         castellon = locationManager.addLocation("Castello de la Plana");
@@ -47,8 +49,8 @@ public class R1_HU11 {
     @Test
     public void removeLocation_LocationInActiveLocations_False() throws NoLocationRegisteredException {
         //Given
+        serviceManager.addService(new AirVisualService());
         locationManager.activateLocation(valencia.getId());
-
         // When
         boolean result = locationManager.removeLocation(valencia.getId());
 
