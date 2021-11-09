@@ -19,7 +19,7 @@ public class CoordsSearchService extends ServiceHttp  {
 
     public CoordsSearchService() {
         super("Geocode", "Coordinates Search Service");
-        apiKey = "375488105344812237611x41680";
+        apiKey = "658551006620647870337x73703";
     }
 
 

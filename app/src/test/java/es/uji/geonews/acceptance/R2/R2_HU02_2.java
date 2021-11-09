@@ -40,7 +40,7 @@ public class R2_HU02_2 {
     }
 
     @Test
-    public void checkService_OneDesactivation()
+    public void checkService_OneDesactivation_True()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         Location castellon = locationManager.addLocation("Castelló de la Plana");
@@ -55,7 +55,7 @@ public class R2_HU02_2 {
 
     }
     @Test
-    public void checkService_OneDesactivation_alreadyInactive()
+    public void checkService_OneDesactivation_False()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         Location castellon = locationManager.addLocation("Castelló de la Plana");

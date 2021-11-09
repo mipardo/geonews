@@ -43,7 +43,7 @@ public class R2_HU03 {
     }
 
     @Test
-    public void checkListActiveLocations_threeActiveLocations()
+    public void checkListActiveLocations_threeActiveLocations_()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         Location valencia =locationManager.addLocation("Valencia");
@@ -95,8 +95,8 @@ public class R2_HU03 {
 
     }
     @Test(expected = NoLocationRegisteredException.class)
-    public void checkListActiveLocations_noneLocations()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
+    public void checkListActiveLocations_noneLocations_NoLocationRegisteredException()
+            throws NoLocationRegisteredException {
         // Given
 
         // When

@@ -176,10 +176,7 @@ public class LocationManager {
         Location location = locations.get(locationId);
         if (location != null) {
             if (locationServices.get(locationId).contains(serviceName)) {
-                List<String> actualLocationServices = locationServices.get(locationId);
-                actualLocationServices.remove(serviceName);
-                locationServices.remove(locationId);
-                locationServices.put(locationId,actualLocationServices);
+                locationServices.get(locationId).remove(serviceName);
                 return true;
             }
         }
