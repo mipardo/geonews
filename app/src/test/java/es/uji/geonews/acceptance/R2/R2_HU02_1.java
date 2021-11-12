@@ -30,12 +30,12 @@ public class R2_HU02_1 {
     @Before
     public void init(){
         // Given
-        Service coordsSearchSrv = new GeocodeService();
+        GeocodeService geocode = new GeocodeService();
         serviceManager = new ServiceManager();
-        serviceManager.addService(coordsSearchSrv);
+        serviceManager.addService(geocode);
         OpenWeatherService openWeatherService = new OpenWeatherService();
         serviceManager.addService(openWeatherService);
-        locationManager = new LocationManager(serviceManager);
+        locationManager = new LocationManager(geocode);
         activeList = new ArrayList<Location>();
     }
 
@@ -44,12 +44,13 @@ public class R2_HU02_1 {
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         Location castellon = locationManager.addLocation("Castelló de la Plana");
-        int id = castellon.getId();
         // When
-        boolean confirmation = locationManager.addServiceToLocation("OpenWeather", id);
+        boolean confirmation = serviceManager.addServiceToLocation("OpenWeather", castellon);
+        serviceManager.initLocationServices(castellon);
+
         // Then
-        assertEquals(1, locationManager.getLocationService(id).size());
-        assertTrue( locationManager.getLocationService(id).contains("OpenWeather"));
+        assertEquals(1, serviceManager.getServicesOfLocation(castellon.getId()).size());
+        assertTrue( serviceManager.getServicesOfLocation(castellon.getId()).contains("OpenWeather"));
         assertTrue(confirmation);
 
     }
@@ -59,12 +60,14 @@ public class R2_HU02_1 {
         // Given
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         int id = castellon.getId();
-        locationManager.addServiceToLocation("OpenWeather", id);
+        serviceManager.addServiceToLocation("OpenWeather", castellon);
+        serviceManager.initLocationServices(castellon);
+
         // When
-        boolean confirmation = locationManager.addServiceToLocation("OpenWeather", id);
+        boolean confirmation = serviceManager.addServiceToLocation("OpenWeather", castellon);
         // Then
-        assertEquals(1, locationManager.getLocationService(id).size());
-        assertTrue( locationManager.getLocationService(id).contains("OpenWeather"));
+        assertEquals(1, serviceManager.getServicesOfLocation(id).size());
+        assertTrue( serviceManager.getServicesOfLocation(id).contains("OpenWeather"));
         assertFalse(confirmation);
     }
 

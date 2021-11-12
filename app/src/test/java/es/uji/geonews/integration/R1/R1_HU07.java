@@ -25,7 +25,7 @@ public class R1_HU07 {
         geocodeServiceMocked = mock(GeocodeService.class);
         serviceManagerMocked = mock(ServiceManager.class);
         when(serviceManagerMocked.getService("Geocode")).thenReturn(geocodeServiceMocked);
-        locationManager = new LocationManager(serviceManagerMocked);
+        locationManager = new LocationManager(geocodeServiceMocked);
     }
 
 
@@ -35,7 +35,7 @@ public class R1_HU07 {
         // Arrange
         when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
         // Act
-        GeographCoords coords = ((GeocodeService) locationManager.getService("Geocode"))
+        GeographCoords coords = ((GeocodeService) serviceManagerMocked.getService("Geocode"))
                 .getCoords("Castelló de la Plana");
         // Assert
         assertEquals(39.98920, coords.getLatitude(), 0.01);
@@ -49,7 +49,7 @@ public class R1_HU07 {
         // Arrange
         when(geocodeServiceMocked.getCoords(anyString())).thenThrow(new UnrecognizedPlaceNameException());
         // Act
-        ((GeocodeService) locationManager.getService("Geocode"))
+        ((GeocodeService) serviceManagerMocked.getService("Geocode"))
                 .getCoords("asdfxxrtg");
     }
 
@@ -59,7 +59,7 @@ public class R1_HU07 {
         // Arrange
         when(geocodeServiceMocked.getCoords(anyString())).thenThrow(new ServiceNotAvailableException());
         // Act
-        ((GeocodeService) locationManager.getService("Geocode"))
+        ((GeocodeService) serviceManagerMocked.getService("Geocode"))
                 .getCoords("Castellón de la Plana");
     }
 }

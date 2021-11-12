@@ -44,7 +44,7 @@ public class R1_HU05 {
         ServiceManager serviceManager = new ServiceManager();
         serviceManagerSpied = spy(serviceManager);
         doReturn(geocodeServiceMocked).when(serviceManagerSpied).getService("Geocode");
-        locationManager = new LocationManager(serviceManagerSpied);
+        locationManager = new LocationManager(geocodeServiceMocked);
     }
 
     @Test
@@ -59,9 +59,11 @@ public class R1_HU05 {
                 .thenReturn(new GeographCoords(39.98920, -0.03621));
         when(airVisualServiceMocked.validateLocation(any())).thenReturn(true);
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
-        // Act
         Location location = locationManager.addLocation("Castellon de la Plana");
-        List<String> activeServices = locationManager.validateLocation(location.getId());
+        serviceManagerSpied.initLocationServices(location);
+
+        // Act
+        List<String> activeServices = serviceManagerSpied.validateLocation(location);
         // Assert
         verify(serviceManagerSpied, times(1)).getHttpServices();
         verify(airVisualServiceMocked, times(1)).validateLocation(any());
@@ -78,14 +80,17 @@ public class R1_HU05 {
         // Arrange
         serviceManagerSpied.addService(airVisualServiceMocked);
         serviceManagerSpied.addService(openWeatherServiceMocked);
+
         when(geocodeServiceMocked.isAvailable()).thenReturn(true);
         when(geocodeServiceMocked.getCoords(any()))
                 .thenReturn(new GeographCoords(39.98920, -0.03621));
         when(airVisualServiceMocked.validateLocation(any())).thenReturn(false);
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(false);
-        // Act
         Location location = locationManager.addLocation("Castellon de la Plana");
-        List<String> activeServices = locationManager.validateLocation(location.getId());
+        serviceManagerSpied.initLocationServices(location);
+        // Act
+        List<String> activeServices = serviceManagerSpied.validateLocation(location);
+
         // Assert
         verify(serviceManagerSpied, times(1)).getHttpServices();
         verify(airVisualServiceMocked, times(1)).validateLocation(any());

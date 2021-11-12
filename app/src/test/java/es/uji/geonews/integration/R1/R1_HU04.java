@@ -40,7 +40,7 @@ public class R1_HU04 {
         ServiceManager serviceManager = new ServiceManager();
         serviceManagerSpied = spy(serviceManager);
         doReturn(geocodeServiceMocked).when(serviceManagerSpied).getService("Geocode");
-        locationManager = new LocationManager(serviceManagerSpied);
+        locationManager = new LocationManager(geocodeServiceMocked);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class R1_HU04 {
 
         // Act
         Location location = locationManager.addLocation("Valencia");
-        List<String> activeServices = locationManager.validateLocation(location.getId());
+        List<String> activeServices = serviceManagerSpied.validateLocation(location);
         // Assert
         verify(serviceManagerSpied, times(1)).getHttpServices();
         verify(currentsServiceMocked, times(1)).validateLocation(any());
@@ -77,7 +77,7 @@ public class R1_HU04 {
         when(currentsServiceMocked.validateLocation(any())).thenReturn(false);
         // Act
         Location location = locationManager.addLocation("Valencia");
-        List<String> activeServices = locationManager.validateLocation(location.getId());
+        List<String> activeServices = serviceManagerSpied.validateLocation(location);
         // Assert
         verify(serviceManagerSpied, times(1)).getHttpServices();
         verify(currentsServiceMocked, times(1)).validateLocation(any());

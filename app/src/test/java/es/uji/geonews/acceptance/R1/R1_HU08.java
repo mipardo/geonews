@@ -15,16 +15,14 @@ import es.uji.geonews.model.services.ServiceManager;
 import static org.junit.Assert.assertNull;
 
 public class R1_HU08 {
-
-    private LocationManager locationManager;
+    private ServiceManager serviceManager;
 
     @Before
     public void init(){
         // Given
-        ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new GeocodeService();
-        serviceManager.addService(GeoCode);
-        locationManager = new LocationManager(serviceManager);
+        serviceManager = new ServiceManager();
+        GeocodeService geocode = new GeocodeService();
+        serviceManager.addService(geocode);
     }
 
     @Test
@@ -32,7 +30,7 @@ public class R1_HU08 {
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         // When
         GeographCoords coords = new GeographCoords(39.98920,-0.03621);
-        String placeName = ((GeocodeService) locationManager.getService("Geocode")).
+        String placeName = ((GeocodeService) serviceManager.getService("Geocode")).
                 getPlaceName(coords);
 
         // Then
@@ -44,7 +42,7 @@ public class R1_HU08 {
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         // When
         GeographCoords coords = new GeographCoords(33.6500,-41.1900);
-        String placeName = ((GeocodeService) locationManager.
+        String placeName = ((GeocodeService) serviceManager.
                 getService("Geocode")).getPlaceName(coords);
 
         // Then
@@ -57,7 +55,7 @@ public class R1_HU08 {
         // When
         GeographCoords coords = new GeographCoords(100.0000,-41.1900);
 
-        ((GeocodeService) locationManager.
+        ((GeocodeService) serviceManager.
                 getService("Geocode")).getPlaceName(coords);
     }
 }

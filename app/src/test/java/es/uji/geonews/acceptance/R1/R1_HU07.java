@@ -15,21 +15,22 @@ import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU07 {
     private LocationManager locationManager;
+    private ServiceManager serviceManager;
 
     @Before
     public void init(){
         // Given
-        ServiceManager serviceManager = new ServiceManager();
-        Service geocode = new GeocodeService();
+        serviceManager = new ServiceManager();
+        GeocodeService geocode = new GeocodeService();
         serviceManager.addService(geocode);
-        locationManager = new LocationManager(serviceManager);
+        locationManager = new LocationManager(geocode);
     }
 
     @Test
     public void getCoords_KnownPlaceName_validCoords()
     throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // When
-        GeographCoords coords = ((GeocodeService) locationManager.getService("Geocode"))
+        GeographCoords coords = ((GeocodeService) serviceManager.getService("Geocode"))
                 .getCoords("Castello de la Plana");
         // Then
         assertEquals(39.98920, coords.getLatitude(), 0.01);
@@ -40,7 +41,7 @@ public class R1_HU07 {
     public void getCoords_UnknownPlaceName_UnrecognizedPlaceNameException()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // When
-        ((GeocodeService) locationManager.getService("Geocode"))
+        ((GeocodeService) serviceManager.getService("Geocode"))
                 .getCoords("asdfxxrtg");
     }
 

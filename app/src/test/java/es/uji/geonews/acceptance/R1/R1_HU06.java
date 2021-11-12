@@ -21,15 +21,16 @@ import es.uji.geonews.model.services.ServiceManager;
 
 public class R1_HU06 {
     private LocationManager locationManager;
+    private ServiceManager serviceManager;
 
     @Before
     public void init() {
-        ServiceManager serviceManager = new ServiceManager();
-        Service GeoCode = new GeocodeService();
+        serviceManager = new ServiceManager();
+        GeocodeService geocode = new GeocodeService();
         Service OpenWeather = new OpenWeatherService();
-        serviceManager.addService(GeoCode);
+        serviceManager.addService(geocode);
         serviceManager.addService(OpenWeather);
-        locationManager = new LocationManager(serviceManager);
+        locationManager = new LocationManager(geocode);
     }
 
     @Test
@@ -37,7 +38,7 @@ public class R1_HU06 {
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException, NotValidCoordinatesException, NoLocationRegisteredException {
 
         Location newLocation = locationManager.addLocation("Castello de la Plana");
-        locationManager.validateLocation(newLocation.getId());
+        serviceManager.validateLocation(newLocation);
         // When
         boolean result = locationManager.activateLocation(newLocation.getId());
         // Then
@@ -49,15 +50,15 @@ public class R1_HU06 {
     public void activateLocation_UnKnownPlaceName_true()
             throws ServiceNotAvailableException, NotValidCoordinatesException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         Location castellon = locationManager.addLocation("Castello de la Plana");
-        locationManager.validateLocation(castellon.getId());
+        serviceManager.validateLocation(castellon);
         Location valencia = locationManager.addLocation("Valencia");
-        locationManager.validateLocation(valencia.getId());
+        serviceManager.validateLocation(valencia);
         locationManager.activateLocation(castellon.getId());
         locationManager.activateLocation(valencia.getId());
 
         GeographCoords coords = new GeographCoords(33.65001, -41.19001);
         Location newLocation = locationManager.addLocation(coords.toString());
-        locationManager.validateLocation(newLocation.getId());
+        serviceManager.validateLocation(newLocation);
         // When
         boolean result = locationManager.activateLocation(newLocation.getId());
         // Then
@@ -70,9 +71,9 @@ public class R1_HU06 {
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         Location castellon = locationManager.addLocation("Castello de la Plana");
-        locationManager.validateLocation(castellon.getId());
+        serviceManager.validateLocation(castellon);
         Location valencia = locationManager.addLocation("Valencia");
-        locationManager.validateLocation(valencia.getId());
+        serviceManager.validateLocation(valencia);
         locationManager.activateLocation(castellon.getId());
         locationManager.activateLocation(valencia.getId());
 

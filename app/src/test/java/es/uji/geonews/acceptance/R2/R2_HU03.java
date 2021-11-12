@@ -30,12 +30,12 @@ public class R2_HU03 {
     @Before
     public void init(){
         // Given
-        Service coordsSearchSrv = new GeocodeService();
+        GeocodeService geocode = new GeocodeService();
         serviceManager = new ServiceManager();
-        serviceManager.addService(coordsSearchSrv);
+        serviceManager.addService(geocode);
         OpenWeatherService openWeatherService = new OpenWeatherService();
         serviceManager.addService(openWeatherService);
-        locationManager = new LocationManager(serviceManager);
+        locationManager = new LocationManager(geocode);
         activeList = new ArrayList<Location>();
     }
 

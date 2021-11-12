@@ -26,9 +26,9 @@ public class R1_HU05 {
     @Before
     public void init(){
         serviceManager = new ServiceManager();
-        Service GeoCode = new GeocodeService();
-        serviceManager.addService(GeoCode);
-        locationManager = new LocationManager(serviceManager);
+        GeocodeService geocode = new GeocodeService();
+        serviceManager.addService(geocode);
+        locationManager = new LocationManager(geocode);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class R1_HU05 {
         // When
         GeographCoords coords = new GeographCoords(39.98001, -0.049900);
         Location newLocation = locationManager.addLocation(coords.toString());
-        List<String> services = locationManager.validateLocation(newLocation.getId());
+        List<String> services = serviceManager.validateLocation(newLocation);
         // Then
         assertEquals(2, services.size());
         assertTrue(services.contains("OpenWeather"));
@@ -56,7 +56,7 @@ public class R1_HU05 {
         // When
         GeographCoords coords = new GeographCoords(39.98001, -0.049900);
         Location newLocation = locationManager.addLocation(coords.toString());
-        List<String> services = locationManager.validateLocation(newLocation.getId());
+        List<String> services = serviceManager.validateLocation(newLocation);
         // Then
         assertEquals(0, services.size());
     }

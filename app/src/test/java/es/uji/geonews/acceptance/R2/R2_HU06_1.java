@@ -23,12 +23,12 @@ public class R2_HU06_1 {
 
     @Before
     public void init(){
-        Service coordsSearchSrv = new GeocodeService();
+        GeocodeService geocode = new GeocodeService();
         Service airVisualService = new AirVisualService();
         ServiceManager serviceManager = new ServiceManager();
-        serviceManager.addService(coordsSearchSrv);
+        serviceManager.addService(geocode);
         serviceManager.addService(airVisualService);
-        locationManager = new LocationManager(serviceManager);
+        locationManager = new LocationManager(geocode);
     }
 
     @Test

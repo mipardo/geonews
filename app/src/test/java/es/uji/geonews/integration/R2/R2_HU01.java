@@ -30,7 +30,7 @@ public class R2_HU01 {
         ServiceManager serviceManager = new ServiceManager();
         serviceManagerSpied = spy(serviceManager);
         doReturn(geocodeServiceMocked).when(serviceManagerSpied).getService("Geocode");
-        locationManager = new LocationManager(serviceManagerSpied);
+        locationManager = new LocationManager(geocodeServiceMocked);
     }
 
     @Test (expected = ServiceNotAvailableException.class)
@@ -48,8 +48,8 @@ public class R2_HU01 {
         OpenWeatherService mockedOpenWeatherService = mock(OpenWeatherService.class);
         when(mockedOpenWeatherService.getData(any(Location.class))).thenThrow(new ServiceNotAvailableException());
         doReturn(mockedOpenWeatherService).when(serviceManagerSpied).getService("OpenWeather");
-        locationManager.addServiceToLocation("OpenWeather", castellon.getId());
+        serviceManagerSpied.addServiceToLocation("OpenWeather", castellon);
         // Act
-        locationManager.getData("OpenWeather", castellon.getId());
+        serviceManagerSpied.getData("OpenWeather", castellon);
     }
 }

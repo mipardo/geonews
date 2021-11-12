@@ -30,12 +30,12 @@ public class R2_HU02_2 {
     @Before
     public void init(){
         // Given
-        Service coordsSearchSrv = new GeocodeService();
+        GeocodeService geocode = new GeocodeService();
         serviceManager = new ServiceManager();
-        serviceManager.addService(coordsSearchSrv);
+        serviceManager.addService(geocode);
         OpenWeatherService openWeatherService = new OpenWeatherService();
         serviceManager.addService(openWeatherService);
-        locationManager = new LocationManager(serviceManager);
+        locationManager = new LocationManager(geocode);
         activeList = new ArrayList<Location>();
     }
 
@@ -45,12 +45,14 @@ public class R2_HU02_2 {
         // Given
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         int id = castellon.getId();
-        locationManager.addServiceToLocation("OpenWeather", id);
+        serviceManager.addServiceToLocation("OpenWeather", castellon);
+        serviceManager.initLocationServices(castellon);
+
         // When
-        boolean confirmation = locationManager.removeServiceFromLocation("OpenWeather", id);
+        boolean confirmation = serviceManager.removeServiceFromLocation("OpenWeather", castellon);
         // Then
-        assertEquals(0, locationManager.getLocationService(id).size());
-        assertFalse( locationManager.getLocationService(id).contains("OpenWeather"));
+        assertEquals(0, serviceManager.getServicesOfLocation(id).size());
+        assertFalse( serviceManager.getServicesOfLocation(id).contains("OpenWeather"));
         assertTrue(confirmation);
 
     }
@@ -60,11 +62,12 @@ public class R2_HU02_2 {
         // Given
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         int id = castellon.getId();
+        serviceManager.initLocationServices(castellon);
         // When
-        boolean confirmation = locationManager.removeServiceFromLocation("OpenWeather", id);
+        boolean confirmation = serviceManager.removeServiceFromLocation("OpenWeather", castellon);
         // Then
-        assertEquals(0, locationManager.getLocationService(id).size());
-        assertFalse( locationManager.getLocationService(id).contains("OpenWeather"));
+        assertEquals(0, serviceManager.getServicesOfLocation(id).size());
+        assertFalse( serviceManager.getServicesOfLocation(id).contains("OpenWeather"));
         assertFalse(confirmation);
     }
 

@@ -29,7 +29,7 @@ public class R2_HU04_3 {
         geocodeServiceMocked = mock(GeocodeService.class);
         serviceManagerMocked = mock(ServiceManager.class);
         when(serviceManagerMocked.getService("Geocode")).thenReturn(geocodeServiceMocked);
-        locationManager = new LocationManager(serviceManagerMocked);
+        locationManager = new LocationManager(geocodeServiceMocked);
     }
 
 

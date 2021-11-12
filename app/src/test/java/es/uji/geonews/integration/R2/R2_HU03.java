@@ -39,7 +39,7 @@ public class R2_HU03 {
         ServiceManager serviceManager = new ServiceManager();
         serviceManagerSpied = spy(serviceManager);
         doReturn(geocodeServiceMocked).when(serviceManagerSpied).getService("Geocode");
-        locationManager = new LocationManager(serviceManagerSpied);
+        locationManager = new LocationManager(geocodeServiceMocked);
     }
 
     @Test

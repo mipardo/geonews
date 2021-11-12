@@ -35,7 +35,7 @@ public class R1_HU03 {
         serviceManagerMocked = mock(ServiceManager.class);
         gpsServiceMocked = mock(GpsService.class);
         when(serviceManagerMocked.getService("Geocode")).thenReturn(geocodeServiceMocked);
-        locationManager = new LocationManager(serviceManagerMocked);
+        locationManager = new LocationManager(geocodeServiceMocked);
     }
 
     @Test

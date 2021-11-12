@@ -21,10 +21,10 @@ public class R2_HU05 {
 
     @Before
     public void init(){
-        Service coordsSearchSrv = new GeocodeService();
+        GeocodeService geocode = new GeocodeService();
         ServiceManager serviceManager = new ServiceManager();
-        serviceManager.addService(coordsSearchSrv);
-        locationManager = new LocationManager(serviceManager);
+        serviceManager.addService(geocode);
+        locationManager = new LocationManager(geocode);
     }
 
     @Test

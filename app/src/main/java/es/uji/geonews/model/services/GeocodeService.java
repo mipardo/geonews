@@ -16,9 +16,8 @@ public class GeocodeService extends ServiceHttp  {
 
     public GeocodeService() {
         super("Geocode", "Coordinates Search Service");
-        apiKey = "12216521514520531718x123825";
+        apiKey = "544327515959529537468x62365";
     }
-
 
     public GeographCoords getCoords(String placeName)
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException {

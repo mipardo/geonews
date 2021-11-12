@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.uji.geonews.model.GeoNewsManager;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
@@ -22,12 +23,13 @@ import es.uji.geonews.model.services.ServiceManager;
 public class R2_HU06_2 {
     private LocationManager locationManager;
     private ServiceManager serviceManager;
+    private GeocodeService geocode;
 
     @Before
     public void init(){
-        Service coordsSearchSrv = new GeocodeService();
+        geocode = new GeocodeService();
         serviceManager = new ServiceManager();
-        serviceManager.addService(coordsSearchSrv);
+        serviceManager.addService(geocode);
     }
 
     @Test
@@ -36,7 +38,7 @@ public class R2_HU06_2 {
         // Given
         serviceManager.addService(new OpenWeatherService());
         serviceManager.addService(new AirVisualService());
-        locationManager = new LocationManager(serviceManager);
+        locationManager = new LocationManager(geocode);
         Location valencia = locationManager.addLocation("Valencia");
         locationManager.activateLocation(valencia.getId());
         locationManager.deactivateLocation(valencia.getId());
@@ -52,24 +54,25 @@ public class R2_HU06_2 {
     public void reactivateLocation_anyServices_EmptyServiceNameList()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
-        serviceManager.addService(new OpenWeatherService());
-        serviceManager.addService(new AirVisualService());
-        locationManager = new LocationManager(serviceManager);
-        Location castellon = locationManager.addLocation("Castelló de la Plana");
-        locationManager.activateLocation(castellon.getId());
+        GeoNewsManager manager = new GeoNewsManager();
+        manager.addService(new OpenWeatherService());
+        manager.addService(new AirVisualService());
+        Location castellon = manager.addLocation("Castelló de la Plana");
+        manager.activateLocation(castellon.getId());
 
-        locationManager.deactivateService("OpenWeather");
-        locationManager.deactivateService("AirVisual");
-        Location valencia = locationManager.addLocation("Valencia");
+        Location valencia = manager.addLocation("Valencia");
+        manager.activateLocation(valencia.getId());
+        manager.deactivateLocation(valencia.getId());
 
-        locationManager.activateLocation(valencia.getId());
-        locationManager.deactivateLocation(valencia.getId());
+        manager.deactivateService("OpenWeather");
+        manager.deactivateService("AirVisual");
+
 
         // When
-        boolean result = locationManager.activateLocation(valencia.getId());
+        boolean result = manager.activateLocation(valencia.getId());
 
         // Then
         assertFalse(result);
-        assertEquals(1, locationManager.getActiveLocations().size());
+        assertEquals(1, manager.getActiveLocations().size());
     }
 }

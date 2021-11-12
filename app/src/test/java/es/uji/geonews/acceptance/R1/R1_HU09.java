@@ -27,9 +27,9 @@ public class R1_HU09 {
             NotValidCoordinatesException {
         // Given
         ServiceManager serviceManager = new ServiceManager();
-        Service geocode = new GeocodeService();
+        GeocodeService geocode = new GeocodeService();
         serviceManager.addService(geocode);
-        locationManager = new LocationManager(serviceManager);
+        locationManager = new LocationManager(geocode);
         locationManager.addLocation("Castello de la Plana");
     }
 

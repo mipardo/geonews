@@ -28,10 +28,10 @@ public class R1_HU11 {
     public void init() throws ServiceNotAvailableException,
             UnrecognizedPlaceNameException, NotValidCoordinatesException {
         //Given
-        Service geocode = new GeocodeService();
+        GeocodeService geocode = new GeocodeService();
         serviceManager = new ServiceManager();
         serviceManager.addService(geocode);
-        locationManager = new LocationManager(serviceManager);
+        locationManager = new LocationManager(geocode);
         castellon = locationManager.addLocation("Castello de la Plana");
         valencia = locationManager.addLocation("Valencia");
     }

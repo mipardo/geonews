@@ -46,7 +46,8 @@ public class ServiceManager {
 
 
     public Data getData(String serviceName, Location location) throws ServiceNotAvailableException {
-        if (location != null && locationServices.get(location.getId()).contains(serviceName)) {
+        List<String> activeServices = locationServices.get(location.getId());
+        if (location != null && activeServices.contains(serviceName)) {
             DataGetterStrategy service = (DataGetterStrategy) getService(serviceName);
             contextDataGetter.setService(service);
             return contextDataGetter.getData(location);
@@ -58,7 +59,7 @@ public class ServiceManager {
     public List<String> validateLocation(Location location){
         List<String> services = new ArrayList<>();
         for(ServiceHttp service: getHttpServices()){
-            if(!service.getServiceName().equals("Geocode") && service.validateLocation(location)){
+            if(!service.getServiceName().equals("Geocode") && service.isActive && service.validateLocation(location)){
                 services.add(service.getServiceName());
             }
         }
@@ -66,11 +67,10 @@ public class ServiceManager {
     }
 
     public boolean addServiceToLocation(String serviceName, Location location) {
-        //TODO: IF locationServices.get(locationId) es null -> tenemos que crear la lista y añadir el nuevo servicio
         if (location != null) {
             int locationId = location.getId();
-            if (!locationServices.get(locationId).contains(serviceName)) {
-                List<String> currentServicesInLocation = locationServices.get(locationId);
+            List<String> currentServicesInLocation = locationServices.get(locationId);
+            if (!currentServicesInLocation.contains(serviceName)) {
                 currentServicesInLocation.add(serviceName); // TODO: Check if instance of HTTPService
                 locationServices.put(locationId, currentServicesInLocation);
                 return true;
@@ -82,20 +82,30 @@ public class ServiceManager {
     public boolean removeServiceFromLocation(String serviceName, Location location) {
         if (location != null) {
             int locationId = location.getId();
-            if (locationServices.get(locationId).contains(serviceName)) {
-                locationServices.get(locationId).remove(serviceName);
-                return true;
+            List<String> currentServicesInLocation = locationServices.get(locationId);
+            if (currentServicesInLocation != null) {
+                if (currentServicesInLocation.contains(serviceName)) {
+                    currentServicesInLocation.remove(serviceName);
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    public List<String> getServicesOfLocation(int locationId){
-        return locationServices.get(locationId);
+    public List<String> getServicesOfLocation(int locationId) {
+        List<String> servicesOfLocation = locationServices.get(locationId);
+        if (servicesOfLocation == null)
+            return new ArrayList<>();
+        return servicesOfLocation;
     }
 
     public void deactivateService(String serviceName) {
         Service service = getService(serviceName);
         if (service != null) service.deactivate();
+    }
+
+    public void initLocationServices(Location newLocation) {
+        locationServices.put(newLocation.getId(), new ArrayList<>());
     }
 }

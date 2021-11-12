@@ -25,12 +25,12 @@ public class R2_HU01 {
     @Before
     public void init(){
         // Given
-        Service coordsSearchSrv = new GeocodeService();
+        GeocodeService geocode = new GeocodeService();
         serviceManager = new ServiceManager();
-        serviceManager.addService(coordsSearchSrv);
+        serviceManager.addService(geocode);
         OpenWeatherService openWeatherService = new OpenWeatherService();
         serviceManager.addService(openWeatherService);
-        locationManager = new LocationManager(serviceManager);
+        locationManager = new LocationManager(geocode);
     }
 
     @Test
@@ -40,10 +40,10 @@ public class R2_HU01 {
         locationManager.addLocation("Valencia");
         locationManager.addLocation("Alicante");
         Location castellon = locationManager.addLocation("Castelló de la Plana");
-        locationManager.addServiceToLocation("OpenWeather", castellon.getId());
+        serviceManager.addServiceToLocation("OpenWeather", castellon);
 
         // When
-        OpenWeatherData serviceData = (OpenWeatherData) locationManager.getData("OpenWeather", castellon.getId());
+        OpenWeatherData serviceData = (OpenWeatherData) serviceManager.getData("OpenWeather", castellon);
 
         // Then
         assertNotNull(serviceData.getMaxTemp());
@@ -60,9 +60,10 @@ public class R2_HU01 {
         locationManager.addLocation("Valencia");
         locationManager.addLocation("Alicante");
         Location castellon = locationManager.addLocation("Castelló de la Plana");
-
+        serviceManager.initLocationServices(castellon);
         // When
-        Data serviceData = locationManager.getData("OpenWeather", castellon.getId());
+        Data serviceData = serviceManager.getData("OpenWeather", castellon);
+
 
         // Then
         assertNull(serviceData);

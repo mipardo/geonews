@@ -28,11 +28,11 @@ public class R1_HU10 {
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, NoLocationRegisteredException {
         //Given
-        Service geocode = new GeocodeService();
+        GeocodeService geocode = new GeocodeService();
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(geocode);
         serviceManager.addService(new AirVisualService());
-        locationManager = new LocationManager(serviceManager);
+        locationManager = new LocationManager(geocode);
         location = locationManager.addLocation("Castello de la Plana");
         locationManager.activateLocation(location.getId());
     }
