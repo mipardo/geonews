@@ -29,6 +29,7 @@ public class GeoNewsManager {
         List<String> activeServicesForLocation = serviceManager.validateLocation(newLocation);
         serviceManager.initLocationServices(newLocation);
         if (activeServicesForLocation.isEmpty()) {
+            //TODO Checkear que pasa si no hay servicios disponibles en este momento
             return null;
         }
         return newLocation;

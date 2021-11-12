@@ -5,26 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
-import es.uji.geonews.model.services.DataGetterStrategy;
-import es.uji.geonews.model.services.Service;
-import es.uji.geonews.model.services.ServiceHttp;
-import es.uji.geonews.model.services.ServiceManager;
 
 public class LocationManager {
     private final Map<Integer, Location> locations;
     private final Map<Integer, Location> favoriteLocations;
-    private final LocationFactory locationFactory;
+    private final LocationCreator locationCreator;
 
     public LocationManager(GeocodeService geocodeService) {
         this.locations = new HashMap<>();
         this.favoriteLocations = new HashMap<>();
-        this.locationFactory = new LocationFactory(geocodeService);
+        this.locationCreator = new LocationCreator(geocodeService);
     }
 
     public List<Location> getActiveLocations() {
@@ -52,7 +47,7 @@ public class LocationManager {
 
     public Location addLocation(String string) throws UnrecognizedPlaceNameException,
             ServiceNotAvailableException, NotValidCoordinatesException {
-        Location location = locationFactory.createLocation(string);
+        Location location = locationCreator.createLocation(string);
         if (location!= null) {
             locations.put(location.getId(), location);
         }
