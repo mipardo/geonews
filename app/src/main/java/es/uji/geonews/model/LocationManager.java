@@ -21,7 +21,7 @@ public class LocationManager {
     private final Map<Integer, Location> favoriteLocations;
     private final Map<Integer, List<String>> locationServices;
     private final ServiceManager serviceManager;
-    private LocationFactory locationFactory;
+    private LocationCreator locationCreator;
 
     public LocationManager(ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
@@ -29,7 +29,7 @@ public class LocationManager {
         this.favoriteLocations = new HashMap<>();
         this.locationServices = new HashMap<>();
         GeocodeService geocodeService = (GeocodeService) serviceManager.getService("Geocode");
-        this.locationFactory = new LocationFactory(geocodeService);
+        this.locationCreator = new LocationCreator(geocodeService);
     }
 
     public List<Location> getActiveLocations() {
@@ -59,7 +59,7 @@ public class LocationManager {
 
     public Location addLocation(String string) throws UnrecognizedPlaceNameException,
             ServiceNotAvailableException, NotValidCoordinatesException {
-        Location location = locationFactory.createLocation(string);
+        Location location = locationCreator.createLocation(string);
         if (location!= null) {
             locations.put(location.getId(), location);
             locationServices.put(location.getId(), new ArrayList<>());

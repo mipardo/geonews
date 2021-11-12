@@ -7,11 +7,11 @@ import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 
-public class LocationFactory {
+public class LocationCreator {
     private GeocodeService geocodeService;
     private int idLocationCounter;
 
-    public LocationFactory(GeocodeService geocodeService){
+    public LocationCreator(GeocodeService geocodeService){
         this.geocodeService = geocodeService;
         this.idLocationCounter = 1; // TODO: Recojer de la DB
     }
