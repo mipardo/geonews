@@ -11,30 +11,32 @@ import org.junit.Test;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
-import es.uji.geonews.model.services.ServiceManager;
+import es.uji.geonews.model.managers.ServiceManager;
 
 public class R2_HU01 {
     GeocodeService geocodeServiceMocked;
-    ServiceManager serviceManagerSpied;
+    OpenWeatherService openWeatherServiceMocked;
+    ServiceManager serviceManager;
     LocationManager locationManager;
 
     @Before
     public void init() {
         geocodeServiceMocked = mock(GeocodeService.class);
-        ServiceManager serviceManager = new ServiceManager();
-        serviceManagerSpied = spy(serviceManager);
-        doReturn(geocodeServiceMocked).when(serviceManagerSpied).getService("Geocode");
+        openWeatherServiceMocked = mock(OpenWeatherService.class);
+        when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
+        serviceManager = new ServiceManager();
+        serviceManager.addService(openWeatherServiceMocked);
         locationManager = new LocationManager(geocodeServiceMocked);
     }
 
     @Test (expected = ServiceNotAvailableException.class)
-    public void checkServiceData_notAvailabe_ServiceNotAvailableException()
+    public void getData_ServiceNotAvailabe_ServiceNotAvailableException()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
@@ -42,14 +44,15 @@ public class R2_HU01 {
         when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
         when(geocodeServiceMocked.getCoords("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
         when(geocodeServiceMocked.getCoords("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
-        locationManager.addLocation("Alicante");
-        locationManager.addLocation("Valencia");
+        Location alicante = locationManager.addLocation("Alicante");
+        serviceManager.initLocationServices(alicante);
+        Location valencia = locationManager.addLocation("Valencia");
+        serviceManager.initLocationServices(valencia);
         Location castellon = locationManager.addLocation("Castelló de la Plana");
-        OpenWeatherService mockedOpenWeatherService = mock(OpenWeatherService.class);
-        when(mockedOpenWeatherService.getData(any(Location.class))).thenThrow(new ServiceNotAvailableException());
-        doReturn(mockedOpenWeatherService).when(serviceManagerSpied).getService("OpenWeather");
-        serviceManagerSpied.addServiceToLocation("OpenWeather", castellon);
+        serviceManager.initLocationServices(castellon);
+        serviceManager.addServiceToLocation("OpenWeather", castellon);
+        when(openWeatherServiceMocked.getData(any(Location.class))).thenThrow(new ServiceNotAvailableException());
         // Act
-        serviceManagerSpied.getData("OpenWeather", castellon);
+        serviceManager.getData("OpenWeather", castellon);
     }
 }

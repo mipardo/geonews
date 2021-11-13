@@ -9,7 +9,7 @@ import java.util.List;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -17,7 +17,7 @@ import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.Service;
-import es.uji.geonews.model.services.ServiceManager;
+import es.uji.geonews.model.managers.ServiceManager;
 
 public class R1_HU05 {
     private LocationManager locationManager;

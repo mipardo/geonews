@@ -1,7 +1,9 @@
-package es.uji.geonews.model;
+package es.uji.geonews.model.managers;
 
 import java.time.LocalDate;
 
+import es.uji.geonews.model.GeographCoords;
+import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;

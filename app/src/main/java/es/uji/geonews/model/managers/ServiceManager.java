@@ -1,4 +1,4 @@
-package es.uji.geonews.model.services;
+package es.uji.geonews.model.managers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +8,10 @@ import java.util.Map;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
+import es.uji.geonews.model.services.ContextDataGetter;
+import es.uji.geonews.model.services.DataGetterStrategy;
+import es.uji.geonews.model.services.Service;
+import es.uji.geonews.model.services.ServiceHttp;
 
 public class ServiceManager {
 
@@ -59,7 +63,7 @@ public class ServiceManager {
     public List<String> validateLocation(Location location){
         List<String> services = new ArrayList<>();
         for(ServiceHttp service: getHttpServices()){
-            if(!service.getServiceName().equals("Geocode") && service.isActive && service.validateLocation(location)){
+            if(!service.getServiceName().equals("Geocode") && service.isAvailable() && service.validateLocation(location)){
                 services.add(service.getServiceName());
             }
         }

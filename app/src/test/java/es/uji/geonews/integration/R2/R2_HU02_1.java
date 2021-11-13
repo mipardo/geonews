@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -22,90 +22,55 @@ import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.CurrentsService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.ServiceHttp;
-import es.uji.geonews.model.services.ServiceManager;
+import es.uji.geonews.model.managers.ServiceManager;
 
 public class R2_HU02_1 {
-    private GeocodeService geocodeServiceMocked;
-    private CurrentsService currentsServiceMocked;
-    private ArrayList<ServiceHttp> services;
     private ServiceManager serviceManager;
-    private LocationManager locationManager;
-    private LocationManager locationManagerMocked;
     private OpenWeatherService openWeatherServiceMocked;
+    private Location castellon;
 
     @Before
-    public void init(){
-        geocodeServiceMocked = mock(GeocodeService.class);
-        currentsServiceMocked = mock(CurrentsService.class);
+    public void init() throws ServiceNotAvailableException, UnrecognizedPlaceNameException, NotValidCoordinatesException {
+        GeocodeService geocodeServiceMocked = mock(GeocodeService.class);
+        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
+        when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
+
+        openWeatherServiceMocked = mock(OpenWeatherService.class);
+        when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
+
         serviceManager = new ServiceManager();
         serviceManager.addService(geocodeServiceMocked);
-        locationManager = new LocationManager(geocodeServiceMocked);
-        locationManagerMocked = mock(LocationManager.class);
-        services = new ArrayList<>();
-        openWeatherServiceMocked = mock(OpenWeatherService.class);
+        LocationManager locationManager = new LocationManager(geocodeServiceMocked);
+
+        castellon = locationManager.addLocation("Castelló de la Plana");
     }
 
     @Test
-    public void checkService_OneActivation_True()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
-        // Arrange
-        // Arrange
-        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
-        when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
-        Location castellon = locationManager.addLocation("Castelló de la Plana");
-        when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
-        when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
-        // Act
+    public void activateServiceInLocation_ServiceNotActiveYet_True() {
 
-        boolean confirmation = serviceManager.addServiceToLocation(openWeatherServiceMocked.getServiceName(),castellon);
+        // Act
+        boolean confirmation = serviceManager.addServiceToLocation("OpenWeather",castellon);
+
         // Assert
         assertEquals(serviceManager.getServicesOfLocation(castellon.getId()).size(),1);
         assertTrue(confirmation);
-
-
     }
-    @Test
-    public void checkService_OneActivation_False()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
-        // Arrange
-        // Arrange
-        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
-        when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
-        Location castellon = locationManager.addLocation("Castelló de la Plana");
-        when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
-        when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
-        serviceManager.addServiceToLocation(openWeatherServiceMocked.getServiceName(),castellon);
-        // Act
 
-        boolean confirmation =serviceManager.addServiceToLocation(openWeatherServiceMocked.getServiceName(),castellon);
+    @Test
+    public void activateServiceInLocation_ServiceAlreadyActive_False(){
+        // Arrange
+        when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
+        serviceManager.addServiceToLocation(openWeatherServiceMocked.getServiceName(), castellon);
+        // Act
+        boolean confirmation = serviceManager.addServiceToLocation("OpenWeather", castellon);
         // Assert
         assertEquals(serviceManager.getServicesOfLocation(castellon.getId()).size(),1);
         assertFalse(confirmation);
-
-
-
     }
+
     @Test(expected = ServiceNotAvailableException.class)
-    public void checkService_OneActivation_ServiceNotAvailableException()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
-        // Arrange
-        // Arrange
-        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
-        when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenThrow(new ServiceNotAvailableException());
-
-        when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
-        when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
-        //locationManager.addLocationService(openWeatherServiceMocked.getServiceName(),castellon.getId());
+    public void activateServiceInLocation_ServiceNotActiveYet_ServiceNotAvailableException() {
         // Act
-        Location castellon = locationManager.addLocation("Castelló de la Plana");
-        boolean confirmation =serviceManager.addServiceToLocation(openWeatherServiceMocked.getServiceName(),castellon);
-        // Assert
-
-
-
-
+        boolean confirmation =serviceManager.addServiceToLocation("OpenWeather", castellon);
     }
 }

@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -21,20 +21,17 @@ import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.GpsService;
-import es.uji.geonews.model.services.ServiceManager;
+import es.uji.geonews.model.managers.ServiceManager;
 
 public class R1_HU03 {
     private GeocodeService geocodeServiceMocked;
-    private ServiceManager serviceManagerMocked;
     private LocationManager locationManager;
     private GpsService gpsServiceMocked;
 
     @Before
     public void init(){
         geocodeServiceMocked = mock(GeocodeService.class);
-        serviceManagerMocked = mock(ServiceManager.class);
         gpsServiceMocked = mock(GpsService.class);
-        when(serviceManagerMocked.getService("Geocode")).thenReturn(geocodeServiceMocked);
         locationManager = new LocationManager(geocodeServiceMocked);
     }
 

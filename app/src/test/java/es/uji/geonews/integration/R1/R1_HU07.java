@@ -9,14 +9,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uji.geonews.model.GeographCoords;
-import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
-import es.uji.geonews.model.services.ServiceManager;
+import es.uji.geonews.model.managers.ServiceManager;
 
 public class R1_HU07 {
-    private LocationManager locationManager;
     private GeocodeService geocodeServiceMocked;
     private ServiceManager serviceManagerMocked;
 
@@ -25,7 +24,6 @@ public class R1_HU07 {
         geocodeServiceMocked = mock(GeocodeService.class);
         serviceManagerMocked = mock(ServiceManager.class);
         when(serviceManagerMocked.getService("Geocode")).thenReturn(geocodeServiceMocked);
-        locationManager = new LocationManager(geocodeServiceMocked);
     }
 
 
@@ -40,7 +38,6 @@ public class R1_HU07 {
         // Assert
         assertEquals(39.98920, coords.getLatitude(), 0.01);
         assertEquals(-0.03621, coords.getLongitude(), 0.01);
-        // verify
     }
 
     @Test (expected = UnrecognizedPlaceNameException.class)

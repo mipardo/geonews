@@ -6,12 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uji.geonews.model.GeographCoords;
-import es.uji.geonews.model.LocationManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.services.GeocodeService;
-import es.uji.geonews.model.services.Service;
-import es.uji.geonews.model.services.ServiceManager;
+import es.uji.geonews.model.managers.ServiceManager;
 import static org.junit.Assert.assertNull;
 
 public class R1_HU08 {

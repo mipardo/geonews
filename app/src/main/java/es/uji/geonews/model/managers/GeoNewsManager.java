@@ -1,16 +1,14 @@
-package es.uji.geonews.model;
+package es.uji.geonews.model.managers;
 
-import java.util.Collection;
 import java.util.List;
 
+import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
-import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceHttp;
-import es.uji.geonews.model.services.ServiceManager;
 
 public class GeoNewsManager {
 

@@ -22,24 +22,14 @@ public abstract class Service {
         return serviceName;
     }
 
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
 
     public String getServiceType() {
         return serviceType;
     }
 
-    public void setServiceType(String serviceType) {
-        this.serviceType = serviceType;
-    }
 
     public LocalDate getActivationDate() {
         return activationDate;
-    }
-
-    public void setActivationDate(LocalDate activationDate) {
-        this.activationDate = activationDate;
     }
 
     public void deactivate() {

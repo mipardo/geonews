@@ -16,7 +16,6 @@ import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.services.GeocodeService;
 
 public class R1_HU08 {
-
     private GeocodeService spyGeocodeService;
 
     @Before

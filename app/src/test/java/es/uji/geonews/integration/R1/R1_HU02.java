@@ -11,24 +11,21 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
-import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
-import es.uji.geonews.model.services.ServiceManager;
+import es.uji.geonews.model.managers.ServiceManager;
 
 public class R1_HU02 {
     private GeocodeService geocodeServiceMocked;
-    private ServiceManager serviceManagerMocked;
     private LocationManager locationManager;
 
     @Before
     public void init(){
         geocodeServiceMocked = mock(GeocodeService.class);
-        serviceManagerMocked = mock(ServiceManager.class);
-        when(serviceManagerMocked.getService("Geocode")).thenReturn(geocodeServiceMocked);
         locationManager = new LocationManager(geocodeServiceMocked);
     }
 

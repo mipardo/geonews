@@ -3,7 +3,6 @@ package es.uji.geonews.integration.R1;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -17,29 +16,33 @@ import java.util.List;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.LocationManager;
+import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.CurrentsService;
-import es.uji.geonews.model.services.ServiceManager;
+import es.uji.geonews.model.managers.ServiceManager;
 
 public class R1_HU04 {
-    private GeocodeService geocodeServiceMocked;
     private CurrentsService currentsServiceMocked;
-    private ServiceManager serviceManagerSpied;
+    private ServiceManager serviceManager;
     private LocationManager locationManager;
 
 
     @Before
-    public void init(){
-        geocodeServiceMocked = mock(GeocodeService.class);
+    public void init() throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
+        GeocodeService geocodeServiceMocked = mock(GeocodeService.class);
+        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
+        when(geocodeServiceMocked.getCoords(any()))
+                .thenReturn(new GeographCoords(39.46975, -0.3739));
+
         currentsServiceMocked = mock(CurrentsService.class);
         when(currentsServiceMocked.getServiceName()).thenReturn("Currents");
-        ServiceManager serviceManager = new ServiceManager();
-        serviceManagerSpied = spy(serviceManager);
-        doReturn(geocodeServiceMocked).when(serviceManagerSpied).getService("Geocode");
+
+        serviceManager = new ServiceManager();
+        serviceManager.addService(currentsServiceMocked);
+
         locationManager = new LocationManager(geocodeServiceMocked);
     }
 
@@ -48,21 +51,17 @@ public class R1_HU04 {
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
-        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
-        when(geocodeServiceMocked.getCoords(any()))
-                .thenReturn(new GeographCoords(39.46975, -0.3739));
-        serviceManagerSpied.addService(currentsServiceMocked);
+        when(currentsServiceMocked.isAvailable()).thenReturn(true);
         when(currentsServiceMocked.validateLocation(any())).thenReturn(true);
-
-        // Act
         Location location = locationManager.addLocation("Valencia");
-        List<String> activeServices = serviceManagerSpied.validateLocation(location);
+        serviceManager.initLocationServices(location);
+        // Act
+        List<String> activeServices = serviceManager.validateLocation(location);
         // Assert
-        verify(serviceManagerSpied, times(1)).getHttpServices();
+        verify(currentsServiceMocked, times(1)).isAvailable();
         verify(currentsServiceMocked, times(1)).validateLocation(any());
         assertEquals(1, activeServices.size());
         assertTrue(activeServices.contains("Currents"));
-
     }
 
     @Test
@@ -70,17 +69,13 @@ public class R1_HU04 {
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Arrange
-        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
-        when(geocodeServiceMocked.getCoords(any()))
-                .thenReturn(new GeographCoords(39.46975, -0.3739));
-        serviceManagerSpied.addService(currentsServiceMocked);
         when(currentsServiceMocked.validateLocation(any())).thenReturn(false);
-        // Act
         Location location = locationManager.addLocation("Valencia");
-        List<String> activeServices = serviceManagerSpied.validateLocation(location);
+        serviceManager.initLocationServices(location);
+        // Act
+        List<String> activeServices = serviceManager.validateLocation(location);
         // Assert
-        verify(serviceManagerSpied, times(1)).getHttpServices();
-        verify(currentsServiceMocked, times(1)).validateLocation(any());
+        verify(currentsServiceMocked, times(1)).isAvailable();
         assertEquals(0, activeServices.size());
     }
 }
