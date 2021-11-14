@@ -9,7 +9,7 @@ public enum ServiceName {
 
     public final String name;
 
-    private ServiceName (String name){
+    ServiceName(String name){
         this.name = name;
     }
 }

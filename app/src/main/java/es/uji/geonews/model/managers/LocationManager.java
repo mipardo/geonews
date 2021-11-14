@@ -51,8 +51,7 @@ public class LocationManager {
         return locationCreator.createLocation(location);
     }
 
-    public boolean addLocation(Location location) throws UnrecognizedPlaceNameException,
-            ServiceNotAvailableException, NotValidCoordinatesException {
+    public boolean addLocation(Location location) {
         if (location != null) {
             locations.put(location.getId(), location);
             return true;
@@ -60,7 +59,7 @@ public class LocationManager {
        return false;
     }
 
-    //TODO: CUIDADO PREGUNTAR 
+    //TODO: CUIDADO PREGUNTAR
     public Location addLocation(String location) throws UnrecognizedPlaceNameException,
             ServiceNotAvailableException, NotValidCoordinatesException {
         Location newLocation = createLocation(location);

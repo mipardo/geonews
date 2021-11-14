@@ -29,10 +29,7 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
 
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
-            if (jsonObject.getInt("cod") == 200){
-                return true;
-            }
-            return false;
+            return jsonObject.getInt("cod") == 200;
 
         } catch (IOException | JSONException exception){
             return false;

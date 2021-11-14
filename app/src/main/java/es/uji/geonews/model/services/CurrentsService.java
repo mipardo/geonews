@@ -26,10 +26,7 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
 
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
-            if (jsonObject.getString("status").equals("ok")){
-                return true;
-            }
-            return false;
+            return jsonObject.getString("status").equals("ok");
 
         } catch (IOException | JSONException exception){
             return false;
