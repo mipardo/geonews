@@ -25,6 +25,7 @@ import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.managers.ServiceManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class R1_HU05 {
     private OpenWeatherService openWeatherServiceMocked;
@@ -41,8 +42,8 @@ public class R1_HU05 {
                 .thenReturn(new GeographCoords(39.98920, -0.03621));
         airVisualServiceMocked = mock(AirVisualService.class);
         openWeatherServiceMocked = mock(OpenWeatherService.class);
-        when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
-        when(airVisualServiceMocked.getServiceName()).thenReturn("AirVisual");
+        when(openWeatherServiceMocked.getServiceName()).thenReturn(ServiceName.OPEN_WEATHER);
+        when(airVisualServiceMocked.getServiceName()).thenReturn(ServiceName.AIR_VISUAL);
 
         serviceManager = new ServiceManager();
         serviceManager.addService(airVisualServiceMocked);
@@ -62,15 +63,15 @@ public class R1_HU05 {
         Location location = locationManager.addLocation("Castellon de la Plana");
         serviceManager.initLocationServices(location);
         // Act
-        List<String> activeServices = serviceManager.validateLocation(location);
+        List<ServiceName> activeServices = serviceManager.validateLocation(location);
         // Assert
         verify(openWeatherServiceMocked, times(1)).isAvailable();
         verify(airVisualServiceMocked, times(1)).isAvailable();
         verify(airVisualServiceMocked, times(1)).validateLocation(any());
         verify(openWeatherServiceMocked, times(1)).validateLocation(any());
         assertEquals(2, activeServices.size());
-        assertTrue(activeServices.contains("AirVisual"));
-        assertTrue(activeServices.contains("OpenWeather"));
+        assertTrue(activeServices.contains(ServiceName.AIR_VISUAL));
+        assertTrue(activeServices.contains(ServiceName.OPEN_WEATHER));
     }
 
     @Test
@@ -83,7 +84,7 @@ public class R1_HU05 {
         Location location = locationManager.addLocation("Castellon de la Plana");
         serviceManager.initLocationServices(location);
         // Act
-        List<String> activeServices = serviceManager.validateLocation(location);
+        List<ServiceName> activeServices = serviceManager.validateLocation(location);
         // Assert
         verify(openWeatherServiceMocked, times(1)).isAvailable();
         verify(airVisualServiceMocked, times(1)).isAvailable();

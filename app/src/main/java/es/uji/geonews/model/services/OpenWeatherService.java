@@ -14,7 +14,7 @@ import okhttp3.Response;
 
 public class OpenWeatherService extends ServiceHttp implements DataGetterStrategy {
     public OpenWeatherService() {
-        super("OpenWeather", "Wheather service");
+        super(ServiceName.OPEN_WEATHER, "Wheather service");
         apiKey = "4002e2da22764a672b4a488d77b9b54a";
     }
 

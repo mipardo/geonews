@@ -12,11 +12,12 @@ import es.uji.geonews.model.services.ContextDataGetter;
 import es.uji.geonews.model.services.DataGetterStrategy;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceHttp;
+import es.uji.geonews.model.services.ServiceName;
 
 public class ServiceManager {
 
-    private final Map<String, Service> serviceMap;
-    private final Map<Integer, List<String>> locationServices;
+    private final Map<ServiceName, Service> serviceMap;
+    private final Map<Integer, List<ServiceName>> locationServices;
     private final ContextDataGetter contextDataGetter;
 
 
@@ -40,7 +41,7 @@ public class ServiceManager {
         return httpServices;
     }
 
-    public Service getService(String serviceName) {
+    public Service getService(ServiceName serviceName) {
         return serviceMap.get(serviceName);
     }
 
@@ -49,8 +50,8 @@ public class ServiceManager {
     }
 
 
-    public Data getData(String serviceName, Location location) throws ServiceNotAvailableException {
-        List<String> activeServices = locationServices.get(location.getId());
+    public Data getData(ServiceName serviceName, Location location) throws ServiceNotAvailableException {
+        List<ServiceName> activeServices = locationServices.get(location.getId());
         if (location != null && activeServices.contains(serviceName)) {
             DataGetterStrategy service = (DataGetterStrategy) getService(serviceName);
             contextDataGetter.setService(service);
@@ -60,33 +61,38 @@ public class ServiceManager {
     }
 
 
-    public List<String> validateLocation(Location location){
-        List<String> services = new ArrayList<>();
+    public List<ServiceName> validateLocation(Location location){
+        List<ServiceName> services = new ArrayList<>();
         for(ServiceHttp service: getHttpServices()){
-            if(!service.getServiceName().equals("Geocode") && service.isAvailable() && service.validateLocation(location)){
+            if(!service.getServiceName().name.equals("Geocode") &&
+                    service.isAvailable() && service.validateLocation(location)){
                 services.add(service.getServiceName());
             }
         }
         return services;
     }
 
-    public boolean addServiceToLocation(String serviceName, Location location) {
-        if (location != null) {
-            int locationId = location.getId();
-            List<String> currentServicesInLocation = locationServices.get(locationId);
-            if (!currentServicesInLocation.contains(serviceName)) {
-                currentServicesInLocation.add(serviceName); // TODO: Check if instance of HTTPService
-                locationServices.put(locationId, currentServicesInLocation);
-                return true;
-            }
+    public boolean addServiceToLocation(ServiceName serviceName, Location location)
+            throws ServiceNotAvailableException {
+
+        Service service = getService(serviceName);
+        if (location == null || !(service instanceof  ServiceHttp)) return false;
+        if (!service.isAvailable()) throw new ServiceNotAvailableException();
+
+        int locationId = location.getId();
+        List<ServiceName> currentServicesInLocation = locationServices.get(locationId);
+        if (!currentServicesInLocation.contains(serviceName)) {
+            currentServicesInLocation.add(serviceName);
+            locationServices.put(locationId, currentServicesInLocation);
+            return true;
         }
         return false;
     }
 
-    public boolean removeServiceFromLocation(String serviceName, Location location) {
+    public boolean removeServiceFromLocation(ServiceName serviceName, Location location) {
         if (location != null) {
             int locationId = location.getId();
-            List<String> currentServicesInLocation = locationServices.get(locationId);
+            List<ServiceName> currentServicesInLocation = locationServices.get(locationId);
             if (currentServicesInLocation != null) {
                 if (currentServicesInLocation.contains(serviceName)) {
                     currentServicesInLocation.remove(serviceName);
@@ -97,14 +103,14 @@ public class ServiceManager {
         return false;
     }
 
-    public List<String> getServicesOfLocation(int locationId) {
-        List<String> servicesOfLocation = locationServices.get(locationId);
+    public List<ServiceName> getServicesOfLocation(int locationId) {
+        List<ServiceName> servicesOfLocation = locationServices.get(locationId);
         if (servicesOfLocation == null)
             return new ArrayList<>();
         return servicesOfLocation;
     }
 
-    public void deactivateService(String serviceName) {
+    public void deactivateService(ServiceName serviceName) {
         Service service = getService(serviceName);
         if (service != null) service.deactivate();
     }

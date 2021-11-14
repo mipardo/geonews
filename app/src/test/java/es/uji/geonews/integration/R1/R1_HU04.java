@@ -23,6 +23,7 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.CurrentsService;
 import es.uji.geonews.model.managers.ServiceManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class R1_HU04 {
     private CurrentsService currentsServiceMocked;
@@ -38,7 +39,7 @@ public class R1_HU04 {
                 .thenReturn(new GeographCoords(39.46975, -0.3739));
 
         currentsServiceMocked = mock(CurrentsService.class);
-        when(currentsServiceMocked.getServiceName()).thenReturn("Currents");
+        when(currentsServiceMocked.getServiceName()).thenReturn(ServiceName.CURRENTS);
 
         serviceManager = new ServiceManager();
         serviceManager.addService(currentsServiceMocked);
@@ -56,12 +57,12 @@ public class R1_HU04 {
         Location location = locationManager.addLocation("Valencia");
         serviceManager.initLocationServices(location);
         // Act
-        List<String> activeServices = serviceManager.validateLocation(location);
+        List<ServiceName> activeServices = serviceManager.validateLocation(location);
         // Assert
         verify(currentsServiceMocked, times(1)).isAvailable();
         verify(currentsServiceMocked, times(1)).validateLocation(any());
         assertEquals(1, activeServices.size());
-        assertTrue(activeServices.contains("Currents"));
+        assertTrue(activeServices.contains(ServiceName.CURRENTS));
     }
 
     @Test
@@ -73,7 +74,7 @@ public class R1_HU04 {
         Location location = locationManager.addLocation("Valencia");
         serviceManager.initLocationServices(location);
         // Act
-        List<String> activeServices = serviceManager.validateLocation(location);
+        List<ServiceName> activeServices = serviceManager.validateLocation(location);
         // Assert
         verify(currentsServiceMocked, times(1)).isAvailable();
         assertEquals(0, activeServices.size());

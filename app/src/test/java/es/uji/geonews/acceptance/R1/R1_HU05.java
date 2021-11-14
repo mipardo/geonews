@@ -18,6 +18,7 @@ import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.managers.ServiceManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class R1_HU05 {
     private LocationManager locationManager;
@@ -42,11 +43,11 @@ public class R1_HU05 {
         // When
         GeographCoords coords = new GeographCoords(39.98001, -0.049900);
         Location newLocation = locationManager.addLocation(coords.toString());
-        List<String> services = serviceManager.validateLocation(newLocation);
+        List<ServiceName> services = serviceManager.validateLocation(newLocation);
         // Then
         assertEquals(2, services.size());
-        assertTrue(services.contains("OpenWeather"));
-        assertTrue(services.contains("AirVisual"));
+        assertTrue(services.contains(ServiceName.OPEN_WEATHER));
+        assertTrue(services.contains(ServiceName.AIR_VISUAL));
     }
 
     @Test
@@ -56,7 +57,7 @@ public class R1_HU05 {
         // When
         GeographCoords coords = new GeographCoords(39.98001, -0.049900);
         Location newLocation = locationManager.addLocation(coords.toString());
-        List<String> services = serviceManager.validateLocation(newLocation);
+        List<ServiceName> services = serviceManager.validateLocation(newLocation);
         // Then
         assertEquals(0, services.size());
     }

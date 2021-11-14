@@ -46,13 +46,29 @@ public class LocationManager {
         return new ArrayList<>(favoriteLocations.values());
     }
 
-    public Location addLocation(String string) throws UnrecognizedPlaceNameException,
+    public Location createLocation(String location)
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+        return locationCreator.createLocation(location);
+    }
+
+    public boolean addLocation(Location location) throws UnrecognizedPlaceNameException,
             ServiceNotAvailableException, NotValidCoordinatesException {
-        Location location = locationCreator.createLocation(string);
-        if (location!= null) {
+        if (location != null) {
             locations.put(location.getId(), location);
+            return true;
         }
-       return location;
+       return false;
+    }
+
+    //TODO: CUIDADO PREGUNTAR 
+    public Location addLocation(String location) throws UnrecognizedPlaceNameException,
+            ServiceNotAvailableException, NotValidCoordinatesException {
+        Location newLocation = createLocation(location);
+        if (location!= null) {
+            locations.put(newLocation.getId(), newLocation);
+            return newLocation;
+        }
+        return null;
     }
 
     public boolean removeLocation(int locationId){

@@ -18,6 +18,7 @@ import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.managers.ServiceManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class R2_HU06_2 {
     private LocationManager locationManager;
@@ -63,8 +64,8 @@ public class R2_HU06_2 {
         manager.activateLocation(valencia.getId());
         manager.deactivateLocation(valencia.getId());
 
-        manager.deactivateService("OpenWeather");
-        manager.deactivateService("AirVisual");
+        manager.deactivateService(ServiceName.OPEN_WEATHER);
+        manager.deactivateService(ServiceName.AIR_VISUAL);
 
 
         // When

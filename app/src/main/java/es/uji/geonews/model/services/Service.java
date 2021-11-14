@@ -3,14 +3,14 @@ package es.uji.geonews.model.services;
 import java.time.LocalDate;
 
 public abstract class Service {
-    private String serviceName;
-    private String serviceType;
+    private ServiceName serviceName;
+    private String description;
     private LocalDate activationDate;
     protected boolean isActive;
 
-    public Service(String serviceName, String serviceType) {
+    public Service(ServiceName serviceName, String serviceType) {
         this.serviceName = serviceName;
-        this.serviceType = serviceType;
+        this.description = serviceType;
         this.activationDate = LocalDate.now();
     }
 
@@ -18,13 +18,13 @@ public abstract class Service {
         return isActive;
     }
 
-    public String getServiceName() {
+    public ServiceName getServiceName() {
         return serviceName;
     }
 
 
-    public String getServiceType() {
-        return serviceType;
+    public String getDescription() {
+        return description;
     }
 
 

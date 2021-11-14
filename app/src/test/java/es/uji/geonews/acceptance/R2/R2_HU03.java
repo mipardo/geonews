@@ -24,7 +24,6 @@ public class R2_HU03 {
     private LocationManager locationManager;
     private ServiceManager serviceManager;
     private List<Location> activeList;
-    private List<Location> nonActiveList;
 
     @Before
     public void init(){
@@ -35,7 +34,6 @@ public class R2_HU03 {
         OpenWeatherService openWeatherService = new OpenWeatherService();
         serviceManager.addService(openWeatherService);
         locationManager = new LocationManager(geocode);
-        activeList = new ArrayList<Location>();
     }
 
     @Test
@@ -96,11 +94,6 @@ public class R2_HU03 {
         // Given
 
         // When
-        nonActiveList =locationManager.getNonActiveLocations();
-
-        // Then
-
-
-
+        locationManager.getNonActiveLocations();
     }
 }

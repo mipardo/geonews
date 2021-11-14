@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -21,10 +22,7 @@ public class R1_HU01 {
     @Before
     public void init(){
         // Given
-        GeocodeService geocodeService = new GeocodeService();
-        ServiceManager serviceManager = new ServiceManager();
-        serviceManager.addService(geocodeService);
-        locationManager = new LocationManager(geocodeService);
+        locationManager = new LocationManager(new GeocodeService());
     }
 
     @Test

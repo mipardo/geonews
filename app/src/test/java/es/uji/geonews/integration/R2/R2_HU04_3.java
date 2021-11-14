@@ -18,6 +18,7 @@ import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.managers.ServiceManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class R2_HU04_3 {
     private LocationManager locationManager;
@@ -28,7 +29,7 @@ public class R2_HU04_3 {
     public void init(){
         geocodeServiceMocked = mock(GeocodeService.class);
         serviceManagerMocked = mock(ServiceManager.class);
-        when(serviceManagerMocked.getService("Geocode")).thenReturn(geocodeServiceMocked);
+        when(serviceManagerMocked.getService(ServiceName.GEOCODE)).thenReturn(geocodeServiceMocked);
         locationManager = new LocationManager(geocodeServiceMocked);
     }
 

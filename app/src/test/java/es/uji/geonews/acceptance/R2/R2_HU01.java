@@ -16,6 +16,7 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.managers.ServiceManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class R2_HU01 {
     private LocationManager locationManager;
@@ -39,10 +40,11 @@ public class R2_HU01 {
         locationManager.addLocation("Valencia");
         locationManager.addLocation("Alicante");
         Location castellon = locationManager.addLocation("Castelló de la Plana");
-        serviceManager.addServiceToLocation("OpenWeather", castellon);
+        serviceManager.initLocationServices(castellon);
+        serviceManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
 
         // When
-        OpenWeatherData serviceData = (OpenWeatherData) serviceManager.getData("OpenWeather", castellon);
+        OpenWeatherData serviceData = (OpenWeatherData) serviceManager.getData(ServiceName.OPEN_WEATHER, castellon);
 
         // Then
         assertNotNull(serviceData.getMaxTemp());
@@ -61,7 +63,7 @@ public class R2_HU01 {
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         serviceManager.initLocationServices(castellon);
         // When
-        Data serviceData = serviceManager.getData("OpenWeather", castellon);
+        Data serviceData = serviceManager.getData(ServiceName.OPEN_WEATHER, castellon);
 
 
         // Then

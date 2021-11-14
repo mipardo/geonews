@@ -18,6 +18,7 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.managers.ServiceManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class R2_HU01 {
     GeocodeService geocodeServiceMocked;
@@ -29,7 +30,7 @@ public class R2_HU01 {
     public void init() {
         geocodeServiceMocked = mock(GeocodeService.class);
         openWeatherServiceMocked = mock(OpenWeatherService.class);
-        when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
+        when(openWeatherServiceMocked.getServiceName()).thenReturn(ServiceName.OPEN_WEATHER);
         serviceManager = new ServiceManager();
         serviceManager.addService(openWeatherServiceMocked);
         locationManager = new LocationManager(geocodeServiceMocked);
@@ -50,9 +51,9 @@ public class R2_HU01 {
         serviceManager.initLocationServices(valencia);
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         serviceManager.initLocationServices(castellon);
-        serviceManager.addServiceToLocation("OpenWeather", castellon);
+        serviceManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
         when(openWeatherServiceMocked.getData(any(Location.class))).thenThrow(new ServiceNotAvailableException());
         // Act
-        serviceManager.getData("OpenWeather", castellon);
+        serviceManager.getData(ServiceName.OPEN_WEATHER, castellon);
     }
 }

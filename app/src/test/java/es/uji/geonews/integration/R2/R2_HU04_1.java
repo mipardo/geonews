@@ -21,14 +21,15 @@ import es.uji.geonews.model.managers.ServiceManager;
 
 public class R2_HU04_1 {
     private LocationManager locationManager;
-    private GeocodeService geocodeServiceMocked;
-    private ServiceManager serviceManagerMocked;
 
     @Before
-    public void init(){
-        geocodeServiceMocked = mock(GeocodeService.class);
-        serviceManagerMocked = mock(ServiceManager.class);
-        when(serviceManagerMocked.getService("Geocode")).thenReturn(geocodeServiceMocked);
+    public void init() throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
+        GeocodeService geocodeServiceMocked = mock(GeocodeService.class);
+        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
+        when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
+        when(geocodeServiceMocked.getCoords("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
+        when(geocodeServiceMocked.getCoords("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
+
         locationManager = new LocationManager(geocodeServiceMocked);
     }
 
@@ -38,10 +39,6 @@ public class R2_HU04_1 {
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
-        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
-        when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
-        when(geocodeServiceMocked.getCoords("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
-        when(geocodeServiceMocked.getCoords("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         Location valencia = locationManager.addLocation("Valencia");
         Location alicante = locationManager.addLocation("Alicante");
@@ -59,9 +56,6 @@ public class R2_HU04_1 {
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
-        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
-        when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
-        when(geocodeServiceMocked.getCoords("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         Location alicante = locationManager.addLocation("Alicante");
         locationManager.addToFavorites(castellon.getId());
@@ -77,8 +71,6 @@ public class R2_HU04_1 {
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
-        when(geocodeServiceMocked.isAvailable()).thenReturn(true);
-        when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         // Act
         List<Location> favorites = locationManager.getFavouriteLocations();

@@ -1,14 +1,21 @@
 package es.uji.geonews.model.managers;
 
+import java.util.Collection;
 import java.util.List;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
+import es.uji.geonews.model.services.AirVisualService;
+import es.uji.geonews.model.services.CurrentsService;
 import es.uji.geonews.model.services.GeocodeService;
+import es.uji.geonews.model.services.GpsService;
+import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.ServiceHttp;
+import es.uji.geonews.model.services.ServiceName;
 
 public class GeoNewsManager {
 
@@ -16,21 +23,37 @@ public class GeoNewsManager {
     private ServiceManager serviceManager;
 
     public GeoNewsManager(){
-        GeocodeService geocodeService = new GeocodeService();
         serviceManager = new ServiceManager();
-        locationManager = new LocationManager(geocodeService);
+        serviceManager.addService(new GpsService());
+        serviceManager.addService(new AirVisualService());
+        serviceManager.addService(new CurrentsService());
+        serviceManager.addService(new OpenWeatherService());
+        serviceManager.addService(new GeocodeService());
+        locationManager = new LocationManager((GeocodeService) serviceManager.getService(ServiceName.GEOCODE));
+    }
+
+    public void setLocationManager(LocationManager locationManager) {
+        this.locationManager = locationManager;
+    }
+
+    public void setServiceManager(ServiceManager serviceManager) {
+        this.serviceManager = serviceManager;
     }
 
     public Location addLocation(String location)
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
-        Location newLocation = locationManager.addLocation(location);
-        List<String> activeServicesForLocation = serviceManager.validateLocation(newLocation);
-        serviceManager.initLocationServices(newLocation);
-        if (activeServicesForLocation.isEmpty()) {
-            //TODO Checkear que pasa si no hay servicios disponibles en este momento
-            return null;
+            throws NotValidCoordinatesException, ServiceNotAvailableException,
+            UnrecognizedPlaceNameException {
+        boolean added = false;
+        Location newLocation = locationManager.createLocation(location);
+        List<ServiceName> activeServicesForLocation = serviceManager.validateLocation(newLocation);
+        if (! activeServicesForLocation.isEmpty()) {
+            added = locationManager.addLocation(newLocation);
         }
-        return newLocation;
+        if (added){
+            serviceManager.initLocationServices(newLocation);
+            return newLocation;
+        }
+        return null;
     }
 
     public boolean addService(ServiceHttp service) {
@@ -49,17 +72,19 @@ public class GeoNewsManager {
         return false;
     }
 
-
-
     public void deactivateLocation(int id) {
         locationManager.deactivateLocation(id);
     }
 
-    public void deactivateService(String service) {
+    public void deactivateService(ServiceName service) {
         serviceManager.deactivateService(service);
     }
 
     public List<Location> getActiveLocations() {
         return locationManager.getActiveLocations();
+    }
+
+    public List<Location> getNonActiveLocations() throws NoLocationRegisteredException {
+        return locationManager.getNonActiveLocations();
     }
 }

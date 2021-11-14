@@ -17,6 +17,7 @@ import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.CurrentsService;
 import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.managers.ServiceManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class R1_HU04 {
     private LocationManager locationManager;
@@ -31,7 +32,7 @@ public class R1_HU04 {
         locationManager = new LocationManager(geocode);
     }
 
-    @Test(timeout = 100000)
+    @Test
     public void validatePlaceName_PlaceNameRecognized_ListWithOneServiceActive()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException {
@@ -39,14 +40,15 @@ public class R1_HU04 {
         Service currents = new CurrentsService();
         serviceManager.addService(currents);
         Location newLocation = locationManager.addLocation("Valencia");
-        serviceManager.addServiceToLocation("Currents", newLocation);
+        serviceManager.initLocationServices(newLocation);
+        serviceManager.addServiceToLocation(ServiceName.CURRENTS, newLocation);
 
         // When
-        List<String> services = serviceManager.validateLocation(newLocation);
+        List<ServiceName> services = serviceManager.validateLocation(newLocation);
 
         // Then
         assertEquals(1, services.size());
-        assertTrue(services.contains("Currents"));
+        assertTrue(services.contains(ServiceName.CURRENTS));
     }
 
     @Test
@@ -55,7 +57,7 @@ public class R1_HU04 {
             NotValidCoordinatesException {
         // When
         Location newLocation = locationManager.addLocation("Valencia");
-        List<String> services = serviceManager.validateLocation(newLocation);
+        List<ServiceName> services = serviceManager.validateLocation(newLocation);
         // Then
         assertEquals(0, services.size());
     }

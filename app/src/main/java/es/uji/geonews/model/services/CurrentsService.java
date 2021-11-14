@@ -12,7 +12,7 @@ import okhttp3.Response;
 
 public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
     public CurrentsService() {
-        super("Currents", "News service");
+        super(ServiceName.CURRENTS, "News service");
         apiKey = "uVh9kGUA3ZArfrYzCaLkX4iW6nR1vy2LMHwesz40aEY4OHaj";
     }
 

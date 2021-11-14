@@ -18,12 +18,11 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.managers.ServiceManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class R2_HU02_2 {
     private LocationManager locationManager;
     private ServiceManager serviceManager;
-    private List<Location> activeList;
-    private List<Location> nonActiveList;
 
     @Before
     public void init(){
@@ -34,7 +33,6 @@ public class R2_HU02_2 {
         OpenWeatherService openWeatherService = new OpenWeatherService();
         serviceManager.addService(openWeatherService);
         locationManager = new LocationManager(geocode);
-        activeList = new ArrayList<Location>();
     }
 
     @Test
@@ -42,15 +40,15 @@ public class R2_HU02_2 {
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         Location castellon = locationManager.addLocation("Castelló de la Plana");
-        int id = castellon.getId();
-        serviceManager.addServiceToLocation("OpenWeather", castellon);
         serviceManager.initLocationServices(castellon);
+        int id = castellon.getId();
+        serviceManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
 
         // When
-        boolean confirmation = serviceManager.removeServiceFromLocation("OpenWeather", castellon);
+        boolean confirmation = serviceManager.removeServiceFromLocation(ServiceName.OPEN_WEATHER, castellon);
         // Then
         assertEquals(0, serviceManager.getServicesOfLocation(id).size());
-        assertFalse( serviceManager.getServicesOfLocation(id).contains("OpenWeather"));
+        assertFalse( serviceManager.getServicesOfLocation(id).contains(ServiceName.OPEN_WEATHER));
         assertTrue(confirmation);
 
     }
@@ -62,10 +60,10 @@ public class R2_HU02_2 {
         int id = castellon.getId();
         serviceManager.initLocationServices(castellon);
         // When
-        boolean confirmation = serviceManager.removeServiceFromLocation("OpenWeather", castellon);
+        boolean confirmation = serviceManager.removeServiceFromLocation(ServiceName.OPEN_WEATHER, castellon);
         // Then
         assertEquals(0, serviceManager.getServicesOfLocation(id).size());
-        assertFalse( serviceManager.getServicesOfLocation(id).contains("OpenWeather"));
+        assertFalse( serviceManager.getServicesOfLocation(id).contains(ServiceName.OPEN_WEATHER));
         assertFalse(confirmation);
     }
 

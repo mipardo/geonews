@@ -15,8 +15,8 @@ import es.uji.geonews.model.GeographCoords;
 public class GeocodeService extends ServiceHttp  {
 
     public GeocodeService() {
-        super("Geocode", "Coordinates Search Service");
-        apiKey = "544327515959529537468x62365";
+        super(ServiceName.GEOCODE, "Coordinates Search Service");
+        apiKey = "908924319442235794907x94092";
     }
 
     public GeographCoords getCoords(String placeName)

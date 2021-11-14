@@ -23,6 +23,7 @@ import es.uji.geonews.model.services.CurrentsService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.managers.ServiceManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class R2_HU02_1 {
     private ServiceManager serviceManager;
@@ -36,41 +37,48 @@ public class R2_HU02_1 {
         when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
 
         openWeatherServiceMocked = mock(OpenWeatherService.class);
-        when(openWeatherServiceMocked.getServiceName()).thenReturn("OpenWeather");
+        when(openWeatherServiceMocked.getServiceName()).thenReturn(ServiceName.OPEN_WEATHER);
+        when(openWeatherServiceMocked.isAvailable()).thenReturn(true);
 
         serviceManager = new ServiceManager();
         serviceManager.addService(geocodeServiceMocked);
+        serviceManager.addService(openWeatherServiceMocked);
         LocationManager locationManager = new LocationManager(geocodeServiceMocked);
 
         castellon = locationManager.addLocation("Castelló de la Plana");
+        serviceManager.initLocationServices(castellon);
     }
 
     @Test
-    public void activateServiceInLocation_ServiceNotActiveYet_True() {
-
+    public void activateServiceInLocation_ServiceNotActiveYet_True()
+            throws ServiceNotAvailableException {
+        //Arrange
+        when(openWeatherServiceMocked.isAvailable()).thenReturn(true);
         // Act
-        boolean confirmation = serviceManager.addServiceToLocation("OpenWeather",castellon);
-
+        boolean confirmation = serviceManager.addServiceToLocation(ServiceName.OPEN_WEATHER,castellon);
         // Assert
-        assertEquals(serviceManager.getServicesOfLocation(castellon.getId()).size(),1);
+        assertEquals(1, serviceManager.getServicesOfLocation(castellon.getId()).size());
         assertTrue(confirmation);
     }
 
     @Test
-    public void activateServiceInLocation_ServiceAlreadyActive_False(){
+    public void activateServiceInLocation_ServiceAlreadyActive_False() throws ServiceNotAvailableException {
         // Arrange
-        when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
-        serviceManager.addServiceToLocation(openWeatherServiceMocked.getServiceName(), castellon);
+        when(openWeatherServiceMocked.isAvailable()).thenReturn(true);
+        serviceManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
         // Act
-        boolean confirmation = serviceManager.addServiceToLocation("OpenWeather", castellon);
+        boolean confirmation = serviceManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
         // Assert
-        assertEquals(serviceManager.getServicesOfLocation(castellon.getId()).size(),1);
+        assertEquals(1, serviceManager.getServicesOfLocation(castellon.getId()).size());
         assertFalse(confirmation);
     }
 
     @Test(expected = ServiceNotAvailableException.class)
-    public void activateServiceInLocation_ServiceNotActiveYet_ServiceNotAvailableException() {
+    public void activateServiceInLocation_ServiceNotActiveYet_ServiceNotAvailableException()
+            throws ServiceNotAvailableException {
+        // Arrange
+        when(openWeatherServiceMocked.isAvailable()).thenReturn(false);
         // Act
-        boolean confirmation =serviceManager.addServiceToLocation("OpenWeather", castellon);
+        serviceManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
     }
 }
