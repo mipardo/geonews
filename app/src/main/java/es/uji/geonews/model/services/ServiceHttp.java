@@ -7,7 +7,7 @@ public abstract class ServiceHttp extends Service{
     protected final OkHttpClient client;
     protected String apiKey;
 
-    public ServiceHttp(String serviceName, String serviceType) {
+    public ServiceHttp(ServiceName serviceName, String serviceType) {
         super(serviceName, serviceType);
         this.client = new OkHttpClient();
         isActive = checkConnection();

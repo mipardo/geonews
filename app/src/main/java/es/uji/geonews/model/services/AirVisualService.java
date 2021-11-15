@@ -6,14 +6,13 @@ import org.json.JSONObject;
 import java.io.IOException;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.Data;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class AirVisualService extends ServiceHttp implements DataGetterStrategy {
 
     public AirVisualService() {
-        super("AirVisual", "Air cuality descritption");
+        super(ServiceName.AIR_VISUAL, "Air cuality descritption");
         apiKey = "bd76ecb7-90bb-4f78-ad71-8107453e8890";
     }
 
@@ -28,10 +27,7 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
 
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
-            if (jsonObject.getString("status").equals("success")){
-                return true;
-            }
-            return false;
+            return jsonObject.getString("status").equals("success");
 
         } catch (IOException | JSONException exception){
             //TODO: Al validar la ubicacion, si no tenemos conexion no es

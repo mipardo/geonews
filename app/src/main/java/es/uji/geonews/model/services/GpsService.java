@@ -5,7 +5,7 @@ import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 
 public class GpsService extends Service{
     public GpsService(){
-        super("GpsService", "Servicio GPS para la obtención de la ubicacion actual");
+        super(ServiceName.GPS, "Servicio GPS para la obtención de la ubicacion actual");
     }
 
     public GeographCoords getMyCoords() throws GPSNotAvailableException {

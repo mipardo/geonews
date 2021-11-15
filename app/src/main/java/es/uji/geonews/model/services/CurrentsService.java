@@ -12,7 +12,7 @@ import okhttp3.Response;
 
 public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
     public CurrentsService() {
-        super("Currents", "News service");
+        super(ServiceName.CURRENTS, "News service");
         apiKey = "uVh9kGUA3ZArfrYzCaLkX4iW6nR1vy2LMHwesz40aEY4OHaj";
     }
 
@@ -26,10 +26,7 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
 
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
-            if (jsonObject.getString("status").equals("ok")){
-                return true;
-            }
-            return false;
+            return jsonObject.getString("status").equals("ok");
 
         } catch (IOException | JSONException exception){
             return false;
