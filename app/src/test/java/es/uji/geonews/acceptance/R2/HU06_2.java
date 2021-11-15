@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -17,56 +18,50 @@ import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.managers.ServiceManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class HU06_2 {
-    private LocationManager locationManager;
-    private ServiceManager serviceManager;
-    private GeocodeService geocode;
+    private GeoNewsManager geoNewsManager;
 
     @Before
     public void init(){
-        geocode = new GeocodeService();
-        serviceManager = new ServiceManager();
-        serviceManager.addService(geocode);
-        locationManager = new LocationManager(geocode);
+        geoNewsManager = new GeoNewsManager();
     }
 
     @Test
-    public void reactivateLocation_availableServices_ServiceNameList()
+    public void reactivateLocation_availableServices_true()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
-        serviceManager.addService(new OpenWeatherService());
-        serviceManager.addService(new AirVisualService());
-        locationManager = new LocationManager(geocode);
-        Location valencia = locationManager.addLocation("Valencia");
-        locationManager.activateLocation(valencia.getId());
-        locationManager.deactivateLocation(valencia.getId());
+        Location valencia = geoNewsManager.addLocation("Valencia");
+        geoNewsManager.activateLocation(valencia.getId());
+        geoNewsManager.deactivateLocation(valencia.getId());
 
         // When
-        boolean result = locationManager.activateLocation(valencia.getId());
+        boolean result = geoNewsManager.activateLocation(valencia.getId());
 
         // Then
         assertTrue(result);
     }
 
     @Test
-    public void reactivateLocation_anyServices_EmptyServiceNameList()
+    public void reactivateLocation_anyServices_false()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
-        Location castellon = locationManager.addLocation("Castelló de la Plana");
-        serviceManager.initLocationServices(castellon);
-        locationManager.activateLocation(castellon.getId());
+        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        geoNewsManager.activateLocation(castellon.getId());
 
-        Location valencia = locationManager.addLocation("Valencia");
-        serviceManager.initLocationServices(valencia);
-        locationManager.activateLocation(valencia.getId());
-        locationManager.deactivateLocation(valencia.getId());
+        Location valencia = geoNewsManager.addLocation("Valencia");
+        geoNewsManager.activateLocation(valencia.getId());
+        geoNewsManager.deactivateLocation(valencia.getId());
+        geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
+        geoNewsManager.deactivateService(ServiceName.OPEN_WEATHER);
+        geoNewsManager.deactivateService(ServiceName.CURRENTS);
 
         // When
-        boolean result = locationManager.activateLocation(valencia.getId());
+        boolean result = geoNewsManager.activateLocation(valencia.getId());
 
         // Then
         assertFalse(result);
-        assertEquals(1, locationManager.getActiveLocations().size());
+        assertEquals(1, geoNewsManager.getActiveLocations().size());
     }
 }

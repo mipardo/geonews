@@ -3,6 +3,7 @@ package es.uji.geonews.integration.R2;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -11,6 +12,7 @@ import org.junit.Test;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -21,7 +23,7 @@ import es.uji.geonews.model.managers.ServiceManager;
 import es.uji.geonews.model.services.ServiceName;
 
 public class HU02_1 {
-    private ServiceManager serviceManager;
+    private GeoNewsManager geoNewsManager;
     private OpenWeatherService openWeatherServiceMocked;
     private Location castellon;
 
@@ -35,36 +37,36 @@ public class HU02_1 {
         when(openWeatherServiceMocked.getServiceName()).thenReturn(ServiceName.OPEN_WEATHER);
         when(openWeatherServiceMocked.isAvailable()).thenReturn(true);
 
-        serviceManager = new ServiceManager();
+        ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(geocodeServiceMocked);
         serviceManager.addService(openWeatherServiceMocked);
         LocationManager locationManager = new LocationManager(geocodeServiceMocked);
+        geoNewsManager = new GeoNewsManager(locationManager, serviceManager);
 
-        castellon = locationManager.addLocation("Castelló de la Plana");
-        serviceManager.initLocationServices(castellon);
+        castellon = geoNewsManager.addLocation("Castelló de la Plana");
     }
 
     @Test
     public void activateServiceInLocation_ServiceNotActiveYet_True()
             throws ServiceNotAvailableException {
         //Arrange
-        when(openWeatherServiceMocked.isAvailable()).thenReturn(true);
+        when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
         // Act
-        boolean confirmation = serviceManager.addServiceToLocation(ServiceName.OPEN_WEATHER,castellon);
+        boolean confirmation = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER,castellon);
         // Assert
-        assertEquals(1, serviceManager.getServicesOfLocation(castellon.getId()).size());
+        assertEquals(1, geoNewsManager.getServicesOfLocation(castellon.getId()).size());
         assertTrue(confirmation);
     }
 
     @Test
     public void activateServiceInLocation_ServiceAlreadyActive_False() throws ServiceNotAvailableException {
         // Arrange
-        when(openWeatherServiceMocked.isAvailable()).thenReturn(true);
-        serviceManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
         // Act
-        boolean confirmation = serviceManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        boolean confirmation = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
         // Assert
-        assertEquals(1, serviceManager.getServicesOfLocation(castellon.getId()).size());
+        assertEquals(1, geoNewsManager.getServicesOfLocation(castellon.getId()).size());
         assertFalse(confirmation);
     }
 
@@ -72,8 +74,8 @@ public class HU02_1 {
     public void activateServiceInLocation_ServiceNotActiveYet_ServiceNotAvailableException()
             throws ServiceNotAvailableException {
         // Arrange
-        when(openWeatherServiceMocked.isAvailable()).thenReturn(false);
+        when(openWeatherServiceMocked.validateLocation(any())).thenReturn(false);
         // Act
-        serviceManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
     }
 }

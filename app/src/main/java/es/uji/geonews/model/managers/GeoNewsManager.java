@@ -1,8 +1,10 @@
 package es.uji.geonews.model.managers;
 
+import java.util.Collection;
 import java.util.List;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -30,23 +32,17 @@ public class GeoNewsManager {
         locationManager = new LocationManager((GeocodeService) serviceManager.getService(ServiceName.GEOCODE));
     }
 
-    public void setLocationManager(LocationManager locationManager) {
+    public GeoNewsManager(LocationManager locationManager, ServiceManager serviceManager) {
         this.locationManager = locationManager;
-    }
-
-    public void setServiceManager(ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
     }
 
     public Location addLocation(String location)
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             UnrecognizedPlaceNameException {
-        boolean added = false;
         Location newLocation = locationManager.createLocation(location);
-        List<ServiceName> activeServicesForLocation = serviceManager.validateLocation(newLocation);
-        if (! activeServicesForLocation.isEmpty()) {
-            added = locationManager.addLocation(newLocation);
-        }
+        boolean added = locationManager.addLocation(newLocation);
+
         if (added){
             serviceManager.initLocationServices(newLocation);
             return newLocation;
@@ -84,5 +80,27 @@ public class GeoNewsManager {
 
     public List<Location> getNonActiveLocations() throws NoLocationRegisteredException {
         return locationManager.getNonActiveLocations();
+    }
+
+    public Location getLocation(int id) throws NoLocationRegisteredException {
+        return  locationManager.getLocation(id);
+    }
+
+    public boolean addServiceToLocation(ServiceName serviceName, Location location)
+            throws ServiceNotAvailableException {
+        return serviceManager.addServiceToLocation(serviceName, location);
+    }
+
+    public Data getData(ServiceName serviceName, Location location)
+            throws ServiceNotAvailableException {
+        return serviceManager.getData(serviceName, location);
+    }
+
+    public List<ServiceName> getServicesOfLocation(int id) {
+        return serviceManager.getServicesOfLocation(id);
+    }
+
+    public boolean removeServiceFromLocation(ServiceName serviceName, Location location) {
+        return serviceManager.removeServiceFromLocation(serviceName, location);
     }
 }

@@ -52,6 +52,11 @@ public class ServiceManager {
 
     public Data getData(ServiceName serviceName, Location location) throws ServiceNotAvailableException {
         List<ServiceName> activeServices = locationServices.get(location.getId());
+
+        if (!serviceMap.get(serviceName).isAvailable()) {
+            throw new ServiceNotAvailableException();
+        }
+
         if (location != null && activeServices.contains(serviceName)) {
             DataGetterStrategy service = (DataGetterStrategy) getService(serviceName);
             contextDataGetter.setService(service);
@@ -77,7 +82,8 @@ public class ServiceManager {
 
         Service service = getService(serviceName);
         if (location == null || !(service instanceof  ServiceHttp)) return false;
-        if (!service.isAvailable()) throw new ServiceNotAvailableException();
+        ServiceHttp serviceHttp = (ServiceHttp) service;
+        if (!serviceHttp.validateLocation(location) || !serviceHttp.isAvailable()) throw new ServiceNotAvailableException();
 
         int locationId = location.getId();
         List<ServiceName> currentServicesInLocation = locationServices.get(locationId);
@@ -113,6 +119,11 @@ public class ServiceManager {
     public void deactivateService(ServiceName serviceName) {
         Service service = getService(serviceName);
         if (service != null) service.deactivate();
+    }
+
+    public void activateService(ServiceName serviceName) {
+        Service service = getService(serviceName);
+        if (service != null) service.activate();
     }
 
     public void initLocationServices(Location newLocation) {
