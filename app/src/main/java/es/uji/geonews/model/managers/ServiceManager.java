@@ -129,4 +129,14 @@ public class ServiceManager {
     public void initLocationServices(Location newLocation) {
         locationServices.put(newLocation.getId(), new ArrayList<>());
     }
+
+    public List<ServiceName> getAvailableServices(){
+        List<ServiceName> httpServices = new ArrayList<>();
+        for(Service service: serviceMap.values()){
+            if(service instanceof ServiceHttp){
+                httpServices.add(service.getServiceName());
+            }
+        }
+        return httpServices;
+    }
 }
