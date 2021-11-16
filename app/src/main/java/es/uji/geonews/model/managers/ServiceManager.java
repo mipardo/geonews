@@ -1,5 +1,7 @@
 package es.uji.geonews.model.managers;
 
+import androidx.collection.ArrayMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +29,16 @@ public class ServiceManager {
         this.contextDataGetter = new ContextDataGetter();
     }
 
-    public List<Service> getServices(){
-        return new ArrayList<>(serviceMap.values());
+    public Map<String, String> getServices() throws ServiceNotAvailableException {
+        if (serviceMap.isEmpty()) {
+            throw new ServiceNotAvailableException();
+        }
+
+        Map<String, String> services = new ArrayMap<>();
+        for (Service service : serviceMap.values()) {
+            services.put(service.getServiceName().name, service.getDescription());
+        }
+        return services;
     }
 
     public List<ServiceHttp> getHttpServices(){
