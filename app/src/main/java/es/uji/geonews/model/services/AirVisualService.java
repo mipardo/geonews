@@ -5,7 +5,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.data.OpenWeatherData;
+import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -43,7 +46,34 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
     }
 
     @Override
-    public Data getData(Location location) {
-        return null;
+    public Data getData(Location location) throws ServiceNotAvailableException {
+        String url = "http://api.airvisual.com/v2/nearest_city?"
+                + "lat=" + location.getGeographCoords().getLatitude()
+                + "&lon=" + location.getGeographCoords().getLongitude()
+                + "&key=" + apiKey;
+        Request request = new Request.Builder().url(url).build();
+        final JSONObject jsonObject;
+
+        try (Response response = client.newCall(request).execute()) {
+            jsonObject = new JSONObject(response.body().string());
+            if (jsonObject.getString("status").equals("success")){
+                AirVisualData airVisualData = new AirVisualData();
+                airVisualData.setTemperature(jsonObject.getJSONObject("data").getJSONObject("current").getJSONObject("weather").getInt("tp"));
+                airVisualData.setPressure(jsonObject.getJSONObject("data").getJSONObject("current").getJSONObject("weather").getInt("pr"));
+                airVisualData.setHumidity(jsonObject.getJSONObject("data").getJSONObject("current").getJSONObject("weather").getInt("hu"));
+                airVisualData.setWindSpeed(jsonObject.getJSONObject("data").getJSONObject("current").getJSONObject("weather").getDouble("ws"));
+                airVisualData.setWindDirection(jsonObject.getJSONObject("data").getJSONObject("current").getJSONObject("weather").getInt("wd"));
+                airVisualData.setWeatherIcon(jsonObject.getJSONObject("data").getJSONObject("current").getJSONObject("weather").getString("ic"));
+                airVisualData.setAqiUs(jsonObject.getJSONObject("data").getJSONObject("current").getJSONObject("pollution").getInt("aqius"));
+                airVisualData.setMainUs(jsonObject.getJSONObject("data").getJSONObject("current").getJSONObject("pollution").getString("mainus"));
+                airVisualData.setAqiCn(jsonObject.getJSONObject("data").getJSONObject("current").getJSONObject("pollution").getInt("aqicn"));
+                airVisualData.setMainCn(jsonObject.getJSONObject("data").getJSONObject("current").getJSONObject("pollution").getString("maincn"));
+                return airVisualData;
+            }
+            return null;
+
+        } catch (IOException | JSONException exception){
+            throw new ServiceNotAvailableException();
+        }
     }
 }

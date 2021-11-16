@@ -14,6 +14,7 @@ import es.uji.geonews.model.services.CurrentsService;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.GpsService;
 import es.uji.geonews.model.services.OpenWeatherService;
+import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.services.ServiceName;
 
@@ -102,5 +103,14 @@ public class GeoNewsManager {
 
     public boolean removeServiceFromLocation(ServiceName serviceName, Location location) {
         return serviceManager.removeServiceFromLocation(serviceName, location);
+    }
+
+    public boolean activateService(ServiceName serviceName) {
+        return serviceManager.activateService(serviceName);
+    }
+
+    public Service getService(ServiceName serviceName) {
+        return serviceManager.getService(serviceName);
+
     }
 }

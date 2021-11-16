@@ -27,8 +27,16 @@ public class ServiceManager {
         this.contextDataGetter = new ContextDataGetter();
     }
 
-    public List<Service> getServices(){
-        return new ArrayList<>(serviceMap.values());
+    public Map<String, String> getServices() throws ServiceNotAvailableException {
+        if (serviceMap.isEmpty()) {
+            throw new ServiceNotAvailableException();
+        }
+
+        Map<String, String> services = new ArrayMap<>();
+        for (Service service : serviceMap.values()) {
+            services.put(service.getServiceName().name, service.getDescription());
+        }
+        return services;
     }
 
     public List<ServiceHttp> getHttpServices(){
@@ -116,14 +124,22 @@ public class ServiceManager {
         return servicesOfLocation;
     }
 
-    public void deactivateService(ServiceName serviceName) {
+    public boolean deactivateService(ServiceName serviceName) {
         Service service = getService(serviceName);
-        if (service != null) service.deactivate();
+        if (service != null && service.isActive()) {
+            service.deactivate();
+            return true;
+        }
+        return false;
     }
 
-    public void activateService(ServiceName serviceName) {
+    public boolean activateService(ServiceName serviceName) {
         Service service = getService(serviceName);
-        if (service != null) service.activate();
+        if (service != null && !service.isActive() && ((ServiceHttp) service).checkConnection()) {
+            service.activate();
+            return true;
+        }
+        return false;
     }
 
     public void initLocationServices(Location newLocation) {
@@ -138,5 +154,15 @@ public class ServiceManager {
             }
         }
         return httpServices;
+    }
+
+    public List<ServiceName> getActiveServices() {
+        List<ServiceName> activeServices = new ArrayList<>();
+        for (Service service: serviceMap.values()) {
+            if (service.isAvailable()) {
+                activeServices.add(service.getServiceName());
+            }
+        }
+        return activeServices;
     }
 }

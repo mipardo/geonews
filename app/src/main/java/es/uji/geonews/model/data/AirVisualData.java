@@ -17,13 +17,13 @@ package es.uji.geonews.model.data;
         De 251-300  Hazardous
 * */
 
-public class AirVisualData {
+public class AirVisualData implements Data {
     private int temperature;        // In celsius
     private int pressure;           // In hPa
     private int humidity;           // In %
-    private float windSpeed;        // In m/s
+    private double windSpeed;        // In m/s
     private int windDirection;      // In angle (N=0, E=90, S=180, W=270)
-    private float weatherIcon;
+    private String weatherIcon;
 
     private int aqiUs;              // Air quality index based on the EPA standard
     private int aqiCn;              // Air quality index based on the MEP standard
@@ -55,11 +55,11 @@ public class AirVisualData {
         this.humidity = humidity;
     }
 
-    public float getWindSpeed() {
+    public double getWindSpeed() {
         return windSpeed;
     }
 
-    public void setWindSpeed(float windSpeed) {
+    public void setWindSpeed(double windSpeed) {
         this.windSpeed = windSpeed;
     }
 
@@ -71,11 +71,11 @@ public class AirVisualData {
         this.windDirection = windDirection;
     }
 
-    public float getWeatherIcon() {
+    public String getWeatherIcon() {
         return weatherIcon;
     }
 
-    public void setWeatherIcon(float weatherIcon) {
+    public void setWeatherIcon(String weatherIcon) {
         this.weatherIcon = weatherIcon;
     }
 
