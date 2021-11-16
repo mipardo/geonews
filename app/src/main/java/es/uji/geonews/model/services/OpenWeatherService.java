@@ -54,19 +54,23 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
             if (jsonObject.getInt("cod") == 200){
-                OpenWeatherData openWeatherLocationData = new OpenWeatherData();
-                openWeatherLocationData.setActTemp(jsonObject.getJSONObject("main").getDouble("temp"));
-                openWeatherLocationData.setMaxTemp(jsonObject.getJSONObject("main").getDouble("temp_max"));
-                openWeatherLocationData.setMinTemp(jsonObject.getJSONObject("main").getDouble("temp_min"));
-                openWeatherLocationData.setMain(jsonObject.getJSONArray("weather").getJSONObject(0).getString("main"));
-                openWeatherLocationData.setDescription(jsonObject.getJSONArray("weather").getJSONObject(0).getString("description"));
-                openWeatherLocationData.setIcon(jsonObject.getJSONArray("weather").getJSONObject(0).getString("main"));
-                return openWeatherLocationData;
+                return convertToOpenWeatherData(jsonObject);
             }
             return null;
 
         } catch (IOException | JSONException exception){
             throw new ServiceNotAvailableException();
         }
+    }
+
+    private OpenWeatherData convertToOpenWeatherData(JSONObject jsonObject) throws JSONException {
+        OpenWeatherData openWeatherLocationData = new OpenWeatherData();
+        openWeatherLocationData.setActTemp(jsonObject.getJSONObject("main").getDouble("temp"));
+        openWeatherLocationData.setMaxTemp(jsonObject.getJSONObject("main").getDouble("temp_max"));
+        openWeatherLocationData.setMinTemp(jsonObject.getJSONObject("main").getDouble("temp_min"));
+        openWeatherLocationData.setMain(jsonObject.getJSONArray("weather").getJSONObject(0).getString("main"));
+        openWeatherLocationData.setDescription(jsonObject.getJSONArray("weather").getJSONObject(0).getString("description"));
+        openWeatherLocationData.setIcon(jsonObject.getJSONArray("weather").getJSONObject(0).getString("main"));
+        return openWeatherLocationData;
     }
 }

@@ -58,32 +58,7 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
             if (jsonObject.getString("status").equals("ok")){
-                CurrentsData currentsData = new CurrentsData();
-                JSONArray locationNews = jsonObject.getJSONArray("news");
-                if (locationNews.length() > 0) {
-                    List<News> newsList = new ArrayList<>();
-                    for (int i = 0; i < locationNews.length(); i++) {
-                        JSONObject actualNews = locationNews.getJSONObject(i);
-                        News news = new News();
-                        news.setId(actualNews.getString("id"));
-                        news.setTitle(actualNews.getString("title"));
-                        news.setDescription(actualNews.getString("description"));
-                        news.setUrl(actualNews.getString("url"));
-                        news.setAuthor(actualNews.getString("author"));
-                        news.setImage(actualNews.getString("image"));
-
-                        List<String> categories = new ArrayList<>();
-                        JSONArray serviceCategories = actualNews.getJSONArray("category");
-                        for (int j = 0; j < serviceCategories.length(); j++) {
-                            categories.add(serviceCategories.getString(j));
-                        }
-                        news.setCategory(categories);
-                        news.setPublished(actualNews.getString("published"));
-                        newsList.add(news);
-                    }
-                    currentsData.setNewsList(newsList);
-                }
-                return currentsData;
+                return convertToCurrentsData(jsonObject);
             }
             return null;
 
@@ -91,4 +66,36 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
             throw new ServiceNotAvailableException();
         }
     }
+
+    private CurrentsData convertToCurrentsData(JSONObject jsonObject) throws JSONException {
+        CurrentsData currentsData = new CurrentsData();
+        JSONArray locationNews = jsonObject.getJSONArray("news");
+        if (locationNews.length() > 0) {
+            List<News> newsList = new ArrayList<>();
+            for (int i = 0; i < locationNews.length(); i++) {
+                JSONObject actualNews = locationNews.getJSONObject(i);
+                News news = new News();
+                news.setId(actualNews.getString("id"));
+                news.setTitle(actualNews.getString("title"));
+                news.setDescription(actualNews.getString("description"));
+                news.setUrl(actualNews.getString("url"));
+                news.setAuthor(actualNews.getString("author"));
+                news.setImage(actualNews.getString("image"));
+
+                List<String> categories = new ArrayList<>();
+                JSONArray serviceCategories = actualNews.getJSONArray("category");
+                for (int j = 0; j < serviceCategories.length(); j++) {
+                    categories.add(serviceCategories.getString(j));
+                }
+                news.setCategory(categories);
+                news.setPublished(actualNews.getString("published"));
+                newsList.add(news);
+            }
+            currentsData.setNewsList(newsList);
+        }
+        return currentsData;
+    }
+
 }
+
+
