@@ -135,9 +135,13 @@ public class ServiceManager {
         return false;
     }
 
-    public void activateService(ServiceName serviceName) {
+    public boolean activateService(ServiceName serviceName) {
         Service service = getService(serviceName);
-        if (service != null) service.activate();
+        if (service != null && !service.isActive() && ((ServiceHttp) service).checkConnection()) {
+            service.activate();
+            return true;
+        }
+        return false;
     }
 
     public void initLocationServices(Location newLocation) {
