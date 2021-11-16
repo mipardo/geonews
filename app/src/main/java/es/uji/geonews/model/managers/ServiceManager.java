@@ -32,7 +32,7 @@ public class ServiceManager {
             throw new ServiceNotAvailableException();
         }
 
-        Map<String, String> services = new ArrayMap<>();
+        Map<String, String> services = new HashMap<>();
         for (Service service : serviceMap.values()) {
             services.put(service.getServiceName().name, service.getDescription());
         }
@@ -159,7 +159,7 @@ public class ServiceManager {
     public List<ServiceName> getActiveServices() {
         List<ServiceName> activeServices = new ArrayList<>();
         for (Service service: serviceMap.values()) {
-            if (service.isAvailable()) {
+            if (service.isActive()) {
                 activeServices.add(service.getServiceName());
             }
         }

@@ -22,7 +22,7 @@ public class HU01 {
     }
 
     @Test
-    public void checkAvailableServices_areAvailableServices_ListWithTwoServices() {
+    public void getAvailableServices_areAvailableServices_ListWithTwoServices() {
         // Given
         serviceManager.addService(new OpenWeatherService());
         serviceManager.addService(new AirVisualService());
@@ -35,7 +35,7 @@ public class HU01 {
     }
 
     @Test
-    public void checkAvailableServices_noAvailableServices_EmtpyList() {
+    public void getAvailableServices_noAvailableServices_EmtpyList() {
         // Given
         // When
         List<ServiceName> services = serviceManager.getAvailableServices();
