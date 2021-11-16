@@ -121,9 +121,12 @@ public class ServiceManager {
         if (service != null) service.deactivate();
     }
 
-    public void activateService(ServiceName serviceName) {
+    public boolean activateService(ServiceName serviceName) {
         Service service = getService(serviceName);
-        if (service != null) service.activate();
+        if (service != null && service.activate() && service.isAvailable()) {
+            return true;
+        }
+        return false;
     }
 
     public void initLocationServices(Location newLocation) {

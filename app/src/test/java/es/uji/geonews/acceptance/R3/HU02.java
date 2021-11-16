@@ -1,0 +1,54 @@
+package es.uji.geonews.acceptance.R3;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import es.uji.geonews.model.managers.GeoNewsManager;
+import es.uji.geonews.model.services.ServiceName;
+
+public class HU02 {
+    private GeoNewsManager geoNewsManager;
+
+    @Before
+    public void init(){
+        // Given
+        geoNewsManager = new GeoNewsManager();
+    }
+
+    @Test
+    public void checkGeneralActiveServices_deActiveAndAvailable_True(){
+        // Given
+        geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
+        // When
+        boolean result = geoNewsManager.activateService(ServiceName.AIR_VISUAL);
+
+        // Then
+        assertTrue(result);
+    }
+
+    @Test
+    public void checkGeneralActiveServices_activeAndAvailable_False() {
+        // Given
+        // When
+        boolean result = geoNewsManager.activateService(ServiceName.AIR_VISUAL);
+
+        // Then
+        assertFalse(result);
+    }
+/*
+    @Test
+    public void checkGeneralActiveServices_noAvailable_False() {
+        // Given
+        // When
+        boolean result = geoNewsManager.activateService(ServiceName.AIR_VISUAL);
+
+        // Then
+        assertFalse(result);
+    }
+
+ */
+}

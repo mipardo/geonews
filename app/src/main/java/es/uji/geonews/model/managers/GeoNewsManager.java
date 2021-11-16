@@ -103,4 +103,8 @@ public class GeoNewsManager {
     public boolean removeServiceFromLocation(ServiceName serviceName, Location location) {
         return serviceManager.removeServiceFromLocation(serviceName, location);
     }
+
+    public boolean activateService(ServiceName serviceName) {
+        return serviceManager.activateService(serviceName);
+    }
 }
