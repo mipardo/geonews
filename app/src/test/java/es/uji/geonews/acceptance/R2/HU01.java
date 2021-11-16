@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.data.AirVisualData;
+import es.uji.geonews.model.data.CurrentsData;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.data.OpenWeatherData;
@@ -47,6 +49,38 @@ public class HU01 {
         assertNotNull(serviceData.getMain());
         assertNotNull(serviceData.getDescription());
         assertNotNull(serviceData.getIcon());
+    }
+
+    // Pruebas de Airvisual //
+    @Test
+    public void checkServiceData_activeAndAvailable_AirVisualLocationData()
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+        // Given
+        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, castellon);
+
+        // When
+        AirVisualData serviceData = (AirVisualData) geoNewsManager.getData(ServiceName.AIR_VISUAL, castellon);
+
+        // Then
+        assertNotNull(serviceData.getWeatherIcon());
+        assertNotNull(serviceData.getMainCn());
+        assertNotNull(serviceData.getMainUs());
+    }
+
+    // Prueba de Currents //
+    @Test
+    public void checkServiceData_activeAndAvailable_CurrentsLocationData()
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+        // Given
+        Location castellon = geoNewsManager.addLocation("Valencia");
+        geoNewsManager.addServiceToLocation(ServiceName.CURRENTS, castellon);
+
+        // When
+        CurrentsData serviceData = (CurrentsData) geoNewsManager.getData(ServiceName.CURRENTS, castellon);
+
+        // Then
+        assertNotNull(serviceData.getNewsList()); // ¿Qué comprobamos?
     }
 
     @Test (expected = ServiceNotAvailableException.class)
