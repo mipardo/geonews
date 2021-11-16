@@ -126,9 +126,13 @@ public class ServiceManager {
         return servicesOfLocation;
     }
 
-    public void deactivateService(ServiceName serviceName) {
+    public boolean deactivateService(ServiceName serviceName) {
         Service service = getService(serviceName);
-        if (service != null) service.deactivate();
+        if (service != null && service.isAvailable()) {
+            service.deactivate();
+            return true;
+        }
+        return false;
     }
 
     public void activateService(ServiceName serviceName) {
@@ -138,5 +142,15 @@ public class ServiceManager {
 
     public void initLocationServices(Location newLocation) {
         locationServices.put(newLocation.getId(), new ArrayList<>());
+    }
+
+    public List<ServiceName> getActiveServices() {
+        List<ServiceName> activeServices = new ArrayList<>();
+        for (Service service: serviceMap.values()) {
+            if (service.isAvailable()) {
+                activeServices.add(service.getServiceName());
+            }
+        }
+        return activeServices;
     }
 }

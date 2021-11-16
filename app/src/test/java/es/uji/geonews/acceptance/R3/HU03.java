@@ -28,6 +28,7 @@ public class HU03 {
         // Given
         serviceManager.addService(new OpenWeatherService());
         serviceManager.addService(new AirVisualService());
+
         // When
         Map<String, String> availableServices = serviceManager.getServices();
         // Then
