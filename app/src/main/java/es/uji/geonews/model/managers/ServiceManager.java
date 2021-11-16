@@ -128,7 +128,7 @@ public class ServiceManager {
 
     public boolean deactivateService(ServiceName serviceName) {
         Service service = getService(serviceName);
-        if (service != null && service.isAvailable()) {
+        if (service != null && service.isActive()) {
             service.deactivate();
             return true;
         }

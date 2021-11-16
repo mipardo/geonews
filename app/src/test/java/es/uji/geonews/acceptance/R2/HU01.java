@@ -73,14 +73,14 @@ public class HU01 {
     public void checkServiceData_activeAndAvailable_CurrentsLocationData()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
-        Location castellon = geoNewsManager.addLocation("Valencia");
-        geoNewsManager.addServiceToLocation(ServiceName.CURRENTS, castellon);
+        Location valencia = geoNewsManager.addLocation("Valencia");
+        geoNewsManager.addServiceToLocation(ServiceName.CURRENTS, valencia);
 
         // When
-        CurrentsData serviceData = (CurrentsData) geoNewsManager.getData(ServiceName.CURRENTS, castellon);
+        CurrentsData serviceData = (CurrentsData) geoNewsManager.getData(ServiceName.CURRENTS, valencia);
 
         // Then
-        assertNotNull(serviceData.getNewsList()); // ¿Qué comprobamos?
+        assertNotNull(serviceData.getNewsList());
     }
 
     @Test (expected = ServiceNotAvailableException.class)
