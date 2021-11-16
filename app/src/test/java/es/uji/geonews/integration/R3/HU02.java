@@ -26,33 +26,30 @@ public class HU02 {
         // Given
         airVisualServiceMocked = mock(AirVisualService.class);
         when(airVisualServiceMocked.getServiceName()).thenReturn(ServiceName.AIR_VISUAL);
-
-
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(airVisualServiceMocked);
-
         LocationManager locationManager = new LocationManager(geocodeService);
         geoNewsManager = new GeoNewsManager(locationManager, serviceManager);
     }
 
     @Test
-    public void checkGeneralActiveServices_deActiveAndAvailable_True(){
+    public void activeServices_deActiveAndAvailable_True(){
         // Given
-        when(airVisualServiceMocked.activate()).thenReturn(true);
-        when(airVisualServiceMocked.isAvailable()).thenReturn(true);
-        geoNewsManager.deactivateService(airVisualServiceMocked.getServiceName());
+        when(airVisualServiceMocked.isActive()).thenReturn(false);
+        when(airVisualServiceMocked.checkConnection()).thenReturn(true);
         // When
         boolean result = geoNewsManager.activateService(airVisualServiceMocked.getServiceName());
 
         // Then
         assertTrue(result);
+
     }
 
     @Test
-    public void checkGeneralActiveServices_activeAndAvailable_False() {
+    public void activeServices_activeAndAvailable_False() {
         // Given
-        when(airVisualServiceMocked.activate()).thenReturn(false);
-        when(airVisualServiceMocked.isAvailable()).thenReturn(true);
+        when(airVisualServiceMocked.isActive()).thenReturn(true);
+        when(airVisualServiceMocked.checkConnection()).thenReturn(true);
         // When
         boolean result = geoNewsManager.activateService(airVisualServiceMocked.getServiceName());
 
@@ -61,15 +58,16 @@ public class HU02 {
     }
 
     @Test
-    public void checkGeneralActiveServices_noAvailable_False() {
+    public void activeServices_noAvailable_False() {
         // Given
-        when(airVisualServiceMocked.activate()).thenReturn(true);
-        when(airVisualServiceMocked.isAvailable()).thenReturn(false);
+        when(airVisualServiceMocked.isActive()).thenReturn(false);
+        when(airVisualServiceMocked.checkConnection()).thenReturn(false);
         // When
         boolean result = geoNewsManager.activateService(airVisualServiceMocked.getServiceName());
 
         // Then
         assertFalse(result);
+        
     }
 }
 

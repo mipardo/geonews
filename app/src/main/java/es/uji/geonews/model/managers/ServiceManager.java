@@ -123,7 +123,8 @@ public class ServiceManager {
 
     public boolean activateService(ServiceName serviceName) {
         Service service = getService(serviceName);
-        if (service != null && service.activate() && service.isAvailable()) {
+        if (service != null && !service.isActive() && ((ServiceHttp) service).checkConnection()) {
+            service.activate();
             return true;
         }
         return false;

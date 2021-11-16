@@ -36,11 +36,10 @@ public abstract class Service {
         isActive = false;
     }
 
-    public boolean activate() {
-        if (!isActive) {
-            isActive = true;
-            return true;
-        }
-        return false;
+    public void activate() {
+        isActive = true;
+    }
+    public boolean isActive(){
+        return isActive;
     }
 }

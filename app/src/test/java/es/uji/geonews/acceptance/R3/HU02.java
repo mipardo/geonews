@@ -20,7 +20,7 @@ public class HU02 {
     }
 
     @Test
-    public void checkGeneralActiveServices_deActiveAndAvailable_True(){
+    public void activateServices_deActiveAndAvailable_True(){
         // Given
         geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
         // When
@@ -28,27 +28,18 @@ public class HU02 {
 
         // Then
         assertTrue(result);
+        assertTrue(geoNewsManager.getService(ServiceName.AIR_VISUAL).isActive());
     }
 
     @Test
-    public void checkGeneralActiveServices_activeAndAvailable_False() {
+    public void activateServices_activeAndAvailable_False() {
         // Given
         // When
         boolean result = geoNewsManager.activateService(ServiceName.AIR_VISUAL);
 
         // Then
         assertFalse(result);
-    }
-/*
-    @Test
-    public void checkGeneralActiveServices_noAvailable_False() {
-        // Given
-        // When
-        boolean result = geoNewsManager.activateService(ServiceName.AIR_VISUAL);
-
-        // Then
-        assertFalse(result);
+        assertTrue(geoNewsManager.getService(ServiceName.AIR_VISUAL).isActive());
     }
 
- */
 }
