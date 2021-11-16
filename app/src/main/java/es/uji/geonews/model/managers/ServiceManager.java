@@ -1,5 +1,7 @@
 package es.uji.geonews.model.managers;
 
+import androidx.collection.ArrayMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +29,16 @@ public class ServiceManager {
         this.contextDataGetter = new ContextDataGetter();
     }
 
-    public List<Service> getServices(){
-        return new ArrayList<>(serviceMap.values());
+    public Map<String, String> getServices() throws ServiceNotAvailableException {
+        if (serviceMap.isEmpty()) {
+            throw new ServiceNotAvailableException();
+        }
+
+        Map<String, String> services = new ArrayMap<>();
+        for (Service service : serviceMap.values()) {
+            services.put(service.getServiceName().name, service.getDescription());
+        }
+        return services;
     }
 
     public List<ServiceHttp> getHttpServices(){
@@ -116,9 +126,13 @@ public class ServiceManager {
         return servicesOfLocation;
     }
 
-    public void deactivateService(ServiceName serviceName) {
+    public boolean deactivateService(ServiceName serviceName) {
         Service service = getService(serviceName);
-        if (service != null) service.deactivate();
+        if (service != null && service.isActive()) {
+            service.deactivate();
+            return true;
+        }
+        return false;
     }
 
     public boolean activateService(ServiceName serviceName) {
@@ -132,5 +146,15 @@ public class ServiceManager {
 
     public void initLocationServices(Location newLocation) {
         locationServices.put(newLocation.getId(), new ArrayList<>());
+    }
+
+    public List<ServiceName> getActiveServices() {
+        List<ServiceName> activeServices = new ArrayList<>();
+        for (Service service: serviceMap.values()) {
+            if (service.isAvailable()) {
+                activeServices.add(service.getServiceName());
+            }
+        }
+        return activeServices;
     }
 }

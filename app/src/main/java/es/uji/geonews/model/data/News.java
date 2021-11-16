@@ -3,19 +3,20 @@ package es.uji.geonews.model.data;
 import java.util.List;
 
 public class News {
-    private int id;
+    private String id;
     private String title;
     private String description;
     private String url;
     private String author;
     private String image;
     private List<String> category;
+    private String published;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String  id) {
         this.id = id;
     }
 
@@ -65,5 +66,13 @@ public class News {
 
     public void setCategory(List<String> category) {
         this.category = category;
+    }
+
+    public String getPublished() {
+        return published;
+    }
+
+    public void setPublished(String published) {
+        this.published = published;
     }
 }

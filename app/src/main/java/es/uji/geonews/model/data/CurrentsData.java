@@ -2,7 +2,7 @@ package es.uji.geonews.model.data;
 
 import java.util.List;
 
-public class CurrentsData {
+public class CurrentsData implements Data {
     private List<News> newsList;
 
     public List<News> getNewsList() {
