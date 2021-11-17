@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public abstract class Service {
     private ServiceName serviceName;
     private String description;
-    private LocalDate activationDate;
+    private LocalDate activationDate; //TODO: MODIFIY WHEN ACTIVATE AND DEACTIVATE
     protected boolean isActive;
 
     public Service(ServiceName serviceName, String serviceType) {
@@ -39,6 +39,7 @@ public abstract class Service {
     public void activate() {
         isActive = true;
     }
+
     public boolean isActive(){
         return isActive;
     }

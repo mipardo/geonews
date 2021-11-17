@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import es.uji.geonews.databinding.ActivityMainBinding;
 
+
 import android.view.Menu;
 import android.view.MenuItem;
 
