@@ -10,6 +10,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.dao.LocationDao;
 
 public class DatabaseManager {
     private FirebaseFirestore db;
@@ -19,8 +20,9 @@ public class DatabaseManager {
     }
 
     public void saveData(Location location) {
+        LocationDao locationDao = new LocationDao(location);
         db.collection("localizaciones")
-                .add(location)
+                .add(locationDao)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
