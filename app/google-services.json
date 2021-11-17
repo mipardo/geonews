@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1034853989729",
+    "project_id": "geonews-701e0",
+    "storage_bucket": "geonews-701e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034853989729:android:f30bbb091303aa2cdb9920",
+        "android_client_info": {
+          "package_name": "es.uji.geonews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034853989729-ilf9vuga04ne1uiibo3ahohbk76m86h2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.uji.geonews",
+            "certificate_hash": "c6f6ca17aed1d5dcfc50a6b6bbd03f89d7b417e7"
+          }
+        },
+        {
+          "client_id": "1034853989729-rf2n6jvpm1lbsi24ibml2mapp0mnbhh9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc8VdHbv_37dfZO65S0JxCuHa3ke2f9Ng"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034853989729-rf2n6jvpm1lbsi24ibml2mapp0mnbhh9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

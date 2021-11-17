@@ -22,8 +22,10 @@ public class GeoNewsManager {
 
     private LocationManager locationManager;
     private ServiceManager serviceManager;
+    private DatabaseManager databaseManager;
 
     public GeoNewsManager(){
+        databaseManager = new DatabaseManager();
         serviceManager = new ServiceManager();
         serviceManager.addService(new GpsService());
         serviceManager.addService(new AirVisualService());
@@ -46,6 +48,7 @@ public class GeoNewsManager {
 
         if (added){
             serviceManager.initLocationServices(newLocation);
+            databaseManager.saveData(newLocation);
             return newLocation;
         }
         return null;

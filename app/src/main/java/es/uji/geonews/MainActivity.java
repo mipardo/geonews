@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.StrictMode;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -14,6 +15,10 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import es.uji.geonews.databinding.ActivityMainBinding;
+import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
+import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
+import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
+import es.uji.geonews.model.managers.GeoNewsManager;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +48,20 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        //---------------------------------------------------------------------------
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        GeoNewsManager geoNewsManager = new GeoNewsManager();
+        try {
+            geoNewsManager.addLocation("Valencia");
+        } catch (NotValidCoordinatesException |
+                ServiceNotAvailableException |
+                UnrecognizedPlaceNameException e) {
+            e.printStackTrace();
+        }
+        //---------------------------------------------------------------------------
+
     }
 
     @Override
