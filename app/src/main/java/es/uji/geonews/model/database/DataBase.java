@@ -1,4 +1,4 @@
-package es.uji.geonews.model.managers;
+package es.uji.geonews.model.database;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.services.Service;

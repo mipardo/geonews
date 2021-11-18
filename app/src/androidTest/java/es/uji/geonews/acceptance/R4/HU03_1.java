@@ -31,7 +31,7 @@ public class HU03_1 {
             NotValidCoordinatesException, InterruptedException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
-        geoNewsManager.addLocation("Alicante");
+        geoNewsManager.addLocation("Bilbao");
         lock.await(5000, TimeUnit.MILLISECONDS);
     }
 

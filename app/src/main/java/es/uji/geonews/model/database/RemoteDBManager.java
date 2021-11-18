@@ -1,4 +1,4 @@
-package es.uji.geonews.model.managers;
+package es.uji.geonews.model.database;
 
 import android.util.Log;
 

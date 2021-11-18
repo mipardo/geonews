@@ -1,10 +1,10 @@
 package es.uji.geonews.model.managers;
 
-import java.util.Collection;
 import java.util.List;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
