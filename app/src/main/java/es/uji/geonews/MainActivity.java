@@ -49,19 +49,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //---------------------------------------------------------------------------
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        GeoNewsManager geoNewsManager = new GeoNewsManager();
-        try {
-            geoNewsManager.addLocation("Valencia");
-        } catch (NotValidCoordinatesException |
-                ServiceNotAvailableException |
-                UnrecognizedPlaceNameException e) {
-            e.printStackTrace();
-        }
-        //---------------------------------------------------------------------------
-
     }
 
     @Override

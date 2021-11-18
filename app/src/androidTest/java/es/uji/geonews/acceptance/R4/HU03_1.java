@@ -2,8 +2,13 @@ package es.uji.geonews.acceptance.R4;
 
 import static org.junit.Assert.assertEquals;
 
+import android.os.StrictMode;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -23,9 +28,11 @@ public class HU03_1 {
     @Test
     public void registerLocationByPlaceName_KnownPlaceName_Location()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+            NotValidCoordinatesException, InterruptedException {
         // When
-        Location newLocation = geoNewsManager.addLocation("Castello de la Plana");
+        CountDownLatch lock = new CountDownLatch(1);
+        geoNewsManager.addLocation("Alicante");
+        lock.await(5000, TimeUnit.MILLISECONDS);
     }
 
 }

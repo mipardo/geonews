@@ -1,6 +1,9 @@
 package es.uji.geonews.model.dao;
 
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 
@@ -9,7 +12,7 @@ public class LocationDao {
     private String alias;
     private String placeName;
     private GeographCoords geographCoords;
-    private long registrationDate;
+    private String registrationDate;
     private boolean isActive;
 
     public LocationDao(Location location){
@@ -17,7 +20,7 @@ public class LocationDao {
         alias = location.getAlias();
         placeName = location.getPlaceName();
         geographCoords = location.getGeographCoords();
-        registrationDate = location.getRegistrationDate().toEpochDay();
+        registrationDate = location.getRegistrationDate().toString();
         isActive = location.isActive();
     }
 
@@ -53,11 +56,11 @@ public class LocationDao {
         this.geographCoords = geographCoords;
     }
 
-    public long getRegistrationDate() {
+    public String getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(long registrationDate) {
+    public void setRegistrationDate(String registrationDate) {
         this.registrationDate = registrationDate;
     }
 
