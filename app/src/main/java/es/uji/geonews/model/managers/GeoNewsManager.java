@@ -1,10 +1,10 @@
 package es.uji.geonews.model.managers;
 
-import java.util.Collection;
 import java.util.List;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -22,8 +22,10 @@ public class GeoNewsManager {
 
     private LocationManager locationManager;
     private ServiceManager serviceManager;
+    private DatabaseManager databaseManager;
 
     public GeoNewsManager(){
+        databaseManager = new DatabaseManager();
         serviceManager = new ServiceManager();
         serviceManager.addService(new GpsService());
         serviceManager.addService(new AirVisualService());
@@ -46,6 +48,7 @@ public class GeoNewsManager {
 
         if (added){
             serviceManager.initLocationServices(newLocation);
+            databaseManager.saveData(newLocation);
             return newLocation;
         }
         return null;
