@@ -19,12 +19,14 @@ public class ServiceManager {
     private final Map<ServiceName, Service> serviceMap;
     private final Map<Integer, List<ServiceName>> locationServices;
     private final ContextDataGetter contextDataGetter;
+    private final Map<Integer, Map<ServiceName, Data>> lastData; // This is the last data loaded from services
 
 
     public ServiceManager(){
         this.serviceMap = new HashMap<>();
         this.locationServices = new HashMap<>();
         this.contextDataGetter = new ContextDataGetter();
+        this.lastData = new HashMap<>();
     }
 
     public Map<String, String> getServices() throws ServiceNotAvailableException {
@@ -68,6 +70,13 @@ public class ServiceManager {
         if (location != null && activeServices.contains(serviceName)) {
             DataGetterStrategy service = (DataGetterStrategy) getService(serviceName);
             contextDataGetter.setService(service);
+            Data lastLocationServiceData = contextDataGetter.getData(location);
+            Map<ServiceName, Data> serviceData = lastData.get(location.getId());
+            if (serviceData == null) {
+                serviceData = new HashMap<>();
+            }
+            serviceData.put(serviceName, lastLocationServiceData);
+            lastData.put(location.getId(), serviceData);
             return contextDataGetter.getData(location);
         }
         return null;

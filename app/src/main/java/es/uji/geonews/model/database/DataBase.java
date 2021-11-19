@@ -10,5 +10,6 @@ import es.uji.geonews.model.services.Service;
 public interface DataBase {
     void saveLocation(LocationDao locationDao);
     void saveFavLocation(LocationDao locationDao);
+    void saveAll(int userId, LocationManager locationManager, ServiceManager serviceManager);
     UserDao loadData(int userId);
 }
