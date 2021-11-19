@@ -1,6 +1,13 @@
 package es.uji.geonews.model.services;
 
 import java.io.IOException;
+import java.util.Observable;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -16,7 +23,7 @@ public class GeocodeService extends ServiceHttp  {
 
     public GeocodeService() {
         super(ServiceName.GEOCODE, "Coordinates Search Service");
-        apiKey = "158842966534589170377x47475";
+        apiKey = "630702725053942538498x59654";
     }
 
     public GeographCoords getCoords(String placeName)
@@ -41,7 +48,7 @@ public class GeocodeService extends ServiceHttp  {
         return geographCoords;
     }
 
-    public String getPlaceName(GeographCoords coords)
+        public String getPlaceName(GeographCoords coords)
             throws ServiceNotAvailableException, NotValidCoordinatesException {
         String url = "https://geocode.xyz/"+ coords.toString() +"?json=1" +
         "&auth=" + apiKey;

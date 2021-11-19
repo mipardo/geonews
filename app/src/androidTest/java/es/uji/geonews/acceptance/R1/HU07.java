@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.concurrent.ExecutionException;
+
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -21,9 +23,9 @@ public class HU07 {
 
     @Test
     public void getCoords_KnownPlaceName_validCoords()
-    throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws Throwable {
         // When
-        GeographCoords coords = geocode.getCoords("Castello de la Plana");
+        GeographCoords coords = geocode.getCoordsAsync("Castello de la Plana");
         // Then
         assertEquals(39.98920, coords.getLatitude(), 0.01);
         assertEquals(-0.03621, coords.getLongitude(), 0.01);
@@ -31,9 +33,9 @@ public class HU07 {
 
     @Test (expected = UnrecognizedPlaceNameException.class)
     public void getCoords_UnknownPlaceName_UnrecognizedPlaceNameException()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws Throwable {
         // When
-        geocode.getCoords("asdfxxrtg");
+        geocode.getCoordsAsync("asdfxxrtg");
     }
 
 }
