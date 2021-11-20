@@ -6,10 +6,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.data.CurrentsData;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.Location;

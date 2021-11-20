@@ -5,12 +5,10 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import es.uji.geonews.model.Location;
 import es.uji.geonews.model.dao.LocationDao;
 import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
-import es.uji.geonews.model.services.Service;
 
 public class RemoteDBManager implements DataBase {
     private FirebaseFirestore db;
@@ -34,6 +32,11 @@ public class RemoteDBManager implements DataBase {
 
     @Override
     public void saveFavLocation(LocationDao locationDao) {
+
+    }
+
+    @Override
+    public void saveAll(int userId, LocationManager locationManager, ServiceManager serviceManager) {
 
     }
 

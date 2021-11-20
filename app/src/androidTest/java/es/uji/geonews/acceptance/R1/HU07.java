@@ -5,10 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.ExecutionException;
-
 import es.uji.geonews.model.GeographCoords;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 
@@ -25,7 +22,7 @@ public class HU07 {
     public void getCoords_KnownPlaceName_validCoords()
             throws Throwable {
         // When
-        GeographCoords coords = geocode.getCoordsAsync("Castello de la Plana");
+        GeographCoords coords = geocode.getCoords("Castello de la Plana");
         // Then
         assertEquals(39.98920, coords.getLatitude(), 0.01);
         assertEquals(-0.03621, coords.getLongitude(), 0.01);
@@ -35,7 +32,7 @@ public class HU07 {
     public void getCoords_UnknownPlaceName_UnrecognizedPlaceNameException()
             throws Throwable {
         // When
-        geocode.getCoordsAsync("asdfxxrtg");
+        geocode.getCoords("asdfxxrtg");
     }
 
 }

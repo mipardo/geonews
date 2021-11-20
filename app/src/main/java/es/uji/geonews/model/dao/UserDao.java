@@ -1,6 +1,5 @@
 package es.uji.geonews.model.dao;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

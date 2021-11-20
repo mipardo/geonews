@@ -9,13 +9,9 @@ import org.junit.Test;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.GeoNewsManager;
-import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.services.GeocodeService;
-import es.uji.geonews.model.services.OpenWeatherService;
-import es.uji.geonews.model.managers.ServiceManager;
 import es.uji.geonews.model.services.ServiceName;
 
 public class HU02_2 {

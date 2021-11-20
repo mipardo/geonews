@@ -7,8 +7,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Map;
-
 import es.uji.geonews.model.managers.ServiceManager;
 import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.OpenWeatherService;

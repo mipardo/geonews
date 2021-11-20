@@ -7,7 +7,6 @@ import java.io.IOException;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.data.Data;
-import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import okhttp3.Request;
 import okhttp3.Response;

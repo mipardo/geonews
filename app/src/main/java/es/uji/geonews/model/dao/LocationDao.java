@@ -1,9 +1,6 @@
 package es.uji.geonews.model.dao;
 
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 

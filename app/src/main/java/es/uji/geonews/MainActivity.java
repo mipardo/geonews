@@ -1,20 +1,15 @@
 package es.uji.geonews;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.View;
 
 import es.uji.geonews.model.GeographCoords;
-import es.uji.geonews.model.Location;
-import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
-import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.services.GeocodeService;
 
 import android.widget.Button;
@@ -67,23 +62,5 @@ public class MainActivity extends AppCompatActivity {
                 }).start();
             }
         });
-
-
-
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                progressBar = findViewById(R.id.progressBar);
-//                String location = editText.getText().toString();
-//                progressBar.setVisibility(View.VISIBLE);
-//                try {
-//                    geographCoords = service.getCoordsAsync(location);
-//                } catch (Throwable e) {
-//                    e.printStackTrace();
-//                }
-//                textView.setText(geographCoords.toString());
-//                progressBar.setVisibility(View.INVISIBLE);
-//            }
-//        });
     }
 }
