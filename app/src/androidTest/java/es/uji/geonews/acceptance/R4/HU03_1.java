@@ -1,8 +1,5 @@
 package es.uji.geonews.acceptance.R4;
 
-import static org.junit.Assert.assertEquals;
-
-import android.os.StrictMode;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +7,6 @@ import org.junit.Test;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
