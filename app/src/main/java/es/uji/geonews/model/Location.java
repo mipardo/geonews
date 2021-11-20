@@ -77,4 +77,16 @@ public class Location {
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
     }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "id=" + id +
+                ", alias='" + alias + '\'' +
+                ", placeName='" + placeName + '\'' +
+                ", geographCoords=" + geographCoords +
+                ", registrationDate=" + registrationDate +
+                ", isActive=" + isActive +
+                '}';
+    }
 }
