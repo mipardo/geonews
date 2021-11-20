@@ -48,7 +48,7 @@ public class GeoNewsManager {
 
         if (added){
             serviceManager.initLocationServices(newLocation);
-            databaseManager.saveLocation(newLocation);
+            //databaseManager.saveLocation(newLocation);
             return newLocation;
         }
         return null;
@@ -114,6 +114,5 @@ public class GeoNewsManager {
 
     public Service getService(ServiceName serviceName) {
         return serviceManager.getService(serviceName);
-
     }
 }
