@@ -1,5 +1,7 @@
 package es.uji.geonews.model.database;
 
+import android.content.Context;
+
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.dao.LocationDao;
 import es.uji.geonews.model.managers.LocationManager;
@@ -35,7 +37,12 @@ public class DatabaseManager  {
         // MAYBE: Return lastData of all Services for the view??
     }
 
+    public void saveData (LocationManager locationManager, ServiceManager serviceManager) {
+        remoteDBManager.saveAll(23, locationManager, serviceManager);
+    }
 
 
-
+    public String getUserId(Context context) {
+        return localDBManager.getUserId(context);
+    }
 }

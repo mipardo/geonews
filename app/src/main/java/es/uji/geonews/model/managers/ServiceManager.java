@@ -174,4 +174,16 @@ public class ServiceManager {
         }
         return activeServices;
     }
+
+    public Map<Integer, Map<ServiceName, Data>> getLastData() {
+        return lastData;
+    }
+
+    public Map<ServiceName, Service> getServiceMap() {
+        return serviceMap;
+    }
+
+    public Map<Integer, List<ServiceName>> getLocationServices() {
+        return locationServices;
+    }
 }
