@@ -16,25 +16,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
-                android:clickable="true"
                 android:padding="10dp">
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/location_information_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/add_to_favorites_button"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="0dp"
-                    app:backgroundTint="@color/white"
-                    app:elevation="0dp"
-                    app:maxImageSize="40dp"
-                    android:clickable="true"
-                    app:srcCompat="@android:drawable/ic_menu_info_details" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/add_to_favorites_button"
+                    android:id="@+id/remove_from_favorites_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -43,25 +28,24 @@
                     android:layout_marginEnd="0dp"
                     android:clickable="true"
                     app:backgroundTint="@color/white"
-                    app:elevation="0dp"
                     app:maxImageSize="40dp"
+                    app:elevation="0dp"
                     app:srcCompat="@android:drawable/btn_star" />
 
                 <TextView
                     android:id="@+id/main_name_output"
-                    android:layout_width="270dp"
+                    android:layout_width="218dp"
                     android:layout_height="wrap_content"
                     android:text="Main name"
-                    android:textSize="25dp" />
+                    android:textSize="30dp" />
 
                 <TextView
                     android:id="@+id/subname_output"
-                    android:layout_width="250dp"
+                    android:layout_width="229dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/main_name_output"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="52dp"
                     android:text="Subname"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
             </RelativeLayout>
 
