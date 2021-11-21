@@ -35,7 +35,9 @@ public class DatabaseManager  {
         // MAYBE: Return lastData of all Services for the view??
     }
 
-
+    public void saveData (LocationManager locationManager, ServiceManager serviceManager) {
+        remoteDBManager.saveAll(23, locationManager, serviceManager);
+    }
 
 
 }

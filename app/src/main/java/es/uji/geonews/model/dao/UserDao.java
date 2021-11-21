@@ -1,20 +1,36 @@
 package es.uji.geonews.model.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.managers.LocationManager;
+import es.uji.geonews.model.managers.ServiceManager;
 import es.uji.geonews.model.services.Service;
+import es.uji.geonews.model.services.ServiceName;
 
 public class UserDao {
     int userId;
     Map<Integer, Location> locations;
     Map<Integer, Location> favoriteLocations;
-    List<Service> activeServices;
-    Map<Integer, Location> locationServices;
-    Map<String, Data> lastData;
+    Map<ServiceName, Service> services;
+    Map<Integer, List<ServiceName>> locationServices;
+    Map<Integer, Map<ServiceName, Data>> lastData;
     String lastModification;    /// Aqui si nos interesa el horas minutos y segundos
+
+    public UserDao() {}
+
+    public UserDao (int userId, LocationManager locationManager, ServiceManager serviceManager) {
+        this.userId = userId;
+        this.locations = locationManager.getLocations();
+        this.favoriteLocations = locationManager.getFavoriteLocations();
+        this.services = serviceManager.getServiceMap();
+        this.locationServices = serviceManager.getLocationServices();
+        this.lastData = serviceManager.getLastData();
+        this.lastModification = LocalDateTime.now().toString();
+    }
 
     public int getUserId() {
         return userId;
@@ -40,27 +56,27 @@ public class UserDao {
         this.favoriteLocations = favoriteLocations;
     }
 
-    public List<Service> getActiveServices() {
-        return activeServices;
+    public Map<ServiceName, Service> getServices() {
+        return services;
     }
 
-    public void setActiveServices(List<Service> activeServices) {
-        this.activeServices = activeServices;
+    public void setServices(Map<ServiceName, Service> services) {
+        this.services = services;
     }
 
-    public Map<Integer, Location> getLocationServices() {
+    public Map<Integer, List<ServiceName>> getLocationServices() {
         return locationServices;
     }
 
-    public void setLocationServices(Map<Integer, Location> locationServices) {
+    public void setLocationServices(Map<Integer, List<ServiceName>> locationServices) {
         this.locationServices = locationServices;
     }
 
-    public Map<String, Data> getLastData() {
+    public Map<Integer, Map<ServiceName, Data>> getLastData() {
         return lastData;
     }
 
-    public void setLastData(Map<String, Data> lastData) {
+    public void setLastData(Map<Integer, Map<ServiceName, Data>> lastData) {
         this.lastData = lastData;
     }
 

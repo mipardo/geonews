@@ -115,4 +115,8 @@ public class GeoNewsManager {
     public Service getService(ServiceName serviceName) {
         return serviceManager.getService(serviceName);
     }
+
+    public void saveAllData() {
+        databaseManager.saveData(locationManager, serviceManager);
+    }
 }
