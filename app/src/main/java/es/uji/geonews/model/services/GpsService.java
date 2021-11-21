@@ -8,7 +8,7 @@ public class GpsService extends Service{
         super(ServiceName.GPS, "Servicio GPS para la obtención de la ubicacion actual");
     }
 
-    public GeographCoords getMyCoords() throws GPSNotAvailableException {
+    public GeographCoords currentCoords() throws GPSNotAvailableException {
         if (isAvailable()){
             return null;
         }

@@ -20,13 +20,13 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView placeNameOutput;
-        private TextView coordsOutput;
+        private TextView mainNameOutput;
+        private TextView subnameOutput;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            placeNameOutput = itemView.findViewById(R.id.place_name_output);
-            coordsOutput =  itemView.findViewById(R.id.coords_output);
+            mainNameOutput = itemView.findViewById(R.id.main_name_output);
+            subnameOutput =  itemView.findViewById(R.id.subname_output);
         }
     }
 
@@ -43,8 +43,24 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Location location = locations.get(position);
-        holder.placeNameOutput.setText(location.getPlaceName());
-        holder.coordsOutput.setText(location.getGeographCoords().toString());
+        String mainName;
+        String subname;
+        if (! location.getAlias().equals("")) {     // If location has alias
+            mainName = location.getAlias();
+            if (location.getPlaceName() != null) subname = location.getPlaceName();
+            else subname = location.getGeographCoords().toString();
+        } else {                                    // If location has no alias
+            if (location.getPlaceName() != null) {
+                mainName = location.getPlaceName();
+                subname = location.getGeographCoords().toString();
+            }
+            else{
+                mainName = location.getGeographCoords().toString();
+                subname = "Topónimo desconocido";
+            }
+        }
+        holder.mainNameOutput.setText(mainName);
+        holder.subnameOutput.setText(subname);
     }
 
     @Override

@@ -1,16 +1,22 @@
 package es.uji.geonews.acceptance.R4;
 
 
+import android.content.Context;
+
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class HU03_1 {
     private GeoNewsManager geoNewsManager;
@@ -18,7 +24,8 @@ public class HU03_1 {
     @Before
     public void init(){
         // Given
-        geoNewsManager = new GeoNewsManager();
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        geoNewsManager = new GeoNewsManager(appContext);
     }
 
     @Test
@@ -28,6 +35,20 @@ public class HU03_1 {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         geoNewsManager.addLocation("Bilbao");
+        lock.await(5000, TimeUnit.MILLISECONDS);
+    }
+
+    @Test
+    public void saveAllData()
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException, InterruptedException {
+        // When
+        CountDownLatch lock = new CountDownLatch(1);
+        Location bilbao = geoNewsManager.addLocation("Bilbao");
+        geoNewsManager.addLocation("Valencia");
+        geoNewsManager.deactivateService(ServiceName.CURRENTS);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, bilbao);
+        geoNewsManager.saveAllData();
         lock.await(5000, TimeUnit.MILLISECONDS);
     }
 

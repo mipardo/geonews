@@ -1,19 +1,21 @@
 package es.uji.geonews.model;
 import java.time.LocalDate;
+import java.util.Locale;
 
 public class Location {
     private int id;
     private String alias;
     private String placeName;
     private GeographCoords geographCoords;
-    private LocalDate registrationDate;
+    private String registrationDate;
     private boolean isActive;
 
     public Location(int id, String placeName, GeographCoords geographCoords, LocalDate registrationDate ) {
         this.id = id;
-        this.placeName = placeName;
+        String capitalizedLetter = placeName.substring(0,1).toUpperCase();
+        this.placeName = capitalizedLetter + placeName.substring(1).toLowerCase();
         this.geographCoords = geographCoords;
-        this.registrationDate = registrationDate;
+        this.registrationDate = registrationDate.toString();
         this.alias = "";
         this.isActive = false;
     }
@@ -70,11 +72,11 @@ public class Location {
         return false;
     }
 
-    public LocalDate getRegistrationDate() {
+    public String getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(LocalDate registrationDate) {
+    public void setRegistrationDate(String registrationDate) {
         this.registrationDate = registrationDate;
     }
 

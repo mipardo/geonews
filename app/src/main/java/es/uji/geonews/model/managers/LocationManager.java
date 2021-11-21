@@ -142,5 +142,13 @@ public class LocationManager {
         }
         return false;
     }
+
+    public Map<Integer, Location> getLocations() {
+        return locations;
+    }
+
+    public Map<Integer, Location> getFavoriteLocations() {
+        return favoriteLocations;
+    }
 }
 

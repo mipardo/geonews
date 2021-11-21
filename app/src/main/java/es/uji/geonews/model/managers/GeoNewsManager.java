@@ -1,10 +1,13 @@
 package es.uji.geonews.model.managers;
 
+import android.content.Context;
+
 import java.util.List;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.database.DatabaseManager;
+import es.uji.geonews.model.database.LocalDBManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -19,20 +22,23 @@ import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GeoNewsManager {
-
+    private String userId;
     private LocationManager locationManager;
     private ServiceManager serviceManager;
     private DatabaseManager databaseManager;
+    private LocalDBManager localDBManager;
 
-    public GeoNewsManager(){
+    public GeoNewsManager(Context context){
         databaseManager = new DatabaseManager();
         serviceManager = new ServiceManager();
+        localDBManager = new LocalDBManager();
         serviceManager.addService(new GpsService());
         serviceManager.addService(new AirVisualService());
         serviceManager.addService(new CurrentsService());
         serviceManager.addService(new OpenWeatherService());
         serviceManager.addService(new GeocodeService());
         locationManager = new LocationManager((GeocodeService) serviceManager.getService(ServiceName.GEOCODE));
+        userId = loadUserId(context);
     }
 
     public GeoNewsManager(LocationManager locationManager, ServiceManager serviceManager) {
@@ -48,6 +54,7 @@ public class GeoNewsManager {
 
         if (added){
             serviceManager.initLocationServices(newLocation);
+            // localDBManager.saveAll(1,locationManager,serviceManager);
             //databaseManager.saveLocation(newLocation);
             return newLocation;
         }
@@ -114,5 +121,13 @@ public class GeoNewsManager {
 
     public Service getService(ServiceName serviceName) {
         return serviceManager.getService(serviceName);
+    }
+
+    public void saveAllData() {
+        databaseManager.saveData(locationManager, serviceManager);
+    }
+
+    public String loadUserId(Context context) {
+        return databaseManager.getUserId(context);
     }
 }
