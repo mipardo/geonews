@@ -3,6 +3,10 @@ package es.uji.geonews.acceptance.R2;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import android.content.Context;
+
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +27,8 @@ public class HU01 {
     @Before
     public void init(){
         // Given
-        geoNewsManager = new GeoNewsManager();
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        geoNewsManager = new GeoNewsManager(appContext);
     }
 
     @Test

@@ -1,5 +1,7 @@
 package es.uji.geonews.model.managers;
 
+import android.content.Context;
+
 import java.util.List;
 
 import es.uji.geonews.model.Location;
@@ -20,13 +22,13 @@ import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GeoNewsManager {
-
+    private String userId;
     private LocationManager locationManager;
     private ServiceManager serviceManager;
     private DatabaseManager databaseManager;
     private LocalDBManager localDBManager;
 
-    public GeoNewsManager(){
+    public GeoNewsManager(Context context){
         databaseManager = new DatabaseManager();
         serviceManager = new ServiceManager();
         localDBManager = new LocalDBManager();
@@ -36,6 +38,7 @@ public class GeoNewsManager {
         serviceManager.addService(new OpenWeatherService());
         serviceManager.addService(new GeocodeService());
         locationManager = new LocationManager((GeocodeService) serviceManager.getService(ServiceName.GEOCODE));
+        userId = loadUserId(context);
     }
 
     public GeoNewsManager(LocationManager locationManager, ServiceManager serviceManager) {
@@ -50,8 +53,8 @@ public class GeoNewsManager {
         boolean added = locationManager.addLocation(newLocation);
 
         if (added){
-            localDBManager.saveAll(1,locationManager,serviceManager);
             serviceManager.initLocationServices(newLocation);
+            // localDBManager.saveAll(1,locationManager,serviceManager);
             //databaseManager.saveLocation(newLocation);
             return newLocation;
         }
@@ -122,5 +125,9 @@ public class GeoNewsManager {
 
     public void saveAllData() {
         databaseManager.saveData(locationManager, serviceManager);
+    }
+
+    public String loadUserId(Context context) {
+        return databaseManager.getUserId(context);
     }
 }

@@ -1,5 +1,7 @@
 package es.uji.geonews.model.database;
 
+import android.content.Context;
+
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.dao.LocationDao;
 import es.uji.geonews.model.managers.LocationManager;
@@ -40,4 +42,7 @@ public class DatabaseManager  {
     }
 
 
+    public String getUserId(Context context) {
+        return localDBManager.getUserId(context);
+    }
 }

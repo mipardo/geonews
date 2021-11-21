@@ -1,5 +1,7 @@
 package es.uji.geonews.controller;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 
@@ -15,13 +17,19 @@ import es.uji.geonews.model.managers.GeoNewsManager;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
+    private GeoNewsManager geoNewsManager;
+    private String userId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_locations);
+
+        geoNewsManager = new GeoNewsManager(this);
 
         List<Location> activeLocations = new ArrayList<>();
         activeLocations.add(new Location(1, "Castellón", new GeographCoords(39.97990, -0.03304), LocalDate.now()));

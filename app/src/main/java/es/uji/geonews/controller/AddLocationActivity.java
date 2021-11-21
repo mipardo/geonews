@@ -28,7 +28,7 @@ public class AddLocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        geoNewsManager = new GeoNewsManager();
+        geoNewsManager = new GeoNewsManager(this);
 
         addLocationButton = findViewById(R.id.add_location_button);
         placeNameOutput = findViewById(R.id.place_name_output);
