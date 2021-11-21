@@ -41,13 +41,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.show_locations);
         context = this;
 
-        geoNewsManager = new GeoNewsManager();
+        geoNewsManager = new GeoNewsManager(this);
 
         FloatingActionButton addLocationButton = findViewById(R.id.add_location_floating_button);
         RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
         ProgressBar progressBar = findViewById(R.id.my_progress_bar);
-
-
 
         locations = null;
         try {

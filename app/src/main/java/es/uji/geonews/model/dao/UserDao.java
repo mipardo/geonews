@@ -26,9 +26,9 @@ public class UserDao {
 
     public UserDao (int userId, LocationManager locationManager, ServiceManager serviceManager) {
         this.userId = userId;
-        this.locations = convertHashKeyToString(locationManager.getLocations()); ;
-        this.favoriteLocations = convertHashKeyToString(locationManager.getFavoriteLocations());
-        this.services = convertServiceNameToString(serviceManager.getServiceMap());
+        this.locations = convertLocations(locationManager.getLocations()); ;
+        this.favoriteLocations = convertLocations(locationManager.getFavoriteLocations());
+        this.services = convertServices(serviceManager.getServiceMap());
         this.locationServices =  convertLocationServices(serviceManager.getLocationServices());
         this.lastData = convertLastData(serviceManager.getLastData());
         this.lastModification = LocalDateTime.now().toString();
@@ -37,7 +37,7 @@ public class UserDao {
     private Map<String, Map<String, Data>> convertLastData(Map<Integer, Map<ServiceName, Data>> lastData) {
         Map<String, Map<String, Data>> convertedLastData = new HashMap<>();
         for (Map.Entry<Integer, Map<ServiceName, Data>> entry: lastData.entrySet()) {
-            convertedLastData.put(String.valueOf(entry.getKey()), convertServiceNameToString(entry.getValue()));
+            convertedLastData.put(String.valueOf(entry.getKey()), convertServices(entry.getValue()));
         }
         return convertedLastData;
     }
@@ -54,7 +54,7 @@ public class UserDao {
         return convertedMap;
     }
 
-    private <T> Map<String, T> convertHashKeyToString(Map<Integer, T> values) {
+    private <T> Map<String, T> convertLocations (Map<Integer, T> values) {
         Map<String, T> convertedMap = new HashMap<>();
         for (Integer key : values.keySet()) {
             convertedMap.put(String.valueOf(key), values.get(key));
@@ -62,7 +62,7 @@ public class UserDao {
         return convertedMap;
     }
 
-    private <T> Map<String, T> convertServiceNameToString(Map<ServiceName, T> map) {
+    private <T> Map<String, T> convertServices (Map<ServiceName, T> map) {
         Map<String, T> convertedMap = new HashMap<>();
         for (ServiceName key : map.keySet()) {
             convertedMap.put(key.name, map.get(key));

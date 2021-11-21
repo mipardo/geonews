@@ -43,6 +43,7 @@ public class AddLocation extends UserTask {
     @Override
     public void execute() {
         progressBar.setVisibility(View.VISIBLE);
+        progressBar.bringToFront();
         new Thread(new Runnable() {
             @Override
             public void run() {
