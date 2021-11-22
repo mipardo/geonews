@@ -4,6 +4,8 @@ public class GeographCoords {
     private double latitude;
     private double longitude;
 
+    public GeographCoords() {}
+
     public GeographCoords(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;

@@ -2,7 +2,11 @@ package es.uji.geonews.model.database;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import es.uji.geonews.model.dao.LocationDao;
@@ -51,5 +55,22 @@ public class RemoteDBManager implements DataBase {
     @Override
     public UserDao loadData(int userId) {
         return null;
+    }
+
+    @Override
+    public void loadAll(int userId, Callback callback) {
+        db.collection("locations").document(String.valueOf(userId))
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                UserDao userDao = documentSnapshot.toObject(UserDao.class);
+                callback.onSuccess(userDao);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                callback.onFailure(e);
+            }
+        });
     }
 }

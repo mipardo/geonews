@@ -2,12 +2,14 @@ package es.uji.geonews.model.services;
 
 import java.time.LocalDate;
 
-public abstract class Service {
+public class Service {
     private ServiceName serviceName;
     private String description;
 
     private String activationDate; //TODO: MODIFIY WHEN ACTIVATE AND DEACTIVATE
     protected boolean isActive;
+
+    public Service() {}
 
     public Service(ServiceName serviceName, String serviceType) {
         this.serviceName = serviceName;

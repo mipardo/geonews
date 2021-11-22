@@ -13,8 +13,8 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 
 public class LocationManager {
-    private final Map<Integer, Location> locations;
-    private final Map<Integer, Location> favoriteLocations;
+    private Map<Integer, Location> locations;
+    private Map<Integer, Location> favoriteLocations;
     private final LocationCreator locationCreator;
 
     public LocationManager(GeocodeService geocodeService) {
@@ -150,5 +150,15 @@ public class LocationManager {
     public Map<Integer, Location> getFavoriteLocations() {
         return favoriteLocations;
     }
+
+
+    public void setLocations(Map<Integer, Location> locations) {
+        this.locations = locations;
+    }
+
+    public void setFavoriteLocations(Map<Integer, Location> favoriteLocations) {
+        this.favoriteLocations = favoriteLocations;
+    }
+
 }
 

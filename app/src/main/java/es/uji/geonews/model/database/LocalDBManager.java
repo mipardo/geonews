@@ -68,6 +68,11 @@ public class LocalDBManager implements DataBase{
         return userDao;
     }
 
+    @Override
+    public void loadAll(int userId, Callback callback) {
+
+    }
+
     public String getUserId(Context context) {
         String userId;
         SharedPreferences sharedPreferences = context.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);

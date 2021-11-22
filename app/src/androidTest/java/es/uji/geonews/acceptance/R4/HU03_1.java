@@ -1,6 +1,8 @@
 package es.uji.geonews.acceptance.R4;
 
 
+import static org.junit.Assert.assertEquals;
+
 import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -12,6 +14,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -41,7 +44,7 @@ public class HU03_1 {
     @Test
     public void saveAllData()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException {
+            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         Location bilbao = geoNewsManager.addLocation("Bilbao");
@@ -50,6 +53,10 @@ public class HU03_1 {
         geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, bilbao);
         geoNewsManager.saveAllData();
         lock.await(5000, TimeUnit.MILLISECONDS);
+        geoNewsManager.loadData();
+        lock.await(5000, TimeUnit.MILLISECONDS);
+        assertEquals(geoNewsManager.getLocation(1).getPlaceName(), "Bilbao");
     }
+
 
 }
