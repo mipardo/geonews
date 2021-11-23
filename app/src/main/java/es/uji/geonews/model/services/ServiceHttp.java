@@ -4,7 +4,7 @@ import es.uji.geonews.model.Location;
 import okhttp3.OkHttpClient;
 
 public abstract class ServiceHttp extends Service{
-    protected final OkHttpClient client;
+    protected transient final OkHttpClient client;
     protected String apiKey;
 
     public ServiceHttp(ServiceName serviceName, String serviceType) {

@@ -12,4 +12,13 @@ public enum ServiceName {
     ServiceName(String name){
         this.name = name;
     }
+
+    public static ServiceName fromString (String text) {
+        for (ServiceName serviceName : ServiceName.values()) {
+            if (serviceName.name.equalsIgnoreCase(text)) {
+                return serviceName;
+            }
+        }
+        throw new IllegalArgumentException("No se ha encontrado una constante con el texto " + text);
+    }
 }

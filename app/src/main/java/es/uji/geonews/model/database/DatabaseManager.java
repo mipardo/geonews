@@ -4,6 +4,7 @@ import android.content.Context;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.dao.LocationDao;
+import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 
@@ -19,7 +20,7 @@ public class DatabaseManager  {
     public void saveLocation(Location location){
         LocationDao locationDao = new LocationDao(location);
         localDBManager.saveLocation(locationDao);
-        remoteDBManager.saveLocation(locationDao);
+        //remoteDBManager.saveLocation(locationDao);
     }
 
     public void saveFavLocation(Location location){
@@ -30,7 +31,26 @@ public class DatabaseManager  {
         //remoteDBManager.saveFavLocation(locationDao);
     }
 
-    public void loadData(LocationManager locationManager, ServiceManager serviceManager){
+    public void loadData(int userId, LocationManager locationManager, ServiceManager serviceManager) {
+        //Load Data En Local
+        UserDao userDao= localDBManager.loadData(userId);
+        userDao.fillLocationManager(locationManager);
+        userDao.fillServiceManager(serviceManager);
+        //Load Data En Remoto
+
+        remoteDBManager.loadAll(userId, new Callback() {
+            @Override
+            public void onSuccess(UserDao userDao) {
+                userDao.fillLocationManager(locationManager);
+                userDao.fillServiceManager(serviceManager);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                e.printStackTrace();
+            }
+        });
+
         // FIRST: Check which db has the most recent information.
         // SECOND: loadData from the most recent db
         // THIRD: Inject the data in locationManager and in ServiceManager
@@ -38,6 +58,9 @@ public class DatabaseManager  {
     }
 
     public void saveData (LocationManager locationManager, ServiceManager serviceManager) {
+        //Save Data En Local
+        localDBManager.saveAll(23,locationManager,serviceManager);
+        //Save Data En Local
         remoteDBManager.saveAll(23, locationManager, serviceManager);
     }
 

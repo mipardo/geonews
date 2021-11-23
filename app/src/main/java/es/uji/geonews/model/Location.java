@@ -10,6 +10,8 @@ public class Location {
     private String registrationDate;
     private boolean isActive;
 
+    public Location() {}
+
     public Location(int id, String placeName, GeographCoords geographCoords, LocalDate registrationDate ) {
         this.id = id;
         String capitalizedLetter = placeName.substring(0,1).toUpperCase();
@@ -78,6 +80,10 @@ public class Location {
 
     public void setRegistrationDate(String registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     @Override

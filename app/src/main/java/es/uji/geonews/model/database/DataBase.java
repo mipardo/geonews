@@ -10,4 +10,5 @@ public interface DataBase {
     void saveFavLocation(LocationDao locationDao);
     void saveAll(int userId, LocationManager locationManager, ServiceManager serviceManager);
     UserDao loadData(int userId);
+    void loadAll(int userId, Callback callback);
 }

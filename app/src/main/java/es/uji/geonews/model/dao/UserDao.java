@@ -70,6 +70,55 @@ public class UserDao {
         return convertedMap;
     }
 
+    // Conversión de vuelta
+    public void fillLocationManager(LocationManager locationManager) {
+        locationManager.setLocations(convertLocationsBack(locations));
+        locationManager.setFavoriteLocations(convertLocationsBack(favoriteLocations));
+    }
+
+    public void fillServiceManager(ServiceManager serviceManager) {
+        serviceManager.setServiceMap(convertServicesBack(services));
+        serviceManager.setLocationServices(convertLocationServicesBack(locationServices));
+        serviceManager.setLastData(convertLastDataBack(lastData));
+    }
+
+    private Map<Integer, Map<ServiceName, Data>> convertLastDataBack(Map<String, Map<String, Data>> lastData) {
+        Map<Integer, Map<ServiceName, Data>> convertedLastData = new HashMap<>();
+        for (Map.Entry<String, Map<String, Data>> entry: lastData.entrySet()) {
+            convertedLastData.put(Integer.parseInt(entry.getKey()), convertServicesBack(entry.getValue()));
+        }
+        return convertedLastData;
+    }
+
+    private Map<Integer, List<ServiceName>> convertLocationServicesBack(Map<String, List<String>> locationServices) {
+        Map<Integer, List<ServiceName>> convertedMap = new HashMap<>();
+        for (Map.Entry<String , List<String>> entry : locationServices.entrySet()) {
+            List<ServiceName> servicesString = new ArrayList<>();
+            for (String s: entry.getValue()) {
+                servicesString.add(ServiceName.fromString(s));
+            }
+            convertedMap.put(Integer.parseInt(entry.getKey()), servicesString);
+        }
+        return convertedMap;
+    }
+
+    private <T> Map<ServiceName, T> convertServicesBack (Map<String, T> map) {
+        Map<ServiceName, T> convertedMap = new HashMap<>();
+        for (String key : map.keySet()) {
+            convertedMap.put(ServiceName.fromString(key), map.get(key));
+        }
+        return convertedMap;
+    }
+
+    private <T> Map<Integer, T> convertLocationsBack (Map<String, T> values) {
+        Map<Integer, T> convertedMap = new HashMap<>();
+        for (String key : values.keySet()) {
+            convertedMap.put(Integer.parseInt(key), values.get(key));
+        }
+        return convertedMap;
+    }
+    // Getter & Setters
+
     public int getUserId() {
         return userId;
     }
@@ -125,4 +174,6 @@ public class UserDao {
     public void setLastModification(String lastModification) {
         this.lastModification = lastModification;
     }
+
+
 }

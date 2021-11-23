@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.database.LocalDBManager;
@@ -129,5 +130,9 @@ public class GeoNewsManager {
 
     public String loadUserId(Context context) {
         return databaseManager.getUserId(context);
+    }
+
+    public void loadData() {
+        databaseManager.loadData(23, locationManager, serviceManager);
     }
 }

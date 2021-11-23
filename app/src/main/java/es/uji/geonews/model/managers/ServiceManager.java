@@ -16,10 +16,10 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class ServiceManager {
 
-    private final Map<ServiceName, Service> serviceMap;
-    private final Map<Integer, List<ServiceName>> locationServices;
+    private Map<ServiceName, Service> serviceMap;
+    private Map<Integer, List<ServiceName>> locationServices;
     private final ContextDataGetter contextDataGetter;
-    private final Map<Integer, Map<ServiceName, Data>> lastData; // This is the last data loaded from services
+    private Map<Integer, Map<ServiceName, Data>> lastData; // This is the last data loaded from services
 
 
     public ServiceManager(){
@@ -185,5 +185,17 @@ public class ServiceManager {
 
     public Map<Integer, List<ServiceName>> getLocationServices() {
         return locationServices;
+    }
+
+    public void setServiceMap(Map<ServiceName, Service> serviceMap) {
+        this.serviceMap = serviceMap;
+    }
+
+    public void setLocationServices(Map<Integer, List<ServiceName>> locationServices) {
+        this.locationServices = locationServices;
+    }
+
+    public void setLastData(Map<Integer, Map<ServiceName, Data>> lastData) {
+        this.lastData = lastData;
     }
 }
