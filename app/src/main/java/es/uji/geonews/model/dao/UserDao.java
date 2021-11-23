@@ -14,19 +14,21 @@ import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceName;
 
 public class UserDao {
-    int userId;
-    Map<String, Location> locations;
-    Map<String, Location> favoriteLocations;
-    Map<String, Service> services;
-    Map<String, List<String>> locationServices;
-    Map<String, Map<String, Data>> lastData;
-    String lastModification;    /// Aqui si nos interesa el horas minutos y segundos
+    private String userId;
+    private int locationCounter;
+    private Map<String, Location> locations;
+    private Map<String, Location> favoriteLocations;
+    private Map<String, Service> services;
+    private Map<String, List<String>> locationServices;
+    private Map<String, Map<String, Data>> lastData;
+    private String lastModification;    /// Aqui si nos interesa el horas minutos y segundos
 
     public UserDao() {}
 
-    public UserDao (int userId, LocationManager locationManager, ServiceManager serviceManager) {
+    public UserDao (String userId, LocationManager locationManager, ServiceManager serviceManager) {
         this.userId = userId;
-        this.locations = convertLocations(locationManager.getLocations()); ;
+        this.locationCounter = locationManager.getLocationCounter();
+        this.locations = convertLocations(locationManager.getLocations());
         this.favoriteLocations = convertLocations(locationManager.getFavoriteLocations());
         this.services = convertServices(serviceManager.getServiceMap());
         this.locationServices =  convertLocationServices(serviceManager.getLocationServices());
@@ -73,6 +75,7 @@ public class UserDao {
     // Conversión de vuelta
     public void fillLocationManager(LocationManager locationManager) {
         locationManager.setLocations(convertLocationsBack(locations));
+        locationManager.setLocationCounter(locationCounter);
         locationManager.setFavoriteLocations(convertLocationsBack(favoriteLocations));
     }
 
@@ -119,11 +122,11 @@ public class UserDao {
     }
     // Getter & Setters
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

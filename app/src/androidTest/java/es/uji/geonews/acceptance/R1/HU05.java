@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.time.LocalDate;
 import java.util.List;
 
 import es.uji.geonews.model.GeographCoords;
@@ -23,6 +25,8 @@ import es.uji.geonews.model.services.ServiceName;
 public class HU05 {
     private LocationManager locationManager;
     private ServiceManager serviceManager;
+    private Location valencia;
+
 
     @Before
     public void init(){
@@ -30,20 +34,19 @@ public class HU05 {
         GeocodeService geocode = new GeocodeService();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(geocode);
+        valencia = new Location(2, "Valencia",
+                new GeographCoords(39.50337, -0.40466), LocalDate.now());
     }
 
     @Test
-    public void validateLocation_PlaceNameRecognized_ListWithTwoActiveServices()
-            throws ServiceNotAvailableException, NotValidCoordinatesException,
-            UnrecognizedPlaceNameException {
+    public void validateLocation_PlaceNameRecognized_ListWithTwoActiveServices() {
         Service OpenWeather = new OpenWeatherService();
         Service AirVisual = new AirVisualService();
         serviceManager.addService(OpenWeather);
         serviceManager.addService(AirVisual);
+        locationManager.addLocation(valencia);
         // When
-        GeographCoords coords = new GeographCoords(39.98001, -0.049900);
-        Location newLocation = locationManager.addLocation(coords.toString());
-        List<ServiceName> services = serviceManager.validateLocation(newLocation);
+        List<ServiceName> services = serviceManager.validateLocation(valencia);
         // Then
         assertEquals(2, services.size());
         assertTrue(services.contains(ServiceName.OPEN_WEATHER));
@@ -51,13 +54,10 @@ public class HU05 {
     }
 
     @Test
-    public void validateLocation_NoApiAvailable_EmptyList()
-            throws ServiceNotAvailableException, NotValidCoordinatesException,
-            UnrecognizedPlaceNameException {
+    public void validateLocation_NoApiAvailable_EmptyList() {
+        locationManager.addLocation(valencia);
         // When
-        GeographCoords coords = new GeographCoords(39.98001, -0.049900);
-        Location newLocation = locationManager.addLocation(coords.toString());
-        List<ServiceName> services = serviceManager.validateLocation(newLocation);
+        List<ServiceName> services = serviceManager.validateLocation(valencia);
         // Then
         assertEquals(0, services.size());
     }

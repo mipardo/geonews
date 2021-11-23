@@ -14,12 +14,19 @@ public class Location {
 
     public Location(int id, String placeName, GeographCoords geographCoords, LocalDate registrationDate ) {
         this.id = id;
-        String capitalizedLetter = placeName.substring(0,1).toUpperCase();
-        this.placeName = capitalizedLetter + placeName.substring(1).toLowerCase();
+        this.placeName = normalizePlaceName(placeName);
         this.geographCoords = geographCoords;
         this.registrationDate = registrationDate.toString();
         this.alias = "";
         this.isActive = false;
+    }
+
+    private String normalizePlaceName(String placeName) {
+        if(placeName != null){
+            String capitalizedLetter = placeName.substring(0,1).toUpperCase();
+            return capitalizedLetter + placeName.substring(1).toLowerCase();
+        }
+        return null;
     }
 
     public int getId() {

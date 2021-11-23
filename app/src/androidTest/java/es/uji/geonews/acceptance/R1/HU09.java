@@ -4,10 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.content.Context;
+
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.Before;
 import org.junit.Test;
 
 
+import es.uji.geonews.model.Location;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -17,69 +23,71 @@ import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.managers.ServiceManager;
 
 public class HU09 {
-
-    private LocationManager locationManager;
+    private GeoNewsManager geoNewsManager;
 
     @Before
     public void init()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException {
         // Given
-        ServiceManager serviceManager = new ServiceManager();
-        GeocodeService geocode = new GeocodeService();
-        serviceManager.addService(geocode);
-        locationManager = new LocationManager(geocode);
-        locationManager.addLocation("Castello de la Plana");
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        geoNewsManager = new GeoNewsManager(appContext);
+
     }
 
     @Test
-    public void assignAlias_ValidNewAlias_True() throws NoLocationRegisteredException {
+    public void assignAlias_ValidNewAlias_True() throws NoLocationRegisteredException,
+            NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+
+        Location castellon = geoNewsManager.addLocation("Castello de la plana");
         // When
-        int idLocation = locationManager.getNonActiveLocations().get(0).getId();
-        boolean result = locationManager.setAliasToLocation("Casa", idLocation);
+        boolean result = geoNewsManager.setAliasToLocation("Casa", castellon.getId());
 
         // Then
         assertTrue(result);
-        assertEquals("Casa", locationManager.getLocation(idLocation).getAlias());
+        assertEquals("Casa", geoNewsManager.getLocation(castellon.getId()).getAlias());
     }
 
     @Test
-    public void assignAlias_InvalidNewAlias_False() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
+    public void assignAlias_InvalidNewAlias_False() throws NotValidCoordinatesException,
+            ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
-        locationManager.addLocation("Valencia");
-        int idLocation = locationManager.getNonActiveLocations().get(0).getId();
-        locationManager.setAliasToLocation("Casa", idLocation);
+        Location castellon = geoNewsManager.addLocation("Castello de la plana");
+        Location valencia = geoNewsManager.addLocation("Valencia");
+        geoNewsManager.setAliasToLocation("Casa", castellon.getId());
 
         // When
-        idLocation = locationManager.getNonActiveLocations().get(1).getId();
-        boolean result = locationManager.setAliasToLocation("Casa", idLocation);
+        boolean result = geoNewsManager.setAliasToLocation("Casa", valencia.getId());
 
         // Then
         assertFalse(result);
     }
 
     @Test
-    public void modifyAlias_ValidAlias_True() throws NoLocationRegisteredException {
+    public void modifyAlias_ValidAlias_True() throws NoLocationRegisteredException,
+            NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
-        int idLocation = locationManager.getNonActiveLocations().get(0).getId();
-        locationManager.setAliasToLocation("Casa", idLocation);
+        Location castellon = geoNewsManager.addLocation("Castello de la plana");
+        geoNewsManager.setAliasToLocation("Casa", castellon.getId());
+
         // When
-        boolean result = locationManager.setAliasToLocation("Mi casa", idLocation);
+        boolean result = geoNewsManager.setAliasToLocation("Mi casa", castellon.getId());
 
         // Then
         assertTrue(result);
-        assertEquals("Mi casa", locationManager.getLocation(idLocation).getAlias());
+        assertEquals("Mi casa", geoNewsManager.getLocation(castellon.getId()).getAlias());
 
     }
 
     @Test
-    public void modifyAlias_InvalidAlias_False() throws NoLocationRegisteredException {
+    public void modifyAlias_InvalidAlias_False() throws NoLocationRegisteredException,
+            NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
-        int idLocation = locationManager.getNonActiveLocations().get(0).getId();
-        locationManager.setAliasToLocation("Mi casa", idLocation);
+        Location castellon = geoNewsManager.addLocation("Castello de la plana");
+        geoNewsManager.setAliasToLocation("Mi casa", castellon.getId());
 
         // When
-        boolean result = locationManager.setAliasToLocation("Mi casa", idLocation);
+        boolean result = geoNewsManager.setAliasToLocation("Mi casa", castellon.getId());
 
         // Then
         assertFalse(result);

@@ -4,10 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.content.Context;
+
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -18,42 +23,39 @@ import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.managers.ServiceManager;
 
 public class HU10 {
-    private LocationManager locationManager;
-    private Location location;
+    private GeoNewsManager geoNewsManager;
+    Location castellon;
 
     @Before
     public void init()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, NoLocationRegisteredException {
-        //Given
-        GeocodeService geocode = new GeocodeService();
-        ServiceManager serviceManager = new ServiceManager();
-        serviceManager.addService(geocode);
-        serviceManager.addService(new AirVisualService());
-        locationManager = new LocationManager(geocode);
-        location = locationManager.addLocation("Castello de la Plana");
-        locationManager.activateLocation(location.getId());
+        // Given
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        geoNewsManager = new GeoNewsManager(appContext);
+        castellon = geoNewsManager.addLocation("Castello de la plana");
+        geoNewsManager.activateLocation(castellon.getId());
     }
 
     @Test
     public void deactivateLocation_ActiveLocation_True()
             throws NoLocationRegisteredException {
         // When
-        boolean result = locationManager.deactivateLocation(location.getId());
+        boolean result = geoNewsManager.deactivateLocation(castellon.getId());
 
         // Then
         assertTrue(result);
-        assertEquals(0, locationManager.getActiveLocations().size());
-        assertEquals(1, locationManager.getNonActiveLocations().size());
+        assertEquals(0, geoNewsManager.getActiveLocations().size());
+        assertEquals(1, geoNewsManager.getNonActiveLocations().size());
     }
 
     @Test
     public void deactivateLocation_NonActiveLocation_False() {
         // Given
-        locationManager.deactivateLocation(location.getId());
+        geoNewsManager.deactivateLocation(castellon.getId());
 
         // When
-        boolean result = locationManager.deactivateLocation(location.getId());
+        boolean result = geoNewsManager.deactivateLocation(castellon.getId());
 
         // Then
         assertFalse(result);

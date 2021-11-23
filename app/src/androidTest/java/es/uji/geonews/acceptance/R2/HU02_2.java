@@ -32,7 +32,7 @@ public class HU02_2 {
     public void checkService_OneDesactivation_True()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
-        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         int id = castellon.getId();
         geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
 
@@ -48,7 +48,7 @@ public class HU02_2 {
     public void checkService_OneDesactivation_False()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
-        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         int id = castellon.getId();
         // When
         boolean confirmation = geoNewsManager.removeServiceFromLocation(ServiceName.OPEN_WEATHER, castellon);

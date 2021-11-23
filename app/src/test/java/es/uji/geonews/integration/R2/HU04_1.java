@@ -55,14 +55,14 @@ public class HU04_1 {
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
             NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
-        Location castellon = locationManager.addLocation("Castelló de la Plana");
+        Location castellon = locationManager.addLocation("Castelló de la plana");
         Location alicante = locationManager.addLocation("Alicante");
         locationManager.addToFavorites(castellon.getId());
         // Act
         List<Location> favorites = locationManager.getFavouriteLocations();
         // Assert
         assertEquals(1, favorites.size());
-        assertEquals("Castelló de la Plana", favorites.get(0).getPlaceName());
+        assertEquals("Castelló de la plana", favorites.get(0).getPlaceName());
     }
 
     @Test

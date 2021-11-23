@@ -15,7 +15,15 @@ public class LocationCreator {
 
     public LocationCreator(GeocodeService geocodeService){
         this.geocodeService = geocodeService;
-        this.idLocationCounter = 1; // TODO: Recojer de la DB
+        this.idLocationCounter = 1;
+    }
+
+    public int getIdLocationCounter() {
+        return idLocationCounter;
+    }
+
+    public void setIdLocationCounter(int idLocationCounter) {
+        this.idLocationCounter = idLocationCounter;
     }
 
     public Location createLocation(String location) throws NotValidCoordinatesException,

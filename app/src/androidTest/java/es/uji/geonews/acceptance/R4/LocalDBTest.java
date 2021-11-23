@@ -55,10 +55,10 @@ public class LocalDBTest {
         geoNewsManager.deactivateService(ServiceName.CURRENTS);
         geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, bilbao);
 
-        geoNewsManager.saveAllData();
+        geoNewsManager.saveAll();
 
 
-        geoNewsManager.loadData();
+        geoNewsManager.loadAll();
 
         //assertEquals(geoNewsManager.getLocation(1).getPlaceName(), "Bilbao");
     }

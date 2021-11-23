@@ -2,10 +2,15 @@ package es.uji.geonews.acceptance.R2;
 
 import static org.junit.Assert.assertEquals;
 
+import android.content.Context;
+
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -14,13 +19,14 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 
 public class HU05 {
-    private LocationManager locationManager;
     private Location valencia;
+    private GeoNewsManager geoNewsManager;
 
     @Before
-    public void init(){
-        GeocodeService geocode = new GeocodeService();
-        locationManager = new LocationManager(geocode);
+    public void init() {
+        // Given
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        geoNewsManager = new GeoNewsManager(appContext);
     }
 
     @Test
@@ -28,13 +34,13 @@ public class HU05 {
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
-        locationManager.addLocation("Castelló de la Plana");
-        valencia = locationManager.addLocation("Valencia");
-        locationManager.addLocation("Alicante");
-        locationManager.setAliasToLocation("Casa", valencia.getId());
+        geoNewsManager.addLocation("Castelló de la plana");
+        valencia = geoNewsManager.addLocation("Valencia");
+        geoNewsManager.addLocation("Alicante");
+        geoNewsManager.setAliasToLocation("Casa", valencia.getId());
 
         // When
-        Location result = locationManager.getLocation(valencia.getId());
+        Location result = geoNewsManager.getLocation(valencia.getId());
 
         // Then
         assertEquals(result, valencia);
@@ -44,6 +50,6 @@ public class HU05 {
     @Test (expected = NoLocationRegisteredException.class)
     public void getLocationData_thereAreNoLocations_NoLocationRegisteredException() throws NoLocationRegisteredException {
         // When
-        locationManager.getLocation(1);
+        geoNewsManager.getLocation(1);
     }
 }

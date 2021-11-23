@@ -22,7 +22,7 @@ public class HU07 {
     public void getCoords_KnownPlaceName_validCoords()
             throws Throwable {
         // When
-        GeographCoords coords = geocode.getCoords("Castello de la Plana");
+        GeographCoords coords = geocode.getCoords("Castello de la plana");
         // Then
         assertEquals(39.98920, coords.getLatitude(), 0.01);
         assertEquals(-0.03621, coords.getLongitude(), 0.01);

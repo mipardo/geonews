@@ -4,10 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.content.Context;
+
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -18,15 +23,13 @@ import es.uji.geonews.model.managers.ServiceManager;
 
 public class HU04_3 {
 
-    private LocationManager locationManager;
+    private GeoNewsManager geoNewsManager;
 
     @Before
-    public void init(){
+    public void init() {
         // Given
-        GeocodeService geocode = new GeocodeService();
-        ServiceManager serviceManager = new ServiceManager();
-        serviceManager.addService(geocode);
-        locationManager = new LocationManager(geocode);
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        geoNewsManager = new GeoNewsManager(appContext);
     }
 
     @Test
@@ -34,17 +37,17 @@ public class HU04_3 {
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             UnrecognizedPlaceNameException, NoLocationRegisteredException {
         //Given
-        Location castellon = locationManager.addLocation("39.99207, -0.03621");
-        Location valencia = locationManager.addLocation("39.50337, -0.40466");
-        Location alicante = locationManager.addLocation("38.53996, -0.50579");
-        locationManager.addToFavorites(valencia.getId());
-        locationManager.addToFavorites(alicante.getId());
+        Location castellon = geoNewsManager.addLocation("39.99207, -0.03621");
+        Location valencia = geoNewsManager.addLocation("39.50337, -0.40466");
+        Location alicante = geoNewsManager.addLocation("38.53996, -0.50579");
+        geoNewsManager.addToFavorites(valencia.getId());
+        geoNewsManager.addToFavorites(alicante.getId());
 
         // When
-        boolean castellonToFavorites = locationManager.addToFavorites(castellon.getId());
+        boolean castellonToFavorites = geoNewsManager.addToFavorites(castellon.getId());
 
         // Then
-        assertEquals(3, locationManager.getFavouriteLocations().size());
+        assertEquals(3, geoNewsManager.getFavouriteLocations().size());
         assertTrue(castellonToFavorites);
     }
 
@@ -53,15 +56,15 @@ public class HU04_3 {
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             UnrecognizedPlaceNameException, NoLocationRegisteredException {
         //Given
-        Location castellon = locationManager.addLocation("39.99207, -0.03621");
-        Location valencia = locationManager.addLocation("38.53996, -0.50579");
-        locationManager.addToFavorites(valencia.getId());
-        locationManager.addToFavorites(castellon.getId());
+        Location castellon = geoNewsManager.addLocation("39.99207, -0.03621");
+        Location valencia = geoNewsManager.addLocation("38.53996, -0.50579");
+        geoNewsManager.addToFavorites(valencia.getId());
+        geoNewsManager.addToFavorites(castellon.getId());
         // When
-        boolean castellonToFavorites = locationManager.addToFavorites(castellon.getId());
+        boolean castellonToFavorites = geoNewsManager.addToFavorites(castellon.getId());
         // Then
         assertFalse(castellonToFavorites);
-        assertEquals(2, locationManager.getFavouriteLocations().size());
+        assertEquals(2, geoNewsManager.getFavouriteLocations().size());
     }
 
 }

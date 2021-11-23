@@ -23,7 +23,9 @@ public class LocationManager {
         this.locationCreator = new LocationCreator(geocodeService);
     }
 
-    public List<Location> getActiveLocations() {
+    public List<Location> getActiveLocations() throws NoLocationRegisteredException {
+        if (locations.isEmpty() && favoriteLocations.isEmpty()) throw new NoLocationRegisteredException();
+
         List<Location> activeLocations = new ArrayList<>();
         for (Location location: locations.values()){
             if (location.isActive()) activeLocations.add(location);
@@ -59,7 +61,7 @@ public class LocationManager {
        return false;
     }
 
-    //TODO: CUIDADO PREGUNTAR
+    //TODO: ELIMINAR ESTE METODO Y CORREGIR LAS PRUEBAS PARA QUE PRUEBE EL GEONEWSMANAGER
     public Location addLocation(String location) throws UnrecognizedPlaceNameException,
             ServiceNotAvailableException, NotValidCoordinatesException {
         Location newLocation = createLocation(location);
@@ -160,5 +162,12 @@ public class LocationManager {
         this.favoriteLocations = favoriteLocations;
     }
 
+    public int getLocationCounter(){
+        return locationCreator.getIdLocationCounter();
+    }
+
+    public void setLocationCounter(int locationCounter){
+        locationCreator.setIdLocationCounter(locationCounter);
+    }
 }
 

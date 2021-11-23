@@ -37,7 +37,7 @@ public class HU01 {
         // Given
         geoNewsManager.addLocation("Valencia");
         geoNewsManager.addLocation("Alicante");
-        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
 
         // When
@@ -57,7 +57,7 @@ public class HU01 {
     public void checkServiceData_activeAndAvailable_AirVisualLocationData()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
-        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, castellon);
 
         // When
@@ -90,7 +90,7 @@ public class HU01 {
         // Given
         geoNewsManager.addLocation("Valencia");
         geoNewsManager.addLocation("Alicante");
-        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
         geoNewsManager.deactivateService(ServiceName.OPEN_WEATHER);
         // When
@@ -102,7 +102,7 @@ public class HU01 {
         // Given
         geoNewsManager.addLocation("Valencia");
         geoNewsManager.addLocation("Alicante");
-        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         // When
         Data serviceData = geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon);
 

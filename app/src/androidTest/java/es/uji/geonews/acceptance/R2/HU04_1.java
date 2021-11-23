@@ -2,12 +2,17 @@ package es.uji.geonews.acceptance.R2;
 
 import static org.junit.Assert.assertEquals;
 
+import android.content.Context;
+
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -18,30 +23,29 @@ import es.uji.geonews.model.managers.ServiceManager;
 
 public class HU04_1 {
 
-    private LocationManager locationManager;
+    private GeoNewsManager geoNewsManager;
 
     @Before
-    public void init(){
+    public void init() {
         // Given
-        GeocodeService geocode = new GeocodeService();
-        ServiceManager serviceManager = new ServiceManager();
-        serviceManager.addService(geocode);
-        locationManager = new LocationManager(geocode);
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        geoNewsManager = new GeoNewsManager(appContext);
     }
+
 
     @Test
     public void getFavoriteLocations_AllAreFavorite_ListWithThreeLocations()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             UnrecognizedPlaceNameException, NoLocationRegisteredException {
         //Given
-        Location castellon = locationManager.addLocation("39.99207, -0.03621");
-        Location valencia = locationManager.addLocation("39.50337, -0.40466");
-        Location alicante = locationManager.addLocation("38.53996, -0.50579");
-        locationManager.addToFavorites(castellon.getId());
-        locationManager.addToFavorites(valencia.getId());
-        locationManager.addToFavorites(alicante.getId());
+        Location castellon = geoNewsManager.addLocation("39.99207, -0.03621");
+        Location valencia = geoNewsManager.addLocation("39.50337, -0.40466");
+        Location alicante = geoNewsManager.addLocation("38.53996, -0.50579");
+        geoNewsManager.addToFavorites(castellon.getId());
+        geoNewsManager.addToFavorites(valencia.getId());
+        geoNewsManager.addToFavorites(alicante.getId());
         // When
-        List<Location> favouriteLocations = locationManager.getFavouriteLocations();
+        List<Location> favouriteLocations = geoNewsManager.getFavouriteLocations();
         // Then
         assertEquals(3, favouriteLocations.size());
     }
@@ -51,11 +55,11 @@ public class HU04_1 {
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             UnrecognizedPlaceNameException, NoLocationRegisteredException {
         //Given
-        Location castellon = locationManager.addLocation("39.99207, -0.03621");
-        Location alicante = locationManager.addLocation("38.53996, -0.50579");
-        locationManager.addToFavorites(castellon.getId());
+        Location castellon = geoNewsManager.addLocation("39.99207, -0.03621");
+        Location alicante = geoNewsManager.addLocation("38.53996, -0.50579");
+        geoNewsManager.addToFavorites(castellon.getId());
         // When
-        List<Location> favouriteLocations = locationManager.getFavouriteLocations();
+        List<Location> favouriteLocations = geoNewsManager.getFavouriteLocations();
         // Then
         assertEquals(1, favouriteLocations.size());
         assertEquals(castellon.getPlaceName(), favouriteLocations.get(0).getPlaceName());
@@ -66,9 +70,9 @@ public class HU04_1 {
             throws NotValidCoordinatesException, ServiceNotAvailableException,
             UnrecognizedPlaceNameException, NoLocationRegisteredException {
         //Given
-        locationManager.addLocation("39.99207, -0.03621");
+        geoNewsManager.addLocation("39.99207, -0.03621");
         // When
-        List<Location> favouriteLocations = locationManager.getFavouriteLocations();
+        List<Location> favouriteLocations = geoNewsManager.getFavouriteLocations();
         // Then
         assertEquals(0, favouriteLocations.size());
     }
@@ -77,7 +81,7 @@ public class HU04_1 {
     public void getFavoriteLocations_NoLocations_NoLocationRegisteredException()
             throws NoLocationRegisteredException {
         // When
-        locationManager.getFavouriteLocations();
+        geoNewsManager.getFavouriteLocations();
     }
 
 

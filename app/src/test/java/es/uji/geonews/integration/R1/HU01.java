@@ -38,13 +38,13 @@ public class HU01 {
         when(geocodeServiceMocked.getCoords(anyString()))
                 .thenReturn(new GeographCoords(39.98920, -0.03621));
         // Act
-        Location location = locationManager.addLocation("Castello de la Plana");
+        Location location = locationManager.addLocation("Castello de la plana");
         // Assert
         verify(geocodeServiceMocked, times(1)).isAvailable();
-        verify(geocodeServiceMocked, times(1)).getCoords("Castello de la Plana");
+        verify(geocodeServiceMocked, times(1)).getCoords("Castello de la plana");
         assertEquals(0, locationManager.getActiveLocations().size());
         assertEquals(1, locationManager.getNonActiveLocations().size());
-        assertEquals("Castello de la Plana", locationManager.getLocation(location.getId()).getPlaceName());
+        assertEquals("Castello de la plana", locationManager.getLocation(location.getId()).getPlaceName());
         assertEquals(39.98920, locationManager.getLocation(location.getId()).getGeographCoords().getLatitude(), 0.01);
         assertEquals(-0.03621, locationManager.getLocation(location.getId()).getGeographCoords().getLongitude(), 0.01);
     }

@@ -30,7 +30,7 @@ public class AddLocation extends UserTask {
     private final String location;
     private final Context context;
     private final RecyclerView recyclerView;
-    String error;
+    private String error;
 
     public AddLocation(GeoNewsManager geoNewsManager, String location, ProgressBar progressBar, Context context, RecyclerView recyclerView){
         this.geoNewsManager = geoNewsManager;

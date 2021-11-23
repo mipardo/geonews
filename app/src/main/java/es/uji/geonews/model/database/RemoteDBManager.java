@@ -15,6 +15,7 @@ import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 
 public class RemoteDBManager implements DataBase {
+
     private FirebaseFirestore db;
 
     public RemoteDBManager(){
@@ -22,25 +23,9 @@ public class RemoteDBManager implements DataBase {
     }
 
 
-    @Override
-    public void saveLocation(LocationDao locationDao) {
-        db.collection("locations").document(locationDao.getPlaceName())
-                .set(locationDao)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d("GeoNews", "Added location");
-                    }
-                });
-    }
 
     @Override
-    public void saveFavLocation(LocationDao locationDao) {
-
-    }
-
-    @Override
-    public void saveAll(int userId, LocationManager locationManager, ServiceManager serviceManager) {
+    public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
         UserDao userDao = new UserDao(userId, locationManager, serviceManager);
         db.collection("users").document(String.valueOf(userId))
                 .set(userDao)
@@ -53,13 +38,8 @@ public class RemoteDBManager implements DataBase {
     }
 
     @Override
-    public UserDao loadData(int userId) {
-        return null;
-    }
-
-    @Override
-    public void loadAll(int userId, Callback callback) {
-        db.collection("locations").document(String.valueOf(userId))
+    public void loadAll(String userId, Callback callback) {
+        db.collection("users").document(String.valueOf(userId))
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

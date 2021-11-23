@@ -21,7 +21,6 @@ public class ServiceManager {
     private final ContextDataGetter contextDataGetter;
     private Map<Integer, Map<ServiceName, Data>> lastData; // This is the last data loaded from services
 
-
     public ServiceManager(){
         this.serviceMap = new HashMap<>();
         this.locationServices = new HashMap<>();
@@ -81,7 +80,6 @@ public class ServiceManager {
         }
         return null;
     }
-
 
     public List<ServiceName> validateLocation(Location location){
         List<ServiceName> services = new ArrayList<>();

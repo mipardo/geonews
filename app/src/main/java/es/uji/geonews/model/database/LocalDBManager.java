@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.google.firebase.firestore.auth.User;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -23,23 +24,13 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 public class LocalDBManager implements DataBase{
 
-    Gson json;
+    private final Gson json;
     public LocalDBManager() {
         json= new Gson();
     }
 
     @Override
-    public void saveLocation(LocationDao locationDao) {
-
-    }
-
-    @Override
-    public void saveFavLocation(LocationDao locationDao) {
-
-    }
-
-    @Override
-    public void saveAll(int userId, LocationManager locationManager, ServiceManager serviceManager) {
+    public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
         //Crear Un conjunto de datos con to-do lo que queremos guardar de Sistema
         UserDao userDao = new UserDao(userId,locationManager,serviceManager);
         //Pasarlo a un Json
@@ -55,19 +46,18 @@ public class LocalDBManager implements DataBase{
 
 
     @Override
-    public UserDao loadData(int userId) {
+    public void loadAll(String userId, Callback callback) {
         //Cargar un conjunto de datos guardado en el sistema
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         SharedPreferences sharedPreferences = appContext.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);
         String configuracion = sharedPreferences.getString("configuracion","No existe la informacion");
         //Transformalo en la clase UserDao
-        UserDao userDao = json.fromJson(configuracion,UserDao.class);
-        return userDao;
-    }
-
-    @Override
-    public void loadAll(int userId, Callback callback) {
-
+        try {
+            UserDao userDao = json.fromJson(configuracion, UserDao.class);
+            callback.onSuccess(userDao);
+        } catch (JsonSyntaxException exception) {
+            callback.onFailure(exception);
+        }
     }
 
     public String getUserId(Context context) {

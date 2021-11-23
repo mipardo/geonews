@@ -2,8 +2,8 @@ package es.uji.geonews.model.database;
 
 import android.content.Context;
 
-import es.uji.geonews.model.Location;
-import es.uji.geonews.model.dao.LocationDao;
+import com.google.gson.JsonSyntaxException;
+
 import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
@@ -17,53 +17,44 @@ public class DatabaseManager  {
         localDBManager = new LocalDBManager();
     }
 
-    public void saveLocation(Location location){
-        LocationDao locationDao = new LocationDao(location);
-        localDBManager.saveLocation(locationDao);
-        //remoteDBManager.saveLocation(locationDao);
-    }
 
-    public void saveFavLocation(Location location){
-        LocationDao locationDao = new LocationDao(location);
-        //localDBManager.removeLocation(locationDao);
-        //remoteDBManager.removeLocation(locationDao);
-        //localDBManager.saveFavLocation(locationDao);
-        //remoteDBManager.saveFavLocation(locationDao);
-    }
-
-    public void loadData(int userId, LocationManager locationManager, ServiceManager serviceManager) {
-        //Load Data En Local
-        UserDao userDao= localDBManager.loadData(userId);
-        userDao.fillLocationManager(locationManager);
-        userDao.fillServiceManager(serviceManager);
-        //Load Data En Remoto
-
-        remoteDBManager.loadAll(userId, new Callback() {
+    public void loadAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
+        // First we load the data from the local databse.
+        // If any problem is find then we load the data from the remote db
+        localDBManager.loadAll(userId, new Callback() {
             @Override
             public void onSuccess(UserDao userDao) {
                 userDao.fillLocationManager(locationManager);
                 userDao.fillServiceManager(serviceManager);
             }
-
             @Override
             public void onFailure(Exception e) {
-                e.printStackTrace();
+                if (e instanceof JsonSyntaxException) {
+                    //If we get this exception is the first time the app is running
+                    return;
+                }
+                remoteDBManager.loadAll(userId, new Callback() {
+                    @Override
+                    public void onSuccess(UserDao userDao) {
+                        userDao.fillLocationManager(locationManager);
+                        userDao.fillServiceManager(serviceManager);
+                        //localDBManager.saveAll().... todo: por que funciona????
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        // Local and remote db is not available or empty
+                        e.printStackTrace();
+                    }
+                });
             }
         });
-
-        // FIRST: Check which db has the most recent information.
-        // SECOND: loadData from the most recent db
-        // THIRD: Inject the data in locationManager and in ServiceManager
-        // MAYBE: Return lastData of all Services for the view??
     }
 
-    public void saveData (LocationManager locationManager, ServiceManager serviceManager) {
-        //Save Data En Local
-        localDBManager.saveAll(23,locationManager,serviceManager);
-        //Save Data En Local
-        remoteDBManager.saveAll(23, locationManager, serviceManager);
+    public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
+        localDBManager.saveAll(userId, locationManager,serviceManager);
+        remoteDBManager.saveAll(userId, locationManager, serviceManager);
     }
-
 
     public String getUserId(Context context) {
         return localDBManager.getUserId(context);

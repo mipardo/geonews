@@ -47,7 +47,7 @@ public class HU06_2 {
     public void reactivateLocation_anyServices_false()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
-        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         geoNewsManager.activateLocation(castellon.getId());
 
         Location valencia = geoNewsManager.addLocation("Valencia");

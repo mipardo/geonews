@@ -4,12 +4,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.content.Context;
+
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -18,74 +23,74 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 
 public class HU03 {
-    private LocationManager locationManager;
-    private List<Location> activeList;
+    private GeoNewsManager geoNewsManager;
+    private List<Location> list;
 
     @Before
-    public void init(){
+    public void init() {
         // Given
-        GeocodeService geocode = new GeocodeService();
-        locationManager = new LocationManager(geocode);
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        geoNewsManager = new GeoNewsManager(appContext);
     }
 
     @Test
-    public void checkListActiveLocations_threeActiveLocations_()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void checkListActiveLocations_threeActiveLocations_listWithThreeLocations() throws NotValidCoordinatesException,
+            ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
-        Location valencia =locationManager.addLocation("Valencia");
-        Location alicante =locationManager.addLocation("Alicante");
-        Location castellon = locationManager.addLocation("Castelló de la Plana");
+        Location valencia = geoNewsManager.addLocation("Valencia");
+        Location alicante = geoNewsManager.addLocation("Alicante");
+        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
 
-        valencia.activate();
-        alicante.activate();
-        castellon.activate();
+        geoNewsManager.activateLocation(valencia.getId());
+        geoNewsManager.activateLocation(alicante.getId());
+        geoNewsManager.activateLocation(castellon.getId());
 
         // When
-        activeList = locationManager.getActiveLocations();
+        list = geoNewsManager.getActiveLocations();
 
         // Then
-        assertEquals(3, activeList.size());
-        assertTrue( activeList.contains(valencia));
-        assertTrue( activeList.contains(alicante));
-        assertTrue( activeList.contains(castellon));
+        assertEquals(3, list.size());
+        assertTrue( list.contains(valencia));
+        assertTrue( list.contains(alicante));
+        assertTrue( list.contains(castellon));
     }
     @Test
-    public void checkListActiveLocations_oneActiveLocations()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void checkListActiveLocations_oneActiveLocations_listWithOneLocation() throws NotValidCoordinatesException,
+            ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
-        Location alicante =locationManager.addLocation("Alicante");
-        Location castellon = locationManager.addLocation("Castelló de la Plana");
+        Location alicante = geoNewsManager.addLocation("Alicante");
+        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
 
-        castellon.activate();
+        geoNewsManager.activateLocation(castellon.getId());
 
         // When
-        activeList = locationManager.getActiveLocations();
+        list = geoNewsManager.getActiveLocations();
 
         // Then
-        assertEquals(1, activeList.size());
-        assertFalse( activeList.contains(alicante));
-        assertTrue( activeList.contains(castellon));
+        assertEquals(1, list.size());
+        assertFalse( list.contains(alicante));
+        assertTrue( list.contains(castellon));
     }
 
     @Test
-    public void checkListActiveLocations_noneActiveLocations()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void checkListActiveLocations_noActiveLocations_emtpyList()
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
-        Location castellon = locationManager.addLocation("Castelló de la Plana");
+        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         // When
-        activeList = locationManager.getActiveLocations();
+        list = geoNewsManager.getActiveLocations();
 
         // Then
-        assertEquals(0, activeList.size());
-        assertFalse( activeList.contains(castellon));
+        assertEquals(0, list.size());
+        assertFalse(list.contains(castellon));
 
     }
     @Test(expected = NoLocationRegisteredException.class)
-    public void checkListActiveLocations_noneLocations_NoLocationRegisteredException()
+    public void checkListActiveLocations_noLocations_NoLocationRegisteredException()
             throws NoLocationRegisteredException {
         // Given
 
         // When
-        locationManager.getNonActiveLocations();
+        geoNewsManager.getActiveLocations();
     }
 }

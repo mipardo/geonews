@@ -5,7 +5,6 @@ import android.content.Context;
 import java.util.List;
 
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.database.LocalDBManager;
@@ -24,15 +23,13 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class GeoNewsManager {
     private String userId;
-    private LocationManager locationManager;
-    private ServiceManager serviceManager;
+    private final LocationManager locationManager;
+    private final ServiceManager serviceManager;
     private DatabaseManager databaseManager;
-    private LocalDBManager localDBManager;
 
     public GeoNewsManager(Context context){
         databaseManager = new DatabaseManager();
         serviceManager = new ServiceManager();
-        localDBManager = new LocalDBManager();
         serviceManager.addService(new GpsService());
         serviceManager.addService(new AirVisualService());
         serviceManager.addService(new CurrentsService());
@@ -55,8 +52,7 @@ public class GeoNewsManager {
 
         if (added){
             serviceManager.initLocationServices(newLocation);
-            // localDBManager.saveAll(1,locationManager,serviceManager);
-            //databaseManager.saveLocation(newLocation);
+            //databaseManager.saveAll(userId, locationManager, serviceManager);
             return newLocation;
         }
         return null;
@@ -78,15 +74,15 @@ public class GeoNewsManager {
         return false;
     }
 
-    public void deactivateLocation(int id) {
-        locationManager.deactivateLocation(id);
+    public boolean deactivateLocation(int id) {
+        return locationManager.deactivateLocation(id);
     }
 
-    public void deactivateService(ServiceName service) {
-        serviceManager.deactivateService(service);
+    public boolean deactivateService(ServiceName service) {
+        return serviceManager.deactivateService(service);
     }
 
-    public List<Location> getActiveLocations() {
+    public List<Location> getActiveLocations() throws NoLocationRegisteredException{
         return locationManager.getActiveLocations();
     }
 
@@ -124,15 +120,35 @@ public class GeoNewsManager {
         return serviceManager.getService(serviceName);
     }
 
-    public void saveAllData() {
-        databaseManager.saveData(locationManager, serviceManager);
+    public void loadAll() {
+        databaseManager.loadAll(userId, locationManager, serviceManager);
+    }
+
+    public void saveAll() {
+        databaseManager.saveAll(userId, locationManager, serviceManager);
     }
 
     public String loadUserId(Context context) {
         return databaseManager.getUserId(context);
     }
 
-    public void loadData() {
-        databaseManager.loadData(23, locationManager, serviceManager);
+    public boolean setAliasToLocation(String alias, int locationId) throws NoLocationRegisteredException {
+        return locationManager.setAliasToLocation(alias, locationId);
+    }
+
+    public boolean removeLocation(int locationId) {
+        return locationManager.removeLocation(locationId);
+    }
+
+    public boolean addToFavorites(int locationId) {
+        return locationManager.addToFavorites(locationId);
+    }
+
+    public List<Location> getFavouriteLocations() throws NoLocationRegisteredException {
+        return locationManager.getFavouriteLocations();
+    }
+
+    public boolean removeFromFavorites(int locationId) {
+        return locationManager.removeFromFavorites(locationId);
     }
 }

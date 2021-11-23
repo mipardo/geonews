@@ -32,7 +32,7 @@ public class HU06 {
     public void activateLocation_KnownPlaceName_true()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException, NotValidCoordinatesException, NoLocationRegisteredException {
 
-        Location newLocation = geoNewsManager.addLocation("Castello de la Plana");
+        Location newLocation = geoNewsManager.addLocation("Castello de la plana");
         // When
         boolean result = geoNewsManager.activateLocation(newLocation.getId());
         // Then
@@ -43,7 +43,7 @@ public class HU06 {
     @Test
     public void activateLocation_UnKnownPlaceName_true()
             throws ServiceNotAvailableException, NotValidCoordinatesException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
-        Location castellon = geoNewsManager.addLocation("Castello de la Plana");
+        Location castellon = geoNewsManager.addLocation("Castello de la plana");
         geoNewsManager.activateLocation(castellon.getId());
 
         GeographCoords coords = new GeographCoords(33.65001, -41.19001);
@@ -59,7 +59,7 @@ public class HU06 {
     public void activateLocation_LocationAlreadyActive_false()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
-        Location castellon = geoNewsManager.addLocation("Castello de la Plana");
+        Location castellon = geoNewsManager.addLocation("Castello de la plana");
         Location valencia = geoNewsManager.addLocation("Valencia");
         geoNewsManager.activateLocation(castellon.getId());
         geoNewsManager.activateLocation(valencia.getId());

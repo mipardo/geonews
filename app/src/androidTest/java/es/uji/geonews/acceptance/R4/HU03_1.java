@@ -13,6 +13,7 @@ import org.junit.Test;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -23,40 +24,30 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class HU03_1 {
     private GeoNewsManager geoNewsManager;
+    private Context appContext;
 
     @Before
     public void init(){
         // Given
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         geoNewsManager = new GeoNewsManager(appContext);
     }
 
     @Test
     public void registerLocationByPlaceName_KnownPlaceName_Location()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException {
-        // When
-        CountDownLatch lock = new CountDownLatch(1);
-        geoNewsManager.addLocation("Bilbao");
-        lock.await(5000, TimeUnit.MILLISECONDS);
-    }
-
-    @Test
-    public void saveAllData()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         Location bilbao = geoNewsManager.addLocation("Bilbao");
-        geoNewsManager.addLocation("Valencia");
-        geoNewsManager.deactivateService(ServiceName.CURRENTS);
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, bilbao);
-        geoNewsManager.saveAllData();
         lock.await(5000, TimeUnit.MILLISECONDS);
-        geoNewsManager.loadData();
-        lock.await(5000, TimeUnit.MILLISECONDS);
-        assertEquals(geoNewsManager.getLocation(1).getPlaceName(), "Bilbao");
-    }
 
+        // Then
+        GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
+        AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
+
+        assertEquals(1, loadedGeoNewsManager.getNonActiveLocations().size());
+        assertEquals("Bilbao", loadedGeoNewsManager.getLocation(bilbao.getId()).getPlaceName());
+    }
 
 }

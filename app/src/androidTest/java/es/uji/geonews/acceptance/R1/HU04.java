@@ -6,8 +6,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -22,6 +24,7 @@ import es.uji.geonews.model.services.ServiceName;
 public class HU04 {
     private LocationManager locationManager;
     private ServiceManager serviceManager;
+    private Location valencia;
 
     @Before
     public void init(){
@@ -30,21 +33,18 @@ public class HU04 {
         GeocodeService geocode = new GeocodeService();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(geocode);
+        valencia = new Location(2, "Valencia",
+                new GeographCoords(39.50337, -0.40466), LocalDate.now());
+
     }
 
     @Test
-    public void validatePlaceName_PlaceNameRecognized_ListWithOneServiceActive()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
-            NotValidCoordinatesException {
+    public void validatePlaceName_PlaceNameRecognized_ListWithOneServiceActive() {
         // Given
-        Service currents = new CurrentsService();
-        serviceManager.addService(currents);
-        Location newLocation = locationManager.addLocation("Valencia");
-        serviceManager.initLocationServices(newLocation);
-        serviceManager.addServiceToLocation(ServiceName.CURRENTS, newLocation);
-
+        serviceManager.addService(new CurrentsService());
+        locationManager.addLocation(valencia);
         // When
-        List<ServiceName> services = serviceManager.validateLocation(newLocation);
+        List<ServiceName> services = serviceManager.validateLocation(valencia);
 
         // Then
         assertEquals(1, services.size());
@@ -52,12 +52,10 @@ public class HU04 {
     }
 
     @Test
-    public void validatePlaceName_NoApiAvailable_EmptyList()
-            throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
-            NotValidCoordinatesException {
+    public void validatePlaceName_NoApiAvailable_EmptyList() {
         // When
-        Location newLocation = locationManager.addLocation("Valencia");
-        List<ServiceName> services = serviceManager.validateLocation(newLocation);
+        locationManager.addLocation(valencia);
+        List<ServiceName> services = serviceManager.validateLocation(valencia);
         // Then
         assertEquals(0, services.size());
     }
