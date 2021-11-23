@@ -20,7 +20,7 @@ public class DatabaseManager  {
     public void saveLocation(Location location){
         LocationDao locationDao = new LocationDao(location);
         localDBManager.saveLocation(locationDao);
-        remoteDBManager.saveLocation(locationDao);
+        //remoteDBManager.saveLocation(locationDao);
     }
 
     public void saveFavLocation(Location location){
@@ -32,6 +32,12 @@ public class DatabaseManager  {
     }
 
     public void loadData(int userId, LocationManager locationManager, ServiceManager serviceManager) {
+        //Load Data En Local
+        UserDao userDao= localDBManager.loadData(userId);
+        userDao.fillLocationManager(locationManager);
+        userDao.fillServiceManager(serviceManager);
+        //Load Data En Remoto
+
         remoteDBManager.loadAll(userId, new Callback() {
             @Override
             public void onSuccess(UserDao userDao) {
@@ -52,6 +58,9 @@ public class DatabaseManager  {
     }
 
     public void saveData (LocationManager locationManager, ServiceManager serviceManager) {
+        //Save Data En Local
+        localDBManager.saveAll(23,locationManager,serviceManager);
+        //Save Data En Local
         remoteDBManager.saveAll(23, locationManager, serviceManager);
     }
 

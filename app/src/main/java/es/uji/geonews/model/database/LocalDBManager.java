@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.firebase.firestore.auth.User;
 import com.google.gson.Gson;
 
 import java.time.LocalDate;
@@ -21,9 +22,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 
 public class LocalDBManager implements DataBase{
-    /**
-     *  PABLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO: SHARED PREFERENCES
-     */
+
     Gson json;
     public LocalDBManager() {
         json= new Gson();
@@ -41,17 +40,15 @@ public class LocalDBManager implements DataBase{
 
     @Override
     public void saveAll(int userId, LocationManager locationManager, ServiceManager serviceManager) {
-
-        GeographCoords geographCoords = new GeographCoords(1.0,2.0);
-        Location location = new Location(1,"castellon",geographCoords ,LocalDate.now());
-        // si le paso el location manager no tira XD con una location si
-        String configuracion = json.toJson(location);
-        // el contexto F
-
+        //Crear Un conjunto de datos con to-do lo que queremos guardar de Sistema
+        UserDao userDao = new UserDao(userId,locationManager,serviceManager);
+        //Pasarlo a un Json
+        String configuracionUser = json.toJson(userDao);
+        //Guardarlo con Context y sharedpreferences
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         SharedPreferences sharedPreferences = appContext.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor =sharedPreferences.edit();
-        editor.putString("configuracion",configuracion);
+        editor.putString("configuracion",configuracionUser);
 
         editor.commit();
     }
@@ -59,12 +56,12 @@ public class LocalDBManager implements DataBase{
 
     @Override
     public UserDao loadData(int userId) {
+        //Cargar un conjunto de datos guardado en el sistema
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         SharedPreferences sharedPreferences = appContext.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);
         String configuracion = sharedPreferences.getString("configuracion","No existe la informacion");
-
-        Location lc = json.fromJson(configuracion,Location.class);
-        UserDao userDao= new UserDao();
+        //Transformalo en la clase UserDao
+        UserDao userDao = json.fromJson(configuracion,UserDao.class);
         return userDao;
     }
 
@@ -77,6 +74,7 @@ public class LocalDBManager implements DataBase{
         String userId;
         SharedPreferences sharedPreferences = context.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("userId", null);
+        //Generador de IDs aleatorio para los usuarios
         if (userId == null) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             userId = UUID.randomUUID().toString();
