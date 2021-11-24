@@ -1,7 +1,8 @@
 package es.uji.geonews.acceptance.R4;
 
-
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 
@@ -20,9 +21,8 @@ import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
-import es.uji.geonews.model.services.ServiceName;
 
-public class HU03_1 {
+public class HU03_2 {
     private GeoNewsManager geoNewsManager;
     private Context appContext;
 
@@ -31,15 +31,18 @@ public class HU03_1 {
         // Given
         appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         geoNewsManager = new GeoNewsManager(appContext);
+
     }
 
     @Test
-    public void saveLocation_AllDataBasesAvailable_LocationSave()
+    public void saveLocationRemove_AllDataBasesAvailable_RemoveSave()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         Location bilbao = geoNewsManager.addLocation("Bilbao");
+        Location castellonDeLaPlana = geoNewsManager.addLocation("Castellon de la Plana");
+        boolean confirmacion = geoNewsManager.removeLocation(castellonDeLaPlana.getId());
         lock.await(5000, TimeUnit.MILLISECONDS);
 
         // Then
@@ -47,17 +50,27 @@ public class HU03_1 {
         AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
 
         assertEquals(1, loadedGeoNewsManager.getNonActiveLocations().size());
-        assertEquals("Bilbao", loadedGeoNewsManager.getLocation(bilbao.getId()).getPlaceName());
+        assertTrue(confirmacion);
     }
 
-    @Test(expected = UnrecognizedPlaceNameException.class)
-    public void saveLocation_NoDataBasesAvailable_NoSaves()
+    @Test
+    public void saveLocationRemove_NoDataBasesAvailable_NoSaves()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
-        Location bilbao = geoNewsManager.addLocation("asfgg");
+        Location bilbao = geoNewsManager.addLocation("Bilbao");
+        Location castellonDeLaPlana = geoNewsManager.addLocation("Castellon de la Plana");
+        //Preguntar
+        //boolean confirmacion =geoNewsManager.removeLocation(castellonDeLaPlana.getId());
         lock.await(5000, TimeUnit.MILLISECONDS);
+
+        // Then
+        GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
+        AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
+
+        assertEquals(1, loadedGeoNewsManager.getNonActiveLocations().size());
+        //assertFalse(confirmacion);
 
 
     }

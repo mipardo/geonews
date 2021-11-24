@@ -52,7 +52,7 @@ public class GeoNewsManager {
 
         if (added){
             serviceManager.initLocationServices(newLocation);
-            //databaseManager.saveAll(userId, locationManager, serviceManager);
+            databaseManager.saveAll(userId, locationManager, serviceManager);
             return newLocation;
         }
         return null;
@@ -69,13 +69,20 @@ public class GeoNewsManager {
     public boolean activateLocation(int id) throws NoLocationRegisteredException {
         Location location = locationManager.getLocation(id);
         if (serviceManager.validateLocation(location).size() > 0) {
-            return locationManager.activateLocation(id);
+            if( locationManager.activateLocation(id)){
+                databaseManager.saveAll(userId, locationManager, serviceManager);
+                return true;
+            }
         }
         return false;
     }
 
     public boolean deactivateLocation(int id) {
-        return locationManager.deactivateLocation(id);
+        if(locationManager.deactivateLocation(id)){
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+            return true;
+        }
+        return false;
     }
 
     public boolean deactivateService(ServiceName service) {
@@ -133,11 +140,19 @@ public class GeoNewsManager {
     }
 
     public boolean setAliasToLocation(String alias, int locationId) throws NoLocationRegisteredException {
-        return locationManager.setAliasToLocation(alias, locationId);
+        if(locationManager.setAliasToLocation(alias, locationId)){
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+            return true;
+        }
+        return false;
     }
 
     public boolean removeLocation(int locationId) {
-        return locationManager.removeLocation(locationId);
+        if(locationManager.removeLocation(locationId)) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+            return true;
+        }
+        return false;
     }
 
     public boolean addToFavorites(int locationId) {
