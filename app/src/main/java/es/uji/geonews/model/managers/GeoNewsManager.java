@@ -87,7 +87,11 @@ public class GeoNewsManager {
     }
 
     public boolean deactivateService(ServiceName service) {
-        return serviceManager.deactivateService(service);
+        boolean deactivated = serviceManager.deactivateService(service);
+        if (deactivated) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return deactivated;
     }
 
     public List<Location> getActiveLocations() throws NoLocationRegisteredException{
@@ -129,7 +133,11 @@ public class GeoNewsManager {
     }
 
     public boolean activateService(ServiceName serviceName) {
-        return serviceManager.activateService(serviceName);
+        boolean activated = serviceManager.activateService(serviceName);
+        if (activated) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return activated;
     }
 
     public Service getService(ServiceName serviceName) {
