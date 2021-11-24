@@ -96,7 +96,11 @@ public class GeoNewsManager {
 
     public boolean addServiceToLocation(ServiceName serviceName, Location location)
             throws ServiceNotAvailableException {
-        return serviceManager.addServiceToLocation(serviceName, location);
+        boolean added = serviceManager.addServiceToLocation(serviceName, location);
+        if (added) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return added;
     }
 
     public Data getData(ServiceName serviceName, Location location)
