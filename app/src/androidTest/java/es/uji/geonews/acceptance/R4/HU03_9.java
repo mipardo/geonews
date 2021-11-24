@@ -22,7 +22,7 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.services.ServiceName;
 
-public class HU07 {
+public class HU03_9 {
     private GeoNewsManager geoNewsManager;
     private Context appContext;
 
@@ -34,18 +34,19 @@ public class HU07 {
     }
 
     @Test
-    public void deactivateLocationService_localAndRemoteDatabasesAvailable_true()
+    public void addLocationToFavorite_localAndRemoteDatabasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
         // Given
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
-        CountDownLatch lock = new CountDownLatch(1);
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        Location valencia = geoNewsManager.addLocation("Valencia");
+        Location alicante = geoNewsManager.addLocation("Alicante");
+        geoNewsManager.addToFavorites(valencia.getId());
+        geoNewsManager.addToFavorites(alicante.getId());
 
         // When
-        lock = new CountDownLatch(1);
-        boolean result = geoNewsManager.removeServiceFromLocation(ServiceName.OPEN_WEATHER, castellon);
+        CountDownLatch lock = new CountDownLatch(1);
+        boolean result = geoNewsManager.addToFavorites(castellon.getId());
         lock.await(5000, TimeUnit.MILLISECONDS);
 
         // Then
@@ -53,6 +54,6 @@ public class HU07 {
         AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
 
         assertTrue(result);
-        assertEquals(0, loadedGeoNewsManager.getServicesOfLocation(castellon.getId()).size());
+        assertEquals(3, loadedGeoNewsManager.getFavouriteLocations().size());
     }
 }

@@ -22,7 +22,7 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.services.ServiceName;
 
-public class HU06 {
+public class HU03_6 {
     private GeoNewsManager geoNewsManager;
     private Context appContext;
 

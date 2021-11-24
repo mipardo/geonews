@@ -69,13 +69,21 @@ public class GeoNewsManager {
     public boolean activateLocation(int id) throws NoLocationRegisteredException {
         Location location = locationManager.getLocation(id);
         if (serviceManager.validateLocation(location).size() > 0) {
-            return locationManager.activateLocation(id);
+            boolean activated = locationManager.activateLocation(id);
+            if (activated) {
+                databaseManager.saveAll(userId, locationManager, serviceManager);
+            }
+            return activated;
         }
         return false;
     }
 
     public boolean deactivateLocation(int id) {
-        return locationManager.deactivateLocation(id);
+        boolean deactivated = locationManager.deactivateLocation(id);
+        if (deactivated) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return deactivated;
     }
 
     public boolean deactivateService(ServiceName service) {
