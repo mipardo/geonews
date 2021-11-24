@@ -149,7 +149,11 @@ public class GeoNewsManager {
     }
 
     public boolean addToFavorites(int locationId) {
-        return locationManager.addToFavorites(locationId);
+        boolean added = locationManager.addToFavorites(locationId);
+        if (added) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return added;
     }
 
     public List<Location> getFavouriteLocations() throws NoLocationRegisteredException {
@@ -157,6 +161,10 @@ public class GeoNewsManager {
     }
 
     public boolean removeFromFavorites(int locationId) {
-        return locationManager.removeFromFavorites(locationId);
+        boolean removed = locationManager.removeFromFavorites(locationId);
+        if (removed) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return removed;
     }
 }
