@@ -2,18 +2,12 @@ package es.uji.geonews.model.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
-import com.google.firebase.firestore.auth.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
-import es.uji.geonews.model.GeographCoords;
-import es.uji.geonews.model.Location;
-import es.uji.geonews.model.dao.LocationDao;
 import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;

@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import es.uji.geonews.model.GeographCoords;
@@ -28,6 +29,7 @@ public class HU04 {
     private CurrentsService currentsServiceMocked;
     private ServiceManager serviceManager;
     private LocationManager locationManager;
+    private Location valencia;
 
 
     @Before
@@ -44,6 +46,9 @@ public class HU04 {
         serviceManager.addService(currentsServiceMocked);
 
         locationManager = new LocationManager(geocodeServiceMocked);
+
+        valencia = new Location(2, "Valencia",
+                new GeographCoords(39.50337, -0.40466), LocalDate.now());
     }
 
     @Test
@@ -53,10 +58,9 @@ public class HU04 {
         // Arrange
         when(currentsServiceMocked.isAvailable()).thenReturn(true);
         when(currentsServiceMocked.validateLocation(any())).thenReturn(true);
-        Location location = locationManager.addLocation("Valencia");
-        serviceManager.initLocationServices(location);
+        locationManager.addLocation(valencia);
         // Act
-        List<ServiceName> activeServices = serviceManager.validateLocation(location);
+        List<ServiceName> activeServices = serviceManager.validateLocation(valencia);
         // Assert
         verify(currentsServiceMocked, times(1)).isAvailable();
         verify(currentsServiceMocked, times(1)).validateLocation(any());
@@ -70,10 +74,9 @@ public class HU04 {
             NotValidCoordinatesException {
         // Arrange
         when(currentsServiceMocked.validateLocation(any())).thenReturn(false);
-        Location location = locationManager.addLocation("Valencia");
-        serviceManager.initLocationServices(location);
+        locationManager.addLocation(valencia);
         // Act
-        List<ServiceName> activeServices = serviceManager.validateLocation(location);
+        List<ServiceName> activeServices = serviceManager.validateLocation(valencia);
         // Assert
         verify(currentsServiceMocked, times(1)).isAvailable();
         assertEquals(0, activeServices.size());

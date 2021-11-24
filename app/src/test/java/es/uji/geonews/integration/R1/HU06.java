@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -35,6 +36,7 @@ public class HU06 {
         geocodeServiceMocked = mock(GeocodeService.class);
         airVisualServiceMocked = mock(AirVisualService.class);
         openWeatherServiceMocked = mock(OpenWeatherService.class);
+        DatabaseManager databaseManagerMocked = mock(DatabaseManager.class);
 
         when(geocodeServiceMocked.getServiceName()).thenReturn(ServiceName.GEOCODE);
         when(airVisualServiceMocked.getServiceName()).thenReturn(ServiceName.AIR_VISUAL);
@@ -56,8 +58,7 @@ public class HU06 {
         serviceManager.addService(airVisualServiceMocked);
         serviceManager.addService(openWeatherServiceMocked);
         LocationManager locationManager = new LocationManager(geocodeServiceMocked);
-        geoNewsManager = new GeoNewsManager(locationManager, serviceManager);
-
+        geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
     }
 
     @Test

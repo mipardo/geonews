@@ -61,17 +61,6 @@ public class LocationManager {
        return false;
     }
 
-    //TODO: ELIMINAR ESTE METODO Y CORREGIR LAS PRUEBAS PARA QUE PRUEBE EL GEONEWSMANAGER
-    public Location addLocation(String location) throws UnrecognizedPlaceNameException,
-            ServiceNotAvailableException, NotValidCoordinatesException {
-        Location newLocation = createLocation(location);
-        if (location!= null) {
-            locations.put(newLocation.getId(), newLocation);
-            return newLocation;
-        }
-        return null;
-    }
-
     public boolean removeLocation(int locationId){
         Location location = locations.get(locationId);
         if (location != null && !location.isActive()){

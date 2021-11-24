@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import es.uji.geonews.model.GeographCoords;
@@ -30,6 +31,7 @@ public class HU05 {
     private AirVisualService airVisualServiceMocked;
     private ServiceManager serviceManager;
     private LocationManager locationManager;
+    private Location location;
 
 
     @Before
@@ -47,6 +49,9 @@ public class HU05 {
         serviceManager.addService(airVisualServiceMocked);
         serviceManager.addService(openWeatherServiceMocked);
         locationManager = new LocationManager(geocodeServiceMocked);
+
+        location = new Location(2, null,
+                new GeographCoords(39.50337, -0.40466), LocalDate.now());
     }
 
     @Test
@@ -58,8 +63,7 @@ public class HU05 {
         when(airVisualServiceMocked.validateLocation(any())).thenReturn(true);
         when(openWeatherServiceMocked.isAvailable()).thenReturn(true);
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
-        Location location = locationManager.addLocation("Castellon de la Plana");
-        serviceManager.initLocationServices(location);
+        locationManager.addLocation(location);
         // Act
         List<ServiceName> activeServices = serviceManager.validateLocation(location);
         // Assert
@@ -79,8 +83,7 @@ public class HU05 {
         // Arrange
         when(airVisualServiceMocked.isAvailable()).thenReturn(false);
         when(openWeatherServiceMocked.isAvailable()).thenReturn(false);
-        Location location = locationManager.addLocation("Castellon de la Plana");
-        serviceManager.initLocationServices(location);
+        locationManager.addLocation(location);
         // Act
         List<ServiceName> activeServices = serviceManager.validateLocation(location);
         // Assert

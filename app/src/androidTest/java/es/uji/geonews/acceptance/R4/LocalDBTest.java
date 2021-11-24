@@ -1,12 +1,8 @@
 package es.uji.geonews.acceptance.R4;
 
-import static org.junit.Assert.assertEquals;
-
 import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
-
-import com.google.gson.Gson;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,8 +16,6 @@ import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
-import es.uji.geonews.model.services.GeocodeService;
-import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceName;
 
 public class LocalDBTest {

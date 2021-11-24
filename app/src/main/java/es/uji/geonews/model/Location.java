@@ -1,6 +1,5 @@
 package es.uji.geonews.model;
 import java.time.LocalDate;
-import java.util.Locale;
 
 public class Location {
     private int id;
