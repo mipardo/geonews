@@ -2,7 +2,6 @@ package es.uji.geonews.model.managers;
 
 import android.content.Context;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +19,6 @@ import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.GpsService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.Service;
-import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GeoNewsManager {
@@ -69,6 +67,10 @@ public class GeoNewsManager {
         return addLocation(gpsService.currentCoords().toString());
     }
 
+    public boolean removeLocation(int locationId) {
+        return locationManager.removeLocation(locationId);
+    }
+
     public boolean activateLocation(int id) throws NoLocationRegisteredException {
         Location location = locationManager.getLocation(id);
         if (serviceManager.validateLocation(location).size() > 0) {
@@ -89,12 +91,24 @@ public class GeoNewsManager {
         return deactivated;
     }
 
+    public boolean activateService(ServiceName serviceName) {
+        boolean activated = serviceManager.activateService(serviceName);
+        if (activated) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return activated;
+    }
+
     public boolean deactivateService(ServiceName service) {
         boolean deactivated = serviceManager.deactivateService(service);
         if (deactivated) {
             databaseManager.saveAll(userId, locationManager, serviceManager);
         }
         return deactivated;
+    }
+
+    public Location getLocation(int id) throws NoLocationRegisteredException {
+        return  locationManager.getLocation(id);
     }
 
     public List<Location> getActiveLocations() throws NoLocationRegisteredException{
@@ -105,66 +119,8 @@ public class GeoNewsManager {
         return locationManager.getNonActiveLocations();
     }
 
-    public Location getLocation(int id) throws NoLocationRegisteredException {
-        return  locationManager.getLocation(id);
-    }
-
-    public boolean addServiceToLocation(ServiceName serviceName, Location location)
-            throws ServiceNotAvailableException {
-        boolean added = serviceManager.addServiceToLocation(serviceName, location);
-        if (added) {
-            databaseManager.saveAll(userId, locationManager, serviceManager);
-        }
-        return added;
-    }
-
-    public Data getData(ServiceName serviceName, Location location)
-            throws ServiceNotAvailableException {
-        return serviceManager.getData(serviceName, location);
-    }
-
-    public List<ServiceName> getServicesOfLocation(int id) {
-        return serviceManager.getServicesOfLocation(id);
-    }
-
-    public boolean removeServiceFromLocation(ServiceName serviceName, Location location) {
-        boolean removed = serviceManager.removeServiceFromLocation(serviceName, location);
-        if (removed) {
-            databaseManager.saveAll(userId, locationManager, serviceManager);
-        }
-        return removed;
-    }
-
-    public boolean activateService(ServiceName serviceName) {
-        boolean activated = serviceManager.activateService(serviceName);
-        if (activated) {
-            databaseManager.saveAll(userId, locationManager, serviceManager);
-        }
-        return activated;
-    }
-
-    public Service getService(ServiceName serviceName) {
-        return serviceManager.getService(serviceName);
-    }
-
-    public void loadAll() {
-        databaseManager.loadAll(userId, locationManager, serviceManager);
-    }
-
-    public void saveAll() {
-        databaseManager.saveAll(userId, locationManager, serviceManager);
-    }
-
-    public String loadUserId(Context context) {
-        return databaseManager.getUserId(context);
-    }
-
     public boolean setAliasToLocation(String alias, int locationId) throws NoLocationRegisteredException {
         return locationManager.setAliasToLocation(alias, locationId);
-    }
-
-    public boolean removeLocation(int locationId) {
-        return locationManager.removeLocation(locationId);
     }
 
     public boolean addToFavorites(int locationId) {
@@ -187,15 +143,57 @@ public class GeoNewsManager {
         return removed;
     }
 
-    public List<ServiceName> getAvailableServices() {
-        return serviceManager.getAvailableServices();
+    public Data getData(ServiceName serviceName, Location location)
+            throws ServiceNotAvailableException {
+        return serviceManager.getData(serviceName, location);
     }
 
-    public Map<String, String> getServices() throws ServiceNotAvailableException {
-        return serviceManager.getServices();
+    public Service getService(ServiceName serviceName) {
+        return serviceManager.getService(serviceName);
+    }
+
+    public Map<String, String> getServicesDescription() throws ServiceNotAvailableException {
+        return serviceManager.getServicesDescription();
     }
 
     public List<ServiceName> getActiveServices() {
         return serviceManager.getActiveServices();
+    }
+
+    public List<ServiceName> getPublicServices() {
+        return serviceManager.getPublicServices();
+    }
+
+    public List<ServiceName> getServicesOfLocation(int id) {
+        return serviceManager.getServicesOfLocation(id);
+    }
+
+    public boolean addServiceToLocation(ServiceName serviceName, Location location)
+            throws ServiceNotAvailableException {
+        boolean added = serviceManager.addServiceToLocation(serviceName, location);
+        if (added) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return added;
+    }
+
+    public boolean removeServiceFromLocation(ServiceName serviceName, Location location) {
+        boolean removed = serviceManager.removeServiceFromLocation(serviceName, location);
+        if (removed) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return removed;
+    }
+
+    public void loadAll() {
+        databaseManager.loadAll(userId, locationManager, serviceManager);
+    }
+
+    public void saveAll() {
+        databaseManager.saveAll(userId, locationManager, serviceManager);
+    }
+
+    public String loadUserId(Context context) {
+        return databaseManager.getUserId(context);
     }
 }

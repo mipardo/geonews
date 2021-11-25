@@ -10,6 +10,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.services.ServiceName;
 
@@ -21,12 +22,11 @@ public class HU02 {
         // Given
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         geoNewsManager = new GeoNewsManager(appContext);
+        AuxiliaryTestClass.deactivateAllServices(geoNewsManager);
     }
 
     @Test
-    public void activateServices_deActiveAndAvailable_True(){
-        // Given
-        geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
+    public void activateService_deActiveAndAvailable_True(){
         // When
         boolean result = geoNewsManager.activateService(ServiceName.AIR_VISUAL);
 
@@ -36,8 +36,9 @@ public class HU02 {
     }
 
     @Test
-    public void activateServices_activeAndAvailable_False() {
+    public void activateService_activeAndAvailable_False() {
         // Given
+        geoNewsManager.activateService(ServiceName.AIR_VISUAL);
         // When
         boolean result = geoNewsManager.activateService(ServiceName.AIR_VISUAL);
 

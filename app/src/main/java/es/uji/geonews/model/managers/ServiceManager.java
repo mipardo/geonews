@@ -16,33 +16,32 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class ServiceManager {
 
-    private Map<ServiceName, Service> serviceMap;
+    private Map<ServiceName, Service> services;
     private Map<Integer, List<ServiceName>> locationServices;
     private final ContextDataGetter contextDataGetter;
     private Map<Integer, Map<ServiceName, Data>> lastData; // This is the last data loaded from services
 
     public ServiceManager(){
-        this.serviceMap = new HashMap<>();
+        this.services = new HashMap<>();
         this.locationServices = new HashMap<>();
         this.contextDataGetter = new ContextDataGetter();
         this.lastData = new HashMap<>();
     }
 
-    public Map<String, String> getServices() throws ServiceNotAvailableException {
-        if (serviceMap.isEmpty()) {
+    public Map<String, String> getServicesDescription() throws ServiceNotAvailableException {
+        if (services.isEmpty()) {
             throw new ServiceNotAvailableException();
         }
-
-        Map<String, String> services = new HashMap<>();
-        for (Service service : serviceMap.values()) {
-            services.put(service.getServiceName().name, service.getDescription());
+        Map<String, String> servicesDescription = new HashMap<>();
+        for (ServiceName serviceName : getPublicServices()) {
+            servicesDescription.put(serviceName.name, this.services.get(serviceName).getDescription());
         }
-        return services;
+        return servicesDescription;
     }
 
     public List<ServiceHttp> getHttpServices(){
         List<ServiceHttp> httpServices = new ArrayList<>();
-        for(Service service: serviceMap.values()){
+        for(Service service: services.values()){
             if(service instanceof ServiceHttp){
                 httpServices.add((ServiceHttp) service);
             }
@@ -51,18 +50,18 @@ public class ServiceManager {
     }
 
     public Service getService(ServiceName serviceName) {
-        return serviceMap.get(serviceName);
+        return services.get(serviceName);
     }
 
     public void addService(Service service){
-        serviceMap.put(service.getServiceName(), service);
+        services.put(service.getServiceName(), service);
     }
 
 
     public Data getData(ServiceName serviceName, Location location) throws ServiceNotAvailableException {
         List<ServiceName> activeServices = locationServices.get(location.getId());
 
-        if (!serviceMap.get(serviceName).isAvailable()) {
+        if (!services.get(serviceName).isAvailable()) {
             throw new ServiceNotAvailableException();
         }
 
@@ -153,19 +152,19 @@ public class ServiceManager {
         locationServices.put(newLocation.getId(), new ArrayList<>());
     }
 
-    public List<ServiceName> getAvailableServices(){
-        List<ServiceName> httpServices = new ArrayList<>();
-        for(Service service: serviceMap.values()){
-            if(service instanceof ServiceHttp){
-                httpServices.add(service.getServiceName());
+    public List<ServiceName> getPublicServices(){
+        List<ServiceName> publicServices = new ArrayList<>();
+        for(Service service: services.values()){
+            if(service instanceof ServiceHttp && !service.getServiceName().equals(ServiceName.GEOCODE)){
+                publicServices.add(service.getServiceName());
             }
         }
-        return httpServices;
+        return publicServices;
     }
 
     public List<ServiceName> getActiveServices() {
         List<ServiceName> activeServices = new ArrayList<>();
-        for (Service service: serviceMap.values()) {
+        for (Service service: services.values()) {
             if (service.isActive()) {
                 activeServices.add(service.getServiceName());
             }
@@ -177,16 +176,16 @@ public class ServiceManager {
         return lastData;
     }
 
-    public Map<ServiceName, Service> getServiceMap() {
-        return serviceMap;
+    public Map<ServiceName, Service> getServices() {
+        return services;
     }
 
     public Map<Integer, List<ServiceName>> getLocationServices() {
         return locationServices;
     }
 
-    public void setServiceMap(Map<ServiceName, Service> serviceMap) {
-        this.serviceMap = serviceMap;
+    public void setServices(Map<ServiceName, Service> services) {
+        this.services = services;
     }
 
     public void setLocationServices(Map<Integer, List<ServiceName>> locationServices) {

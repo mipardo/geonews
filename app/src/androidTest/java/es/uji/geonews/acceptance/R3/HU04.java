@@ -30,9 +30,9 @@ public class HU04 {
     @Test
     public void deactivateService_availableServices_true() {
         // Given
-        geoNewsManager.addService(new OpenWeatherService());
-        geoNewsManager.addService(new AirVisualService());
+        geoNewsManager.deactivateService(ServiceName.CURRENTS);
         geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
+        geoNewsManager.deactivateService(ServiceName.GEOCODE);
         // When
         boolean result = geoNewsManager.deactivateService(ServiceName.OPEN_WEATHER);
         // Then
@@ -43,9 +43,9 @@ public class HU04 {
     @Test
     public void deactivateService_nonAvailableServices_false() {
         // Given
-        geoNewsManager.addService(new OpenWeatherService());
-        geoNewsManager.addService(new AirVisualService());
+        geoNewsManager.deactivateService(ServiceName.CURRENTS);
         geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
+        geoNewsManager.deactivateService(ServiceName.GEOCODE);
         // When
         boolean result = geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
         // Then

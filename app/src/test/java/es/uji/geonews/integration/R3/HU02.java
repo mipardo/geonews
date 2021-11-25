@@ -20,7 +20,6 @@ import es.uji.geonews.model.services.ServiceName;
 public class HU02 {
     private GeoNewsManager geoNewsManager;
     private AirVisualService airVisualServiceMocked;
-    private GeocodeService geocodeService;
 
     @Before
     public void init(){
@@ -30,12 +29,12 @@ public class HU02 {
         when(airVisualServiceMocked.getServiceName()).thenReturn(ServiceName.AIR_VISUAL);
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(airVisualServiceMocked);
-        LocationManager locationManager = new LocationManager(geocodeService);
+        LocationManager locationManager = new LocationManager(mock(GeocodeService.class));
         geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
     }
 
     @Test
-    public void activeServices_deActiveAndAvailable_True(){
+    public void activeService_activeAndAvailable_True(){
         // Given
         when(airVisualServiceMocked.isActive()).thenReturn(false);
         when(airVisualServiceMocked.checkConnection()).thenReturn(true);
@@ -69,7 +68,6 @@ public class HU02 {
 
         // Then
         assertFalse(result);
-        
     }
 }
 
