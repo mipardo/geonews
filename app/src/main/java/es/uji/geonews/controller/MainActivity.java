@@ -47,12 +47,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
         ProgressBar progressBar = findViewById(R.id.my_progress_bar);
 
-        locations = null;
-        try {
-            locations = geoNewsManager.getNonActiveLocations();
-        } catch (NoLocationRegisteredException e) {
-            locations = new ArrayList<>();
-        }
+        locations = geoNewsManager.getNonActiveLocations();
         recyclerView.setAdapter(new LocationListAdapter(locations));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

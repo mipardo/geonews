@@ -51,12 +51,7 @@ public class AddLocation extends UserTask {
                     public void run() {
                         if (error != null) showAlertError();
                         else{
-                            List<Location> locations = null;
-                            try {
-                                locations = geoNewsManager.getNonActiveLocations();
-                            } catch (NoLocationRegisteredException e) {
-                                locations = new ArrayList<>();
-                            }
+                            List<Location> locations = geoNewsManager.getNonActiveLocations();
                             recyclerView.setAdapter(new LocationListAdapter(locations));
                             recyclerView.setLayoutManager(new LinearLayoutManager(context));
                         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.JsonSyntaxException;
 
 import es.uji.geonews.model.dao.UserDao;
+import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 
@@ -52,6 +53,22 @@ public class DatabaseManager  {
                         e.printStackTrace();
                     }
                 });
+            }
+        });
+    }
+
+    public void loadRemoteState(String userId, LocationManager locationManager, ServiceManager serviceManager) {
+        remoteDBManager.loadAll(userId, new Callback() {
+            @Override
+            public void onSuccess(UserDao userDao) {
+                //if (userDao == null) throw new UnrecognizedIdentifierException();
+                userDao.fillLocationManager(locationManager);
+                userDao.fillServiceManager(serviceManager);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                e.printStackTrace();
             }
         });
     }
