@@ -92,10 +92,12 @@ public class HU03 {
         assertEquals(0, activeLocations.size());
     }
 
-    @Test(expected = NoLocationRegisteredException.class)
+    @Test
     public void checkListActiveLocations_noneLocations_NoLocationRegisteredException()
             throws NoLocationRegisteredException {
         // Act
         List<Location> activeLocations = geoNewsManager.getNonActiveLocations();
+        //Assert
+        assertEquals(0, activeLocations.size());
     }
 }

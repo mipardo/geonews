@@ -23,9 +23,7 @@ public class LocationManager {
         this.locationCreator = new LocationCreator(geocodeService);
     }
 
-    public List<Location> getActiveLocations() throws NoLocationRegisteredException {
-        if (locations.isEmpty() && favoriteLocations.isEmpty()) throw new NoLocationRegisteredException();
-
+    public List<Location> getActiveLocations() {
         List<Location> activeLocations = new ArrayList<>();
         for (Location location: locations.values()){
             if (location.isActive()) activeLocations.add(location);
@@ -33,9 +31,7 @@ public class LocationManager {
         return activeLocations;
     }
 
-    public List<Location> getNonActiveLocations() throws NoLocationRegisteredException {
-        if (locations.isEmpty() && favoriteLocations.isEmpty()) throw new NoLocationRegisteredException();
-
+    public List<Location> getNonActiveLocations() {
         List<Location> nonActiveLocations = new ArrayList<>();
         for (Location location: locations.values()){
             if (!location.isActive()) nonActiveLocations.add(location);
@@ -43,13 +39,12 @@ public class LocationManager {
         return nonActiveLocations;
     }
 
-    public List<Location> getFavouriteLocations() throws NoLocationRegisteredException {
-        if(favoriteLocations.isEmpty() && locations.isEmpty()) throw new NoLocationRegisteredException();
+    public List<Location> getFavouriteLocations() {
         return new ArrayList<>(favoriteLocations.values());
     }
 
-    public Location createLocation(String location)
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public Location createLocation(String location) throws NotValidCoordinatesException,
+            ServiceNotAvailableException, UnrecognizedPlaceNameException {
         return locationCreator.createLocation(location);
     }
 

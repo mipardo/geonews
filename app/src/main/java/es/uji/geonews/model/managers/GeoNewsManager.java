@@ -78,17 +78,29 @@ public class GeoNewsManager {
     public boolean activateLocation(int id) throws NoLocationRegisteredException {
         Location location = locationManager.getLocation(id);
         if (serviceManager.validateLocation(location).size() > 0) {
-            return locationManager.activateLocation(id);
+            boolean activated = locationManager.activateLocation(id);
+            if (activated) {
+                databaseManager.saveAll(userId, locationManager, serviceManager);
+            }
+            return activated;
         }
         return false;
     }
 
     public boolean deactivateLocation(int id) {
-        return locationManager.deactivateLocation(id);
+        boolean deactivated = locationManager.deactivateLocation(id);
+        if (deactivated) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return deactivated;
     }
 
     public boolean deactivateService(ServiceName service) {
-        return serviceManager.deactivateService(service);
+        boolean deactivated = serviceManager.deactivateService(service);
+        if (deactivated) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return deactivated;
     }
 
     public List<Location> getActiveLocations() throws NoLocationRegisteredException{
@@ -105,7 +117,11 @@ public class GeoNewsManager {
 
     public boolean addServiceToLocation(ServiceName serviceName, Location location)
             throws ServiceNotAvailableException {
-        return serviceManager.addServiceToLocation(serviceName, location);
+        boolean added = serviceManager.addServiceToLocation(serviceName, location);
+        if (added) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return added;
     }
 
     public Data getData(ServiceName serviceName, Location location)
@@ -118,11 +134,19 @@ public class GeoNewsManager {
     }
 
     public boolean removeServiceFromLocation(ServiceName serviceName, Location location) {
-        return serviceManager.removeServiceFromLocation(serviceName, location);
+        boolean removed = serviceManager.removeServiceFromLocation(serviceName, location);
+        if (removed) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return removed;
     }
 
     public boolean activateService(ServiceName serviceName) {
-        return serviceManager.activateService(serviceName);
+        boolean activated = serviceManager.activateService(serviceName);
+        if (activated) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return activated;
     }
 
     public Service getService(ServiceName serviceName) {
@@ -150,7 +174,11 @@ public class GeoNewsManager {
     }
 
     public boolean addToFavorites(int locationId) {
-        return locationManager.addToFavorites(locationId);
+        boolean added = locationManager.addToFavorites(locationId);
+        if (added) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return added;
     }
 
     public List<Location> getFavouriteLocations() throws NoLocationRegisteredException {
@@ -158,6 +186,10 @@ public class GeoNewsManager {
     }
 
     public boolean removeFromFavorites(int locationId) {
-        return locationManager.removeFromFavorites(locationId);
+        boolean removed = locationManager.removeFromFavorites(locationId);
+        if (removed) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+        return removed;
     }
 }

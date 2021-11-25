@@ -83,7 +83,7 @@ public class HU04_1 {
         assertEquals(0, favorites.size());
     }
 
-    @Test(expected = NoLocationRegisteredException.class)
+    @Test
     public void getFavoriteLocations_NoLocations_NoLocationRegisteredException()
             throws NoLocationRegisteredException {
             // Act
