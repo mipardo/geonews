@@ -12,6 +12,11 @@ public class DatabaseManager  {
     private final RemoteDBManager remoteDBManager;
     private final LocalDBManager localDBManager;
 
+    public DatabaseManager(LocalDBManager localDBManager, RemoteDBManager remoteDBManager) {
+        this.localDBManager = localDBManager;
+        this.remoteDBManager = remoteDBManager;
+    }
+
     public DatabaseManager(){
         remoteDBManager = new RemoteDBManager();
         localDBManager = new LocalDBManager();
