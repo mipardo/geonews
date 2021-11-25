@@ -7,7 +7,7 @@ import java.util.List;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.database.DatabaseManager;
-import es.uji.geonews.model.database.LocalDBManager;
+import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -25,7 +25,7 @@ public class GeoNewsManager {
     private String userId;
     private final LocationManager locationManager;
     private final ServiceManager serviceManager;
-    private DatabaseManager databaseManager;
+    private final DatabaseManager databaseManager;
 
     public GeoNewsManager(Context context){
         databaseManager = new DatabaseManager();
@@ -39,9 +39,12 @@ public class GeoNewsManager {
         userId = loadUserId(context);
     }
 
-    public GeoNewsManager(LocationManager locationManager, ServiceManager serviceManager) {
+    public GeoNewsManager(LocationManager locationManager, ServiceManager serviceManager,
+                          DatabaseManager databaseManager, String userId) {
         this.locationManager = locationManager;
         this.serviceManager = serviceManager;
+        this.databaseManager = databaseManager;
+        this.userId = userId;
     }
 
     public Location addLocation(String location)
@@ -52,10 +55,16 @@ public class GeoNewsManager {
 
         if (added){
             serviceManager.initLocationServices(newLocation);
-            //databaseManager.saveAll(userId, locationManager, serviceManager);
+            databaseManager.saveAll(userId, locationManager, serviceManager);
             return newLocation;
         }
         return null;
+    }
+
+    public Location addLocationByGps() throws GPSNotAvailableException,
+            NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+        GpsService gpsService = (GpsService) serviceManager.getService(ServiceName.GPS);
+        return addLocation(gpsService.currentCoords().toString());
     }
 
     public boolean addService(ServiceHttp service) {

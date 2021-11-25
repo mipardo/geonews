@@ -13,25 +13,34 @@ import org.junit.Test;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.database.DatabaseManager;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
+import es.uji.geonews.model.managers.ServiceManager;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.GpsService;
+import es.uji.geonews.model.services.ServiceName;
 
 public class HU03 {
-    private GeocodeService geocodeServiceMocked;
-    private LocationManager locationManager;
     private GpsService gpsServiceMocked;
+    private GeocodeService geocodeServiceMocked;
+    private GeoNewsManager geoNewsManager;
 
     @Before
     public void init(){
+        DatabaseManager databaseManagerMocked = mock(DatabaseManager.class);
         geocodeServiceMocked = mock(GeocodeService.class);
         gpsServiceMocked = mock(GpsService.class);
-        locationManager = new LocationManager(geocodeServiceMocked);
+        when(gpsServiceMocked.getServiceName()).thenReturn(ServiceName.GPS);
+        LocationManager locationManager = new LocationManager(geocodeServiceMocked);
+        ServiceManager serviceManager = new ServiceManager();
+        serviceManager.addService(gpsServiceMocked);
+        geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
     }
 
     @Test
@@ -42,14 +51,15 @@ public class HU03 {
         when(gpsServiceMocked.currentCoords()).thenReturn(new GeographCoords(39.98920, -0.03621));
         when(geocodeServiceMocked.isAvailable()).thenReturn(true);
         when(geocodeServiceMocked.getPlaceName(any())).thenReturn("Castellon de la Plana");
+
         // Act
-        Location newLocation = locationManager.addLocation(gpsServiceMocked.currentCoords().toString());
-        //locationManager.addLocationByGPS();
+        Location newLocation = geoNewsManager.addLocationByGps();
+
         // Assert
         verify(geocodeServiceMocked, times(1)).isAvailable();
         verify(geocodeServiceMocked, times(1)).getPlaceName(any());
-        assertEquals(1, locationManager.getNonActiveLocations().size());
-        assertEquals(0, locationManager.getActiveLocations().size());
+        assertEquals(1, geoNewsManager.getNonActiveLocations().size());
+        assertEquals(0, geoNewsManager.getActiveLocations().size());
     }
 
     @Test
@@ -61,13 +71,13 @@ public class HU03 {
         when(geocodeServiceMocked.isAvailable()).thenReturn(true);
         when(geocodeServiceMocked.getPlaceName(any())).thenReturn(null);
         // Act
-        Location newLocation = locationManager.addLocation(gpsServiceMocked.currentCoords().toString());
-        //locationManager.addLocationByGPS();
+        Location newLocation = geoNewsManager.addLocationByGps();
+
         // Assert
         verify(geocodeServiceMocked, times(1)).isAvailable();
         verify(geocodeServiceMocked, times(1)).getPlaceName(any());
-        assertEquals(1, locationManager.getNonActiveLocations().size());
-        assertEquals(0, locationManager.getActiveLocations().size());
+        assertEquals(1, geoNewsManager.getNonActiveLocations().size());
+        assertEquals(0, geoNewsManager.getActiveLocations().size());
         assertEquals(33.65000, newLocation.getGeographCoords().getLatitude(), 0.01);
         assertEquals(-41.19000, newLocation.getGeographCoords().getLongitude(),0.01);
         assertNull(newLocation.getPlaceName());
@@ -83,7 +93,7 @@ public class HU03 {
         when(geocodeServiceMocked.isAvailable()).thenReturn(true);
         when(geocodeServiceMocked.getPlaceName(any())).thenReturn(null);
         // Act
-        locationManager.addLocation(gpsServiceMocked.currentCoords().toString());
+        geoNewsManager.addLocationByGps();
 
     }
 
@@ -96,7 +106,7 @@ public class HU03 {
         when(geocodeServiceMocked.isAvailable()).thenReturn(true);
         when(geocodeServiceMocked.getPlaceName(any())).thenThrow(new ServiceNotAvailableException());
         // Act
-        locationManager.addLocation(gpsServiceMocked.currentCoords().toString());
+        geoNewsManager.addLocationByGps();
 
     }
 }

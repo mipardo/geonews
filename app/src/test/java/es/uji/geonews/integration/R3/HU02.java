@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
@@ -24,12 +25,13 @@ public class HU02 {
     @Before
     public void init(){
         // Given
+        DatabaseManager databaseManagerMocked = mock(DatabaseManager.class);
         airVisualServiceMocked = mock(AirVisualService.class);
         when(airVisualServiceMocked.getServiceName()).thenReturn(ServiceName.AIR_VISUAL);
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(airVisualServiceMocked);
         LocationManager locationManager = new LocationManager(geocodeService);
-        geoNewsManager = new GeoNewsManager(locationManager, serviceManager);
+        geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
     }
 
     @Test

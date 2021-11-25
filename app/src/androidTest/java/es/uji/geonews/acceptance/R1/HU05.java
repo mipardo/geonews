@@ -12,9 +12,6 @@ import java.util.List;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.LocationManager;
-import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
-import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
@@ -25,7 +22,7 @@ import es.uji.geonews.model.services.ServiceName;
 public class HU05 {
     private LocationManager locationManager;
     private ServiceManager serviceManager;
-    private Location valencia;
+    private Location location;
 
 
     @Before
@@ -34,19 +31,17 @@ public class HU05 {
         GeocodeService geocode = new GeocodeService();
         serviceManager.addService(geocode);
         locationManager = new LocationManager(geocode);
-        valencia = new Location(2, "Valencia",
-                new GeographCoords(39.50337, -0.40466), LocalDate.now());
+        location = new Location(2, null,
+                new GeographCoords(39.97990, -0.03304), LocalDate.now());
     }
 
     @Test
     public void validateLocation_PlaceNameRecognized_ListWithTwoActiveServices() {
-        Service OpenWeather = new OpenWeatherService();
-        Service AirVisual = new AirVisualService();
-        serviceManager.addService(OpenWeather);
-        serviceManager.addService(AirVisual);
-        locationManager.addLocation(valencia);
+        serviceManager.addService(new OpenWeatherService());
+        serviceManager.addService(new AirVisualService());
+        locationManager.addLocation(location);
         // When
-        List<ServiceName> services = serviceManager.validateLocation(valencia);
+        List<ServiceName> services = serviceManager.validateLocation(location);
         // Then
         assertEquals(2, services.size());
         assertTrue(services.contains(ServiceName.OPEN_WEATHER));
@@ -55,9 +50,9 @@ public class HU05 {
 
     @Test
     public void validateLocation_NoApiAvailable_EmptyList() {
-        locationManager.addLocation(valencia);
+        locationManager.addLocation(location);
         // When
-        List<ServiceName> services = serviceManager.validateLocation(valencia);
+        List<ServiceName> services = serviceManager.validateLocation(location);
         // Then
         assertEquals(0, services.size());
     }
