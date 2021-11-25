@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uji.geonews.model.GeographCoords;
+import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 
@@ -19,8 +20,8 @@ public class HU07 {
     }
 
     @Test
-    public void getCoords_KnownPlaceName_validCoords()
-            throws Throwable {
+    public void getCoords_KnownPlaceName_validCoords() throws ServiceNotAvailableException,
+            UnrecognizedPlaceNameException {
         // When
         GeographCoords coords = geocode.getCoords("Castello de la plana");
         // Then
@@ -30,7 +31,7 @@ public class HU07 {
 
     @Test (expected = UnrecognizedPlaceNameException.class)
     public void getCoords_UnknownPlaceName_UnrecognizedPlaceNameException()
-            throws Throwable {
+            throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // When
         geocode.getCoords("asdfxxrtg");
     }

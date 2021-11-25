@@ -20,7 +20,7 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
 
     @Override
     public boolean validateLocation(Location location) {
-        String url = "http://api.airvisual.com/v2/nearest_city?"
+        String url = "https://api.airvisual.com/v2/nearest_city?"
                 + "lat=" + location.getGeographCoords().getLatitude()
                 + "&lon=" + location.getGeographCoords().getLongitude()
                 + "&key=" + apiKey;
@@ -46,7 +46,7 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
 
     @Override
     public Data getData(Location location) throws ServiceNotAvailableException {
-        String url = "http://api.airvisual.com/v2/nearest_city?"
+        String url = "https://api.airvisual.com/v2/nearest_city?"
                 + "lat=" + location.getGeographCoords().getLatitude()
                 + "&lon=" + location.getGeographCoords().getLongitude()
                 + "&key=" + apiKey;

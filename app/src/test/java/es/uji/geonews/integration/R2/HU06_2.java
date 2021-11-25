@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -32,6 +33,8 @@ public class HU06_2 {
 
     @Before
     public void init() throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
+        DatabaseManager databaseManagerMocked = mock(DatabaseManager.class);
+
         geocodeServiceMocked = mock(GeocodeService.class);
         airVisualServiceMocked = mock(AirVisualService.class);
         openWeatherServiceMocked = mock(OpenWeatherService.class);
@@ -56,7 +59,7 @@ public class HU06_2 {
         serviceManager.addService(openWeatherServiceMocked);
         serviceManager.addService(airVisualServiceMocked);
         LocationManager locationManager = new LocationManager(geocodeServiceMocked);
-        geoNewsManager = new GeoNewsManager(locationManager, serviceManager);
+        geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
     }
 
     @Test
