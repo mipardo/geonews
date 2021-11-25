@@ -1,6 +1,7 @@
 package es.uji.geonews.acceptance.R4;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
@@ -55,5 +56,28 @@ public class HU03_9 {
 
         assertTrue(result);
         assertEquals(3, loadedGeoNewsManager.getFavouriteLocations().size());
+    }
+
+    @Test
+    public void addLocationToFavorite_localAndRemoteDatabasesAvailable_false()
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+        // Given
+        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        Location valencia = geoNewsManager.addLocation("Valencia");
+        geoNewsManager.addToFavorites(valencia.getId());
+        geoNewsManager.addToFavorites(castellon.getId());
+
+        // When
+        CountDownLatch lock = new CountDownLatch(1);
+        boolean result = geoNewsManager.addToFavorites(castellon.getId());
+        lock.await(5000, TimeUnit.MILLISECONDS);
+
+        // Then
+        GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
+        AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
+
+        assertFalse(result);
+        assertEquals(2, loadedGeoNewsManager.getFavouriteLocations().size());
     }
 }
