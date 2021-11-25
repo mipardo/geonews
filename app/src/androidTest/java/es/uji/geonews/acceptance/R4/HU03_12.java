@@ -46,7 +46,7 @@ public class HU03_12 {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         boolean result = geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
@@ -68,7 +68,7 @@ public class HU03_12 {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         boolean result = geoNewsManager.deactivateService(ServiceName.OPEN_WEATHER);
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);

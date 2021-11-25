@@ -20,6 +20,6 @@ public class AuxiliaryTestClass {
     public static void loadAll(GeoNewsManager geoNewsManager) throws InterruptedException {
         CountDownLatch lock = new CountDownLatch(1);
         geoNewsManager.loadAll();
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        lock.await(2000, TimeUnit.MILLISECONDS);
     }
 }

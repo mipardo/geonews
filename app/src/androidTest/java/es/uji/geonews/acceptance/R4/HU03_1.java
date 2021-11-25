@@ -39,7 +39,7 @@ public class HU03_1 {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         Location bilbao = geoNewsManager.addLocation("Bilbao");
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);

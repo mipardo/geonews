@@ -2,7 +2,9 @@ package es.uji.geonews.model.managers;
 
 import android.content.Context;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.Data;
@@ -65,14 +67,6 @@ public class GeoNewsManager {
             NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         GpsService gpsService = (GpsService) serviceManager.getService(ServiceName.GPS);
         return addLocation(gpsService.currentCoords().toString());
-    }
-
-    public boolean addService(ServiceHttp service) {
-        if (service.checkConnection()) {
-            serviceManager.addService(service);
-            return true;
-        }
-        return false;
     }
 
     public boolean activateLocation(int id) throws NoLocationRegisteredException {
@@ -191,5 +185,17 @@ public class GeoNewsManager {
             databaseManager.saveAll(userId, locationManager, serviceManager);
         }
         return removed;
+    }
+
+    public List<ServiceName> getAvailableServices() {
+        return serviceManager.getAvailableServices();
+    }
+
+    public Map<String, String> getServices() throws ServiceNotAvailableException {
+        return serviceManager.getServices();
+    }
+
+    public List<ServiceName> getActiveServices() {
+        return serviceManager.getActiveServices();
     }
 }

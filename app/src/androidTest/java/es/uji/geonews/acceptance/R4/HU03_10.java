@@ -48,7 +48,7 @@ public class HU03_10 {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         boolean result = geoNewsManager.activateLocation(valencia.getId());
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
@@ -78,7 +78,7 @@ public class HU03_10 {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         boolean result = geoNewsManager.activateLocation(valencia.getId());
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);

@@ -74,12 +74,13 @@ public class HU04_1 {
         assertEquals(0, favouriteLocations.size());
     }
 
-    @Test(expected = NoLocationRegisteredException.class)
+    @Test
     public void getFavoriteLocations_NoLocations_NoLocationRegisteredException()
             throws NoLocationRegisteredException {
         // When
-        geoNewsManager.getFavouriteLocations();
+        List<Location> favouriteLocations =  geoNewsManager.getFavouriteLocations();
+
+        // Then
+        assertEquals(0, favouriteLocations.size());
     }
-
-
 }
