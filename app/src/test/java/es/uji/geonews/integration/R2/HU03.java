@@ -65,7 +65,7 @@ public class HU03 {
     @Test
     public void checkListActiveLocations_noneActiveLocations_EmptyList()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+            NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
         Location castellon = locationManager.addLocation("Castelló de la Plana");
         // Act

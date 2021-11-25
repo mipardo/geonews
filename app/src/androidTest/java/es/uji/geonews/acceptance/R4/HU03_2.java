@@ -62,7 +62,8 @@ public class HU03_2 {
         Location bilbao = geoNewsManager.addLocation("Bilbao");
         Location castellonDeLaPlana = geoNewsManager.addLocation("Castellon de la Plana");
         //Preguntar
-        //boolean confirmacion =geoNewsManager.removeLocation(castellonDeLaPlana.getId());
+        geoNewsManager.removeLocation(castellonDeLaPlana.getId());
+        boolean confirmacion =geoNewsManager.removeLocation(castellonDeLaPlana.getId());
         lock.await(5000, TimeUnit.MILLISECONDS);
 
         // Then
@@ -70,7 +71,7 @@ public class HU03_2 {
         AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
 
         assertEquals(1, loadedGeoNewsManager.getNonActiveLocations().size());
-        //assertFalse(confirmacion);
+        assertFalse(confirmacion);
 
 
     }
