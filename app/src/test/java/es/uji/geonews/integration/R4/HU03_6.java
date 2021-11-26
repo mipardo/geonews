@@ -1,6 +1,7 @@
 package es.uji.geonews.integration.R4;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -76,6 +77,45 @@ public class HU03_6 {
         // Then
         assertTrue(result);
         // Se llama dos veces, una por el addLocation y el otro por el addServiceToLocation
+        verify(localDBManagerMocked, times(2)).saveAll(any(), any(), any());
+        verify(remoteDBManagerMocked, times(2)).saveAll(any(), any(), any());
+    }
+
+    @Test
+    public void activateLocationService_localDBNotAvailableAndRemoteDBAvailable_true()
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException {
+
+    }
+
+    @Test
+    public void activateLocationService_localDBAvailableAndRemoteDBNotAvailable_true()
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException {
+
+    }
+
+    @Test
+    public void activateLocationService_localAndRemoteDBNotAvailable_false()
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException {
+
+    }
+
+    @Test
+    public void activateLocationService_localAndRemoteDatabasesAvailable_false()
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException {
+        // Given
+        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+
+        // When
+        boolean result = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+
+        // Then
+        assertFalse(result);
+        // Se llama dos veces, una por el addLocation y el otro por el addServiceToLocation del Given
         verify(localDBManagerMocked, times(2)).saveAll(any(), any(), any());
         verify(remoteDBManagerMocked, times(2)).saveAll(any(), any(), any());
     }
