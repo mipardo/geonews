@@ -61,9 +61,9 @@ public class HU03_6 {
     @Test
     public void activateLocationService_localAndRemoteDatabasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
-        localDBManagerMocked = spy(mock(LocalDBManager.class));
-        remoteDBManagerMocked = spy(mock(RemoteDBManager.class));
+            NotValidCoordinatesException {
+        localDBManagerMocked = mock(LocalDBManager.class);
+        remoteDBManagerMocked = mock(RemoteDBManager.class);
         DatabaseManager databaseManagerMocked = new DatabaseManager(localDBManagerMocked, remoteDBManagerMocked);
 
         geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
@@ -82,21 +82,7 @@ public class HU03_6 {
     }
 
     @Test
-    public void activateLocationService_localDBNotAvailableAndRemoteDBAvailable_true()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
-
-    }
-
-    @Test
     public void activateLocationService_localDBAvailableAndRemoteDBNotAvailable_true()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
-
-    }
-
-    @Test
-    public void activateLocationService_localAndRemoteDBNotAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
 
@@ -106,8 +92,8 @@ public class HU03_6 {
     public void activateLocationService_localAndRemoteDatabasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
-        localDBManagerMocked = spy(mock(LocalDBManager.class));
-        remoteDBManagerMocked = spy(mock(RemoteDBManager.class));
+        localDBManagerMocked = mock(LocalDBManager.class);
+        remoteDBManagerMocked = mock(RemoteDBManager.class);
         DatabaseManager databaseManagerMocked = new DatabaseManager(localDBManagerMocked, remoteDBManagerMocked);
 
         geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);

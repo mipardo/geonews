@@ -17,7 +17,7 @@ public class DatabaseManager  {
         this.remoteDBManager = remoteDBManager;
     }
 
-    public DatabaseManager(){
+    public DatabaseManager() {
         remoteDBManager = new RemoteDBManager();
         localDBManager = new LocalDBManager();
     }
@@ -57,8 +57,10 @@ public class DatabaseManager  {
     }
 
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
-        localDBManager.saveAll(userId, locationManager,serviceManager);
-        remoteDBManager.saveAll(userId, locationManager, serviceManager);
+        if (localDBManager.isAvailable())
+            localDBManager.saveAll(userId, locationManager,serviceManager);
+        if (remoteDBManager.isAvailable())
+            remoteDBManager.saveAll(userId, locationManager, serviceManager);
     }
 
     public String getUserId(Context context) {

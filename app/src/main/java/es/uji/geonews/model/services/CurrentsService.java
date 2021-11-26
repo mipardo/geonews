@@ -20,6 +20,7 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
     public CurrentsService() {
         super(ServiceName.CURRENTS, "News service");
         apiKey = "uVh9kGUA3ZArfrYzCaLkX4iW6nR1vy2LMHwesz40aEY4OHaj";
+        url = "api.currentsapi.services";
     }
 
     public boolean validateLocation(Location location){
@@ -37,12 +38,6 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
         } catch (IOException | JSONException exception){
             return false;
         }
-    }
-
-    @Override
-    public boolean checkConnection() {
-        //TODO: This method should connect to the API to check if it is possible to connect
-        return true;
     }
 
     @Override

@@ -9,6 +9,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
@@ -51,5 +55,15 @@ public class RemoteDBManager implements DataBase {
                 callback.onFailure(e);
             }
         });
+    }
+
+    @Override
+    public boolean isAvailable() {
+        try {
+            InetAddress inet = InetAddress.getByName("firebase.google.com");
+            return inet.isReachable(2000);
+        } catch (IOException e) {
+            return false;
+        }
     }
 }
