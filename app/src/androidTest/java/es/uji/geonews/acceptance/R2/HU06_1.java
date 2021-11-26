@@ -74,10 +74,13 @@ public class HU06_1 {
         assertEquals(0, locationList.size());
     }
 
-    @Test (expected = NoLocationRegisteredException.class)
+    @Test
     public void getNonActiveLocations_anyLocationRegistered_NoLocationRegisteredException()
             throws NoLocationRegisteredException {
         // When
-        geoNewsManager.getNonActiveLocations();
+        List<Location> nonActiveLocations =  geoNewsManager.getNonActiveLocations();
+
+        // Then
+        assertEquals(0, nonActiveLocations.size());
     }
 }

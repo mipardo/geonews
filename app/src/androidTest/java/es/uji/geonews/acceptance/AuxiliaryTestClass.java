@@ -8,18 +8,21 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import es.uji.geonews.model.managers.GeoNewsManager;
+import es.uji.geonews.model.services.ServiceName;
 
 public class AuxiliaryTestClass {
-    public static GeoNewsManager resetGeoNewsManager(GeoNewsManager geoNewsManager, Context appContext){
-        appContext = null;
-        geoNewsManager = null;
-        appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        return geoNewsManager = new GeoNewsManager(appContext);
-    }
 
     public static void loadAll(GeoNewsManager geoNewsManager) throws InterruptedException {
         CountDownLatch lock = new CountDownLatch(1);
         geoNewsManager.loadAll();
         lock.await(2000, TimeUnit.MILLISECONDS);
+    }
+
+    public static void deactivateAllServices(GeoNewsManager geoNewsManager){
+        geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
+        geoNewsManager.deactivateService(ServiceName.OPEN_WEATHER);
+        geoNewsManager.deactivateService(ServiceName.GEOCODE);
+        geoNewsManager.deactivateService(ServiceName.CURRENTS);
+
     }
 }

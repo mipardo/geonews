@@ -30,7 +30,7 @@ public class UserDao {
         this.locationCounter = locationManager.getLocationCounter();
         this.locations = convertLocations(locationManager.getLocations());
         this.favoriteLocations = convertLocations(locationManager.getFavoriteLocations());
-        this.services = convertServices(serviceManager.getServiceMap());
+        this.services = convertServices(serviceManager.getServices());
         this.locationServices =  convertLocationServices(serviceManager.getLocationServices());
         this.lastData = convertLastData(serviceManager.getLastData());
         this.lastModification = LocalDateTime.now().toString();
@@ -80,7 +80,7 @@ public class UserDao {
     }
 
     public void fillServiceManager(ServiceManager serviceManager) {
-        serviceManager.setServiceMap(convertServicesBack(services));
+        serviceManager.setServices(convertServicesBack(services));
         serviceManager.setLocationServices(convertLocationServicesBack(locationServices));
         serviceManager.setLastData(convertLastDataBack(lastData));
     }

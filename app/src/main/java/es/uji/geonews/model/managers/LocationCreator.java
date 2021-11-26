@@ -10,7 +10,7 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
 
 public class LocationCreator {
-    private GeocodeService geocodeService;
+    private final GeocodeService geocodeService;
     private int idLocationCounter;
 
     public LocationCreator(GeocodeService geocodeService){

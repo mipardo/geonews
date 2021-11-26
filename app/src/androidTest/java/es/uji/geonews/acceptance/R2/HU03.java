@@ -83,12 +83,16 @@ public class HU03 {
         assertFalse(list.contains(castellon));
 
     }
-    @Test(expected = NoLocationRegisteredException.class)
+
+    @Test
     public void checkListActiveLocations_noLocations_NoLocationRegisteredException()
             throws NoLocationRegisteredException {
         // Given
 
         // When
-        geoNewsManager.getActiveLocations();
+        List<Location> activeLocations = geoNewsManager.getActiveLocations();
+
+        // Then
+        assertEquals(0, activeLocations.size());
     }
 }

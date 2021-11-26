@@ -4,45 +4,52 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.content.Context;
+
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.ServiceManager;
 import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.ServiceName;
 
 public class HU04 {
-    private ServiceManager serviceManager;
+    private GeoNewsManager geoNewsManager;
 
     @Before
     public void init(){
-        serviceManager = new ServiceManager();
+        // Given
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        geoNewsManager = new GeoNewsManager(appContext);
     }
 
     @Test
     public void deactivateService_availableServices_true() {
         // Given
-        serviceManager.addService(new OpenWeatherService());
-        serviceManager.addService(new AirVisualService());
-        serviceManager.deactivateService(ServiceName.AIR_VISUAL);
+        geoNewsManager.deactivateService(ServiceName.CURRENTS);
+        geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
+        geoNewsManager.deactivateService(ServiceName.GEOCODE);
         // When
-        boolean result = serviceManager.deactivateService(ServiceName.OPEN_WEATHER);
+        boolean result = geoNewsManager.deactivateService(ServiceName.OPEN_WEATHER);
         // Then
         assertTrue(result);
-        assertEquals(0, serviceManager.getActiveServices().size());
+        assertEquals(0, geoNewsManager.getActiveServices().size());
     }
 
     @Test
     public void deactivateService_nonAvailableServices_false() {
         // Given
-        serviceManager.addService(new OpenWeatherService());
-        serviceManager.addService(new AirVisualService());
-        serviceManager.deactivateService(ServiceName.AIR_VISUAL);
+        geoNewsManager.deactivateService(ServiceName.CURRENTS);
+        geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
+        geoNewsManager.deactivateService(ServiceName.GEOCODE);
         // When
-        boolean result = serviceManager.deactivateService(ServiceName.AIR_VISUAL);
+        boolean result = geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
         // Then
         assertFalse(result);
-        assertEquals(1, serviceManager.getActiveServices().size());
+        assertEquals(1, geoNewsManager.getActiveServices().size());
     }
 }
