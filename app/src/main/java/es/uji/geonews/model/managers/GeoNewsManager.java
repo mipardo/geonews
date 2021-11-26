@@ -22,7 +22,7 @@ import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GeoNewsManager {
-    private String userId;
+    private final String userId;
     private final LocationManager locationManager;
     private final ServiceManager serviceManager;
     private final DatabaseManager databaseManager;
@@ -37,6 +37,7 @@ public class GeoNewsManager {
         serviceManager.addService(new GeocodeService());
         locationManager = new LocationManager((GeocodeService) serviceManager.getService(ServiceName.GEOCODE));
         userId = loadUserId(context);
+        loadAll();
     }
 
     public GeoNewsManager(LocationManager locationManager, ServiceManager serviceManager,
@@ -71,51 +72,43 @@ public class GeoNewsManager {
         return locationManager.removeLocation(locationId);
     }
 
-    public boolean activateLocation(int id) throws NoLocationRegisteredException {
-        Location location = locationManager.getLocation(id);
+    public boolean activateLocation(int locationId) throws NoLocationRegisteredException {
+        Location location = locationManager.getLocation(locationId);
         if (serviceManager.validateLocation(location).size() > 0) {
-            boolean activated = locationManager.activateLocation(id);
-            if (activated) {
-                databaseManager.saveAll(userId, locationManager, serviceManager);
-            }
+            boolean activated = locationManager.activateLocation(locationId);
+            saveAll(activated);
             return activated;
         }
         return false;
     }
 
-    public boolean deactivateLocation(int id) {
-        boolean deactivated = locationManager.deactivateLocation(id);
-        if (deactivated) {
-            databaseManager.saveAll(userId, locationManager, serviceManager);
-        }
+    public boolean deactivateLocation(int locationId) {
+        boolean deactivated = locationManager.deactivateLocation(locationId);
+        saveAll(deactivated);
         return deactivated;
     }
 
     public boolean activateService(ServiceName serviceName) {
         boolean activated = serviceManager.activateService(serviceName);
-        if (activated) {
-            databaseManager.saveAll(userId, locationManager, serviceManager);
-        }
+        saveAll(activated);
         return activated;
     }
 
     public boolean deactivateService(ServiceName service) {
         boolean deactivated = serviceManager.deactivateService(service);
-        if (deactivated) {
-            databaseManager.saveAll(userId, locationManager, serviceManager);
-        }
+        saveAll(deactivated);
         return deactivated;
     }
 
-    public Location getLocation(int id) throws NoLocationRegisteredException {
-        return  locationManager.getLocation(id);
+    public Location getLocation(int locationId) throws NoLocationRegisteredException {
+        return  locationManager.getLocation(locationId);
     }
 
-    public List<Location> getActiveLocations() throws NoLocationRegisteredException{
+    public List<Location> getActiveLocations() {
         return locationManager.getActiveLocations();
     }
 
-    public List<Location> getNonActiveLocations() throws NoLocationRegisteredException {
+    public List<Location> getNonActiveLocations() {
         return locationManager.getNonActiveLocations();
     }
 
@@ -125,21 +118,17 @@ public class GeoNewsManager {
 
     public boolean addToFavorites(int locationId) {
         boolean added = locationManager.addToFavorites(locationId);
-        if (added) {
-            databaseManager.saveAll(userId, locationManager, serviceManager);
-        }
+        saveAll(added);
         return added;
     }
 
-    public List<Location> getFavouriteLocations() throws NoLocationRegisteredException {
+    public List<Location> getFavouriteLocations() {
         return locationManager.getFavouriteLocations();
     }
 
     public boolean removeFromFavorites(int locationId) {
         boolean removed = locationManager.removeFromFavorites(locationId);
-        if (removed) {
-            databaseManager.saveAll(userId, locationManager, serviceManager);
-        }
+        saveAll(removed);
         return removed;
     }
 
@@ -164,24 +153,19 @@ public class GeoNewsManager {
         return serviceManager.getPublicServices();
     }
 
-    public List<ServiceName> getServicesOfLocation(int id) {
-        return serviceManager.getServicesOfLocation(id);
+    public List<ServiceName> getServicesOfLocation(int locationId) {
+        return serviceManager.getServicesOfLocation(locationId);
     }
 
-    public boolean addServiceToLocation(ServiceName serviceName, Location location)
-            throws ServiceNotAvailableException {
+    public boolean addServiceToLocation(ServiceName serviceName, Location location) throws ServiceNotAvailableException {
         boolean added = serviceManager.addServiceToLocation(serviceName, location);
-        if (added) {
-            databaseManager.saveAll(userId, locationManager, serviceManager);
-        }
+        saveAll(added);
         return added;
     }
 
     public boolean removeServiceFromLocation(ServiceName serviceName, Location location) {
         boolean removed = serviceManager.removeServiceFromLocation(serviceName, location);
-        if (removed) {
-            databaseManager.saveAll(userId, locationManager, serviceManager);
-        }
+        saveAll(removed);
         return removed;
     }
 
@@ -189,11 +173,23 @@ public class GeoNewsManager {
         databaseManager.loadAll(userId, locationManager, serviceManager);
     }
 
-    public void saveAll() {
-        databaseManager.saveAll(userId, locationManager, serviceManager);
+    private void saveAll(boolean operationResult){
+        if (operationResult) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+        }
+    }
+
+    public void loadRemoteState(String remoteUserId){
+        databaseManager.loadRemoteState(remoteUserId, locationManager, serviceManager);
     }
 
     public String loadUserId(Context context) {
         return databaseManager.getUserId(context);
+    }
+
+    //TODO: This method is just used for the tests.
+    // Make sure it is not been udes in the Controller or Model
+    public void removeUserConfiguration(String userIdToDelete){
+        databaseManager.removeUser(userIdToDelete, userId);
     }
 }

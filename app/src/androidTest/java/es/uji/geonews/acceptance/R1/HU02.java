@@ -7,9 +7,11 @@ import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
@@ -19,13 +21,18 @@ import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 
 public class HU02 {
     private GeoNewsManager geoNewsManager;
+    private Context context;
 
     @Before
     public void init(){
         // Given
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        geoNewsManager = new GeoNewsManager(appContext);
+        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        geoNewsManager = new GeoNewsManager(context);
+    }
 
+    @After
+    public void clean() throws InterruptedException {
+        AuxiliaryTestClass.cleanDB(geoNewsManager, context);
     }
 
     @Test

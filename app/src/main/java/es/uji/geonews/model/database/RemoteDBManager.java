@@ -25,8 +25,6 @@ public class RemoteDBManager implements DataBase {
         db = FirebaseFirestore.getInstance();
     }
 
-
-
     @Override
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
         UserDao userDao = new UserDao(userId, locationManager, serviceManager);
@@ -65,5 +63,9 @@ public class RemoteDBManager implements DataBase {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public void removeUser(String remoteUserId) {
+        db.collection("users").document(String.valueOf(remoteUserId)).delete();
     }
 }
