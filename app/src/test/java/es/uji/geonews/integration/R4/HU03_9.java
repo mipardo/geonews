@@ -1,6 +1,5 @@
 package es.uji.geonews.integration.R4;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -12,9 +11,6 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
@@ -58,8 +54,10 @@ public class HU03_9 {
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException {
         // Given
-        localDBManagerMocked = spy(mock(LocalDBManager.class));
-        remoteDBManagerMocked = spy(mock(RemoteDBManager.class));
+        localDBManagerMocked = mock(LocalDBManager.class);
+        when(localDBManagerMocked.isAvailable()).thenReturn(true);
+        remoteDBManagerMocked = mock(RemoteDBManager.class);
+        when(remoteDBManagerMocked.isAvailable()).thenReturn(true);
         DatabaseManager databaseManagerMocked = new DatabaseManager(localDBManagerMocked, remoteDBManagerMocked);
 
         geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
@@ -80,18 +78,29 @@ public class HU03_9 {
     }
 
     @Test
-    public void addLocationToFavorite_localDBNotAvailableAndRemoteDBAvailable_true() {
+    public void addLocationToFavorite_localDBAvailableAndRemoteDBNotAvailable_true() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+// Given
+        localDBManagerMocked = mock(LocalDBManager.class);
+        when(localDBManagerMocked.isAvailable()).thenReturn(true);
+        remoteDBManagerMocked = mock(RemoteDBManager.class);
+        when(remoteDBManagerMocked.isAvailable()).thenReturn(false);
+        DatabaseManager databaseManagerMocked = new DatabaseManager(localDBManagerMocked, remoteDBManagerMocked);
 
-    }
+        geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
 
-    @Test
-    public void addLocationToFavorite_localDBAvailableAndRemoteDBNotAvailable_true() {
+        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        Location valencia = geoNewsManager.addLocation("Valencia");
+        Location alicante = geoNewsManager.addLocation("Alicante");
+        geoNewsManager.addToFavorites(valencia.getId());
+        geoNewsManager.addToFavorites(alicante.getId());
 
-    }
+        // When
+        boolean result = geoNewsManager.addToFavorites(castellon.getId());
 
-    @Test
-    public void addLocationToFavorite_localAndRemoteDBNotAvailable_false() {
-
+        // Then
+        assertTrue(result);
+        verify(localDBManagerMocked, times(6)).saveAll(any(), any(), any());
+        verify(remoteDBManagerMocked, times(0)).saveAll(any(), any(), any());
     }
 
     @Test
@@ -99,8 +108,10 @@ public class HU03_9 {
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
         // Given
-        localDBManagerMocked = spy(mock(LocalDBManager.class));
-        remoteDBManagerMocked = spy(mock(RemoteDBManager.class));
+        localDBManagerMocked = mock(LocalDBManager.class);
+        when(localDBManagerMocked.isAvailable()).thenReturn(true);
+        remoteDBManagerMocked = mock(RemoteDBManager.class);
+        when(remoteDBManagerMocked.isAvailable()).thenReturn(true);
         DatabaseManager databaseManagerMocked = new DatabaseManager(localDBManagerMocked, remoteDBManagerMocked);
 
         geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);

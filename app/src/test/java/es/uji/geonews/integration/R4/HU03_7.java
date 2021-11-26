@@ -43,8 +43,6 @@ public class HU03_7 {
         when(geocodeServiceMocked.getServiceName()).thenReturn(ServiceName.GEOCODE);
         when(geocodeServiceMocked.isAvailable()).thenReturn(true);
         when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
-        // when(geocodeServiceMocked.getCoords("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
-        // when(geocodeServiceMocked.getCoords("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
         locationManager = new LocationManager(geocodeServiceMocked);
 
         OpenWeatherService openWeatherServiceMocked = mock(OpenWeatherService.class);
@@ -60,10 +58,12 @@ public class HU03_7 {
     @Test
     public void deactivateLocationService_localAndRemoteDatabasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+            NotValidCoordinatesException {
         // Given
-        localDBManagerMocked = spy(mock(LocalDBManager.class));
-        remoteDBManagerMocked = spy(mock(RemoteDBManager.class));
+        localDBManagerMocked = mock(LocalDBManager.class);
+        when(localDBManagerMocked.isAvailable()).thenReturn(true);
+        remoteDBManagerMocked = mock(RemoteDBManager.class);
+        when(remoteDBManagerMocked.isAvailable()).thenReturn(true);
         DatabaseManager databaseManagerMocked = new DatabaseManager(localDBManagerMocked, remoteDBManagerMocked);
 
         geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
@@ -80,27 +80,36 @@ public class HU03_7 {
     }
 
     @Test
-    public void deactivateLocationService_localDBNotAvailableAndRemoteDBAvailable_true() {
+    public void deactivateLocationService_localDBAvailableAndRemoteDBNotAvailable_true() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+        // Given
+        localDBManagerMocked = mock(LocalDBManager.class);
+        when(localDBManagerMocked.isAvailable()).thenReturn(true);
+        remoteDBManagerMocked = mock(RemoteDBManager.class);
+        when(remoteDBManagerMocked.isAvailable()).thenReturn(false);
+        DatabaseManager databaseManagerMocked = new DatabaseManager(localDBManagerMocked, remoteDBManagerMocked);
 
-    }
+        geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
+        Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
 
-    @Test
-    public void deactivateLocationService_localDBAvailableAndRemoteDBNotAvailable_true() {
+        // When
+        boolean result = geoNewsManager.removeServiceFromLocation(ServiceName.OPEN_WEATHER, castellon);
 
-    }
-
-    @Test
-    public void deactivateLocationService_localAndRemoteDBNotAvailable_false() {
-
+        // Then
+        assertTrue(result);
+        verify(localDBManagerMocked, times(3)).saveAll(any(), any(), any());
+        verify(remoteDBManagerMocked, times(0)).saveAll(any(), any(), any());
     }
 
     @Test
     public void deactivateLocationService_localAndRemoteDatabasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+            NotValidCoordinatesException {
         // Given
-        localDBManagerMocked = spy(mock(LocalDBManager.class));
-        remoteDBManagerMocked = spy(mock(RemoteDBManager.class));
+        localDBManagerMocked = mock(LocalDBManager.class);
+        when(localDBManagerMocked.isAvailable()).thenReturn(true);
+        remoteDBManagerMocked = mock(RemoteDBManager.class);
+        when(remoteDBManagerMocked.isAvailable()).thenReturn(true);
         DatabaseManager databaseManagerMocked = new DatabaseManager(localDBManagerMocked, remoteDBManagerMocked);
 
         geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
