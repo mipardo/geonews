@@ -48,7 +48,6 @@ public class HU03_7 {
         OpenWeatherService openWeatherServiceMocked = mock(OpenWeatherService.class);
         when(openWeatherServiceMocked.isAvailable()).thenReturn(true);
         when(openWeatherServiceMocked.getServiceName()).thenReturn(ServiceName.OPEN_WEATHER);
-        when(openWeatherServiceMocked.isAvailable()).thenReturn(true);
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
         serviceManager = new ServiceManager();
         serviceManager.addService(geocodeServiceMocked);

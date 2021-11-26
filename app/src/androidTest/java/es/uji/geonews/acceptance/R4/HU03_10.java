@@ -41,7 +41,7 @@ public class HU03_10 {
         // Given
         Location valencia = geoNewsManager.addLocation("Valencia");
         geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, valencia);
-        //geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, valencia);
+        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, valencia);
         geoNewsManager.activateLocation(valencia.getId());
         geoNewsManager.deactivateLocation(valencia.getId());
 
