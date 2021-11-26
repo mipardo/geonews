@@ -8,6 +8,7 @@ import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,13 +26,18 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class HU03_8 {
     private GeoNewsManager geoNewsManager;
-    private Context appContext;
+    private Context context;
 
     @Before
     public void init(){
         // Given
-        appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        geoNewsManager = new GeoNewsManager(appContext);
+        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        geoNewsManager = new GeoNewsManager(context);
+    }
+
+    @After
+    public void clean() throws InterruptedException {
+        AuxiliaryTestClass.cleanDB(geoNewsManager, context);
     }
 
     @Test
@@ -52,7 +58,7 @@ public class HU03_8 {
         lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
-        GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
+        GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(context);
         AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
 
         assertTrue(result);
@@ -73,7 +79,7 @@ public class HU03_8 {
         lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
-        GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
+        GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(context);
         AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
 
         assertFalse(result);

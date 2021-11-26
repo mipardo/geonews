@@ -53,4 +53,7 @@ public class RemoteDBManager implements DataBase {
         });
     }
 
+    public void removeUser(String remoteUserId) {
+        db.collection("users").document(String.valueOf(remoteUserId)).delete();
+    }
 }

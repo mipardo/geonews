@@ -1,10 +1,8 @@
 package es.uji.geonews.acceptance.R4;
 
-
 import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
-
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.After;
@@ -15,22 +13,23 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
-import es.uji.geonews.model.Location;
-import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 
-public class HU03_1 {
+public class HU02 {
     private GeoNewsManager geoNewsManager;
     private Context context;
 
     @Before
-    public void init(){
+    public void init() throws NotValidCoordinatesException,
+            ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         geoNewsManager = new GeoNewsManager(context);
+
+        geoNewsManager.addLocation("Valencia");
     }
 
     @After
@@ -39,20 +38,16 @@ public class HU03_1 {
     }
 
     @Test
-    public void registerLocationByPlaceName_KnownPlaceName_Location()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
-        // When
-        CountDownLatch lock = new CountDownLatch(1);
-        Location bilbao = geoNewsManager.addLocation("Bilbao");
-        lock.await(2000, TimeUnit.MILLISECONDS);
+    public void loadData_localDbAvailable_userDao() {
+        //When
+        geoNewsManager = null;
+        geoNewsManager = new GeoNewsManager(InstrumentationRegistry.getInstrumentation().getTargetContext());
 
-        // Then
-        GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(context);
-        AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
-
-        assertEquals(1, loadedGeoNewsManager.getNonActiveLocations().size());
-        assertEquals("Bilbao", loadedGeoNewsManager.getLocation(bilbao.getId()).getPlaceName());
+        //Then
+        assertEquals(1, geoNewsManager.getNonActiveLocations().size());
+        assertEquals("Valencia", geoNewsManager.getNonActiveLocations().get(0).getPlaceName());
     }
+
+
 
 }

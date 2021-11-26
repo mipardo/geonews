@@ -19,31 +19,32 @@ import androidx.test.platform.app.InstrumentationRegistry;
 public class LocalDBManager implements DataBase{
 
     private final Gson json;
+    private final SharedPreferences sharedPreferences;
+
     public LocalDBManager() {
-        json= new Gson();
+        json = new Gson();
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        sharedPreferences = appContext.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);
+
     }
 
     @Override
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
         //Crear Un conjunto de datos con to-do lo que queremos guardar de Sistema
-        UserDao userDao = new UserDao(userId,locationManager,serviceManager);
+        UserDao userDao = new UserDao(userId, locationManager, serviceManager);
         //Pasarlo a un Json
         String configuracionUser = json.toJson(userDao);
         //Guardarlo con Context y sharedpreferences
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        SharedPreferences sharedPreferences = appContext.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor =sharedPreferences.edit();
-        editor.putString("configuracion",configuracionUser);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("configuracion", configuracionUser);
 
-        editor.commit();
+        editor.apply();
     }
 
 
     @Override
     public void loadAll(String userId, Callback callback) {
         //Cargar un conjunto de datos guardado en el sistema
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        SharedPreferences sharedPreferences = appContext.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);
         String configuracion = sharedPreferences.getString("configuracion","No existe la informacion");
         //Transformalo en la clase UserDao
         try {
@@ -63,8 +64,14 @@ public class LocalDBManager implements DataBase{
             SharedPreferences.Editor editor = sharedPreferences.edit();
             userId = UUID.randomUUID().toString();
             editor.putString("userId", userId);
-            editor.commit();
+            editor.apply();
         }
         return userId;
+    }
+
+    public void removeUser() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("configuracion");
+        editor.apply();
     }
 }

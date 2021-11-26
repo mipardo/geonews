@@ -4,12 +4,15 @@ import org.junit.Test;
 
 import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 
-public class HU01 {
+public class HU02 {
 
+    @Test
+    public void loadData_remoteDbAvailable_userDao() {
 
+    }
 
     @Test(expected = DatabaseNotAvailableException.class)
-    public void loadRemoteState_dataBaseNotAvailable_DatabaseNotAvailableException() {
+    public void loadData_noDbAvailable_DataBaseNotAvailableException() {
 
     }
 }

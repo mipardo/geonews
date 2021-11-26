@@ -6,6 +6,7 @@ import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,6 +19,7 @@ import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
+import es.uji.geonews.model.exceptions.UnrecognizedIdentifierException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
@@ -29,20 +31,32 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class HU01 {
     private GeoNewsManager geoNewsManagerNew;
+    private Context context;
+    private GeoNewsManager geoNewsManagerOld;
+    private String userId;
 
     @Before
-    public void init(){
+    public void init() {
         // Given
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         geoNewsManagerNew = new GeoNewsManager(context);
     }
 
+    @After
+    public void clean() throws InterruptedException {
+        CountDownLatch lock = new CountDownLatch(1);
+        geoNewsManagerNew.removeUserConfiguration(geoNewsManagerNew.loadUserId(context));
+        geoNewsManagerNew.removeUserConfiguration(userId);
+        lock.await(2000, TimeUnit.MILLISECONDS);
+    }
+
+
     @Test
-    public void loadData_fromEmptyToNonEmpty_userDao() throws NotValidCoordinatesException,
-            ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException, InterruptedException {
+    public void loadRemoteState_fromEmptyToNonEmpty_userDao() throws NotValidCoordinatesException,
+            ServiceNotAvailableException, UnrecognizedPlaceNameException, InterruptedException {
         //Given
-        String userId = "e10a28n11v09";
-        GeoNewsManager geoNewsManagerOld = createGeoNewsManager(userId);
+        userId = "e10a28n11v09";
+        geoNewsManagerOld = createGeoNewsManager(userId);
         geoNewsManagerOld.activateService(ServiceName.AIR_VISUAL);
         geoNewsManagerOld.activateService(ServiceName.OPEN_WEATHER);
         Location valencia = geoNewsManagerOld.addLocation("Valencia");
@@ -61,11 +75,11 @@ public class HU01 {
     }
 
     @Test
-    public void loadData_fromNonEmptyToNonEmpty_userDao() throws NotValidCoordinatesException,
+    public void loadRemoteState_fromNonEmptyToNonEmpty_userDao() throws NotValidCoordinatesException,
             ServiceNotAvailableException, UnrecognizedPlaceNameException, InterruptedException {
         //Given
-        String userId = "e10a28n11v10";
-        GeoNewsManager geoNewsManagerOld = createGeoNewsManager(userId);
+        userId = "e10a28n11v10";
+        geoNewsManagerOld = createGeoNewsManager(userId);
         geoNewsManagerOld.activateService(ServiceName.AIR_VISUAL);
         geoNewsManagerOld.activateService(ServiceName.OPEN_WEATHER);
         Location valencia = geoNewsManagerOld.addLocation("Alicante");
@@ -85,8 +99,8 @@ public class HU01 {
         assertEquals("Alicante", geoNewsManagerNew.getFavouriteLocations().get(0).getPlaceName());
     }
 
-    @Test
-    public void loadData_unrecognizedIdentifier_UnrecognizedIdentifierException()
+    @Test(expected = UnrecognizedIdentifierException.class)
+    public void loadRemoteState_unrecognizedIdentifier_UnrecognizedIdentifierException()
             throws InterruptedException {
         //When
         CountDownLatch lock = new CountDownLatch(1);

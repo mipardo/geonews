@@ -18,6 +18,12 @@ public class AuxiliaryTestClass {
         lock.await(2000, TimeUnit.MILLISECONDS);
     }
 
+    public static void cleanDB(GeoNewsManager geoNewsManager, Context context) throws InterruptedException{
+        CountDownLatch lock = new CountDownLatch(1);
+        geoNewsManager.removeUserConfiguration(geoNewsManager.loadUserId(context));
+        lock.await(2000, TimeUnit.MILLISECONDS);
+    }
+
     public static void deactivateAllServices(GeoNewsManager geoNewsManager){
         geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
         geoNewsManager.deactivateService(ServiceName.OPEN_WEATHER);

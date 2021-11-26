@@ -81,4 +81,9 @@ public class DatabaseManager  {
     public String getUserId(Context context) {
         return localDBManager.getUserId(context);
     }
+
+    public void removeUser(String remoteUserId, String userId) {
+        localDBManager.removeUser();
+        remoteDBManager.removeUser(remoteUserId);
+    }
 }
