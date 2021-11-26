@@ -50,7 +50,10 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'com.google.firebase:firebase-firestore'
     // https://mvnrepository.com/artifact/org.mockito/mockito-all
-    testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+    //testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+    // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
+
 
     // Para las respuestas de las APIS
     testImplementation 'org.json:json:20140107'
