@@ -166,11 +166,19 @@ public class GeoNewsManager {
     }
 
     public boolean setAliasToLocation(String alias, int locationId) throws NoLocationRegisteredException {
-        return locationManager.setAliasToLocation(alias, locationId);
+        if(locationManager.setAliasToLocation(alias, locationId)){
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+            return true;
+        }
+        return false;
     }
 
     public boolean removeLocation(int locationId) {
-        return locationManager.removeLocation(locationId);
+        if(locationManager.removeLocation(locationId)) {
+            databaseManager.saveAll(userId, locationManager, serviceManager);
+            return true;
+        }
+        return false;
     }
 
     public boolean addToFavorites(int locationId) {
