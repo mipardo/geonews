@@ -70,7 +70,9 @@ public class GeoNewsManager {
     }
 
     public boolean removeLocation(int locationId) {
-        return locationManager.removeLocation(locationId);
+        boolean removed = locationManager.removeLocation(locationId);
+        saveAll(removed);
+        return removed;
     }
 
     public boolean activateLocation(int locationId) throws NoLocationRegisteredException {
@@ -121,7 +123,9 @@ public class GeoNewsManager {
     }
 
     public boolean setAliasToLocation(String alias, int locationId) throws NoLocationRegisteredException {
-        return locationManager.setAliasToLocation(alias, locationId);
+        boolean added = locationManager.setAliasToLocation(alias, locationId);
+        saveAll(added);
+        return added;
     }
 
     public boolean addToFavorites(int locationId) {
