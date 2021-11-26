@@ -99,8 +99,8 @@ public class HU01 {
         assertEquals("Alicante", geoNewsManagerNew.getFavouriteLocations().get(0).getPlaceName());
     }
 
-    @Test(expected = UnrecognizedIdentifierException.class)
-    public void loadRemoteState_unrecognizedIdentifier_UnrecognizedIdentifierException()
+    @Test
+    public void loadRemoteState_unrecognizedIdentifier_naif()
             throws InterruptedException {
         //When
         CountDownLatch lock = new CountDownLatch(1);

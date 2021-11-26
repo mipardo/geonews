@@ -6,12 +6,15 @@ import com.google.gson.JsonSyntaxException;
 
 import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
+import es.uji.geonews.model.exceptions.UnrecognizedIdentifierException;
+import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 
 public class DatabaseManager  {
     private final RemoteDBManager remoteDBManager;
     private final LocalDBManager localDBManager;
+    private Exception loadException;
 
     public DatabaseManager(LocalDBManager localDBManager, RemoteDBManager remoteDBManager) {
         this.localDBManager = localDBManager;
@@ -61,16 +64,17 @@ public class DatabaseManager  {
         remoteDBManager.loadAll(userId, new Callback() {
             @Override
             public void onSuccess(UserDao userDao) {
-                //if (userDao == null) throw new UnrecognizedIdentifierException();
-                userDao.fillLocationManager(locationManager);
-                userDao.fillServiceManager(serviceManager);
+                if (userDao != null){
+                    userDao.fillLocationManager(locationManager);
+                    userDao.fillServiceManager(serviceManager);
+                }
             }
-
             @Override
             public void onFailure(Exception e) {
                 e.printStackTrace();
             }
         });
+
     }
 
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {

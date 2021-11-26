@@ -9,6 +9,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.nio.ByteBuffer;
+
 import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
@@ -20,8 +22,6 @@ public class RemoteDBManager implements DataBase {
     public RemoteDBManager(){
         db = FirebaseFirestore.getInstance();
     }
-
-
 
     @Override
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
