@@ -17,7 +17,8 @@ public class GeocodeService extends ServiceHttp  {
 
     public GeocodeService() {
         super(ServiceName.GEOCODE, "Coordinates Search Service");
-        apiKey = "476839242325777328792x5505";
+        apiKey = "341168127397444331750x52190";
+        url = "geocode.xyz";
     }
 
     public GeographCoords getCoords(String placeName)
@@ -68,12 +69,6 @@ public class GeocodeService extends ServiceHttp  {
 
     @Override
     public boolean validateLocation(Location location){
-        return true;
-    }
-
-    @Override
-    public boolean checkConnection() {
-        //TODO: This method should connect to the API to check if it is possible to connect
         return true;
     }
 

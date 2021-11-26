@@ -55,6 +55,11 @@ public class LocalDBManager implements DataBase{
         }
     }
 
+    @Override
+    public boolean isAvailable() {
+        return true;
+    }
+
     public String getUserId(Context context) {
         String userId;
         SharedPreferences sharedPreferences = context.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);

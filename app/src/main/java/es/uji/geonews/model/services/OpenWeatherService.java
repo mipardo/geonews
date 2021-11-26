@@ -16,6 +16,7 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
     public OpenWeatherService() {
         super(ServiceName.OPEN_WEATHER, "Wheather service");
         apiKey = "4002e2da22764a672b4a488d77b9b54a";
+        url = "api.openweather.org";
     }
 
     @Override
@@ -34,13 +35,6 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
         } catch (IOException | JSONException exception){
             return false;
         }
-    }
-
-    @Override
-    public boolean checkConnection() {
-        //TODO: This method should connect to the API to check if it is possible to connect
-        // ping -c1 api.openweathermap.org //Yo creo que deberia funcionar
-        return true;
     }
 
     @Override
