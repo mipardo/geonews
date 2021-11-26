@@ -17,7 +17,7 @@ public class LocationDao {
         alias = location.getAlias();
         placeName = location.getPlaceName();
         geographCoords = location.getGeographCoords();
-        registrationDate = location.getRegistrationDate().toString();
+        registrationDate = location.getRegistrationDate();
         isActive = location.isActive();
     }
 

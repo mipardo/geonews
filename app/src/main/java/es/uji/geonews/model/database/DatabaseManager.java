@@ -5,9 +5,6 @@ import android.content.Context;
 import com.google.gson.JsonSyntaxException;
 
 import es.uji.geonews.model.dao.UserDao;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
-import es.uji.geonews.model.exceptions.UnrecognizedIdentifierException;
-import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 

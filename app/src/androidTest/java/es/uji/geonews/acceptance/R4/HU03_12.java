@@ -15,9 +15,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
-import es.uji.geonews.model.dao.UserDao;
-import es.uji.geonews.model.database.Callback;
-import es.uji.geonews.model.database.RemoteDBManager;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;

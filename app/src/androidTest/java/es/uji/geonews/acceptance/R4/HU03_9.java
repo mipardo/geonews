@@ -22,7 +22,6 @@ import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
-import es.uji.geonews.model.services.ServiceName;
 
 public class HU03_9 {
     private GeoNewsManager geoNewsManager;

@@ -14,9 +14,6 @@ import org.junit.Test;
 
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.managers.GeoNewsManager;
-import es.uji.geonews.model.managers.ServiceManager;
-import es.uji.geonews.model.services.AirVisualService;
-import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.ServiceName;
 
 public class HU04 {

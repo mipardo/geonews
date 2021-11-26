@@ -15,7 +15,6 @@ import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.services.AirVisualService;
 import es.uji.geonews.model.services.GeocodeService;
 import es.uji.geonews.model.services.OpenWeatherService;
-import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.managers.ServiceManager;
 import es.uji.geonews.model.services.ServiceName;
 
