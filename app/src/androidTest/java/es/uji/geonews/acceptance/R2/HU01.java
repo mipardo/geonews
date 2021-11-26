@@ -1,7 +1,9 @@
 package es.uji.geonews.acceptance.R2;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 
@@ -10,6 +12,8 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
@@ -40,81 +44,23 @@ public class HU01 {
     }
 
     @Test
-    public void checkServiceData_activeAndAvailable_OpenWeatherLocationData()
+    public void getAllLocations_someLocationsRegistered_listWithLocations()
             throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
+        geoNewsManager.addLocation("Castelló de la plana");
         geoNewsManager.addLocation("Valencia");
         geoNewsManager.addLocation("Alicante");
-        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
-
         // When
-        OpenWeatherData serviceData = (OpenWeatherData) geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon);
-
+        List<Location> allLocations = geoNewsManager.getAllLocations();
         // Then
-        assertNotNull(serviceData.getMaxTemp());
-        assertNotNull(serviceData.getMinTemp());
-        assertNotNull(serviceData.getActTemp());
-        assertNotNull(serviceData.getMain());
-        assertNotNull(serviceData.getDescription());
-        assertNotNull(serviceData.getIcon());
-    }
-
-    // Pruebas de Airvisual //
-    @Test
-    public void checkServiceData_activeAndAvailable_AirVisualLocationData()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
-        // Given
-        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
-        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, castellon);
-
-        // When
-        AirVisualData serviceData = (AirVisualData) geoNewsManager.getData(ServiceName.AIR_VISUAL, castellon);
-
-        // Then
-        assertNotNull(serviceData.getWeatherIcon());
-        assertNotNull(serviceData.getMainCn());
-        assertNotNull(serviceData.getMainUs());
-    }
-
-    // Prueba de Currents //
-    @Test
-    public void checkServiceData_activeAndAvailable_CurrentsLocationData()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
-        // Given
-        Location valencia = geoNewsManager.addLocation("Valencia");
-        geoNewsManager.addServiceToLocation(ServiceName.CURRENTS, valencia);
-
-        // When
-        CurrentsData serviceData = (CurrentsData) geoNewsManager.getData(ServiceName.CURRENTS, valencia);
-
-        // Then
-        assertNotNull(serviceData.getNewsList());
-    }
-
-    @Test (expected = ServiceNotAvailableException.class)
-    public void checkServiceData_notActiveAndAvailable_ServiceNotAvailableException()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
-        // Given
-        geoNewsManager.addLocation("Valencia");
-        geoNewsManager.addLocation("Alicante");
-        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
-        geoNewsManager.deactivateService(ServiceName.OPEN_WEATHER);
-        // When
-        geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon);
+        assertEquals(3, allLocations.size());
     }
 
     @Test
-    public void checkServiceData_activeAndAvailable_null() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
-        // Given
-        geoNewsManager.addLocation("Valencia");
-        geoNewsManager.addLocation("Alicante");
-        Location castellon = geoNewsManager.addLocation("Castelló de la plana");
+    public void getAllLocations_noLocationsRegistered_emptyList() {
         // When
-        Data serviceData = geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon);
-
+        List<Location> allLocations = geoNewsManager.getAllLocations();
         // Then
-        assertNull(serviceData);
+        assertEquals(0, allLocations.size());
     }
 }

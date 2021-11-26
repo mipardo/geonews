@@ -2,6 +2,7 @@ package es.uji.geonews.model.managers;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -102,6 +103,13 @@ public class GeoNewsManager {
 
     public Location getLocation(int locationId) throws NoLocationRegisteredException {
         return  locationManager.getLocation(locationId);
+    }
+
+    public List<Location> getAllLocations(){
+        List<Location> allLocations = new ArrayList<>();
+        allLocations.addAll(getActiveLocations());
+        allLocations.addAll(getNonActiveLocations());
+        return allLocations;
     }
 
     public List<Location> getActiveLocations() {

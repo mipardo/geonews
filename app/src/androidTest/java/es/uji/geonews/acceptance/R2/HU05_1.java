@@ -18,7 +18,7 @@ import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 
-public class HU05 {
+public class HU05_1 {
     private Location valencia;
     private GeoNewsManager geoNewsManager;
     private Context context;
