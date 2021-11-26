@@ -35,7 +35,7 @@ public class HU03_2 {
     }
 
     @Test
-    public void saveLocationRemove_AllDataBasesAvailable_RemoveSave()
+    public void saveLocationRemove_AllDataBasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
         // When
@@ -43,7 +43,7 @@ public class HU03_2 {
         Location bilbao = geoNewsManager.addLocation("Bilbao");
         Location castellonDeLaPlana = geoNewsManager.addLocation("Castellon de la Plana");
         boolean confirmacion = geoNewsManager.removeLocation(castellonDeLaPlana.getId());
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
@@ -54,7 +54,7 @@ public class HU03_2 {
     }
 
     @Test
-    public void saveLocationRemove_NoDataBasesAvailable_NoSaves()
+    public void saveLocationRemove_NoDataBasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
         // When
@@ -64,7 +64,7 @@ public class HU03_2 {
         //Preguntar
         geoNewsManager.removeLocation(castellonDeLaPlana.getId());
         boolean confirmacion =geoNewsManager.removeLocation(castellonDeLaPlana.getId());
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);

@@ -1,5 +1,6 @@
 package es.uji.geonews.integration.R4;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -14,7 +15,9 @@ import org.junit.Test;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.database.DatabaseManager;
+import es.uji.geonews.model.database.LocalDBManager;
 import es.uji.geonews.model.database.RemoteDBManager;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -26,58 +29,43 @@ import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.ServiceName;
 
 public class HU03_1 {
-    GeocodeService geocodeServiceMocked;
-    OpenWeatherService openWeatherServiceMocked;
-    GeoNewsManager geoNewsManager;
-    DatabaseManager databaseManagerMocked;
-    GeoNewsManager spyGeoNewsManager;
-    GeocodeService spyGeocodeService;
-    RemoteDBManager remoteDBManagerMocked;
-    String userId;
-    RemoteDBManager spyRemoteDBManager;
-    ServiceManager serviceManager;
-    LocationManager locationManager;
+    private GeoNewsManager geoNewsManager;
+    private LocalDBManager localDBManagerMocked;
+    private RemoteDBManager remoteDBManagerMocked;
 
     @Before
-    public void init() {
-        geocodeServiceMocked = mock(GeocodeService.class);
-        serviceManager = new ServiceManager();
-        locationManager = new LocationManager(geocodeServiceMocked);
-
-        databaseManagerMocked = mock(DatabaseManager.class);
-        remoteDBManagerMocked = mock(RemoteDBManager.class);
-        userId= String.valueOf(0);
-
-        GeocodeService geocodeService = new GeocodeService();
-        spyGeocodeService = spy(geocodeService);
-    }
-
-    @Test(expected = ServiceNotAvailableException.class)
-    public void getData_ServiceNotAvailabe_ServiceNotAvailableException()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
-        // Arrange
+    public void init() throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
+        GeocodeService geocodeServiceMocked = mock(GeocodeService.class);
+        when(geocodeServiceMocked.getServiceName()).thenReturn(ServiceName.GEOCODE);
         when(geocodeServiceMocked.isAvailable()).thenReturn(true);
         when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
-        when(geocodeServiceMocked.getCoords("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
-        when(geocodeServiceMocked.getCoords("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
-        //when(remoteDBManagerMocked.saveAll(any()).thenReturn);
-        geoNewsManager.addLocation("Alicante");
-        geoNewsManager.addLocation("Valencia");
+        // when(geocodeServiceMocked.getCoords("Valencia")).thenReturn(new GeographCoords(39.50337, -0.40466));
+        // when(geocodeServiceMocked.getCoords("Alicante")).thenReturn(new GeographCoords(38.53996, -0.50579));
+        LocationManager locationManager = new LocationManager(geocodeServiceMocked);
+        ServiceManager serviceManager = new ServiceManager();
+
+
+        localDBManagerMocked = spy(mock(LocalDBManager.class));
+        remoteDBManagerMocked = spy(mock(RemoteDBManager.class));
+        DatabaseManager databaseManagerMocked = new DatabaseManager(localDBManagerMocked, remoteDBManagerMocked);
+
+        geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
+    }
+
+    @Test
+    public void activateLocationService_localAndRemoteDatabasesAvailable_true()
+            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
+            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+        // Given
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
 
+        // When
+        boolean result = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
 
-        // Act
-        geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon);
-    }
-    @Test
-    public void getPlaceName_KnownCoords_nearestPlaceName()
-            throws ServiceNotAvailableException,
-            NotValidCoordinatesException, UnrecognizedPlaceNameException {
-        doReturn(false).when(spyRemoteDBManager).saveAll(any(),any(),any());
-        // Act
-        spyRemoteDBManager.saveAll(userId,locationManager,serviceManager);
-        // Assert
-        verify(spyGeoNewsManager, times(1)).saveAll();
+        // Then
+        assertTrue(result);
+        // Se llama dos veces, una por el addLocation y el otro por el addServiceToLocation
+        verify(localDBManagerMocked, times(1)).saveAll(any(), any(), any());
+        verify(remoteDBManagerMocked, times(1)).saveAll(any(), any(), any());
     }
 }

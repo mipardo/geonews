@@ -34,13 +34,13 @@ public class HU03_1 {
     }
 
     @Test
-    public void saveLocation_AllDataBasesAvailable_LocationSave()
+    public void saveLocation_AllDataBasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         Location bilbao = geoNewsManager.addLocation("Bilbao");
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
@@ -51,13 +51,13 @@ public class HU03_1 {
     }
 
     @Test(expected = UnrecognizedPlaceNameException.class)
-    public void saveLocation_NoDataBasesAvailable_NoSaves()
+    public void saveLocation_NoDataBasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         Location bilbao = geoNewsManager.addLocation("asfgg");
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        lock.await(2000, TimeUnit.MILLISECONDS);
 
 
     }

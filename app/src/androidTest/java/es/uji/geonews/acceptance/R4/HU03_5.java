@@ -35,15 +35,14 @@ public class HU03_5 {
     }
 
     @Test
-    public void saveLocationAlias_AllDataBasesAvailable_LocationAliasSave()
+    public void saveLocationAlias_AllDataBasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
-        Location bilbao = geoNewsManager.addLocation("Bilbao");
         Location castellonDeLaPlana = geoNewsManager.addLocation("Castellon de la Plana");
         boolean confirmacion = geoNewsManager.setAliasToLocation("Casa",castellonDeLaPlana.getId());
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
@@ -55,15 +54,14 @@ public class HU03_5 {
     }
 
     @Test
-    public void saveLocationAlias_NoDataBasesAvailable_NoSaves()
+    public void saveLocationAlias_NoDataBasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
             NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
-        Location bilbao = geoNewsManager.addLocation("Bilbao");
         Location castellonDeLaPlana = geoNewsManager.addLocation("Castellon de la Plana");
         boolean confirmacion = geoNewsManager.setAliasToLocation("",castellonDeLaPlana.getId());
-        lock.await(5000, TimeUnit.MILLISECONDS);
+        lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
