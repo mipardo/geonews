@@ -71,13 +71,12 @@ public class HU03_6 {
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
 
         // When
-        //CountDownLatch lock = new CountDownLatch(1);
         boolean result = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
-        //lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
         assertTrue(result);
-        verify(localDBManagerMocked, times(1)).saveAll(anyString(), any(), any());
-        verify(remoteDBManagerMocked, times(1)).saveAll(anyString(), any(), any());
+        // Se llama dos veces, una por el addLocation y el otro por el addServiceToLocation
+        verify(localDBManagerMocked, times(2)).saveAll(any(), any(), any());
+        verify(remoteDBManagerMocked, times(2)).saveAll(any(), any(), any());
     }
 }
