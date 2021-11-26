@@ -16,6 +16,7 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
     public AirVisualService() {
         super(ServiceName.AIR_VISUAL, "Air cuality descritption");
         apiKey = "bd76ecb7-90bb-4f78-ad71-8107453e8890";
+        url = "api.airvisual.org";
     }
 
     @Override
@@ -36,12 +37,6 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
             // mejor lanzar ServiceNotAvailableException ??
             return false;
         }
-    }
-
-    @Override
-    public boolean checkConnection() {
-        //TODO: This method should connect to the API to check if it is possible to connect
-        return true;
     }
 
     @Override
