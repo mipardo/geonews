@@ -8,6 +8,7 @@ import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -34,10 +36,15 @@ public class HU03_4 {
 
     }
 
+    @After
+    public void clean() throws InterruptedException {
+        AuxiliaryTestClass.cleanDB(geoNewsManager, appContext);
+    }
+
     @Test
     public void saveLocationDesactivation_AllDataBasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException, DatabaseNotAvailableException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         Location castellonDeLaPlana = geoNewsManager.addLocation("Castellon de la Plana");
@@ -49,7 +56,7 @@ public class HU03_4 {
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
         AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
 
-        assertEquals(2, loadedGeoNewsManager.getNonActiveLocations().size());
+        assertEquals(1, loadedGeoNewsManager.getNonActiveLocations().size());
         assertEquals(0, loadedGeoNewsManager.getActiveLocations().size());
         assertTrue(confirmacion);
     }
@@ -57,7 +64,7 @@ public class HU03_4 {
     @Test
     public void saveLocationDesactivation_NoDataBasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException, DatabaseNotAvailableException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         Location castellonDeLaPlana = geoNewsManager.addLocation("Castellon de la Plana");
@@ -68,7 +75,7 @@ public class HU03_4 {
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
         AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
 
-        assertEquals(2, loadedGeoNewsManager.getNonActiveLocations().size());
+        assertEquals(1, loadedGeoNewsManager.getNonActiveLocations().size());
         assertFalse(confirmacion);
 
 

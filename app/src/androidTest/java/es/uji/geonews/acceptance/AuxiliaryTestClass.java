@@ -5,12 +5,13 @@ import android.content.Context;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.services.ServiceName;
 
 public class AuxiliaryTestClass {
 
-    public static void loadAll(GeoNewsManager geoNewsManager) throws InterruptedException {
+    public static void loadAll(GeoNewsManager geoNewsManager) throws InterruptedException, DatabaseNotAvailableException {
         CountDownLatch lock = new CountDownLatch(1);
         geoNewsManager.loadAll();
         lock.await(2000, TimeUnit.MILLISECONDS);

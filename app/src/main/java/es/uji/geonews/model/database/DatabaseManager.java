@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.JsonSyntaxException;
 
 import es.uji.geonews.model.dao.UserDao;
+import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 
@@ -24,7 +25,8 @@ public class DatabaseManager  {
     }
 
 
-    public void loadAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
+    public void loadAll(String userId, LocationManager locationManager, ServiceManager serviceManager) throws DatabaseNotAvailableException {
+        if (!localDBManager.isAvailable() && !remoteDBManager.isAvailable()) throw new DatabaseNotAvailableException();
         // First we load the data from the local databse.
         // If any problem is find then we load the data from the remote db
         localDBManager.loadAll(userId, new Callback() {
@@ -57,7 +59,9 @@ public class DatabaseManager  {
         });
     }
 
-    public void loadRemoteState(String userId, LocationManager locationManager, ServiceManager serviceManager) {
+    public void loadRemoteState(String userId, LocationManager locationManager, ServiceManager serviceManager)
+            throws DatabaseNotAvailableException {
+        if (! remoteDBManager.isAvailable()) throw new DatabaseNotAvailableException();
         remoteDBManager.loadAll(userId, new Callback() {
             @Override
             public void onSuccess(UserDao userDao) {
@@ -86,7 +90,7 @@ public class DatabaseManager  {
     }
 
     public void removeUser(String remoteUserId, String userId) {
-        localDBManager.removeUser();
+        if(userId.equals(remoteUserId)) localDBManager.removeUser();
         remoteDBManager.removeUser(remoteUserId);
     }
 }
