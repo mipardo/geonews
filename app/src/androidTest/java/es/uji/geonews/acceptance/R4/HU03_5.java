@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -43,7 +44,7 @@ public class HU03_5 {
     @Test
     public void saveLocationAlias_AllDataBasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException, DatabaseNotAvailableException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         Location castellonDeLaPlana = geoNewsManager.addLocation("Castellon de la Plana");
@@ -62,7 +63,7 @@ public class HU03_5 {
     @Test
     public void saveLocationAlias_NoDataBasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException, DatabaseNotAvailableException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         Location castellonDeLaPlana = geoNewsManager.addLocation("Castellon de la Plana");

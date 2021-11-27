@@ -16,7 +16,7 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
     public OpenWeatherService() {
         super(ServiceName.OPEN_WEATHER, "Wheather service");
         apiKey = "4002e2da22764a672b4a488d77b9b54a";
-        url = "api.openweathermap.org";;
+        url = "api.openweathermap.org";
     }
 
     @Override

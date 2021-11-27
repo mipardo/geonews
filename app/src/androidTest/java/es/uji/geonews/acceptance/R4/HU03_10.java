@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -43,7 +44,7 @@ public class HU03_10 {
     @Test
     public void reactivateLocation_localAndRemoteDatabasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException, DatabaseNotAvailableException {
         // Given
         Location valencia = geoNewsManager.addLocation("Valencia");
         geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, valencia);
@@ -67,7 +68,7 @@ public class HU03_10 {
     @Test
     public void reactivateLocation_localAndRemoteDatabasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException, DatabaseNotAvailableException {
         // Given
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
         Location valencia = geoNewsManager.addLocation("Valencia");
