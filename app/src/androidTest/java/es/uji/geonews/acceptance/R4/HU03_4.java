@@ -8,6 +8,7 @@ import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,6 +35,11 @@ public class HU03_4 {
 
     }
 
+    @After
+    public void clean() throws InterruptedException {
+        AuxiliaryTestClass.cleanDB(geoNewsManager, appContext);
+    }
+
     @Test
     public void saveLocationDesactivation_AllDataBasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
@@ -49,7 +55,7 @@ public class HU03_4 {
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
         AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
 
-        assertEquals(2, loadedGeoNewsManager.getNonActiveLocations().size());
+        assertEquals(1, loadedGeoNewsManager.getNonActiveLocations().size());
         assertEquals(0, loadedGeoNewsManager.getActiveLocations().size());
         assertTrue(confirmacion);
     }
@@ -68,7 +74,7 @@ public class HU03_4 {
         GeoNewsManager loadedGeoNewsManager = new GeoNewsManager(appContext);
         AuxiliaryTestClass.loadAll(loadedGeoNewsManager);
 
-        assertEquals(2, loadedGeoNewsManager.getNonActiveLocations().size());
+        assertEquals(1, loadedGeoNewsManager.getNonActiveLocations().size());
         assertFalse(confirmacion);
 
 

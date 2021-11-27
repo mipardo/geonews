@@ -8,6 +8,7 @@ import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,6 +33,11 @@ public class HU03_2 {
         appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         geoNewsManager = new GeoNewsManager(appContext);
 
+    }
+
+    @After
+    public void clean() throws InterruptedException {
+        AuxiliaryTestClass.cleanDB(geoNewsManager, appContext);
     }
 
     @Test
