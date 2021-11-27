@@ -29,7 +29,7 @@ public class HU11 {
     @Before
     public void init()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
-            NotValidCoordinatesException, NoLocationRegisteredException {
+            NotValidCoordinatesException {
         // Given
         context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         geoNewsManager = new GeoNewsManager(context);
@@ -43,7 +43,7 @@ public class HU11 {
     }
 
     @Test
-    public void removeLocation_LocationNotInActiveLocations_True() throws NoLocationRegisteredException {
+    public void removeLocation_LocationNotInActiveLocations_True() {
         // When
         boolean result = geoNewsManager.removeLocation(castellon.getId());
 

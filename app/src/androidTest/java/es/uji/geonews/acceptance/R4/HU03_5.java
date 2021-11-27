@@ -77,7 +77,5 @@ public class HU03_5 {
         assertEquals(1, loadedGeoNewsManager.getNonActiveLocations().size());
 
         assertFalse(confirmacion);
-
-
     }
 }

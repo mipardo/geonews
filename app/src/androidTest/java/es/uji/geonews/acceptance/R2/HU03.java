@@ -80,7 +80,7 @@ public class HU03 {
 
     @Test
     public void checkListActiveLocations_noActiveLocations_emtpyList()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         // When
@@ -93,8 +93,7 @@ public class HU03 {
     }
 
     @Test
-    public void checkListActiveLocations_noLocations_NoLocationRegisteredException()
-            throws NoLocationRegisteredException {
+    public void checkListActiveLocations_noLocations_NoLocationRegisteredException() {
         // Given
 
         // When

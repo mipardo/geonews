@@ -13,7 +13,6 @@ import org.junit.Test;
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.GeoNewsManager;
-import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -38,7 +37,7 @@ public class HU01 {
     @Test
     public void registerLocationByPlaceName_KnownPlaceName_Location()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, NoLocationRegisteredException {
+            NotValidCoordinatesException {
         // When
         Location newLocation = geoNewsManager.addLocation("Castello de la plana");
         // Then

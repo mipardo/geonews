@@ -14,7 +14,6 @@ import es.uji.geonews.model.Location;
 import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
-import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -43,7 +42,7 @@ public class HU04_3 {
     @Test
     public void removeFavoriteLocation_IsFavorite_True()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
-            NotValidCoordinatesException, NoLocationRegisteredException {
+            NotValidCoordinatesException {
         // Arrange
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
         Location valencia = geoNewsManager.addLocation("Valencia");
@@ -61,7 +60,7 @@ public class HU04_3 {
     @Test
     public void removeFavoriteLocation_IsNotFavorite_False()
             throws ServiceNotAvailableException, UnrecognizedPlaceNameException,
-            NotValidCoordinatesException, NoLocationRegisteredException {
+            NotValidCoordinatesException {
         // Arrange
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
         Location valencia = geoNewsManager.addLocation("Valencia");

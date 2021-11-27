@@ -15,7 +15,6 @@ import java.util.List;
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.GeoNewsManager;
-import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -40,7 +39,7 @@ public class HU04_1 {
     @Test
     public void getFavoriteLocations_AllAreFavorite_ListWithThreeLocations()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
-            UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            UnrecognizedPlaceNameException {
         //Given
         Location castellon = geoNewsManager.addLocation("39.99207, -0.03621");
         Location valencia = geoNewsManager.addLocation("39.50337, -0.40466");
@@ -57,7 +56,7 @@ public class HU04_1 {
     @Test
     public void getFavoriteLocations_SomeAreFavorite_ListWithOneLocation()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
-            UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            UnrecognizedPlaceNameException {
         //Given
         Location castellon = geoNewsManager.addLocation("39.99207, -0.03621");
         Location alicante = geoNewsManager.addLocation("38.53996, -0.50579");
@@ -72,7 +71,7 @@ public class HU04_1 {
     @Test
     public void getFavoriteLocations_AnyAreFavorite_EmtpyList()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
-            UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            UnrecognizedPlaceNameException {
         //Given
         geoNewsManager.addLocation("39.99207, -0.03621");
         // When
@@ -82,8 +81,7 @@ public class HU04_1 {
     }
 
     @Test
-    public void getFavoriteLocations_NoLocations_NoLocationRegisteredException()
-            throws NoLocationRegisteredException {
+    public void getFavoriteLocations_NoLocations_NoLocationRegisteredException() {
         // When
         List<Location> favouriteLocations =  geoNewsManager.getFavouriteLocations();
 

@@ -15,7 +15,6 @@ import org.junit.Test;
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.GeoNewsManager;
-import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -41,7 +40,7 @@ public class HU04_2 {
     @Test
     public void removeFavoriteLocation_FavoriteLocation_True()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
-            UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            UnrecognizedPlaceNameException {
         //Given
         Location castellon = geoNewsManager.addLocation("39.99207, -0.03621");
         Location valencia = geoNewsManager.addLocation("39.50337, -0.40466");
@@ -59,7 +58,7 @@ public class HU04_2 {
     @Test
     public void removeFavoriteLocation_NoFavoriteLocation_False()
             throws NotValidCoordinatesException, ServiceNotAvailableException,
-            UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            UnrecognizedPlaceNameException {
         //Given
         Location castellon = geoNewsManager.addLocation("39.99207, -0.03621");
         Location valencia = geoNewsManager.addLocation("39.50337, -0.40466");

@@ -65,7 +65,7 @@ public class ServiceManager {
             throw new ServiceNotAvailableException();
         }
 
-        if (location != null && activeServices.contains(serviceName)) {
+        if (activeServices.contains(serviceName)) {
             DataGetterStrategy service = (DataGetterStrategy) getService(serviceName);
             contextDataGetter.setService(service);
             Data lastLocationServiceData = contextDataGetter.getData(location);
@@ -97,7 +97,7 @@ public class ServiceManager {
         Service service = getService(serviceName);
         if (location == null || !(service instanceof  ServiceHttp)) return false;
         ServiceHttp serviceHttp = (ServiceHttp) service;
-        // TODO: YO miraría de no devolver excepción && cambiar isAvailable por is asctive
+
         if (!serviceHttp.validateLocation(location) || !serviceHttp.isAvailable()) throw new ServiceNotAvailableException();
 
         int locationId = location.getId();

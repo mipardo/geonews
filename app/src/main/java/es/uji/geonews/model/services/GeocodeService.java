@@ -17,7 +17,7 @@ public class GeocodeService extends ServiceHttp  {
 
     public GeocodeService() {
         super(ServiceName.GEOCODE, "Coordinates Search Service");
-        apiKey = "578845968067329373004x4372";
+        apiKey = "267471701565980220019x16396";
         url = "geocode.xyz";
     }
 

@@ -202,9 +202,9 @@ public class GeoNewsManager {
         return databaseManager.getUserId(context);
     }
 
-    //TODO: This method is just used for the tests.
+    //  WARNING: This method is just used for the tests.
     // Make sure it is not been used in the Controller or Model
     public void removeUserConfiguration(String userIdToDelete){
-        databaseManager.removeUser(userIdToDelete, userId);
+        databaseManager.removeUser(userIdToDelete);
     }
 }

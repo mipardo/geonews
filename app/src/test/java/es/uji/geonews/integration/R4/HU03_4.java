@@ -120,7 +120,7 @@ public class HU03_4 {
     @Test
     public void activateLocationService_localAndRemoteDatabasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, NoLocationRegisteredException {
+            NotValidCoordinatesException {
         localDBManagerMocked = mock(LocalDBManager.class);
         remoteDBManagerMocked = mock(RemoteDBManager.class);
         when(localDBManagerMocked.isAvailable()).thenReturn(true);

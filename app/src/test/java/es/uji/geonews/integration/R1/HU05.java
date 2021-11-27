@@ -17,7 +17,6 @@ import java.util.List;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.LocationManager;
-import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.AirVisualService;
@@ -55,9 +54,7 @@ public class HU05 {
     }
 
     @Test
-    public void validateLocation_PlaceNameRecognized_ListWithTwoActiveServices()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+    public void validateLocation_PlaceNameRecognized_ListWithTwoActiveServices() {
         // Arrange
         when(airVisualServiceMocked.isAvailable()).thenReturn(true);
         when(airVisualServiceMocked.validateLocation(any())).thenReturn(true);
@@ -77,9 +74,7 @@ public class HU05 {
     }
 
     @Test
-    public void validateLocation_NoApiAvailable_EmptyList()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+    public void validateLocation_NoApiAvailable_EmptyList() {
         // Arrange
         when(airVisualServiceMocked.isAvailable()).thenReturn(false);
         when(openWeatherServiceMocked.isAvailable()).thenReturn(false);

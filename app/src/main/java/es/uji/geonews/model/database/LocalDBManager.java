@@ -2,12 +2,9 @@ package es.uji.geonews.model.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-
 import java.util.UUID;
-
 import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
@@ -17,15 +14,13 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 
 public class LocalDBManager implements DataBase{
-
     private final Gson json;
     private final SharedPreferences sharedPreferences;
 
     public LocalDBManager() {
         json = new Gson();
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        sharedPreferences = appContext.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);
-
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        sharedPreferences = context.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);
     }
 
     @Override

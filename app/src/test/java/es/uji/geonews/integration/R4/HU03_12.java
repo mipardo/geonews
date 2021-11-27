@@ -11,14 +11,10 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.database.LocalDBManager;
 import es.uji.geonews.model.database.RemoteDBManager;
-import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -67,7 +63,7 @@ public class HU03_12 {
     @Test
     public void deactivateService_localAndRemoteDatabasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+            NotValidCoordinatesException, InterruptedException {
         // Given
         localDBManagerMocked = mock(LocalDBManager.class);
         when(localDBManagerMocked.isAvailable()).thenReturn(true);
@@ -113,7 +109,7 @@ public class HU03_12 {
     @Test
     public void deactivateService_localAndRemoteDatabasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+            NotValidCoordinatesException, InterruptedException {
         // Given
         localDBManagerMocked = mock(LocalDBManager.class);
         when(localDBManagerMocked.isAvailable()).thenReturn(true);

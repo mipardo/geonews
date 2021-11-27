@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
-import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -43,7 +42,7 @@ public class HU03_9 {
     @Test
     public void addLocationToFavorite_localAndRemoteDatabasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException, DatabaseNotAvailableException {
+            NotValidCoordinatesException, InterruptedException, DatabaseNotAvailableException {
         // Given
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
         Location valencia = geoNewsManager.addLocation("Valencia");
@@ -67,7 +66,7 @@ public class HU03_9 {
     @Test
     public void addLocationToFavorite_localAndRemoteDatabasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException, DatabaseNotAvailableException {
+            NotValidCoordinatesException, InterruptedException, DatabaseNotAvailableException {
         // Given
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
         Location valencia = geoNewsManager.addLocation("Valencia");

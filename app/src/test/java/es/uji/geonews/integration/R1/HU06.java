@@ -32,7 +32,7 @@ public class HU06 {
     private GeoNewsManager geoNewsManager;
 
     @Before
-    public void init() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void init() throws ServiceNotAvailableException, UnrecognizedPlaceNameException {
         geocodeServiceMocked = mock(GeocodeService.class);
         airVisualServiceMocked = mock(AirVisualService.class);
         openWeatherServiceMocked = mock(OpenWeatherService.class);

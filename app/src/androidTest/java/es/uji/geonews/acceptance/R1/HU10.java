@@ -42,8 +42,7 @@ public class HU10 {
     }
 
     @Test
-    public void deactivateLocation_ActiveLocation_True()
-            throws NoLocationRegisteredException {
+    public void deactivateLocation_ActiveLocation_True() {
         // When
         boolean result = geoNewsManager.deactivateLocation(castellon.getId());
 

@@ -17,7 +17,6 @@ import java.util.List;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.LocationManager;
-import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.services.GeocodeService;
@@ -52,9 +51,7 @@ public class HU04 {
     }
 
     @Test
-    public void validatePlaceName_PlaceNameRecognized_ListWithOneServiceActive()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+    public void validatePlaceName_PlaceNameRecognized_ListWithOneServiceActive() {
         // Arrange
         when(currentsServiceMocked.isAvailable()).thenReturn(true);
         when(currentsServiceMocked.validateLocation(any())).thenReturn(true);
@@ -69,9 +66,7 @@ public class HU04 {
     }
 
     @Test
-    public void validatePlaceName_NoApiAvailable_EmptyList()
-            throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+    public void validatePlaceName_NoApiAvailable_EmptyList() {
         // Arrange
         when(currentsServiceMocked.validateLocation(any())).thenReturn(false);
         locationManager.addLocation(valencia);

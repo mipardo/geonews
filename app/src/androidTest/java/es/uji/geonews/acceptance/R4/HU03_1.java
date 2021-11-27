@@ -59,13 +59,11 @@ public class HU03_1 {
     @Test(expected = UnrecognizedPlaceNameException.class)
     public void saveLocation_NoDataBasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException {
+            NotValidCoordinatesException, InterruptedException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         Location bilbao = geoNewsManager.addLocation("asfgg");
         lock.await(2000, TimeUnit.MILLISECONDS);
-
-
     }
 
 }

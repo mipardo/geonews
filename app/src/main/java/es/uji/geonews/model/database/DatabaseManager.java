@@ -3,8 +3,8 @@ package es.uji.geonews.model.database;
 import android.content.Context;
 
 import com.google.gson.JsonSyntaxException;
-
 import es.uji.geonews.model.dao.UserDao;
+import es.uji.geonews.model.dao.UserDaoConverter;
 import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
@@ -12,7 +12,6 @@ import es.uji.geonews.model.managers.ServiceManager;
 public class DatabaseManager  {
     private final RemoteDBManager remoteDBManager;
     private final LocalDBManager localDBManager;
-    private Exception loadException;
 
     public DatabaseManager(LocalDBManager localDBManager, RemoteDBManager remoteDBManager) {
         this.localDBManager = localDBManager;
@@ -32,8 +31,8 @@ public class DatabaseManager  {
         localDBManager.loadAll(userId, new Callback() {
             @Override
             public void onSuccess(UserDao userDao) {
-                userDao.fillLocationManager(locationManager);
-                userDao.fillServiceManager(serviceManager);
+                UserDaoConverter.fillLocationManager(locationManager, userDao);
+                UserDaoConverter.fillServiceManager(serviceManager, userDao);
             }
             @Override
             public void onFailure(Exception e) {
@@ -44,9 +43,8 @@ public class DatabaseManager  {
                 remoteDBManager.loadAll(userId, new Callback() {
                     @Override
                     public void onSuccess(UserDao userDao) {
-                        userDao.fillLocationManager(locationManager);
-                        userDao.fillServiceManager(serviceManager);
-                        //localDBManager.saveAll().... todo: por que funciona????
+                        UserDaoConverter.fillLocationManager(locationManager, userDao);
+                        UserDaoConverter.fillServiceManager(serviceManager, userDao);
                     }
 
                     @Override
@@ -66,8 +64,8 @@ public class DatabaseManager  {
             @Override
             public void onSuccess(UserDao userDao) {
                 if (userDao != null){
-                    userDao.fillLocationManager(locationManager);
-                    userDao.fillServiceManager(serviceManager);
+                    UserDaoConverter.fillLocationManager(locationManager, userDao);
+                    UserDaoConverter.fillServiceManager(serviceManager, userDao);
                 }
             }
             @Override
@@ -89,8 +87,8 @@ public class DatabaseManager  {
         return localDBManager.getUserId(context);
     }
 
-    public void removeUser(String remoteUserId, String userId) {
-        if(userId.equals(remoteUserId)) localDBManager.removeUser();
+    public void removeUser(String remoteUserId) {
+        localDBManager.removeUser();
         remoteDBManager.removeUser(remoteUserId);
     }
 }

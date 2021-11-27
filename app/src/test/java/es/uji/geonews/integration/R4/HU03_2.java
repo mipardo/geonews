@@ -1,6 +1,5 @@
 package es.uji.geonews.integration.R4;
 
-import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;

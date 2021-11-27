@@ -38,7 +38,7 @@ public class HU06_1 {
 
     @Test
     public void getNonActiveLocations_allLocationNotActive_LocationsList()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         // Given
         geoNewsManager.addLocation("Castelló de la plana");
         geoNewsManager.addLocation("Valencia");
@@ -83,8 +83,7 @@ public class HU06_1 {
     }
 
     @Test
-    public void getNonActiveLocations_anyLocationRegistered_NoLocationRegisteredException()
-            throws NoLocationRegisteredException {
+    public void getNonActiveLocations_anyLocationRegistered_NoLocationRegisteredException() {
         // When
         List<Location> nonActiveLocations =  geoNewsManager.getNonActiveLocations();
 

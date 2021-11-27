@@ -2,6 +2,7 @@ package es.uji.geonews.acceptance.R2;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 
@@ -13,8 +14,6 @@ import org.junit.Test;
 
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.data.AirVisualData;
-import es.uji.geonews.model.data.CurrentsData;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -52,9 +51,9 @@ public class HU05_2 {
         OpenWeatherData serviceData = (OpenWeatherData) geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon);
 
         // Then
-        assertNotNull(serviceData.getMaxTemp());
-        assertNotNull(serviceData.getMinTemp());
-        assertNotNull(serviceData.getActTemp());
+        assertTrue(serviceData.getMaxTemp() > - 10 && serviceData.getMaxTemp() < 50);
+        assertTrue(serviceData.getMinTemp() > - 10 && serviceData.getMinTemp() < 50);
+        assertTrue(serviceData.getActTemp() > - 10 && serviceData.getActTemp() < 50);
         assertNotNull(serviceData.getMain());
         assertNotNull(serviceData.getDescription());
         assertNotNull(serviceData.getIcon());

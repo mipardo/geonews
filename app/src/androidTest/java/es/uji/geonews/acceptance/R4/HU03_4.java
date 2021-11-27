@@ -64,7 +64,7 @@ public class HU03_4 {
     @Test
     public void saveLocationDesactivation_NoDataBasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException, DatabaseNotAvailableException {
+            NotValidCoordinatesException, InterruptedException, DatabaseNotAvailableException {
         // When
         CountDownLatch lock = new CountDownLatch(1);
         Location castellonDeLaPlana = geoNewsManager.addLocation("Castellon de la Plana");
@@ -77,7 +77,5 @@ public class HU03_4 {
 
         assertEquals(1, loadedGeoNewsManager.getNonActiveLocations().size());
         assertFalse(confirmacion);
-
-
     }
 }

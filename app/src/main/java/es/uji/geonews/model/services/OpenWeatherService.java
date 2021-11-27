@@ -40,7 +40,9 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
     @Override
     public Data getData(Location location) throws ServiceNotAvailableException {
         String url = "https://api.openweathermap.org/data/2.5/weather?"
-                + "q=" + location.getPlaceName()
+                + "lat=" + location.getGeographCoords().getLatitude()
+                + "&lon=" + location.getGeographCoords().getLongitude()
+                + "&units=metric"
                 + "&appid=" + apiKey;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
