@@ -11,6 +11,7 @@ import es.uji.geonews.model.managers.ServiceManager;
 public class DatabaseManager  {
     private final RemoteDBManager remoteDBManager;
     private final LocalDBManager localDBManager;
+    private Exception loadException;
 
     public DatabaseManager(LocalDBManager localDBManager, RemoteDBManager remoteDBManager) {
         this.localDBManager = localDBManager;
@@ -56,6 +57,23 @@ public class DatabaseManager  {
         });
     }
 
+    public void loadRemoteState(String userId, LocationManager locationManager, ServiceManager serviceManager) {
+        remoteDBManager.loadAll(userId, new Callback() {
+            @Override
+            public void onSuccess(UserDao userDao) {
+                if (userDao != null){
+                    userDao.fillLocationManager(locationManager);
+                    userDao.fillServiceManager(serviceManager);
+                }
+            }
+            @Override
+            public void onFailure(Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+    }
+
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
         if (localDBManager.isAvailable())
             localDBManager.saveAll(userId, locationManager,serviceManager);
@@ -65,5 +83,10 @@ public class DatabaseManager  {
 
     public String getUserId(Context context) {
         return localDBManager.getUserId(context);
+    }
+
+    public void removeUser(String remoteUserId, String userId) {
+        localDBManager.removeUser();
+        remoteDBManager.removeUser(remoteUserId);
     }
 }

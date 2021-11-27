@@ -21,11 +21,9 @@ import es.uji.geonews.controller.tasks.AddLocation;
 import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,12 +45,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
         ProgressBar progressBar = findViewById(R.id.my_progress_bar);
 
-        locations = null;
-        try {
-            locations = geoNewsManager.getNonActiveLocations();
-        } catch (NoLocationRegisteredException e) {
-            locations = new ArrayList<>();
-        }
+        locations = geoNewsManager.getNonActiveLocations();
         recyclerView.setAdapter(new LocationListAdapter(locations));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

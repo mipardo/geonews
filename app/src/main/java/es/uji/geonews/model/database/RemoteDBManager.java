@@ -11,7 +11,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.managers.LocationManager;
@@ -19,13 +18,11 @@ import es.uji.geonews.model.managers.ServiceManager;
 
 public class RemoteDBManager implements DataBase {
 
-    private FirebaseFirestore db;
+    private final FirebaseFirestore db;
 
     public RemoteDBManager(){
         db = FirebaseFirestore.getInstance();
     }
-
-
 
     @Override
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
@@ -65,5 +62,9 @@ public class RemoteDBManager implements DataBase {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public void removeUser(String remoteUserId) {
+        db.collection("users").document(String.valueOf(remoteUserId)).delete();
     }
 }

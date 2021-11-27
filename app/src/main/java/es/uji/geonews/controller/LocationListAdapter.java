@@ -20,8 +20,8 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView mainNameOutput;
-        private TextView subnameOutput;
+        private final TextView mainNameOutput;
+        private final TextView subnameOutput;
 
         public ViewHolder(View itemView) {
             super(itemView);

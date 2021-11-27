@@ -2,8 +2,6 @@ package es.uji.geonews.acceptance;
 
 import android.content.Context;
 
-import androidx.test.platform.app.InstrumentationRegistry;
-
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +13,12 @@ public class AuxiliaryTestClass {
     public static void loadAll(GeoNewsManager geoNewsManager) throws InterruptedException {
         CountDownLatch lock = new CountDownLatch(1);
         geoNewsManager.loadAll();
+        lock.await(2000, TimeUnit.MILLISECONDS);
+    }
+
+    public static void cleanDB(GeoNewsManager geoNewsManager, Context context) throws InterruptedException{
+        CountDownLatch lock = new CountDownLatch(1);
+        geoNewsManager.removeUserConfiguration(geoNewsManager.loadUserId(context));
         lock.await(2000, TimeUnit.MILLISECONDS);
     }
 

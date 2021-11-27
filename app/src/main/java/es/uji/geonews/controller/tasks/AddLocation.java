@@ -8,12 +8,10 @@ import android.widget.ProgressBar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import es.uji.geonews.controller.LocationListAdapter;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -51,12 +49,7 @@ public class AddLocation extends UserTask {
                     public void run() {
                         if (error != null) showAlertError();
                         else{
-                            List<Location> locations = null;
-                            try {
-                                locations = geoNewsManager.getNonActiveLocations();
-                            } catch (NoLocationRegisteredException e) {
-                                locations = new ArrayList<>();
-                            }
+                            List<Location> locations = geoNewsManager.getNonActiveLocations();
                             recyclerView.setAdapter(new LocationListAdapter(locations));
                             recyclerView.setLayoutManager(new LinearLayoutManager(context));
                         }
