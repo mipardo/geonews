@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.database.DatabaseManager;
+import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -50,7 +51,7 @@ public class HU01 {
 
     @Test
     public void loadRemoteState_fromEmptyToNonEmpty_userDao() throws NotValidCoordinatesException,
-            ServiceNotAvailableException, UnrecognizedPlaceNameException, InterruptedException {
+            ServiceNotAvailableException, UnrecognizedPlaceNameException, InterruptedException, DatabaseNotAvailableException {
         //Given
         userId = "e10a28n11v09";
         geoNewsManagerOld = createGeoNewsManager(userId);
@@ -73,7 +74,7 @@ public class HU01 {
 
     @Test
     public void loadRemoteState_fromNonEmptyToNonEmpty_userDao() throws NotValidCoordinatesException,
-            ServiceNotAvailableException, UnrecognizedPlaceNameException, InterruptedException {
+            ServiceNotAvailableException, UnrecognizedPlaceNameException, InterruptedException, DatabaseNotAvailableException {
         //Given
         userId = "e10a28n11v10";
         geoNewsManagerOld = createGeoNewsManager(userId);
@@ -98,7 +99,7 @@ public class HU01 {
 
     @Test
     public void loadRemoteState_unrecognizedIdentifier_naif()
-            throws InterruptedException {
+            throws InterruptedException, DatabaseNotAvailableException {
         //When
         CountDownLatch lock = new CountDownLatch(1);
         geoNewsManagerNew.loadRemoteState("0a0a0a");

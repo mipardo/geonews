@@ -97,6 +97,7 @@ public class ServiceManager {
         Service service = getService(serviceName);
         if (location == null || !(service instanceof  ServiceHttp)) return false;
         ServiceHttp serviceHttp = (ServiceHttp) service;
+        // TODO: YO miraría de no devolver excepción && cambiar isAvailable por is asctive
         if (!serviceHttp.validateLocation(location) || !serviceHttp.isAvailable()) throw new ServiceNotAvailableException();
 
         int locationId = location.getId();

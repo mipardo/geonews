@@ -9,6 +9,7 @@ import java.util.Map;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.database.DatabaseManager;
+import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -38,7 +39,9 @@ public class GeoNewsManager {
         serviceManager.addService(new GeocodeService());
         locationManager = new LocationManager((GeocodeService) serviceManager.getService(ServiceName.GEOCODE));
         userId = loadUserId(context);
-        loadAll();
+        try {
+            loadAll();
+        } catch (DatabaseNotAvailableException e) { e.printStackTrace(); }
     }
 
     public GeoNewsManager(LocationManager locationManager, ServiceManager serviceManager,
@@ -177,7 +180,7 @@ public class GeoNewsManager {
         return removed;
     }
 
-    public void loadAll() {
+    public void loadAll() throws DatabaseNotAvailableException {
         databaseManager.loadAll(userId, locationManager, serviceManager);
     }
 
@@ -187,7 +190,7 @@ public class GeoNewsManager {
         }
     }
 
-    public void loadRemoteState(String remoteUserId){
+    public void loadRemoteState(String remoteUserId) throws DatabaseNotAvailableException {
         databaseManager.loadRemoteState(remoteUserId, locationManager, serviceManager);
     }
 
@@ -196,7 +199,7 @@ public class GeoNewsManager {
     }
 
     //TODO: This method is just used for the tests.
-    // Make sure it is not been udes in the Controller or Model
+    // Make sure it is not been used in the Controller or Model
     public void removeUserConfiguration(String userIdToDelete){
         databaseManager.removeUser(userIdToDelete, userId);
     }
