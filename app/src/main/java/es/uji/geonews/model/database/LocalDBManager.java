@@ -23,6 +23,11 @@ public class LocalDBManager implements DataBase{
         sharedPreferences = context.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);
     }
 
+    public LocalDBManager(Context context) {
+        json = new Gson();
+        sharedPreferences = context.getSharedPreferences("LocalDB", Context.MODE_PRIVATE);
+    }
+
     @Override
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
         //Crear Un conjunto de datos con to-do lo que queremos guardar de Sistema

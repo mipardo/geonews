@@ -14,7 +14,8 @@ public abstract class ServiceHttp extends Service{
     public ServiceHttp(ServiceName serviceName, String serviceType) {
         super(serviceName, serviceType);
         this.client = new OkHttpClient();
-        isActive = checkConnection();
+        //isActive = checkConnection();
+        isActive = true;
     }
 
     @Override

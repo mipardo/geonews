@@ -18,9 +18,9 @@ public class DatabaseManager  {
         this.remoteDBManager = remoteDBManager;
     }
 
-    public DatabaseManager() {
+    public DatabaseManager(Context context) {
         remoteDBManager = new RemoteDBManager();
-        localDBManager = new LocalDBManager();
+        localDBManager = new LocalDBManager(context);
     }
 
 

@@ -54,7 +54,7 @@ public class HU01 {
             ServiceNotAvailableException, UnrecognizedPlaceNameException, InterruptedException, DatabaseNotAvailableException {
         //Given
         userId = "e10a28n11v09";
-        geoNewsManagerOld = createGeoNewsManager(userId);
+        geoNewsManagerOld = createGeoNewsManager(userId, context);
         geoNewsManagerOld.activateService(ServiceName.AIR_VISUAL);
         geoNewsManagerOld.activateService(ServiceName.OPEN_WEATHER);
         Location valencia = geoNewsManagerOld.addLocation("Valencia");
@@ -77,7 +77,7 @@ public class HU01 {
             ServiceNotAvailableException, UnrecognizedPlaceNameException, InterruptedException, DatabaseNotAvailableException {
         //Given
         userId = "e10a28n11v10";
-        geoNewsManagerOld = createGeoNewsManager(userId);
+        geoNewsManagerOld = createGeoNewsManager(userId, context);
         geoNewsManagerOld.activateService(ServiceName.AIR_VISUAL);
         geoNewsManagerOld.activateService(ServiceName.OPEN_WEATHER);
         Location valencia = geoNewsManagerOld.addLocation("Alicante");
@@ -106,13 +106,13 @@ public class HU01 {
         lock.await(2000, TimeUnit.MILLISECONDS);
     }
 
-    private static GeoNewsManager createGeoNewsManager(String userId){
+    private static GeoNewsManager createGeoNewsManager(String userId, Context context){
         LocationManager locationManager = new LocationManager(new GeocodeService());
         ServiceManager serviceManager = new ServiceManager();
         serviceManager.addService(new OpenWeatherService());
         serviceManager.addService(new AirVisualService());
         serviceManager.addService(new GeocodeService());
-        DatabaseManager databaseManager = new DatabaseManager();
+        DatabaseManager databaseManager = new DatabaseManager(context);
         return new GeoNewsManager(locationManager, serviceManager, databaseManager, userId);
     }
 

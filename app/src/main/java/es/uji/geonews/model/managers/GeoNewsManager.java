@@ -30,7 +30,7 @@ public class GeoNewsManager {
     private final DatabaseManager databaseManager;
 
     public GeoNewsManager(Context context){
-        databaseManager = new DatabaseManager();
+        databaseManager = new DatabaseManager(context);
         serviceManager = new ServiceManager();
         serviceManager.addService(new GpsService());
         serviceManager.addService(new AirVisualService());
