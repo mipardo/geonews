@@ -41,6 +41,8 @@ public class LocationListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        geoNewsManager = new GeoNewsManager(getContext());
+
     }
 
     @Override
@@ -52,8 +54,6 @@ public class LocationListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        geoNewsManager = new GeoNewsManager(view.getContext());
 
         FloatingActionButton addLocationButton = view.findViewById(R.id.add_location_floating_button);
         RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
