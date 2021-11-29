@@ -17,9 +17,11 @@ import es.uji.geonews.model.Location;
 
 public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.ViewHolder> {
     private final List<Location> locations;
+    private final OnItemClickListener listener;
 
-    public LocationListAdapter(List<Location> locations) {
+    public LocationListAdapter(List<Location> locations, OnItemClickListener listener) {
         this.locations = locations;
+        this.listener = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -30,16 +32,35 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
             super(itemView);
             mainNameOutput = itemView.findViewById(R.id.main_name_output);
             subnameOutput =  itemView.findViewById(R.id.subname_output);
+        }
+
+        public void bind(Location location, OnItemClickListener listener) {
+            String mainName;
+            String subname;
+            if (! location.getAlias().equals("")) {     // If location has alias
+                mainName = location.getAlias();
+                if (location.getPlaceName() != null) subname = location.getPlaceName();
+                else subname = location.getGeographCoords().toString();
+            } else {                                    // If location has no alias
+                if (location.getPlaceName() != null) {
+                    mainName = location.getPlaceName();
+                    subname = location.getGeographCoords().toString();
+                }
+                else{
+                    mainName = location.getGeographCoords().toString();
+                    subname = "Topónimo desconocido";
+                }
+            }
+            mainNameOutput.setText(mainName);
+            subnameOutput.setText(subname);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Navigation.findNavController(view).navigate(R.id.action_locationListFragment_to_locationFragment);
-                    Log.e("asd", "dasdasd");
-                    Toast.makeText(view.getContext(), "dsadasd", Toast.LENGTH_LONG).show();
+                    listener.onItemClick(location);
                 }
             });
         }
-
     }
 
     @NonNull
@@ -55,24 +76,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Location location = locations.get(position);
-        String mainName;
-        String subname;
-        if (! location.getAlias().equals("")) {     // If location has alias
-            mainName = location.getAlias();
-            if (location.getPlaceName() != null) subname = location.getPlaceName();
-            else subname = location.getGeographCoords().toString();
-        } else {                                    // If location has no alias
-            if (location.getPlaceName() != null) {
-                mainName = location.getPlaceName();
-                subname = location.getGeographCoords().toString();
-            }
-            else{
-                mainName = location.getGeographCoords().toString();
-                subname = "Topónimo desconocido";
-            }
-        }
-        holder.mainNameOutput.setText(mainName);
-        holder.subnameOutput.setText(subname);
+        holder.bind(location, listener);
     }
 
     @Override

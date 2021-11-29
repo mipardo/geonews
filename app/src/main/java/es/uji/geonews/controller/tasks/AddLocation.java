@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import es.uji.geonews.controller.LocationListAdapter;
+import es.uji.geonews.controller.OnItemClickListener;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -48,7 +49,12 @@ public class AddLocation extends UserTask {
                         if (error != null) showAlertError();
                         else{
                             List<Location> locations = geoNewsManager.getNonActiveLocations();
-                            recyclerView.setAdapter(new LocationListAdapter(locations));
+                            recyclerView.setAdapter(new LocationListAdapter(locations, new OnItemClickListener() {
+                                @Override
+                                public void onItemClick(Location location) {
+                                    // TODO ¿¿??
+                                }
+                            }));
                             recyclerView.setLayoutManager(new LinearLayoutManager(context));
                         }
                         progressBar.setVisibility(View.INVISIBLE);

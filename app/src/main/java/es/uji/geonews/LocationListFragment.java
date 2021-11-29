@@ -23,6 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import es.uji.geonews.controller.LocationListAdapter;
+import es.uji.geonews.controller.OnItemClickListener;
 import es.uji.geonews.controller.tasks.AddLocation;
 import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.model.Location;
@@ -59,7 +60,14 @@ public class LocationListFragment extends Fragment {
         ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
 
         locations = geoNewsManager.getNonActiveLocations();
-        recyclerView.setAdapter(new LocationListAdapter(locations));
+        recyclerView.setAdapter(new LocationListAdapter(locations, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Location location) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("locationId", location.getId());
+                Navigation.findNavController(view).navigate(R.id.action_locationListFragment_to_locationFragment, bundle);
+            }
+        }));
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         addLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override

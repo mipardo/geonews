@@ -25,6 +25,10 @@
         <action
             android:id="@+id/action_locationFragment_to_locationListFragment"
             app:destination="@id/locationListFragment" />
+        <argument
+            android:name="locationId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/locationSettingsFragment"
