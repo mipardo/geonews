@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,6 @@ public class LocationListFragment extends Fragment {
         locations = geoNewsManager.getNonActiveLocations();
         recyclerView.setAdapter(new LocationListAdapter(locations));
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
         addLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,13 +82,6 @@ public class LocationListFragment extends Fragment {
                 builder.setNegativeButton("Cancelar", null);
                 AlertDialog dialog = builder.create();
                 dialog.show();
-            }
-        });
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_locationListFragment_to_locationFragment);
             }
         });
     }

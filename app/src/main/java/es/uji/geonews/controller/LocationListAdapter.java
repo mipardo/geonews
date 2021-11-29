@@ -1,11 +1,14 @@
 package es.uji.geonews.controller;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
@@ -27,7 +30,16 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
             super(itemView);
             mainNameOutput = itemView.findViewById(R.id.main_name_output);
             subnameOutput =  itemView.findViewById(R.id.subname_output);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Navigation.findNavController(view).navigate(R.id.action_locationListFragment_to_locationFragment);
+                    Log.e("asd", "dasdasd");
+                    Toast.makeText(view.getContext(), "dsadasd", Toast.LENGTH_LONG).show();
+                }
+            });
         }
+
     }
 
     @NonNull
