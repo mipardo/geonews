@@ -49,13 +49,8 @@ public class AddLocation extends UserTask {
                         if (error != null) showAlertError();
                         else{
                             List<Location> locations = geoNewsManager.getNonActiveLocations();
-                            recyclerView.setAdapter(new LocationListAdapter(locations, new OnItemClickListener() {
-                                @Override
-                                public void onItemClick(Location location) {
-                                    // TODO ¿¿??
-                                }
-                            }));
-                            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                            LocationListAdapter adapter = ((LocationListAdapter) recyclerView.getAdapter());
+                            if (adapter != null) adapter.updateLocations(locations);
                         }
                         progressBar.setVisibility(View.INVISIBLE);
                     }

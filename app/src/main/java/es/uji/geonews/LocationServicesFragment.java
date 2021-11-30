@@ -71,7 +71,7 @@ public class LocationServicesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         RelativeLayout settings =  getActivity().findViewById(R.id.settings);
-        settings.setVisibility(View.GONE);
+        settings.setVisibility(View.VISIBLE);
 
         int locationId = getArguments().getInt("locationId");
         Log.e("AAAAA", String.valueOf(locationId));

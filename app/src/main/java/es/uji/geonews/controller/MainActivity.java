@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.action_locationListFragment_to_settingsFragment);
+                navController.navigate(R.id.settingsFragment);
             }
         });
     }
