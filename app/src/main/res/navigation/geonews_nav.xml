@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/geonews_nav"
+    app:startDestination="@id/locationListFragment">
+
+    <fragment
+        android:id="@+id/locationListFragment"
+        android:name="es.uji.geonews.controller.fragments.LocationListFragment"
+        android:label="fragment_location_list"
+        tools:layout="@layout/fragment_location_list" >
+        <action
+            android:id="@+id/action_locationListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_locationListFragment_to_locationFragment"
+            app:destination="@id/locationServicesFragment" />
+        <action
+            android:id="@+id/action_locationListFragment_to_locationInfo"
+            app:destination="@id/locationInfo" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationServicesFragment"
+        android:name="es.uji.geonews.controller.fragments.LocationServicesFragment"
+        android:label="fragment_location"
+        tools:layout="@layout/fragment_location_services" >
+        <action
+            android:id="@+id/action_locationFragment_to_locationListFragment"
+            app:destination="@id/locationListFragment" />
+        <argument
+            android:name="locationId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_locationFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationInfo"
+        android:name="es.uji.geonews.controller.fragments.LocationInfoFragment"
+        android:label="fragment_location_settings"
+        tools:layout="@layout/fragment_location_settings" >
+        <action
+            android:id="@+id/action_locationInfo_to_locationListFragment"
+            app:destination="@id/locationListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="es.uji.geonews.controller.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_locationListFragment"
+            app:destination="@id/locationListFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_locationFragment"
+            app:destination="@id/locationServicesFragment" />
+    </fragment>
+</navigation>

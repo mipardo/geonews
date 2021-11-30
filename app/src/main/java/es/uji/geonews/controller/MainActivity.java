@@ -1,16 +1,26 @@
 package es.uji.geonews.controller;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,52 +37,34 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    private GeoNewsManager geoNewsManager;
-    private List<Location> locations;
-    private EditText locationInput;
-    private Context context;
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.show_locations);
-        context = this;
+        setContentView(R.layout.activity_main);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
-        geoNewsManager = new GeoNewsManager(this);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        navController = navHostFragment.getNavController();
+        NavigationUI.setupActionBarWithNavController(this, navController);
 
-        FloatingActionButton addLocationButton = findViewById(R.id.add_location_floating_button);
-        RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
-        ProgressBar progressBar = findViewById(R.id.my_progress_bar);
-
-        locations = geoNewsManager.getNonActiveLocations();
-        recyclerView.setAdapter(new LocationListAdapter(locations));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        addLocationButton.setOnClickListener(new View.OnClickListener() {
+        RelativeLayout settings = findViewById(R.id.settings);
+        settings.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Show the dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Añade una nueva ubicación ");
-                builder.setMessage("Introduzca un topónimo o unas coordenadas");
-                View viewInflated = LayoutInflater.from(context).inflate(R.layout.add_location_alert, findViewById(R.id.location_input),false);
-                locationInput = viewInflated.findViewById(R.id.location_input);
-                builder.setView(viewInflated);
-                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String location = locationInput.getText().toString();
-                        UserTask addLocation = new AddLocation(geoNewsManager, location, progressBar, context, recyclerView);
-                        addLocation.execute();
-                    }
-                });
-                builder.setNegativeButton("Cancelar", null);
-                AlertDialog dialog = builder.create();
-                dialog.show();
+            public void onClick(View view) {
+                navController.navigate(R.id.settingsFragment);
             }
         });
 
+        // Permisos para el GPS
+        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE}, 1);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        return navController.navigateUp() || super.onSupportNavigateUp();
     }
 
     private void addRandomLocations(List<Location> locations){

@@ -7,20 +7,23 @@ import es.uji.geonews.model.Location;
 import okhttp3.OkHttpClient;
 
 public abstract class ServiceHttp extends Service{
-    protected transient final OkHttpClient client;
+    protected transient OkHttpClient client;
     protected String apiKey;
     protected String url;
 
     public ServiceHttp(ServiceName serviceName, String serviceType) {
         super(serviceName, serviceType);
-        this.client = new OkHttpClient();
-        //isActive = checkConnection();
         isActive = true;
+        initializeClient();
     }
 
     @Override
     public boolean isAvailable(){
         return isActive && checkConnection();
+    }
+
+    protected void initializeClient() {
+        this.client = new OkHttpClient();
     }
 
     public abstract boolean validateLocation(Location location);

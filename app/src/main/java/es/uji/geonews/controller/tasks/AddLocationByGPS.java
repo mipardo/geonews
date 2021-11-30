@@ -1,34 +1,38 @@
 package es.uji.geonews.controller.tasks;
 
+import static androidx.test.InstrumentationRegistry.getContext;
+
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 import es.uji.geonews.controller.LocationListAdapter;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 
-public class AddLocation extends UserTask {
+public class AddLocationByGPS extends UserTask {
     private final GeoNewsManager geoNewsManager;
-    private final ProgressBar progressBar;
-    private final String location;
     private final Context context;
     private final RecyclerView recyclerView;
+    private final ProgressBar progressBar;
     private String error;
 
-    public AddLocation(GeoNewsManager geoNewsManager, String location, ProgressBar progressBar, Context context, RecyclerView recyclerView){
+    public AddLocationByGPS(GeoNewsManager geoNewsManager, ProgressBar progressBar, Context context, RecyclerView recyclerView){
         this.geoNewsManager = geoNewsManager;
-        this.location = location;
-        this.progressBar = progressBar;
         this.context = context;
         this.recyclerView = recyclerView;
+        this.progressBar = progressBar;
     }
 
     @Override
@@ -39,8 +43,8 @@ public class AddLocation extends UserTask {
             @Override
             public void run() {
                 try {
-                    geoNewsManager.addLocation(location);
-                } catch (UnrecognizedPlaceNameException | ServiceNotAvailableException | NotValidCoordinatesException e) {
+                    geoNewsManager.addLocationByGps();
+                } catch (UnrecognizedPlaceNameException | ServiceNotAvailableException | NotValidCoordinatesException | GPSNotAvailableException e) {
                     error = e.getMessage();
                 }
                 runOnUiThread(new Runnable() {

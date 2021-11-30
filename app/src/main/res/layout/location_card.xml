@@ -16,7 +16,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
-                android:clickable="true"
                 android:padding="10dp">
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
