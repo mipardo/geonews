@@ -1,4 +1,4 @@
-package es.uji.geonews;
+package es.uji.geonews.controller.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,7 +11,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +22,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import es.uji.geonews.R;
 import es.uji.geonews.controller.LocationListAdapter;
-import es.uji.geonews.controller.OnItemClickListener;
 import es.uji.geonews.controller.tasks.AddLocation;
 import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.model.Location;

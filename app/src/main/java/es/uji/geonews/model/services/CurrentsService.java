@@ -7,12 +7,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import es.uji.geonews.model.data.CurrentsData;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.News;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -21,6 +23,15 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
         super(ServiceName.CURRENTS, "News service");
         apiKey = "uVh9kGUA3ZArfrYzCaLkX4iW6nR1vy2LMHwesz40aEY4OHaj";
         url = "api.currentsapi.services";
+    }
+
+    @Override
+    protected void initializeClient() {
+        this.client = new OkHttpClient().newBuilder()
+                .connectTimeout(50, TimeUnit.SECONDS)
+                .writeTimeout(50, TimeUnit.SECONDS)
+                .readTimeout(50, TimeUnit.SECONDS)
+                .build();
     }
 
     public boolean validateLocation(Location location){

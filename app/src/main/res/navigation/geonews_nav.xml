@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/locationListFragment"
-        android:name="es.uji.geonews.LocationListFragment"
+        android:name="es.uji.geonews.controller.fragments.LocationListFragment"
         android:label="fragment_location_list"
         tools:layout="@layout/fragment_location_list" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/locationServicesFragment"
-        android:name="es.uji.geonews.LocationServicesFragment"
+        android:name="es.uji.geonews.controller.fragments.LocationServicesFragment"
         android:label="fragment_location"
         tools:layout="@layout/fragment_location_services" >
         <action
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/locationInfo"
-        android:name="es.uji.geonews.LocationInfo"
+        android:name="es.uji.geonews.controller.fragments.LocationInfoFragment"
         android:label="fragment_location_settings"
         tools:layout="@layout/fragment_location_settings" >
         <action
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="es.uji.geonews.SettingsFragment"
+        android:name="es.uji.geonews.controller.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" >
         <action

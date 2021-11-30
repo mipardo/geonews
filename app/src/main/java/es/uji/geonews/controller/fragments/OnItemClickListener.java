@@ -1,4 +1,4 @@
-package es.uji.geonews.controller;
+package es.uji.geonews.controller.fragments;
 
 import es.uji.geonews.model.Location;
 
