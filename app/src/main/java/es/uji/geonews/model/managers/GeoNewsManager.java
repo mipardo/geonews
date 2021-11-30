@@ -1,6 +1,7 @@
 package es.uji.geonews.model.managers;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class GeoNewsManager {
     public GeoNewsManager(Context context){
         databaseManager = new DatabaseManager(context);
         serviceManager = new ServiceManager();
-        serviceManager.addService(new GpsService());
+        serviceManager.addService(new GpsService(context));
         serviceManager.addService(new AirVisualService());
         serviceManager.addService(new CurrentsService());
         serviceManager.addService(new OpenWeatherService());
@@ -66,9 +67,15 @@ public class GeoNewsManager {
         return null;
     }
 
+    public void updateGpsCoords(){
+        GpsService gpsService = (GpsService) serviceManager.getService(ServiceName.GPS);
+        gpsService.updateGpsCoords();
+    }
+
     public Location addLocationByGps() throws GPSNotAvailableException,
             NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         GpsService gpsService = (GpsService) serviceManager.getService(ServiceName.GPS);
+        Log.e("hola", gpsService.currentCoords().toString());
         return addLocation(gpsService.currentCoords().toString());
     }
 
