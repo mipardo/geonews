@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +69,10 @@ public class LocationServicesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        RelativeLayout settings =  getActivity().findViewById(R.id.settings);
+        settings.setVisibility(View.GONE);
+
         int locationId = getArguments().getInt("locationId");
         Log.e("AAAAA", String.valueOf(locationId));
     }

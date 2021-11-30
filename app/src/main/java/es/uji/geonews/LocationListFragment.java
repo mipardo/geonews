@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -54,6 +55,9 @@ public class LocationListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        RelativeLayout settings =  getActivity().findViewById(R.id.settings);
+        settings.setVisibility(View.VISIBLE);
 
         FloatingActionButton addLocationButton = view.findViewById(R.id.add_location_floating_button);
         RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
