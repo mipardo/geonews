@@ -18,8 +18,8 @@ import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 
 public class GpsService extends Service {
-    private android.location.LocationManager locationManager;
-    private Context context;
+    private transient android.location.LocationManager locationManager;
+    private transient Context context;
     private GeographCoords currentPosition;
 
     public GpsService(Context context) {
@@ -58,7 +58,9 @@ public class GpsService extends Service {
 
     public GeographCoords currentCoords() throws GPSNotAvailableException {
         if (isAvailable()) {
-           if (currentPosition != null) return currentPosition;
+           if (currentPosition != null) {
+               return currentPosition;
+           }
         }
         throw new GPSNotAvailableException();
     }

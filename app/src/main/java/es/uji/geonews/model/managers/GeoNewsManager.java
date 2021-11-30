@@ -67,16 +67,15 @@ public class GeoNewsManager {
         return null;
     }
 
-    public void updateGpsCoords(){
-        GpsService gpsService = (GpsService) serviceManager.getService(ServiceName.GPS);
-        gpsService.updateGpsCoords();
-    }
-
     public Location addLocationByGps() throws GPSNotAvailableException,
             NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
         GpsService gpsService = (GpsService) serviceManager.getService(ServiceName.GPS);
-        Log.e("hola", gpsService.currentCoords().toString());
         return addLocation(gpsService.currentCoords().toString());
+    }
+
+    public void updateGpsCoords(){
+        GpsService gpsService = (GpsService) serviceManager.getService(ServiceName.GPS);
+        gpsService.updateGpsCoords();
     }
 
     public boolean removeLocation(int locationId) {

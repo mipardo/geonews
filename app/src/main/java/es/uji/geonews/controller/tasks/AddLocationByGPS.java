@@ -43,7 +43,7 @@ public class AddLocationByGPS extends UserTask {
             @Override
             public void run() {
                 try {
-                    Location location = geoNewsManager.addLocationByGps();
+                    geoNewsManager.addLocationByGps();
                 } catch (UnrecognizedPlaceNameException | ServiceNotAvailableException | NotValidCoordinatesException | GPSNotAvailableException e) {
                     error = e.getMessage();
                 }
