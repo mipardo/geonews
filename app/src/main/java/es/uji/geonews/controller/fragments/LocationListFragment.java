@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Objects;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.LocationListAdapter;
@@ -95,11 +96,11 @@ public class LocationListFragment extends Fragment {
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        new AddLocationByGPS(geoNewsManager, progressBar, getContext(), recyclerView).execute();
+                        new AddLocationByGPS(geoNewsManager, progressBar, getContext(), recyclerView).execute();
 
-                        String location = locationInput.getText().toString();
-                        UserTask addLocation = new AddLocation(geoNewsManager, location, progressBar, view.getContext(), recyclerView);
-                        addLocation.execute();
+//                        String location = locationInput.getText().toString();
+//                        UserTask addLocation = new AddLocation(geoNewsManager, location, progressBar, view.getContext(), recyclerView);
+//                        addLocation.execute();
                     }
                 });
                 builder.setNegativeButton("Cancelar", null);

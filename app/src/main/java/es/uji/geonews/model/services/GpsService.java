@@ -18,14 +18,11 @@ import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 
 public class GpsService extends Service {
-    private transient android.location.LocationManager locationManager;
-    private transient Context context;
+    private Context context;
     private GeographCoords currentPosition;
 
     public GpsService(Context context) {
-
         super(ServiceName.GPS, "Servicio GPS para la obtención de la ubicacion actual");
-        locationManager = (android.location.LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         this.context = context;
     }
 
