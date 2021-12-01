@@ -42,6 +42,7 @@ public class GeoNewsManager {
         userId = loadUserId(context);
         try {
             loadAll();
+            serviceManager.addService(new GpsService(context));
         } catch (DatabaseNotAvailableException e) { e.printStackTrace(); }
     }
 
