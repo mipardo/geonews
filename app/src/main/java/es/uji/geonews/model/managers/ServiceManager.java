@@ -181,23 +181,12 @@ public class ServiceManager {
         return services;
     }
 
-    public Map<ServiceName, ServiceHttp> getHttpServicesMap() {
-        Map<ServiceName, ServiceHttp> serviceHttpMap = new HashMap<>();
-        for (ServiceHttp serviceHttp: getHttpServices()) {
-            serviceHttpMap.put(serviceHttp.getServiceName(), serviceHttp);
-        }
-        return serviceHttpMap;
-    }
-
     public Map<Integer, List<ServiceName>> getLocationServices() {
         return locationServices;
     }
 
-    public void setServices(Map<ServiceName, ServiceHttp> services) {
-        this.services = new HashMap<>();
-        for (ServiceHttp serviceHttp: services.values()) {
-            this.services.put(serviceHttp.getServiceName(), serviceHttp);
-        }
+    public void setServices(Map<ServiceName, Service> services) {
+        this.services = services;
     }
 
     public void setLocationServices(Map<Integer, List<ServiceName>> locationServices) {

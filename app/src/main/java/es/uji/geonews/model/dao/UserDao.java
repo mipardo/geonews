@@ -9,14 +9,13 @@ import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 import es.uji.geonews.model.services.Service;
-import es.uji.geonews.model.services.ServiceHttp;
 
 public class UserDao {
     private String userId;
     private int locationCounter;
     private Map<String, Location> locations;
     private Map<String, Location> favoriteLocations;
-    private Map<String, ServiceHttp> services;
+    private Map<String, Service> services;
     private Map<String, List<String>> locationServices;
     private Map<String, Map<String, Data>> lastData;
     private String lastModification;    /// Aqui si nos interesa el horas minutos y segundos
@@ -28,7 +27,7 @@ public class UserDao {
         this.locationCounter = locationManager.getLocationCounter();
         this.locations = UserDaoConverter.convertLocations(locationManager.getLocations());
         this.favoriteLocations = UserDaoConverter.convertLocations(locationManager.getFavoriteLocations());
-        this.services = UserDaoConverter.convertServices(serviceManager.getHttpServicesMap());
+        this.services = UserDaoConverter.convertServices(serviceManager.getServices());
         this.locationServices =  UserDaoConverter.convertLocationServices(serviceManager.getLocationServices());
         this.lastData = UserDaoConverter.convertLastData(serviceManager.getLastData());
         this.lastModification = LocalDateTime.now().toString();
@@ -60,11 +59,11 @@ public class UserDao {
         this.favoriteLocations = favoriteLocations;
     }
 
-    public Map<String, ServiceHttp> getServices() {
+    public Map<String, Service> getServices() {
         return services;
     }
 
-    public void setServices(Map<String, ServiceHttp> services) {
+    public void setServices(Map<String, Service> services) {
         this.services = services;
     }
 

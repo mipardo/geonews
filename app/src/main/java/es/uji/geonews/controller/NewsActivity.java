@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +20,8 @@ import es.uji.geonews.R;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.data.CurrentsData;
+import es.uji.geonews.model.data.OpenWeatherData;
+import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -35,7 +36,7 @@ public class NewsActivity extends AppCompatActivity {
     private EditText locationInput;
     private Context context;
     private String result;
-    CurrentsData newsData;
+    AirVisualData NewsData;
     Location location;
 
     @Override
@@ -70,22 +71,21 @@ public class NewsActivity extends AppCompatActivity {
                     public void run() {
 
                         try {
-                            location = geoNewsManager.addLocation("Valencia");
+                            location = geoNewsManager.addLocation("Castello de la plana");
                             //location.activate();
-                            geoNewsManager.addServiceToLocation(ServiceName.CURRENTS, location);
+                            geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, location);
                             //geoNewsManager.addServiceToLocation(ServiceName.CURRENTS, location);
                             //geoNewsManager.loadAll();
-                            newsData = (CurrentsData) geoNewsManager.getData(ServiceName.CURRENTS,geoNewsManager.getLocation(1));
+                            NewsData = (AirVisualData) geoNewsManager.getData(ServiceName.AIR_VISUAL,geoNewsManager.getLocation(1));
                         } catch (NotValidCoordinatesException | UnrecognizedPlaceNameException | ServiceNotAvailableException | NoLocationRegisteredException e) {
                             result = e.getMessage();
                         }
 
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                if (newsData !=null){
+                                if (result == null && NewsData!=null){
                                     //textViewTitulo.setText(location.getPlaceName());
-                                    Log.e("dad", String.valueOf(newsData.getNewsList().size()));
-                                    textViewCuerpo.setText(newsData.getNewsList().get(0).getDescription());
+                                    textViewCuerpo.setText(NewsData.getMainCn());
                                 }
                                 else textViewTitulo.setText(result);
                                 Picasso.get().load("https://www.tonica.la/__export/1595866796960/sites/debate/img/2020/07/27/el-ssj4-muestra-nuevo-arte-visual-goku-super-saiyan-4.jpg_1902800913.jpg").into(imageViewPrincipal);
