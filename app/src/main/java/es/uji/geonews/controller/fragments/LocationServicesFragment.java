@@ -63,7 +63,7 @@ public class LocationServicesFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return new ServiceFragment(position);
+            return ServiceFragmentFactory.createServiceFragment(position);
         }
 
         @Override
