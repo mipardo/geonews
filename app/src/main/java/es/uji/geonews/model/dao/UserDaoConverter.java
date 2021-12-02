@@ -43,7 +43,8 @@ public class UserDaoConverter {
     protected static <T> Map<String, T> convertServices (Map<ServiceName, T> map) {
         Map<String, T> convertedMap = new HashMap<>();
         for (ServiceName key : map.keySet()) {
-            convertedMap.put(key.name, map.get(key));
+            if (!(key == ServiceName.GPS))
+                convertedMap.put(key.name, map.get(key));
         }
         return convertedMap;
     }
