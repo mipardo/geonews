@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controller.NewsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="44dp"
+        tools:layout_editor_absoluteY="-209dp">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/textViewTitulo"
+                    android:layout_width="385dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="70dp"
+                    android:text="Titulo Noticia" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="385dp"
+                    android:layout_height="260dp" />
+
+                <ProgressBar
+                    android:id="@+id/my_progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="170dp"
+                    android:layout_marginEnd="129dp"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/textViewCuerpo"
+                    android:layout_width="match_parent"
+                    android:layout_height="74dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Cuerpo de la noticia" />
+
+                <Button
+                    android:id="@+id/newsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="130dp"
+                    android:layout_marginEnd="129dp"
+
+                    android:text="Nueva Noticia" />
+
+                <!-- ADD LOCATION CARD BUTTON -->
+
+                <TextView
+                    android:id="@+id/textViewTitulo2"
+                    android:layout_width="385dp"
+                    android:layout_height="40dp"
+                    android:text="Titulo Noticia" />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="385dp"
+                    android:layout_height="260dp" />
+
+                <TextView
+                    android:id="@+id/textViewCuerpo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="74dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Cuerpo de la noticia" />
+
+                <TextView
+                    android:id="@+id/textViewTitulo3"
+                    android:layout_width="385dp"
+                    android:layout_height="40dp"
+                    android:text="Titulo Noticia" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="385dp"
+                    android:layout_height="260dp" />
+
+                <TextView
+                    android:id="@+id/textViewCuerpo3"
+                    android:layout_width="match_parent"
+                    android:layout_height="74dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Cuerpo de la noticia" />
+
+                <TextView
+                    android:id="@+id/textViewTitulo4"
+                    android:layout_width="385dp"
+                    android:layout_height="40dp"
+                    android:text="Titulo Noticia" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="385dp"
+                    android:layout_height="260dp" />
+
+                <TextView
+                    android:id="@+id/textViewCuerpo4"
+                    android:layout_width="match_parent"
+                    android:layout_height="74dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Cuerpo de la noticia" />
+
+                <TextView
+                    android:id="@+id/textViewTitulo5"
+                    android:layout_width="385dp"
+                    android:layout_height="40dp"
+                    android:text="Titulo Noticia" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="385dp"
+                    android:layout_height="260dp" />
+
+                <TextView
+                    android:id="@+id/textViewCuerpo5"
+                    android:layout_width="match_parent"
+                    android:layout_height="74dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Cuerpo de la noticia" />
+
+            </LinearLayout>
+
+
+
+        </ScrollView>
+
+
+        <!-- ADD LOCATION CARD BUTTON -->
+
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,11 +29,15 @@ public abstract class ServiceHttp extends Service{
     public abstract boolean validateLocation(Location location);
 
     public boolean checkConnection() {
+        return true;
+        /*
         try {
             InetAddress inet = InetAddress.getByName(url);
             return inet.isReachable(2000);
         } catch (IOException e) {
             return false;
         }
+
+         */
     }
 }
