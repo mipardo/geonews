@@ -1,13 +1,18 @@
 package es.uji.geonews.model.dao;
 
+import com.google.firebase.firestore.auth.User;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
+import es.uji.geonews.model.services.Service;
+import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.services.ServiceName;
 
 public class UserDaoConverter {
@@ -20,7 +25,7 @@ public class UserDaoConverter {
         return convertedLastData;
     }
 
-    protected static Map<String, List<String>> convertLocationServices(Map<Integer, List<ServiceName>> locationServices) {
+    protected static Map<String, List<String>> convertLocationServicesHashMap(Map<Integer, List<ServiceName>> locationServices) {
         Map<String, List<String>> convertedMap = new HashMap<>();
         for (Map.Entry<Integer, List<ServiceName>> entry : locationServices.entrySet()) {
             List<String> servicesString = new ArrayList<>();
@@ -32,10 +37,10 @@ public class UserDaoConverter {
         return convertedMap;
     }
 
-    protected static <T> Map<String, T> convertLocations (Map<Integer, T> values) {
-        Map<String, T> convertedMap = new HashMap<>();
-        for (Integer key : values.keySet()) {
-            convertedMap.put(String.valueOf(key), values.get(key));
+    protected static Map<String, Location> convertLocationsToHashMap(List<Location> locations) {
+        Map<String, Location> convertedMap = new HashMap<>();
+        for (Location location : locations) {
+            convertedMap.put(String.valueOf(location.getId()), location);
         }
         return convertedMap;
     }
@@ -43,8 +48,7 @@ public class UserDaoConverter {
     protected static <T> Map<String, T> convertServices (Map<ServiceName, T> map) {
         Map<String, T> convertedMap = new HashMap<>();
         for (ServiceName key : map.keySet()) {
-            if (!(key == ServiceName.GPS))
-                convertedMap.put(key.name, map.get(key));
+            convertedMap.put(key.name, map.get(key));
         }
         return convertedMap;
     }
@@ -57,9 +61,20 @@ public class UserDaoConverter {
     }
 
     public static void fillServiceManager(ServiceManager serviceManager, UserDao userDao) {
-        serviceManager.setServices(convertServicesBack(userDao.getServices()));
+        setServices(serviceManager, userDao);
         serviceManager.setLocationServices(convertLocationServicesBack(userDao.getLocationServices()));
         serviceManager.setLastData(convertLastDataBack(userDao.getLastData()));
+    }
+
+    private static void setServices(ServiceManager serviceManager, UserDao userDao){
+        for(Service service: serviceManager.getServices().values()){
+            ServiceDao storedService = userDao.getServices().get(service.getServiceName().name);
+            if (storedService != null) {
+                service.setActivationDate(storedService.getActivationDate());
+                service.setActive(storedService.isActive());
+            }
+        }
+
     }
 
     private static Map<Integer, Map<ServiceName, Data>> convertLastDataBack(Map<String, Map<String, Data>> lastData) {

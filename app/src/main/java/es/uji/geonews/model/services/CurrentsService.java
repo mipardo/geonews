@@ -26,7 +26,7 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
     }
 
     @Override
-    protected void initializeClient() {
+    public void initializeClient() {
         this.client = new OkHttpClient().newBuilder()
                 .connectTimeout(50, TimeUnit.SECONDS)
                 .writeTimeout(50, TimeUnit.SECONDS)

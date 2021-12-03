@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -43,16 +44,16 @@ public class HU03_7 {
     @Test
     public void deactivateLocationService_localAndRemoteDatabasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, DatabaseNotAvailableException {
+            NotValidCoordinatesException, InterruptedException, DatabaseNotAvailableException, NoLocationRegisteredException {
         // Given
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
         CountDownLatch lock = new CountDownLatch(1);
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
         lock.await(5000, TimeUnit.MILLISECONDS);
 
         // When
         lock = new CountDownLatch(1);
-        boolean result = geoNewsManager.removeServiceFromLocation(ServiceName.OPEN_WEATHER, castellon);
+        boolean result = geoNewsManager.removeServiceFromLocation(ServiceName.OPEN_WEATHER, castellon.getId());
         lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then
@@ -66,13 +67,13 @@ public class HU03_7 {
     @Test
     public void deactivateLocationService_localAndRemoteDatabasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, DatabaseNotAvailableException {
+            NotValidCoordinatesException, InterruptedException, DatabaseNotAvailableException, NoLocationRegisteredException {
         // Given
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
 
         // When
         CountDownLatch lock = new CountDownLatch(1);
-        boolean result = geoNewsManager.removeServiceFromLocation(ServiceName.OPEN_WEATHER, castellon);
+        boolean result = geoNewsManager.removeServiceFromLocation(ServiceName.OPEN_WEATHER, castellon.getId());
         lock.await(2000, TimeUnit.MILLISECONDS);
 
         // Then

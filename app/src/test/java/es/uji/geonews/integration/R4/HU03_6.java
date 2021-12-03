@@ -16,6 +16,7 @@ import es.uji.geonews.model.Location;
 import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.database.LocalDBManager;
 import es.uji.geonews.model.database.RemoteDBManager;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -53,7 +54,7 @@ public class HU03_6 {
     @Test
     public void activateLocationService_localAndRemoteDatabasesAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+            NotValidCoordinatesException, NoLocationRegisteredException {
         localDBManagerMocked = mock(LocalDBManager.class);
         when(localDBManagerMocked.isAvailable()).thenReturn(true);
         remoteDBManagerMocked = mock(RemoteDBManager.class);
@@ -66,7 +67,7 @@ public class HU03_6 {
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
 
         // When
-        boolean result = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        boolean result = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
 
         // Then
         assertTrue(result);
@@ -78,7 +79,7 @@ public class HU03_6 {
     @Test
     public void activateLocationService_localDBAvailableAndRemoteDBNotAvailable_true()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+            NotValidCoordinatesException, NoLocationRegisteredException {
         localDBManagerMocked = mock(LocalDBManager.class);
         when(localDBManagerMocked.isAvailable()).thenReturn(true);
         remoteDBManagerMocked = mock(RemoteDBManager.class);
@@ -91,7 +92,7 @@ public class HU03_6 {
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
 
         // When
-        boolean result = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        boolean result = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
 
         // Then
         assertTrue(result);
@@ -103,7 +104,7 @@ public class HU03_6 {
     @Test
     public void activateLocationService_localAndRemoteDatabasesAvailable_false()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+            NotValidCoordinatesException, NoLocationRegisteredException {
         localDBManagerMocked = mock(LocalDBManager.class);
         when(localDBManagerMocked.isAvailable()).thenReturn(true);
         remoteDBManagerMocked = mock(RemoteDBManager.class);
@@ -113,10 +114,10 @@ public class HU03_6 {
         geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
         // Given
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
 
         // When
-        boolean result = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        boolean result = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
 
         // Then
         assertFalse(result);

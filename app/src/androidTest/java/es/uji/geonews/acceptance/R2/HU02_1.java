@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -38,11 +39,11 @@ public class HU02_1 {
 
     @Test
     public void checkService_OneActivation_True()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         // When
-        boolean confirmation = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        boolean confirmation = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
 
         // Then
         assertEquals(1, geoNewsManager.getServicesOfLocation(castellon.getId()).size());
@@ -52,14 +53,14 @@ public class HU02_1 {
     }
     @Test
     public void checkService_OneActivation_alreadyActive_False()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         int id = castellon.getId();
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
 
         // When
-        boolean confirmation = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        boolean confirmation = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
         // Then
         assertEquals(1, geoNewsManager.getServicesOfLocation(id).size());
         assertTrue( geoNewsManager.getServicesOfLocation(id).contains(ServiceName.OPEN_WEATHER));

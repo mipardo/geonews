@@ -47,8 +47,8 @@ public class HU03_10 {
             NotValidCoordinatesException, InterruptedException, NoLocationRegisteredException, DatabaseNotAvailableException {
         // Given
         Location valencia = geoNewsManager.addLocation("Valencia");
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, valencia);
-        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, valencia);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, valencia.getId());
+        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, valencia.getId());
         geoNewsManager.activateLocation(valencia.getId());
         geoNewsManager.deactivateLocation(valencia.getId());
 

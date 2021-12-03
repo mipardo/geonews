@@ -154,8 +154,9 @@ public class GeoNewsManager {
         return removed;
     }
 
-    public Data getData(ServiceName serviceName, Location location)
-            throws ServiceNotAvailableException {
+    public Data getData(ServiceName serviceName, int locationId)
+            throws ServiceNotAvailableException, NoLocationRegisteredException {
+        Location location = getLocation(locationId);
         return serviceManager.getData(serviceName, location);
     }
 
@@ -179,13 +180,17 @@ public class GeoNewsManager {
         return serviceManager.getServicesOfLocation(locationId);
     }
 
-    public boolean addServiceToLocation(ServiceName serviceName, Location location) throws ServiceNotAvailableException {
+    public boolean addServiceToLocation(ServiceName serviceName, int locationId)
+            throws ServiceNotAvailableException, NoLocationRegisteredException {
+        Location location = locationManager.getLocation(locationId);
         boolean added = serviceManager.addServiceToLocation(serviceName, location);
         saveAll(added);
         return added;
     }
 
-    public boolean removeServiceFromLocation(ServiceName serviceName, Location location) {
+    public boolean removeServiceFromLocation(ServiceName serviceName, int locationId)
+            throws NoLocationRegisteredException {
+        Location location = locationManager.getLocation(locationId);
         boolean removed = serviceManager.removeServiceFromLocation(serviceName, location);
         saveAll(removed);
         return removed;

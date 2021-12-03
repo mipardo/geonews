@@ -6,10 +6,68 @@
     android:background="@color/purple_500"
     tools:context=".controller.fragments.AirVisualFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:layout_editor_absoluteX="44dp"
+        tools:layout_editor_absoluteY="-209dp">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/temperature_output"
+                    android:layout_width="385dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="70dp"
+                    android:text="Temperatura" />
+
+
+                <TextView
+                    android:id="@+id/pressure_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="74dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Presion atomosférica" />
+
+                <TextView
+                    android:id="@+id/humidity_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="74dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Humedad" />
+
+
+
+                <Button
+                    android:id="@+id/load_air_data_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="130dp"
+                    android:layout_marginEnd="129dp"
+
+                    android:text="CargarAirVisual" />
+
+                <ProgressBar
+                    android:id="@+id/my_progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="170dp"
+                    android:layout_marginEnd="129dp"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
 
 </FrameLayout>

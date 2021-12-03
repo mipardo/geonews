@@ -45,13 +45,13 @@ public class AddLocation extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
+                        progressBar.setVisibility(View.INVISIBLE);
                         if (error != null) showAlertError();
                         else{
                             List<Location> locations = geoNewsManager.getNonActiveLocations();
                             LocationListAdapter adapter = ((LocationListAdapter) recyclerView.getAdapter());
                             if (adapter != null) adapter.updateLocations(locations);
                         }
-                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
             }

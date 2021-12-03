@@ -15,6 +15,7 @@ import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -39,13 +40,14 @@ public class HU05_3 {
 
     @Test
     public void checkAirData_activeAndAvailable_AirVisualLocationData()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException,
+            UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
-        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, castellon);
+        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, castellon.getId());
 
         // When
-        AirVisualData serviceData = (AirVisualData) geoNewsManager.getData(ServiceName.AIR_VISUAL, castellon);
+        AirVisualData serviceData = (AirVisualData) geoNewsManager.getData(ServiceName.AIR_VISUAL, castellon.getId());
 
         // Then
         assertNotNull(serviceData.getWeatherIcon());
@@ -55,25 +57,27 @@ public class HU05_3 {
 
     @Test (expected = ServiceNotAvailableException.class)
     public void checkAirData_notActiveInLocation_ServiceNotAvailableException()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException,
+            UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         geoNewsManager.addLocation("Valencia");
         geoNewsManager.addLocation("Alicante");
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
-        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, castellon);
+        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, castellon.getId());
         geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
         // When
-        geoNewsManager.getData(ServiceName.AIR_VISUAL, castellon);
+        geoNewsManager.getData(ServiceName.AIR_VISUAL, castellon.getId());
     }
 
     @Test
-    public void checkAirData_deactivatedServiceGenerally_null() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void checkAirData_deactivatedServiceGenerally_null() throws NotValidCoordinatesException,
+            ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         geoNewsManager.addLocation("Valencia");
         geoNewsManager.addLocation("Alicante");
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         // When
-        Data serviceData = geoNewsManager.getData(ServiceName.AIR_VISUAL, castellon);
+        Data serviceData = geoNewsManager.getData(ServiceName.AIR_VISUAL, castellon.getId());
 
         // Then
         assertNull(serviceData);

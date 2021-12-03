@@ -22,16 +22,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import es.uji.geonews.R;
-import es.uji.geonews.controller.tasks.AddLocation;
-import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.managers.GeoNewsManager;
 
 import java.time.LocalDate;
 import java.util.List;

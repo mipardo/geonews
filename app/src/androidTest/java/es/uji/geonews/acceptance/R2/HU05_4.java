@@ -15,6 +15,7 @@ import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.CurrentsData;
 import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -38,14 +39,14 @@ public class HU05_4 {
     }
 
     @Test
-    public void checkCurrentsData_activeAndAvailable_CurrentsLocationData()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void checkCurrentsData_activeAndAvailable_CurrentsLocationData() throws NotValidCoordinatesException,
+            ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         Location valencia = geoNewsManager.addLocation("Valencia");
-        geoNewsManager.addServiceToLocation(ServiceName.CURRENTS, valencia);
+        geoNewsManager.addServiceToLocation(ServiceName.CURRENTS, valencia.getId());
 
         // When
-        CurrentsData serviceData = (CurrentsData) geoNewsManager.getData(ServiceName.CURRENTS, valencia);
+        CurrentsData serviceData = (CurrentsData) geoNewsManager.getData(ServiceName.CURRENTS, valencia.getId());
 
         // Then
         assertNotNull(serviceData.getNewsList());
@@ -53,26 +54,27 @@ public class HU05_4 {
 
 
     @Test (expected = ServiceNotAvailableException.class)
-    public void checkCurrentsData_notActiveInLocation_ServiceNotAvailableException()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void checkCurrentsData_notActiveInLocation_ServiceNotAvailableException() throws NotValidCoordinatesException,
+            ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         geoNewsManager.addLocation("Valencia");
         geoNewsManager.addLocation("Alicante");
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
-        geoNewsManager.addServiceToLocation(ServiceName.CURRENTS, castellon);
+        geoNewsManager.addServiceToLocation(ServiceName.CURRENTS, castellon.getId());
         geoNewsManager.deactivateService(ServiceName.CURRENTS);
         // When
-        geoNewsManager.getData(ServiceName.CURRENTS, castellon);
+        geoNewsManager.getData(ServiceName.CURRENTS, castellon.getId());
     }
 
     @Test
-    public void checkCurrentsData_deactivatedServiceGenerally_null() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void checkCurrentsData_deactivatedServiceGenerally_null() throws NotValidCoordinatesException,
+            ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         geoNewsManager.addLocation("Valencia");
         geoNewsManager.addLocation("Alicante");
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         // When
-        Data serviceData = geoNewsManager.getData(ServiceName.CURRENTS, castellon);
+        Data serviceData = geoNewsManager.getData(ServiceName.CURRENTS, castellon.getId());
 
         // Then
         assertNull(serviceData);
