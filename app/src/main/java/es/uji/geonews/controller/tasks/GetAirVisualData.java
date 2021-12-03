@@ -65,9 +65,9 @@ public class GetAirVisualData extends UserTask {
                             tempertaureOutput.setText("Problema: " + error);
                         }
                         else {
-                            tempertaureOutput.setText(data.getTemperature());
-                            preassureOutput.setText(data.getPressure());
-                            humidityOutput.setText(data.getHumidity());
+                            tempertaureOutput.setText("Temperatura: " + data.getTemperature());
+                            preassureOutput.setText("Presión atomosférica: " + data.getPressure());
+                            humidityOutput.setText("Humedad relativa: " + data.getHumidity());
                             //Picasso.get().load(currentsData.getNewsList().get(0).getImage()).into(imageViewPrincipal);
                         }
                     }
