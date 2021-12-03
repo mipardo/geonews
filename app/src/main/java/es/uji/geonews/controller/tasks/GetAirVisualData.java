@@ -51,9 +51,8 @@ public class GetAirVisualData extends UserTask {
             public void run() {
                 try {
                     //TODO: Coger este id de la vista (de seleecionar la ubicacion)
-                    location = geoNewsManager.getLocation(1);
-                    geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, location);
-                    data = (AirVisualData) geoNewsManager.getData(ServiceName.AIR_VISUAL, location);
+                    geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, 1);
+                    data = (AirVisualData) geoNewsManager.getData(ServiceName.AIR_VISUAL, 1);
                 } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
                     error = e.getMessage();
                 }

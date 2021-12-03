@@ -16,6 +16,7 @@ import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.database.LocalDBManager;
 import es.uji.geonews.model.database.RemoteDBManager;
 import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -40,15 +41,15 @@ public class HU01 {
     @Test(expected = DatabaseNotAvailableException.class)
     public void loadRemoteState_dataBaseNotAvailable_DatabaseNotAvailableException()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException, InterruptedException, DatabaseNotAvailableException {
+            NotValidCoordinatesException, InterruptedException, DatabaseNotAvailableException, NoLocationRegisteredException {
         //Given
         userId = "e10a28n11v09";
         geoNewsManagerOld = createGeoNewsManagerWithDBMocked(userId);
         geoNewsManagerOld.activateService(ServiceName.AIR_VISUAL);
         geoNewsManagerOld.activateService(ServiceName.OPEN_WEATHER);
         Location valencia = geoNewsManagerOld.addLocation("Valencia");
-        geoNewsManagerOld.addServiceToLocation(ServiceName.AIR_VISUAL, valencia);
-        geoNewsManagerOld.addServiceToLocation(ServiceName.OPEN_WEATHER, valencia);
+        geoNewsManagerOld.addServiceToLocation(ServiceName.AIR_VISUAL, valencia.getId());
+        geoNewsManagerOld.addServiceToLocation(ServiceName.OPEN_WEATHER, valencia.getId());
         geoNewsManagerOld.addToFavorites(valencia.getId());
         //When
         CountDownLatch lock = new CountDownLatch(1);

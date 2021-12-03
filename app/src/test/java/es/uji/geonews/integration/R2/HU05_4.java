@@ -10,6 +10,7 @@ import org.junit.Test;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.database.DatabaseManager;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -40,7 +41,7 @@ public class HU05_4 {
     @Test (expected = ServiceNotAvailableException.class)
     public void getData_ServiceNotAvailabe_ServiceNotAvailableException()
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException,
-            NotValidCoordinatesException {
+            NotValidCoordinatesException, NoLocationRegisteredException {
         // Arrange
         when(geocodeServiceMocked.isAvailable()).thenReturn(true);
         when(geocodeServiceMocked.getCoords("Castelló de la Plana")).thenReturn(new GeographCoords(39.98920, -0.03621));
@@ -49,9 +50,9 @@ public class HU05_4 {
         geoNewsManager.addLocation("Alicante");
         geoNewsManager.addLocation("Valencia");
         Location castellon = geoNewsManager.addLocation("Castelló de la Plana");
-        geoNewsManager.addServiceToLocation(ServiceName.CURRENTS, castellon);
+        geoNewsManager.addServiceToLocation(ServiceName.CURRENTS, castellon.getId());
         when(currentsServiceMocked.getData(any(Location.class))).thenThrow(new ServiceNotAvailableException());
         // Act
-        geoNewsManager.getData(ServiceName.CURRENTS, castellon);
+        geoNewsManager.getData(ServiceName.CURRENTS, castellon.getId());
     }
 }

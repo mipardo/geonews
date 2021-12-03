@@ -75,8 +75,8 @@ public class HU03_10 {
         geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
 
         Location valencia = geoNewsManager.addLocation("Valencia");
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, valencia);
-        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, valencia);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, valencia.getId());
+        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, valencia.getId());
         geoNewsManager.activateLocation(valencia.getId());
         geoNewsManager.deactivateLocation(valencia.getId());
 
@@ -101,8 +101,8 @@ public class HU03_10 {
         geoNewsManager = new GeoNewsManager(locationManager, serviceManager, databaseManagerMocked, null);
 
         Location valencia = geoNewsManager.addLocation("Valencia");
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, valencia);
-        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, valencia);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, valencia.getId());
+        geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, valencia.getId());
         geoNewsManager.activateLocation(valencia.getId());
         geoNewsManager.deactivateLocation(valencia.getId());
 

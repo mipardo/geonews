@@ -13,6 +13,7 @@ import org.junit.Test;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.database.DatabaseManager;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -50,23 +51,23 @@ public class HU02_1 {
 
     @Test
     public void activateServiceInLocation_ServiceNotActiveYet_True()
-            throws ServiceNotAvailableException {
+            throws ServiceNotAvailableException, NoLocationRegisteredException {
         //Arrange
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
         // Act
-        boolean confirmation = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER,castellon);
+        boolean confirmation = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER,castellon.getId());
         // Assert
         assertEquals(1, geoNewsManager.getServicesOfLocation(castellon.getId()).size());
         assertTrue(confirmation);
     }
 
     @Test
-    public void activateServiceInLocation_ServiceAlreadyActive_False() throws ServiceNotAvailableException {
+    public void activateServiceInLocation_ServiceAlreadyActive_False() throws ServiceNotAvailableException, NoLocationRegisteredException {
         // Arrange
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(true);
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
         // Act
-        boolean confirmation = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        boolean confirmation = geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
         // Assert
         assertEquals(1, geoNewsManager.getServicesOfLocation(castellon.getId()).size());
         assertFalse(confirmation);
@@ -74,10 +75,10 @@ public class HU02_1 {
 
     @Test(expected = ServiceNotAvailableException.class)
     public void activateServiceInLocation_ServiceNotActiveYet_ServiceNotAvailableException()
-            throws ServiceNotAvailableException {
+            throws ServiceNotAvailableException, NoLocationRegisteredException {
         // Arrange
         when(openWeatherServiceMocked.validateLocation(any())).thenReturn(false);
         // Act
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
     }
 }

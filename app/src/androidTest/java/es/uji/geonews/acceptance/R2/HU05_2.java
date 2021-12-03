@@ -16,6 +16,7 @@ import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.data.OpenWeatherData;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -40,15 +41,15 @@ public class HU05_2 {
 
     @Test
     public void checkWeatherData_activeAndAvailable_OpenWeatherLocationData()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         geoNewsManager.addLocation("Valencia");
         geoNewsManager.addLocation("Alicante");
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
 
         // When
-        OpenWeatherData serviceData = (OpenWeatherData) geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon);
+        OpenWeatherData serviceData = (OpenWeatherData) geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon.getId());
 
         // Then
         assertTrue(serviceData.getMaxTemp() > - 10 && serviceData.getMaxTemp() < 50);
@@ -61,25 +62,25 @@ public class HU05_2 {
 
     @Test (expected = ServiceNotAvailableException.class)
     public void checkWeatherData_notActiveInLocation_ServiceNotAvailableException()
-            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+            throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         geoNewsManager.addLocation("Valencia");
         geoNewsManager.addLocation("Alicante");
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
-        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon);
+        geoNewsManager.addServiceToLocation(ServiceName.OPEN_WEATHER, castellon.getId());
         geoNewsManager.deactivateService(ServiceName.OPEN_WEATHER);
         // When
-        geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon);
+        geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon.getId());
     }
 
     @Test
-    public void checkWeatherData_deactivatedServiceGenerally_null() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException {
+    public void checkWeatherData_deactivatedServiceGenerally_null() throws NotValidCoordinatesException, ServiceNotAvailableException, UnrecognizedPlaceNameException, NoLocationRegisteredException {
         // Given
         geoNewsManager.addLocation("Valencia");
         geoNewsManager.addLocation("Alicante");
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         // When
-        Data serviceData = geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon);
+        Data serviceData = geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon.getId());
 
         // Then
         assertNull(serviceData);
