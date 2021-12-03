@@ -1,7 +1,5 @@
 package es.uji.geonews.model.dao;
 
-import com.google.firebase.firestore.auth.User;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +10,6 @@ import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 import es.uji.geonews.model.services.Service;
-import es.uji.geonews.model.services.ServiceHttp;
 import es.uji.geonews.model.services.ServiceName;
 
 public class UserDaoConverter {

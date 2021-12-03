@@ -1,8 +1,5 @@
 package es.uji.geonews.model.services;
 
-import java.io.IOException;
-import java.net.InetAddress;
-
 import es.uji.geonews.model.Location;
 import okhttp3.OkHttpClient;
 

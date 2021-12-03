@@ -51,7 +51,7 @@ public class LocationServicesFragment extends Fragment {
         int locationId = getArguments().getInt("locationId");
         Log.e("AAAAA", String.valueOf(locationId));
 
-        mPager = (ViewPager) view.findViewById(R.id.pager);
+        mPager = view.findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(pagerAdapter);
     }

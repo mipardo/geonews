@@ -8,7 +8,6 @@ import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
-import es.uji.geonews.model.services.Service;
 
 public class UserDao {
     private String userId;
