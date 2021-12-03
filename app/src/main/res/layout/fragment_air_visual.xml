@@ -24,7 +24,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/temperatureOutput"
+                    android:id="@+id/temperature_output"
                     android:layout_width="385dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="70dp"
@@ -32,14 +32,14 @@
 
 
                 <TextView
-                    android:id="@+id/pressureOutput"
+                    android:id="@+id/pressure_output"
                     android:layout_width="match_parent"
                     android:layout_height="74dp"
                     android:layout_marginEnd="15dp"
                     android:text="Presion atomosférica" />
 
                 <TextView
-                    android:id="@+id/humidityOutput"
+                    android:id="@+id/humidity_output"
                     android:layout_width="match_parent"
                     android:layout_height="74dp"
                     android:layout_marginEnd="15dp"
@@ -48,13 +48,13 @@
 
 
                 <Button
-                    android:id="@+id/newsButton"
+                    android:id="@+id/load_air_data_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="130dp"
                     android:layout_marginEnd="129dp"
 
-                    android:text="Nueva Noticia" />
+                    android:text="CargarAirVisual" />
 
                 <ProgressBar
                     android:id="@+id/my_progress_bar"

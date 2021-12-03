@@ -17,6 +17,7 @@ import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.data.OpenWeatherData;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -49,10 +50,11 @@ public class GetAirVisualData extends UserTask {
             @Override
             public void run() {
                 try {
-                    location = geoNewsManager.addLocation("Valencia");
+                    //TODO: Coger este id de la vista (de seleecionar la ubicacion)
+                    location = geoNewsManager.getLocation(1);
                     geoNewsManager.addServiceToLocation(ServiceName.AIR_VISUAL, location);
                     data = (AirVisualData) geoNewsManager.getData(ServiceName.AIR_VISUAL, location);
-                } catch (ServiceNotAvailableException | NotValidCoordinatesException | UnrecognizedPlaceNameException e) {
+                } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
                     error = e.getMessage();
                 }
 

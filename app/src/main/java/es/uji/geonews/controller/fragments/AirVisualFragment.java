@@ -52,12 +52,12 @@ public class AirVisualFragment extends Fragment {
         settings.setVisibility(View.VISIBLE);
 
         ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
-        TextView temperatureOutput = view.findViewById(R.id.temperatureOutput);
-        TextView humidityOutput = view.findViewById(R.id.humidityOutput);
-        TextView pressureOutput = view.findViewById(R.id.pressureOutput);
-        Button actualizaButton = view.findViewById(R.id.newsButton);
+        TextView temperatureOutput = view.findViewById(R.id.temperature_output);
+        TextView humidityOutput = view.findViewById(R.id.humidity_output);
+        TextView pressureOutput = view.findViewById(R.id.pressure_output);
+        Button loadButton = view.findViewById(R.id.load_air_data_button);
 
-        actualizaButton.setOnClickListener(new View.OnClickListener() {
+        loadButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
