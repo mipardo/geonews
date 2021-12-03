@@ -69,8 +69,10 @@ public class UserDaoConverter {
     private static void setServices(ServiceManager serviceManager, UserDao userDao){
         for(Service service: serviceManager.getServices().values()){
             ServiceDao storedService = userDao.getServices().get(service.getServiceName().name);
-            service.setActivationDate(storedService.getActivationDate());
-            service.setActive(storedService.isActive());
+            if (storedService != null) {
+                service.setActivationDate(storedService.getActivationDate());
+                service.setActive(storedService.isActive());
+            }
         }
 
     }
