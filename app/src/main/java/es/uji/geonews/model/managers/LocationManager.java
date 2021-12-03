@@ -39,6 +39,11 @@ public class LocationManager {
         return nonActiveLocations;
     }
 
+    /* This returns the list of active and not active locaitons*/
+    public List<Location> getLocations(){
+        return new ArrayList<>(locations.values());
+    }
+
     public List<Location> getFavouriteLocations() {
         return new ArrayList<>(favoriteLocations.values());
     }
@@ -127,14 +132,6 @@ public class LocationManager {
             return location.deactivate();
         }
         return false;
-    }
-
-    public Map<Integer, Location> getLocations() {
-        return locations;
-    }
-
-    public Map<Integer, Location> getFavoriteLocations() {
-        return favoriteLocations;
     }
 
 

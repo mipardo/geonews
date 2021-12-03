@@ -11,6 +11,8 @@ public abstract class ServiceHttp extends Service{
     protected String apiKey;
     protected String url;
 
+    public ServiceHttp(){}
+
     public ServiceHttp(ServiceName serviceName, String serviceType) {
         super(serviceName, serviceType);
         isActive = true;
@@ -22,11 +24,27 @@ public abstract class ServiceHttp extends Service{
         return isActive && checkConnection();
     }
 
-    protected void initializeClient() {
+    public void initializeClient() {
         this.client = new OkHttpClient();
     }
 
     public abstract boolean validateLocation(Location location);
+
+    public String getApiKey(){
+        return apiKey;
+    }
+
+    public String getUrl(){
+        return url;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public void setUrl(String url){
+        this.url = url;
+    }
 
     public boolean checkConnection() {
         return true;

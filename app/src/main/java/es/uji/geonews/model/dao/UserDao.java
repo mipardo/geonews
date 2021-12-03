@@ -15,20 +15,20 @@ public class UserDao {
     private int locationCounter;
     private Map<String, Location> locations;
     private Map<String, Location> favoriteLocations;
-    private Map<String, Service> services;
+    private Map<String, ServiceDao> services;
     private Map<String, List<String>> locationServices;
     private Map<String, Map<String, Data>> lastData;
-    private String lastModification;    /// Aqui si nos interesa el horas minutos y segundos
+    private String lastModification;
 
     public UserDao() {}
 
     public UserDao (String userId, LocationManager locationManager, ServiceManager serviceManager) {
         this.userId = userId;
         this.locationCounter = locationManager.getLocationCounter();
-        this.locations = UserDaoConverter.convertLocations(locationManager.getLocations());
-        this.favoriteLocations = UserDaoConverter.convertLocations(locationManager.getFavoriteLocations());
-        this.services = UserDaoConverter.convertServices(serviceManager.getServices());
-        this.locationServices =  UserDaoConverter.convertLocationServices(serviceManager.getLocationServices());
+        this.locations = UserDaoConverter.convertLocationsToHashMap(locationManager.getLocations());
+        this.favoriteLocations = UserDaoConverter.convertLocationsToHashMap(locationManager.getFavouriteLocations());
+        this.services = ServiceWrapper.convertServices(serviceManager.getServices());
+        this.locationServices =  UserDaoConverter.convertLocationServicesHashMap(serviceManager.getLocationServices());
         this.lastData = UserDaoConverter.convertLastData(serviceManager.getLastData());
         this.lastModification = LocalDateTime.now().toString();
     }
@@ -59,11 +59,11 @@ public class UserDao {
         this.favoriteLocations = favoriteLocations;
     }
 
-    public Map<String, Service> getServices() {
+    public Map<String, ServiceDao> getServices() {
         return services;
     }
 
-    public void setServices(Map<String, Service> services) {
+    public void setServices(Map<String, ServiceDao> services) {
         this.services = services;
     }
 
@@ -90,7 +90,6 @@ public class UserDao {
     public void setLastModification(String lastModification) {
         this.lastModification = lastModification;
     }
-
 
     public int getLocationCounter() {
         return locationCounter;

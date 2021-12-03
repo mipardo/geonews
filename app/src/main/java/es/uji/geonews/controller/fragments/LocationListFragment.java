@@ -11,31 +11,23 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
-import java.util.Objects;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.LocationListAdapter;
-import es.uji.geonews.controller.tasks.AddLocation;
 import es.uji.geonews.controller.tasks.AddLocationByGPS;
-import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.exceptions.GPSNotAvailableException;
-import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
-import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
+import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 public class LocationListFragment extends Fragment {
     private GeoNewsManager geoNewsManager;
@@ -49,7 +41,7 @@ public class LocationListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        geoNewsManager = new GeoNewsManager(getContext());
+        geoNewsManager = GeoNewsManagerSingleton.getInstance(getContext());
 
     }
 
@@ -96,11 +88,11 @@ public class LocationListFragment extends Fragment {
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        new AddLocationByGPS(geoNewsManager, progressBar, getContext(), recyclerView).execute();
+                        new AddLocationByGPS(geoNewsManager, progressBar, getContext(), recyclerView).execute();
 
-                        String location = locationInput.getText().toString();
-                        UserTask addLocation = new AddLocation(geoNewsManager, location, progressBar, view.getContext(), recyclerView);
-                        addLocation.execute();
+//                        String location = locationInput.getText().toString();
+//                        UserTask addLocation = new AddLocation(geoNewsManager, location, progressBar, view.getContext(), recyclerView);
+//                        addLocation.execute();
                     }
                 });
                 builder.setNegativeButton("Cancelar", null);
