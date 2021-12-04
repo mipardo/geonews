@@ -61,7 +61,7 @@ public class OpenWeatherFragment extends Fragment {
 
         @Override
         public Fragment createFragment(int position) {
-            return WeatherFragmentFactory.createWeatherFragment(position);
+            return WeatherFragmentFactory.createWeatherFragment(position, locationId);
         }
 
         @Override

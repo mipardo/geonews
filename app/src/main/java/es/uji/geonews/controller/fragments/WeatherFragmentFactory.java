@@ -4,14 +4,14 @@ import androidx.fragment.app.Fragment;
 
 public class WeatherFragmentFactory {
 
-    public static Fragment createWeatherFragment(int position) {
+    public static Fragment createWeatherFragment(int position, int locationId) {
         switch (position) {
             case 0:
-                return new TodayWeatherFragment();
+                return new TodayWeatherFragment(locationId);
             case 1:
-                return new TomorrowWeatherFragment();
+                return new TomorrowWeatherFragment(locationId);
             case 2:
-                return new FiveDaysWeatherFragment();
+                return new FiveDaysWeatherFragment(locationId);
             default:
                 return null;
 
