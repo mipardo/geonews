@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3333FF"
-    tools:context=".controller.fragments.OpenWeatherFragment">
+    android:background="#4F0F00"
+    tools:context=".controller.fragments.FiveDaysWeatherFragment">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/weatherPager"
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"/>
+        android:text="@string/hello_blank_fragment" />
+
 </FrameLayout>

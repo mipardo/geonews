@@ -20,12 +20,11 @@ import es.uji.geonews.R;
 
 public class LocationServicesFragment extends Fragment {
     private static final int NUM_PAGES = 3;
-
+    private int locationId;
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
 
     public LocationServicesFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -45,11 +44,10 @@ public class LocationServicesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        locationId = getArguments().getInt("locationId");
+
         RelativeLayout settings =  getActivity().findViewById(R.id.settings);
         settings.setVisibility(View.VISIBLE);
-
-        int locationId = getArguments().getInt("locationId");
-        Log.e("AAAAA", String.valueOf(locationId));
 
         mPager = view.findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
@@ -63,7 +61,7 @@ public class LocationServicesFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return ServiceFragmentFactory.createServiceFragment(position);
+            return ServiceFragmentFactory.createServiceFragment(position, locationId);
         }
 
         @Override

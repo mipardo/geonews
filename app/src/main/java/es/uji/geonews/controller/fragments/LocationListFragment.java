@@ -24,7 +24,9 @@ import java.util.List;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.LocationListAdapter;
+import es.uji.geonews.controller.tasks.AddLocation;
 import es.uji.geonews.controller.tasks.AddLocationByGPS;
+import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
@@ -88,11 +90,11 @@ public class LocationListFragment extends Fragment {
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new AddLocationByGPS(geoNewsManager, progressBar, getContext(), recyclerView).execute();
+//                        new AddLocationByGPS(geoNewsManager, progressBar, getContext(), recyclerView).execute();
 
-//                        String location = locationInput.getText().toString();
-//                        UserTask addLocation = new AddLocation(geoNewsManager, location, progressBar, view.getContext(), recyclerView);
-//                        addLocation.execute();
+                        String location = locationInput.getText().toString();
+                        UserTask addLocation = new AddLocation(geoNewsManager, location, progressBar, view.getContext(), recyclerView);
+                        addLocation.execute();
                     }
                 });
                 builder.setNegativeButton("Cancelar", null);
