@@ -63,7 +63,6 @@ dependencies {
     // Para las respuestas de las APIS
     testImplementation 'org.json:json:20140107'
 
-
     // https://square.github.io/okhttp/
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
     // define a BOM and its version

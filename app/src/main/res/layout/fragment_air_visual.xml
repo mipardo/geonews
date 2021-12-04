@@ -3,14 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_500"
+    android:background="@color/white"
     tools:context=".controller.fragments.AirVisualFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="-209dp">
+        android:layout_height="match_parent">
 
 
         <ScrollView
@@ -20,41 +18,76 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
+                android:layout_marginTop="100dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/temperature_output"
-                    android:layout_width="385dp"
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginTop="70dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Calidad del aire en ..." />
+
+                <TextView
+                    android:id="@+id/temperature_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:text="Temperatura" />
 
 
                 <TextView
                     android:id="@+id/pressure_output"
                     android:layout_width="match_parent"
-                    android:layout_height="74dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_height="40dp"
                     android:text="Presion atomosférica" />
 
                 <TextView
                     android:id="@+id/humidity_output"
                     android:layout_width="match_parent"
-                    android:layout_height="74dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_height="40dp"
                     android:text="Humedad" />
 
+                <TextView
+                    android:id="@+id/wind_speed_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Velocidad del viento: " />
 
+                <TextView
+                    android:id="@+id/wind_direction_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Dirección del viento:" />
 
-                <Button
-                    android:id="@+id/load_air_data_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="130dp"
-                    android:layout_marginEnd="129dp"
+                <TextView
+                    android:id="@+id/wheather_icon_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Imagen del tiempo" />
 
-                    android:text="CargarAirVisual" />
+                <TextView
+                    android:id="@+id/aqi_us_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Aqi US" />
+
+                <TextView
+                    android:id="@+id/aqi_cn_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Aqi CN" />
+
+                <TextView
+                    android:id="@+id/aqi_us_main_pollutant_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Aqi US princial contaminante" />
+
+                <TextView
+                    android:id="@+id/aqi_cn_main_pollutant_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Aqi CN principal contaminante" />
 
                 <ProgressBar
                     android:id="@+id/my_progress_bar"
@@ -63,6 +96,15 @@
                     android:layout_marginStart="170dp"
                     android:layout_marginEnd="129dp"
                     android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/load_air_data_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="130dp"
+                    android:layout_marginEnd="129dp"
+                    android:text="Cargar AirVisual" />
+
 
             </LinearLayout>
 
