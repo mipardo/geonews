@@ -27,6 +27,7 @@ import es.uji.geonews.R;
 import es.uji.geonews.controller.LocationListAdapter;
 import es.uji.geonews.controller.tasks.AddLocation;
 import es.uji.geonews.controller.tasks.AddLocationByGPS;
+import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
