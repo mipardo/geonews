@@ -71,6 +71,11 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
         }
     }
 
+    @Override
+    public List<Data> getFutureData(Location location) throws ServiceNotAvailableException {
+        return null;
+    }
+
     private CurrentsData convertToCurrentsData(JSONObject jsonObject) throws JSONException {
         CurrentsData currentsData = new CurrentsData();
         JSONArray locationNews = jsonObject.getJSONArray("news");

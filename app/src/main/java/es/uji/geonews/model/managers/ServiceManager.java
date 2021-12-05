@@ -80,6 +80,21 @@ public class ServiceManager {
         return null;
     }
 
+    public List<Data> getFutureData(ServiceName serviceName, Location location) throws ServiceNotAvailableException {
+        List<ServiceName> activeServices = locationServices.get(location.getId());
+
+        if (!services.get(serviceName).isAvailable()) {
+            throw new ServiceNotAvailableException();
+        }
+
+        if (activeServices.contains(serviceName)) {
+            DataGetterStrategy service = (DataGetterStrategy) getService(serviceName);
+            contextDataGetter.setService(service);
+            return contextDataGetter.getFutureData(location);
+        }
+        return null;
+    }
+
     public List<ServiceName> validateLocation(Location location){
         List<ServiceName> services = new ArrayList<>();
         for(ServiceHttp service: getHttpServices()){

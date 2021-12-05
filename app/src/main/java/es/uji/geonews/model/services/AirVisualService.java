@@ -4,6 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
+
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.data.Data;
@@ -58,6 +60,11 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
         } catch (IOException | JSONException exception){
             throw new ServiceNotAvailableException();
         }
+    }
+
+    @Override
+    public List<Data> getFutureData(Location location) throws ServiceNotAvailableException {
+        return null;
     }
 
     private AirVisualData convertToAirVisualData(JSONObject jsonObject) throws JSONException {
