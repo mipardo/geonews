@@ -22,16 +22,15 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 
 public class AirVisualFragment extends Fragment {
-    private GeoNewsManager geoNewsManager;
+    private int locationId;
 
-    public AirVisualFragment() {
-        // Required empty public constructor
+    public AirVisualFragment(int locationId) {
+        this.locationId = locationId;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        geoNewsManager = GeoNewsManagerSingleton.getInstance(getContext());
 
     }
 
@@ -61,7 +60,8 @@ public class AirVisualFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Show the dialog
-                new GetAirVisualData(geoNewsManager, temperatureOutput, pressureOutput, humidityOutput, progressBar).execute();
+                new GetAirVisualData(locationId, temperatureOutput, pressureOutput,
+                        humidityOutput, progressBar, getContext()).execute();
             }
         });
     }

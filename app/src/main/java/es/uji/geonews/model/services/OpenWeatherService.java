@@ -43,6 +43,7 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
                 + "lat=" + location.getGeographCoords().getLatitude()
                 + "&lon=" + location.getGeographCoords().getLongitude()
                 + "&units=metric"
+                + "&lang=es"
                 + "&appid=" + apiKey;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
@@ -66,7 +67,7 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
         openWeatherLocationData.setMinTemp(jsonObject.getJSONObject("main").getDouble("temp_min"));
         openWeatherLocationData.setMain(jsonObject.getJSONArray("weather").getJSONObject(0).getString("main"));
         openWeatherLocationData.setDescription(jsonObject.getJSONArray("weather").getJSONObject(0).getString("description"));
-        openWeatherLocationData.setIcon(jsonObject.getJSONArray("weather").getJSONObject(0).getString("main"));
+        openWeatherLocationData.setIcon(jsonObject.getJSONArray("weather").getJSONObject(0).getString("icon"));
         return openWeatherLocationData;
     }
 }

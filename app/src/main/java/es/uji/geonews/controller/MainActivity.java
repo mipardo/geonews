@@ -51,9 +51,4 @@ public class MainActivity extends AppCompatActivity {
         return navController.navigateUp() || super.onSupportNavigateUp();
     }
 
-    private void addRandomLocations(List<Location> locations){
-        locations.add(new Location(1, "Castellón", new GeographCoords(39.97990, -0.03304), LocalDate.now()));
-        locations.add(new Location(2, "Valencia", new GeographCoords(39.50337, -0.40466), LocalDate.now()));
-        locations.add(new Location(3, "Bilbao", new GeographCoords(43.26270, -2.92530), LocalDate.now()));
-    }
 }
