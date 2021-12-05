@@ -9,9 +9,9 @@ public class ServiceFragmentFactory {
             case 0:
                 return new OpenWeatherFragment(locationId);
             case 1:
-                return new AirVisualFragment();
+                return new AirVisualFragment(locationId);
             case 2:
-                return new CurrentsFragment();
+                return new CurrentsFragment(locationId);
             default:
                 return null;
 

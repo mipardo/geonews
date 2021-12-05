@@ -16,6 +16,7 @@ import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
+import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class RemoveServiceFromLocation extends UserTask {
@@ -26,8 +27,8 @@ public class RemoveServiceFromLocation extends UserTask {
     private String error;
 
 
-    public RemoveServiceFromLocation(GeoNewsManager geoNewsManager, Context context, ServiceName serviceName, int locationId){
-        this.geoNewsManager = geoNewsManager;
+    public RemoveServiceFromLocation(Context context, ServiceName serviceName, int locationId){
+        this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.serviceName = serviceName;
         this.locationId = locationId;

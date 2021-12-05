@@ -6,6 +6,7 @@ import android.content.Context;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManager;
+import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class AddServiceToLocation extends UserTask {
@@ -16,8 +17,8 @@ public class AddServiceToLocation extends UserTask {
     private String error;
 
 
-    public AddServiceToLocation(GeoNewsManager geoNewsManager, Context context, ServiceName serviceName, int locationId){
-        this.geoNewsManager = geoNewsManager;
+    public AddServiceToLocation(Context context, ServiceName serviceName, int locationId){
+        this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.serviceName = serviceName;
         this.locationId = locationId;

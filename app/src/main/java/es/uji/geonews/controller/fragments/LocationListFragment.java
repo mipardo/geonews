@@ -93,10 +93,10 @@ public class LocationListFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (byGpsInput.isChecked()){
-                            new AddLocationByGPS(geoNewsManager, progressBar, getContext(), recyclerView).execute();
+                            new AddLocationByGPS(progressBar, getContext(), recyclerView).execute();
                         } else {
                             String location = locationInput.getText().toString();
-                            new AddLocation(geoNewsManager, location, progressBar, view.getContext(), recyclerView).execute();
+                            new AddLocation(location, progressBar, view.getContext(), recyclerView).execute();
                         }
                     }
                 });

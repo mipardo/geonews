@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 
 import es.uji.geonews.model.managers.GeoNewsManager;
+import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 public class DeactivateLocation extends UserTask {
     private final GeoNewsManager geoNewsManager;
@@ -12,8 +13,8 @@ public class DeactivateLocation extends UserTask {
     private String error;
 
 
-    public DeactivateLocation(GeoNewsManager geoNewsManager, Context context, int locationId){
-        this.geoNewsManager = geoNewsManager;
+    public DeactivateLocation(Context context, int locationId){
+        this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.locationId = locationId;
     }

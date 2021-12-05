@@ -16,6 +16,7 @@ import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
+import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 public class AddLocationByGPS extends UserTask {
     private final GeoNewsManager geoNewsManager;
@@ -24,8 +25,8 @@ public class AddLocationByGPS extends UserTask {
     private final ProgressBar progressBar;
     private String error;
 
-    public AddLocationByGPS(GeoNewsManager geoNewsManager, ProgressBar progressBar, Context context, RecyclerView recyclerView){
-        this.geoNewsManager = geoNewsManager;
+    public AddLocationByGPS(ProgressBar progressBar, Context context, RecyclerView recyclerView){
+        this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.recyclerView = recyclerView;
         this.progressBar = progressBar;

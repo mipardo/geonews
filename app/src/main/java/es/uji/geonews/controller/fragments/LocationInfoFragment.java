@@ -43,6 +43,16 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class LocationInfoFragment extends Fragment {
     private GeoNewsManager geoNewsManager;
+    private Button deactivateLocation;
+    private Button deleteLocation;
+    private ImageButton editAliasButton;
+    private TextView locationAliasOutput;
+    private int locationId;
+    private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch weatherServiceSwitch;
+    private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch airServiceSwitch;
+    private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch currentsServiceSwitch;
+    List<ServiceName> activeServices;
+
 
     public LocationInfoFragment() {
         // Required empty public constructor
@@ -52,21 +62,18 @@ public class LocationInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         geoNewsManager = GeoNewsManagerSingleton.getInstance(getContext());
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_location_settings, container, false);
-    }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_location_settings, container, false);
 
         //Igual  esto tiene que ir en el onCreateView?
-        int locationId = getArguments().getInt("locationId");
+        locationId = getArguments().getInt("locationId");
         Location location  = null;
         try {
             location = geoNewsManager.getLocation(locationId);
@@ -74,34 +81,39 @@ public class LocationInfoFragment extends Fragment {
             e.printStackTrace();
         }
 
-        TextView locationAliasOutput = view.findViewById(R.id.location_alias_output);
         TextView locationPlaceNameOutput = view.findViewById(R.id.location_placename_output);
         TextView locationCoordsOutput = view.findViewById(R.id.location_coords_output);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch weatherServiceSwitch = view.findViewById(R.id.open_weather_service_switch);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch airServiceSwitch = view.findViewById(R.id.air_visual_service_switch);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch currentsServiceSwitch = view.findViewById(R.id.currents_service_switch);
-        Button deactivateLocation = view.findViewById(R.id.deactivate_location);
-        Button deleteLocation = view.findViewById(R.id.delete_location);
-        ImageButton editAliasButton = view.findViewById(R.id.location_alias_button);
+        locationAliasOutput = view.findViewById(R.id.location_alias_output);
+        weatherServiceSwitch = view.findViewById(R.id.open_weather_service_switch);
+        airServiceSwitch = view.findViewById(R.id.air_visual_service_switch);
+        currentsServiceSwitch = view.findViewById(R.id.currents_service_switch);
+        deactivateLocation = view.findViewById(R.id.deactivate_location);
+        deleteLocation = view.findViewById(R.id.delete_location);
+        editAliasButton = view.findViewById(R.id.location_alias_button);
 
         if (!location.getAlias().equals("")) locationAliasOutput.setText(location.getAlias());
         if (location.getPlaceName() != null) locationPlaceNameOutput.setText(location.getPlaceName());
         locationCoordsOutput.setText(location.getGeographCoords().toString());
-        List<ServiceName> activeServices = geoNewsManager.getServicesOfLocation(locationId);
+        activeServices = geoNewsManager.getServicesOfLocation(locationId);
         if (activeServices.contains(ServiceName.OPEN_WEATHER)) weatherServiceSwitch.setChecked(true);
         if (activeServices.contains(ServiceName.AIR_VISUAL)) airServiceSwitch.setChecked(true);
         if (activeServices.contains(ServiceName.CURRENTS)) currentsServiceSwitch.setChecked(true);
 
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         weatherServiceSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(activeServices.contains(ServiceName.OPEN_WEATHER)){
-                    new RemoveServiceFromLocation(geoNewsManager, getContext(), ServiceName.OPEN_WEATHER, locationId)
+                    new RemoveServiceFromLocation(getContext(), ServiceName.OPEN_WEATHER, locationId)
                             .execute();
                 } else {
-                    new AddServiceToLocation(geoNewsManager, getContext(), ServiceName.OPEN_WEATHER, locationId)
+                    new AddServiceToLocation(getContext(), ServiceName.OPEN_WEATHER, locationId)
                             .execute();
                 }
             }
@@ -111,10 +123,10 @@ public class LocationInfoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(activeServices.contains(ServiceName.AIR_VISUAL)){
-                    new RemoveServiceFromLocation(geoNewsManager, getContext(), ServiceName.AIR_VISUAL, locationId)
+                    new RemoveServiceFromLocation(getContext(), ServiceName.AIR_VISUAL, locationId)
                             .execute();
                 } else {
-                    new AddServiceToLocation(geoNewsManager, getContext(), ServiceName.AIR_VISUAL, locationId)
+                    new AddServiceToLocation(getContext(), ServiceName.AIR_VISUAL, locationId)
                             .execute();
                 }
             }
@@ -124,10 +136,10 @@ public class LocationInfoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(activeServices.contains(ServiceName.CURRENTS)){
-                    new RemoveServiceFromLocation(geoNewsManager, getContext(), ServiceName.CURRENTS, locationId)
+                    new RemoveServiceFromLocation(getContext(), ServiceName.CURRENTS, locationId)
                             .execute();
                 } else {
-                    new AddServiceToLocation(geoNewsManager, getContext(), ServiceName.CURRENTS, locationId)
+                    new AddServiceToLocation(getContext(), ServiceName.CURRENTS, locationId)
                             .execute();
                 }
             }
@@ -136,14 +148,14 @@ public class LocationInfoFragment extends Fragment {
         deactivateLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DeactivateLocation(geoNewsManager, getContext(), locationId).execute();
+                new DeactivateLocation(getContext(), locationId).execute();
             }
         });
 
         deleteLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RemoveLocation(geoNewsManager, getContext(), locationId, view).execute();
+                new RemoveLocation(getContext(), locationId, view).execute();
             }
         });
 
@@ -160,8 +172,8 @@ public class LocationInfoFragment extends Fragment {
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new EditLocationAlias(geoNewsManager, getContext(),
-                                locationId, newAlias.getText().toString(), locationAliasOutput).execute();
+                        new EditLocationAlias(getContext(), locationId,
+                                newAlias.getText().toString(), locationAliasOutput).execute();
                     }
                 });
                 builder.setNegativeButton("Cancelar", null);

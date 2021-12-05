@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManager;
+import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 public class EditLocationAlias extends UserTask {
     private final GeoNewsManager geoNewsManager;
@@ -16,8 +17,8 @@ public class EditLocationAlias extends UserTask {
     private String error;
 
 
-    public EditLocationAlias(GeoNewsManager geoNewsManager, Context context, int locationId, String newAlias, TextView locationAliasOutput){
-        this.geoNewsManager = geoNewsManager;
+    public EditLocationAlias(Context context, int locationId, String newAlias, TextView locationAliasOutput){
+        this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.locationId = locationId;
         this.newAlias = newAlias;

@@ -14,6 +14,7 @@ import es.uji.geonews.R;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManager;
+import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class RemoveLocation extends UserTask {
@@ -24,8 +25,8 @@ public class RemoveLocation extends UserTask {
     private String error;
 
 
-    public RemoveLocation(GeoNewsManager geoNewsManager, Context context, int locationId, View view){
-        this.geoNewsManager = geoNewsManager;
+    public RemoveLocation(Context context, int locationId, View view){
+        this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.locationId = locationId;
         this.view = view;
