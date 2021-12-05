@@ -8,6 +8,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -89,6 +92,8 @@ public class LocationInfoFragment extends Fragment {
         if (activeServices.contains(ServiceName.AIR_VISUAL)) airServiceSwitch.setChecked(true);
         if (activeServices.contains(ServiceName.CURRENTS)) currentsServiceSwitch.setChecked(true);
 
+
+
         weatherServiceSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +143,7 @@ public class LocationInfoFragment extends Fragment {
         deleteLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RemoveLocation(geoNewsManager, getContext(), locationId).execute();
+                new RemoveLocation(geoNewsManager, getContext(), locationId, view).execute();
             }
         });
 
