@@ -1,9 +1,12 @@
 package es.uji.geonews.controller.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -11,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
+
+import java.time.LocalDate;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.tasks.AddLocation;
@@ -20,9 +25,7 @@ import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.controller.template.WeatherTemplate;
 
 public class TodayWeatherFragment extends Fragment {
-    private int locationId;
-    private WeatherTemplate weatherTemplate;
-    private LineChart lineChart;
+    private final int locationId;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,8 +55,10 @@ public class TodayWeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today_weather, container, false);
 
-        lineChart = view.findViewById(R.id.todayChart);
-        weatherTemplate = new WeatherTemplate();
+        ConstraintLayout layout = view.findViewById(R.id.todayWeatherLayout);
+        layout.setBackground(getSeasonBackground());
+        LineChart lineChart = view.findViewById(R.id.todayChart);
+        WeatherTemplate weatherTemplate = new WeatherTemplate();
         weatherTemplate.setDateTextview(view.findViewById(R.id.dateTextview));
         weatherTemplate.setMaxTempTextview(view.findViewById(R.id.maxTempTextview));
         weatherTemplate.setMinTempTextview(view.findViewById(R.id.minTempTextview));
@@ -71,5 +76,25 @@ public class TodayWeatherFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private Drawable getSeasonBackground() {
+        final int DAY_SPRING_MIN = 80;
+        final int DAY_SPRING_MAX = 172;
+        final int DAY_SUMMER_MIN = DAY_SPRING_MAX;
+        final int DAY_SUMMER_MAX = 264;
+        final int DAY_FALL_MIN = DAY_SUMMER_MAX;
+        final int DAY_FALL_MAX = 355;
+
+        int dayOfYear = LocalDate.now().getDayOfYear();
+
+        if (dayOfYear > DAY_SPRING_MIN && dayOfYear <= DAY_SPRING_MAX) {
+            return AppCompatResources.getDrawable(getContext(), R.mipmap.spring);
+        } else if (dayOfYear > DAY_SUMMER_MIN && dayOfYear <= DAY_SUMMER_MAX) {
+            return AppCompatResources.getDrawable(getContext(), R.mipmap.summer);
+        } else if (dayOfYear > DAY_FALL_MIN && dayOfYear <= DAY_FALL_MAX) {
+            return AppCompatResources.getDrawable(getContext(), R.mipmap.autumn);
+        }
+        return AppCompatResources.getDrawable(getContext(), R.mipmap.winter);
     }
 }
