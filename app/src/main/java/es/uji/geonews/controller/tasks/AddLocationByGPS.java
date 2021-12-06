@@ -2,16 +2,20 @@ package es.uji.geonews.controller.tasks;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import es.uji.geonews.R;
 import es.uji.geonews.controller.LocationListAdapter;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
@@ -23,12 +27,15 @@ public class AddLocationByGPS extends UserTask {
     private final Context context;
     private final RecyclerView recyclerView;
     private final ProgressBar progressBar;
+    private final View view;
+    private Location newLocation;
     private String error;
 
-    public AddLocationByGPS(ProgressBar progressBar, Context context, RecyclerView recyclerView){
+    public AddLocationByGPS(ProgressBar progressBar, Context context, RecyclerView recyclerView, View view){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.recyclerView = recyclerView;
+        this.view = view;
         this.progressBar = progressBar;
     }
 
@@ -40,19 +47,22 @@ public class AddLocationByGPS extends UserTask {
             @Override
             public void run() {
                 try {
-                    geoNewsManager.addLocationByGps();
-                } catch (UnrecognizedPlaceNameException | ServiceNotAvailableException | NotValidCoordinatesException | GPSNotAvailableException e) {
+                    newLocation = geoNewsManager.addLocationByGps();
+                    geoNewsManager.activateLocation(newLocation.getId());
+                    if (newLocation == null) error = "No se ha podido dar de alta la ubicación. Pruebe más tarde";
+                } catch (UnrecognizedPlaceNameException | ServiceNotAvailableException |
+                        NotValidCoordinatesException | GPSNotAvailableException | NoLocationRegisteredException e) {
                     error = e.getMessage();
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
+                        progressBar.setVisibility(View.INVISIBLE);
                         if (error != null) showAlertError();
                         else{
-                            List<Location> locations = geoNewsManager.getNonActiveLocations();
-                            LocationListAdapter adapter = ((LocationListAdapter) recyclerView.getAdapter());
-                            if (adapter != null) adapter.updateLocations(locations);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("locationId", newLocation.getId());
+                            Navigation.findNavController(view).navigate(R.id.locationInfo, bundle);
                         }
-                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
             }

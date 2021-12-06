@@ -64,7 +64,7 @@ public class LocationListFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
         ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
 
-        locations = geoNewsManager.getNonActiveLocations();
+        locations = geoNewsManager.getActiveLocations();
         recyclerView.setAdapter(new LocationListAdapter(locations, new OnItemClickListener() {
             @Override
             public void onItemClick(Location location) {
@@ -93,10 +93,10 @@ public class LocationListFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (byGpsInput.isChecked()){
-                            new AddLocationByGPS(progressBar, getContext(), recyclerView).execute();
+                            new AddLocationByGPS(progressBar, getContext(), recyclerView, view).execute();
                         } else {
                             String location = locationInput.getText().toString();
-                            new AddLocation(location, progressBar, view.getContext(), recyclerView).execute();
+                            new AddLocation(location, progressBar, view.getContext(), recyclerView, view).execute();
                         }
                     }
                 });

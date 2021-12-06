@@ -68,13 +68,13 @@ public class ServiceManager {
         if (activeServices.contains(serviceName)) {
             DataGetterStrategy service = (DataGetterStrategy) getService(serviceName);
             contextDataGetter.setService(service);
-            Data lastLocationServiceData = contextDataGetter.getData(location);
-            Map<ServiceName, Data> serviceData = lastData.get(location.getId());
-            if (serviceData == null) {
-                serviceData = new HashMap<>();
-            }
-            serviceData.put(serviceName, lastLocationServiceData);
-            lastData.put(location.getId(), serviceData);
+//            Data lastLocationServiceData = contextDataGetter.getData(location);
+//            Map<ServiceName, Data> serviceData = lastData.get(location.getId());
+//            if (serviceData == null) {
+//                serviceData = new HashMap<>();
+//            }
+//            serviceData.put(serviceName, lastLocationServiceData);
+//            lastData.put(location.getId(), serviceData);
             return contextDataGetter.getData(location);
         }
         return null;
@@ -95,10 +95,12 @@ public class ServiceManager {
             throws ServiceNotAvailableException {
 
         Service service = getService(serviceName);
-        if (location == null || !(service instanceof  ServiceHttp)) return false;
-        ServiceHttp serviceHttp = (ServiceHttp) service;
+        if (location == null || !location.isActive() ||
+                !(service instanceof  ServiceHttp)) return false;
 
-        if (!serviceHttp.validateLocation(location) || !serviceHttp.isAvailable()) throw new ServiceNotAvailableException();
+        ServiceHttp serviceHttp = (ServiceHttp) service;
+        if (!serviceHttp.validateLocation(location) || !serviceHttp.isAvailable())
+            throw new ServiceNotAvailableException();
 
         int locationId = location.getId();
         List<ServiceName> currentServicesInLocation = locationServices.get(locationId);

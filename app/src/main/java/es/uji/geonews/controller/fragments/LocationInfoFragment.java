@@ -62,8 +62,6 @@ public class LocationInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         geoNewsManager = GeoNewsManagerSingleton.getInstance(getContext());
-
-
     }
 
     @Override
@@ -72,7 +70,6 @@ public class LocationInfoFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_location_settings, container, false);
 
-        //Igual  esto tiene que ir en el onCreateView?
         locationId = getArguments().getInt("locationId");
         Location location  = null;
         try {
@@ -113,7 +110,7 @@ public class LocationInfoFragment extends Fragment {
                     new RemoveServiceFromLocation(getContext(), ServiceName.OPEN_WEATHER, locationId)
                             .execute();
                 } else {
-                    new AddServiceToLocation(getContext(), ServiceName.OPEN_WEATHER, locationId)
+                    new AddServiceToLocation(getContext(), ServiceName.OPEN_WEATHER, locationId, weatherServiceSwitch)
                             .execute();
                 }
             }
@@ -126,7 +123,7 @@ public class LocationInfoFragment extends Fragment {
                     new RemoveServiceFromLocation(getContext(), ServiceName.AIR_VISUAL, locationId)
                             .execute();
                 } else {
-                    new AddServiceToLocation(getContext(), ServiceName.AIR_VISUAL, locationId)
+                    new AddServiceToLocation(getContext(), ServiceName.AIR_VISUAL, locationId, airServiceSwitch)
                             .execute();
                 }
             }
@@ -139,7 +136,7 @@ public class LocationInfoFragment extends Fragment {
                     new RemoveServiceFromLocation(getContext(), ServiceName.CURRENTS, locationId)
                             .execute();
                 } else {
-                    new AddServiceToLocation(getContext(), ServiceName.CURRENTS, locationId)
+                    new AddServiceToLocation(getContext(), ServiceName.CURRENTS, locationId, currentsServiceSwitch)
                             .execute();
                 }
             }
