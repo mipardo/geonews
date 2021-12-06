@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.LineChart;
+
 import es.uji.geonews.R;
 import es.uji.geonews.controller.tasks.AddLocation;
+import es.uji.geonews.controller.tasks.GetActualForecastData;
 import es.uji.geonews.controller.tasks.GetActualWeatherData;
 import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.controller.template.WeatherTemplate;
@@ -19,6 +22,7 @@ import es.uji.geonews.controller.template.WeatherTemplate;
 public class TodayWeatherFragment extends Fragment {
     private int locationId;
     private WeatherTemplate weatherTemplate;
+    private LineChart lineChart;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,14 +50,9 @@ public class TodayWeatherFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_today_weather, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_today_weather, container, false);
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+        lineChart = view.findViewById(R.id.todayChart);
         weatherTemplate = new WeatherTemplate();
         weatherTemplate.setDateTextview(view.findViewById(R.id.dateTextview));
         weatherTemplate.setMaxTempTextview(view.findViewById(R.id.maxTempTextview));
@@ -63,7 +62,14 @@ public class TodayWeatherFragment extends Fragment {
         weatherTemplate.setWeatherIcon(view.findViewById(R.id.actualWeatherIconTextview));
         weatherTemplate.setProgressBar(view.findViewById(R.id.today_progress_bar));
 
-        UserTask getActualWeatherData = new GetActualWeatherData(locationId, weatherTemplate, getContext());
-        getActualWeatherData.execute();
+        new GetActualWeatherData(locationId, weatherTemplate, getContext()).execute();
+        new GetActualForecastData(locationId, lineChart, getContext(), weatherTemplate.getProgressBar()).execute();
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }
