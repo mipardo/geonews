@@ -57,6 +57,7 @@ public class TodayWeatherFragment extends Fragment {
 
         ConstraintLayout layout = view.findViewById(R.id.todayWeatherLayout);
         layout.setBackground(getSeasonBackground());
+        layout.setAlpha(0.8f);
         LineChart lineChart = view.findViewById(R.id.todayChart);
         WeatherTemplate weatherTemplate = new WeatherTemplate();
         weatherTemplate.setDateTextview(view.findViewById(R.id.dateTextview));
