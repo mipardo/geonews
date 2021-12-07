@@ -90,7 +90,7 @@ public class GetTomorrowWeatherData extends UserTask {
                         sectionCounter++;
                         if (section.getMinTemp() < minTemp) minTemp = section.getMinTemp();
                         if (section.getMaxTemp() > maxTemp) maxTemp = section.getMaxTemp();
-                        if (sectionCounter == 4) result = section;
+                        if (sectionCounter == 4) result = section; // 4 = Mediodia
                     }
                 }
                 double meanTemp = expectedTemp / sectionCounter;

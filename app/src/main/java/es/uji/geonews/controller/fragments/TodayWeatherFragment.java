@@ -18,10 +18,8 @@ import com.github.mikephil.charting.charts.LineChart;
 import java.time.LocalDate;
 
 import es.uji.geonews.R;
-import es.uji.geonews.controller.tasks.AddLocation;
-import es.uji.geonews.controller.tasks.GetActualForecastData;
+import es.uji.geonews.controller.tasks.GetForecastChartData;
 import es.uji.geonews.controller.tasks.GetActualWeatherData;
-import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.controller.template.WeatherTemplate;
 
 public class TodayWeatherFragment extends Fragment {
@@ -56,7 +54,7 @@ public class TodayWeatherFragment extends Fragment {
         weatherTemplate.setProgressBar(view.findViewById(R.id.today_progress_bar));
 
         new GetActualWeatherData(locationId, weatherTemplate, getContext()).execute();
-        new GetActualForecastData(locationId, lineChart, getContext(), weatherTemplate.getProgressBar()).execute();
+        new GetForecastChartData(locationId, lineChart, getContext(), weatherTemplate.getProgressBar()).execute();
 
         return view;
     }

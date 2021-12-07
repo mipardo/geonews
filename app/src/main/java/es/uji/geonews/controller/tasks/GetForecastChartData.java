@@ -27,7 +27,7 @@ import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-public class GetActualForecastData extends UserTask {
+public class GetForecastChartData extends UserTask {
     private Context context;
     private int locationId;
     private LineChart lineChart;
@@ -42,7 +42,7 @@ public class GetActualForecastData extends UserTask {
         }
     };
 
-    public GetActualForecastData(int locationId, LineChart lineChart, Context context, ProgressBar progressBar) {
+    public GetForecastChartData(int locationId, LineChart lineChart, Context context, ProgressBar progressBar) {
         this.locationId = locationId;
         this.lineChart = lineChart;
         this.context = context;
