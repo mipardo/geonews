@@ -62,26 +62,6 @@ public class Location {
         this.geographCoords = geographCoords;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public boolean activate() {
-        if (!isActive) {
-            isActive = true;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean deactivate() {
-        if (isActive) {
-            isActive = false;
-            return true;
-        }
-        return false;
-    }
-
     public String getRegistrationDate() {
         return registrationDate;
     }
@@ -90,7 +70,11 @@ public class Location {
         this.registrationDate = registrationDate;
     }
 
-    public void setActive(boolean active) {
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean active) {
         isActive = active;
     }
 

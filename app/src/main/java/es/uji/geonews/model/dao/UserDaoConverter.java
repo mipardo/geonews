@@ -54,7 +54,6 @@ public class UserDaoConverter {
     public static void fillLocationManager(LocationManager locationManager, UserDao userDao) {
         locationManager.setLocations(convertLocationsBack(userDao.getLocations()));
         locationManager.setLocationCounter(userDao.getLocationCounter());
-        locationManager.setFavoriteLocations(convertLocationsBack(userDao.getFavoriteLocations()));
     }
 
     public static void fillServiceManager(ServiceManager serviceManager, UserDao userDao) {
