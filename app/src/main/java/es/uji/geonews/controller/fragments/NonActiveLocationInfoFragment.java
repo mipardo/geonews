@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class NonActiveLocationInfoFragment extends Fragment {
     private Button deleteLocation;
     private ImageView editAliasButton;
     private TextView locationAliasOutput;
+    private ProgressBar progressBar;
     private int locationId;
     List<ServiceName> activeServices;
 
@@ -71,6 +73,7 @@ public class NonActiveLocationInfoFragment extends Fragment {
         activateLocation = view.findViewById(R.id.activate_location);
         deleteLocation = view.findViewById(R.id.delete_location);
         editAliasButton = view.findViewById(R.id.location_alias_button);
+        progressBar = view.findViewById(R.id.activate_location_progress_bar);
 
         if (!location.getAlias().equals("")) locationAliasOutput.setText(location.getAlias());
         if (location.getPlaceName() != null) locationPlaceNameOutput.setText(location.getPlaceName());
@@ -84,12 +87,11 @@ public class NonActiveLocationInfoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
         activateLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ActivateLocation(getContext(), locationId, view).execute();
+                progressBar.setVisibility(View.VISIBLE);
+                new ActivateLocation(getContext(), locationId, progressBar,view).execute();
             }
         });
 

@@ -6,28 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".controller.fragments.NonActiveLocationInfoFragment">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="UselessParent">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
 
         <LinearLayout
+            android:id="@+id/location_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="UselessParent">
 
             <TextView
                 android:id="@+id/location_settings_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="sans-serif-black"
-                android:textAlignment="center"
-                android:textSize="30sp"
                 android:text="Detalle de la ubicación "
-                android:layout_marginBottom="20dp"/>
+                android:textAlignment="center"
+                android:textSize="30sp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -77,16 +81,16 @@
                     android:id="@+id/location_placename_label"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:textSize="18sp"
                     android:fontFamily="sans-serif-black"
-                    android:text="Topónimo: " />
+                    android:text="Topónimo: "
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/location_placename_output"
                     android:layout_width="wrap_content"
-                    android:textSize="18sp"
                     android:layout_height="40dp"
-                    android:text="No reconocido" />
+                    android:text="No reconocido"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -99,15 +103,15 @@
                     android:id="@+id/location_coords_label"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:textSize="18sp"
                     android:fontFamily="sans-serif-black"
-                    android:text="Coordenadas: " />
+                    android:text="Coordenadas: "
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/location_coords_output"
                     android:layout_width="wrap_content"
-                    android:textSize="18sp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -117,15 +121,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginTop="20dp"
-                android:background="?android:attr/listDivider"/>
-
+                android:background="?android:attr/listDivider" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/activate_location"
@@ -146,14 +149,19 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
-
-
         </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/activate_location_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/location_linear_layout" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

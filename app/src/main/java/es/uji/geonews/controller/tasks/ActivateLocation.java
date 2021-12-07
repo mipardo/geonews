@@ -3,8 +3,8 @@ package es.uji.geonews.controller.tasks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
+import android.widget.ProgressBar;
 
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import es.uji.geonews.R;
@@ -17,13 +17,15 @@ public class ActivateLocation extends UserTask {
     private final Context context;
     private final int locationId;
     private final View view;
+    private final ProgressBar progressBar;
     private String error;
 
 
-    public ActivateLocation(Context context, int locationId, View view){
+    public ActivateLocation(Context context, int locationId, ProgressBar progressBar, View view){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.locationId = locationId;
+        this.progressBar = progressBar;
         this.view = view;
     }
 
@@ -40,6 +42,7 @@ public class ActivateLocation extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
+                        progressBar.setVisibility(View.INVISIBLE);
                         if (error != null) showAlertError();
                         else{
                             Navigation.findNavController(view).navigate(R.id.locationListFragment);

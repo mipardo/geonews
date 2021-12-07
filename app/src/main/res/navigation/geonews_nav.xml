@@ -11,9 +11,6 @@
         android:label="fragment_location_list"
         tools:layout="@layout/fragment_location_list" >
         <action
-            android:id="@+id/action_locationListFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-        <action
             android:id="@+id/action_locationListFragment_to_locationFragment"
             app:destination="@id/locationServicesFragment" />
         <action
@@ -35,22 +32,12 @@
             android:name="locationId"
             app:argType="integer"
             android:defaultValue="0" />
-        <action
-            android:id="@+id/action_locationFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="es.uji.geonews.controller.fragments.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
-        <action
-            android:id="@+id/action_settingsFragment_to_locationListFragment"
-            app:destination="@id/locationListFragment" />
-        <action
-            android:id="@+id/action_settingsFragment_to_locationFragment"
-            app:destination="@id/locationServicesFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/activeLocationInfoFragment"
         android:name="es.uji.geonews.controller.fragments.ActiveLocationInfoFragment"
