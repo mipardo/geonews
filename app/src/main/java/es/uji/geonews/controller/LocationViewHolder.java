@@ -39,8 +39,9 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Location location, OnItemClickListener listener) {
-
         setLocationTitleAndSubtitle(location);
+        if(location.isFavorite()) favourite.setImageResource(R.drawable.heart_fully);
+        else favourite.setImageResource(R.drawable.heart);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

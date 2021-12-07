@@ -73,6 +73,7 @@ public class LocationManager {
     public boolean addToFavorites(int locationId){
         Location location = locations.get(locationId);
         if (location != null){
+            location.setIsFavorite(true);
             favoriteLocations.put(locationId, location);
             locations.remove(locationId);
             return true;
@@ -83,6 +84,7 @@ public class LocationManager {
     public boolean removeFromFavorites(int locationId){
         Location location = favoriteLocations.get(locationId);
         if (location != null){
+            location.setIsFavorite(false);
             locations.put(locationId, location);
             favoriteLocations.remove(locationId);
             return true;

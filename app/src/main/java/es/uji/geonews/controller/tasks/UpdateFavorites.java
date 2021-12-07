@@ -15,17 +15,12 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 public class UpdateFavorites extends UserTask {
     private final GeoNewsManager geoNewsManager;
-    private final Context context;
     private final Location location;
-    private final View view;
-    private boolean isFavorite;
 
 
     public UpdateFavorites(Context context, Location location, View view){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
-        this.context = context;
         this.location = location;
-        this.view = view;
     }
 
     @Override
@@ -33,8 +28,7 @@ public class UpdateFavorites extends UserTask {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                isFavorite = geoNewsManager.getFavouriteLocations().contains(location);
-                if (isFavorite) {
+                if (location.isFavorite()) {
                     geoNewsManager.removeFromFavorites(location.getId());
                 } else if (location.isActive()){
                     geoNewsManager.addToFavorites(location.getId());

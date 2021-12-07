@@ -8,6 +8,7 @@ public class Location {
     private GeographCoords geographCoords;
     private String registrationDate;
     private boolean isActive;
+    private boolean isFavorite;
 
     public Location() {}
 
@@ -18,6 +19,7 @@ public class Location {
         this.registrationDate = registrationDate.toString();
         this.alias = "";
         this.isActive = false;
+        this.isFavorite = false;
     }
 
     private String normalizePlaceName(String placeName) {
@@ -90,6 +92,14 @@ public class Location {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public boolean isFavorite(){
+        return isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite){
+        this.isFavorite = isFavorite;
     }
 
     @Override
