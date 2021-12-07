@@ -95,8 +95,7 @@ public class ServiceManager {
             throws ServiceNotAvailableException {
 
         Service service = getService(serviceName);
-        if (location == null || !location.isActive() ||
-                !(service instanceof  ServiceHttp)) return false;
+        if (location == null || !(service instanceof  ServiceHttp)) return false;
 
         ServiceHttp serviceHttp = (ServiceHttp) service;
         if (!serviceHttp.validateLocation(location) || !serviceHttp.isAvailable())

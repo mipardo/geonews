@@ -34,9 +34,7 @@ public class AddServiceToLocation extends UserTask {
             @Override
             public void run() {
                 try {
-                    boolean res = geoNewsManager.addServiceToLocation(serviceName, locationId);
-                    if (!res) error = "Esta ubicación esta desactivada. " +
-                            "Antes de suscribir la ubicación al servicio debe activarla.";
+                    geoNewsManager.addServiceToLocation(serviceName, locationId);
                 } catch (NoLocationRegisteredException | ServiceNotAvailableException e) {
                     error = e.getMessage();
                 }

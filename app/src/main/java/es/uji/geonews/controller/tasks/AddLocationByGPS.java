@@ -25,16 +25,14 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 public class AddLocationByGPS extends UserTask {
     private final GeoNewsManager geoNewsManager;
     private final Context context;
-    private final RecyclerView recyclerView;
     private final ProgressBar progressBar;
     private final View view;
     private Location newLocation;
     private String error;
 
-    public AddLocationByGPS(ProgressBar progressBar, Context context, RecyclerView recyclerView, View view){
+    public AddLocationByGPS(ProgressBar progressBar, Context context, View view){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
-        this.recyclerView = recyclerView;
         this.view = view;
         this.progressBar = progressBar;
     }
@@ -61,7 +59,7 @@ public class AddLocationByGPS extends UserTask {
                         else{
                             Bundle bundle = new Bundle();
                             bundle.putInt("locationId", newLocation.getId());
-                            Navigation.findNavController(view).navigate(R.id.locationInfo, bundle);
+                            Navigation.findNavController(view).navigate(R.id.activeLocationInfoFragment, bundle);
                         }
                     }
                 });

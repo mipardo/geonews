@@ -26,17 +26,15 @@ public class AddLocation extends UserTask {
     private final ProgressBar progressBar;
     private final String location;
     private final Context context;
-    private final RecyclerView recyclerView;
     private final View view;
     private Location newLocation;
     private String error;
 
-    public AddLocation(String location, ProgressBar progressBar, Context context, RecyclerView recyclerView, View view){
+    public AddLocation(String location, ProgressBar progressBar, Context context, View view){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.location = location;
         this.progressBar = progressBar;
         this.context = context;
-        this.recyclerView = recyclerView;
         this.view = view;
     }
 
@@ -62,7 +60,7 @@ public class AddLocation extends UserTask {
                         else{
                             Bundle bundle = new Bundle();
                             bundle.putInt("locationId", newLocation.getId());
-                            Navigation.findNavController(view).navigate(R.id.locationInfo, bundle);
+                            Navigation.findNavController(view).navigate(R.id.activeLocationInfoFragment, bundle);
                         }
                     }
                 });

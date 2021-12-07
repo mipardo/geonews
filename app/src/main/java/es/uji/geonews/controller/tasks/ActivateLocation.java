@@ -4,13 +4,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
 
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import es.uji.geonews.R;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
-public class DeactivateLocation extends UserTask {
+public class ActivateLocation extends UserTask {
     private final GeoNewsManager geoNewsManager;
     private final Context context;
     private final int locationId;
@@ -18,7 +20,7 @@ public class DeactivateLocation extends UserTask {
     private String error;
 
 
-    public DeactivateLocation(Context context, int locationId, View view){
+    public ActivateLocation(Context context, int locationId, View view){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.locationId = locationId;
@@ -30,12 +32,18 @@ public class DeactivateLocation extends UserTask {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean res = geoNewsManager.deactivateLocation(locationId);
-                if (!res) error = "Esta ubicación ya está desactivada";
+                try {
+                    boolean res = geoNewsManager.activateLocation(locationId);
+                    if (!res) error = "Esta ubicación ya está activada";
+                } catch (NoLocationRegisteredException e) {
+                    e.printStackTrace();
+                }
                 runOnUiThread(new Runnable() {
                     public void run() {
                         if (error != null) showAlertError();
-                        Navigation.findNavController(view).navigate(R.id.locationListFragment);
+                        else{
+                            Navigation.findNavController(view).navigate(R.id.locationListFragment);
+                        }
                     }
                 });
             }

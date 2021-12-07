@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,9 @@ import java.util.List;
 import es.uji.geonews.R;
 import es.uji.geonews.controller.fragments.OnItemClickListener;
 import es.uji.geonews.model.Location;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
+import es.uji.geonews.model.managers.GeoNewsManager;
+import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.ViewHolder> {
     private List<Location> locations;
@@ -79,7 +83,17 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
                     bundle.putInt("locationId", location.getId());
-                    Navigation.findNavController(view).navigate(R.id.action_locationListFragment_to_locationInfo, bundle);
+                    NavController navController = Navigation.findNavController(view);
+                    GeoNewsManager geoNewsManager = GeoNewsManagerSingleton.getInstance(view.getContext());
+                    try {
+                        if(geoNewsManager.getLocation(location.getId()).isActive()){
+                            navController.navigate(R.id.activeLocationInfoFragment, bundle);
+                        } else {
+                            navController.navigate(R.id.nonActiveLocationInfoFragment, bundle);
+                        }
+                    } catch (NoLocationRegisteredException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
