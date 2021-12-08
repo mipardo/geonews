@@ -36,6 +36,17 @@ public class SettingsFragment extends Fragment {
 
     private GeoNewsManager geoNewsManager;
 
+    private Button buttonMostrar ;
+    private Button buttonImportar ;
+    private Button buttonMasInfoAir ;
+    private Button buttonMasInfoOpen;
+    private Button buttonMasInfoCurrents ;
+    private TextView textViewIDDB ;
+
+    Switch switchAir ;
+    Switch switchOpen ;
+    Switch switchCurrents;
+
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -66,7 +77,23 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        switchAir = view.findViewById(R.id.switch1);
+        switchOpen = view.findViewById(R.id.switch2);
+        switchCurrents = view.findViewById(R.id.switch3);
+        List<ServiceName> activeServices = geoNewsManager.getActiveServices();
+
+        if (activeServices.contains(ServiceName.OPEN_WEATHER)) switchOpen.setChecked(true);
+        if (activeServices.contains(ServiceName.AIR_VISUAL)) switchAir.setChecked(true);
+        if (activeServices.contains(ServiceName.CURRENTS)) switchCurrents.setChecked(true);
+
+        buttonMostrar = view.findViewById(R.id.buttonMostrar);
+        buttonImportar = view.findViewById(R.id.buttonImportar);
+        buttonMasInfoAir = view.findViewById(R.id.buttonMasinfoAir);
+        buttonMasInfoOpen = view.findViewById(R.id.buttonMasinfoOpen);
+        buttonMasInfoCurrents = view.findViewById(R.id.buttonMasinfoCurrents);
+        textViewIDDB = view.findViewById(R.id.id_DataBase);
+        return view;
     }
 
     @Override
@@ -77,16 +104,7 @@ public class SettingsFragment extends Fragment {
         settings.setVisibility(View.GONE);
 
 
-        Switch switchAir = view.findViewById(R.id.switch1);
-        Switch switchOpen = view.findViewById(R.id.switch2);
-        Switch switchCurrents = view.findViewById(R.id.switch3);
 
-        Button buttonMostrar = view.findViewById(R.id.buttonMostrar);
-        Button buttonImportar = view.findViewById(R.id.buttonImportar);
-        Button buttonMasInfoAir = view.findViewById(R.id.buttonMasinfoAir);
-        Button buttonMasInfoOpen = view.findViewById(R.id.buttonMasinfoOpen);
-        Button buttonMasInfoCurrents = view.findViewById(R.id.buttonMasinfoCurrents);
-        TextView textViewIDDB = view.findViewById(R.id.id_DataBase);
 
 
         switchAir.setOnClickListener(new View.OnClickListener() {

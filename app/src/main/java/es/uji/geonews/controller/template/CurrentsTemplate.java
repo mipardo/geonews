@@ -4,8 +4,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+
 public class CurrentsTemplate {
-    //private TextView dateTextview;
+    private CardView cardview;
     private TextView lugerTextview;
     private TextView tituloTextview;
     private TextView categoryTextview;
@@ -13,12 +15,21 @@ public class CurrentsTemplate {
     private TextView authorTextview;
     private TextView dateTextview;
     private ImageView imageView;
+    private TextView aviso;
     private ProgressBar progressBar;
 
     public CurrentsTemplate() {}
 
     public TextView getLugerTextview() {
         return lugerTextview;
+    }
+
+    public CardView getCardview() {
+        return cardview;
+    }
+
+    public void setCardview(CardView cardview) {
+        this.cardview = cardview;
     }
 
     public void setLugerTextview(TextView lugerTextview) {
@@ -71,6 +82,14 @@ public class CurrentsTemplate {
 
     public void setImageView(ImageView imageView) {
         this.imageView = imageView;
+    }
+
+    public TextView getAviso() {
+        return aviso;
+    }
+
+    public void setAviso(TextView aviso) {
+        this.aviso = aviso;
     }
 
     public ProgressBar getProgressBar() {

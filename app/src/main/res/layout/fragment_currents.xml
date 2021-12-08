@@ -17,42 +17,18 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintHorizontal_bias="0.093"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.017" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/actualDateLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="12dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectedViewPager2"
-        app:layout_constraintVertical_weight="1">
-
-        <TextView
-            android:id="@+id/dateTextview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="11 de Octubre 13:28"
-            android:textColor="@color/common_google_signin_btn_text_light"
-            android:textSize="24sp" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/selectedViewPager1"
+        android:id="@+id/selectedViewPager3"
         android:layout_width="191dp"
-        android:layout_height="46dp"
+        android:layout_height="44dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="1">
@@ -76,7 +52,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/selectedViewPager2"
+        android:id="@+id/selectedViewPager1"
         android:layout_width="323dp"
         android:layout_height="84dp"
         android:layout_marginTop="60dp"
@@ -98,6 +74,29 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/actualDateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectedViewPager1"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/dateTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11 de Octubre 13:28"
+            android:textColor="@color/common_google_signin_btn_text_light"
+            android:textSize="24sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     <ScrollView
         android:layout_width="411dp"
         android:layout_height="558dp"
@@ -113,7 +112,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/selectedViewPager"
+                android:id="@+id/selectedViewPager2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -151,7 +150,7 @@
                 tools:layout_editor_absoluteY="253dp">
 
                 <TextView
-                    android:id="@+id/textviewCategory"
+                    android:id="@+id/textviewCategory1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Categoria"
