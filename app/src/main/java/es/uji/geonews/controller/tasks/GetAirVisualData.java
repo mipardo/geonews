@@ -63,13 +63,13 @@ public class GetAirVisualData extends UserTask {
                         if (error != null) showAlertError();
                         else {
                             fillChart(airVisualData.getAqiUs());
-                            airTemplate.getTempertaureOutput().setText(airVisualData.getTemperature() + "º celsius");
+                            airTemplate.getTempertaureOutput().setText(airVisualData.getTemperature() + "º C");
                             airTemplate.getPreassureOutput().setText(airVisualData.getPressure() + " hPa");
                             airTemplate.getHumidityOutput().setText(airVisualData.getHumidity() + " %");
                             airTemplate.getWindSpeedOutput().setText(airVisualData.getWindSpeed() + " m/s");
-                            airTemplate.getWindDirectionOuptut().setText(airVisualData.getWindDirection() + "ª");
-                            airTemplate.getAqiUsOutput().setText(airVisualData.getAqiUs() + "");
-                            airTemplate.getMainPollutantUsOutput().setText(airVisualData.getMainUs() + "");
+                            airTemplate.getWindDirectionOuptut().setRotation(airVisualData.getWindDirection());
+                            //airTemplate.getAqiUsOutput().setText(airVisualData.getAqiUs() + "");
+                            //airTemplate.getMainPollutantUsOutput().setText(airVisualData.getMainUs() + "");
                         }
                     }
                 });

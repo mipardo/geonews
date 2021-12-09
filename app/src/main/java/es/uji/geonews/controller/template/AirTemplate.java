@@ -1,5 +1,6 @@
 package es.uji.geonews.controller.template;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AirTemplate {
@@ -7,7 +8,7 @@ public class AirTemplate {
     private TextView preassureOutput;
     private TextView humidityOutput;
     private TextView windSpeedOutput;
-    private TextView windDirectionOuptut;
+    private ImageView windDirectionOuptut;
     private TextView aqiUsOutput;
     private TextView aqiCnOutput;
     private TextView mainPollutantUsOutput;
@@ -47,11 +48,11 @@ public class AirTemplate {
         this.windSpeedOutput = windSpeedOutput;
     }
 
-    public TextView getWindDirectionOuptut() {
+    public ImageView getWindDirectionOuptut() {
         return windDirectionOuptut;
     }
 
-    public void setWindDirectionOuptut(TextView windDirectionOuptut) {
+    public void setWindDirectionOuptut(ImageView windDirectionOuptut) {
         this.windDirectionOuptut = windDirectionOuptut;
     }
 

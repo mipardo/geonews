@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -57,9 +58,9 @@ public class AirVisualFragment extends Fragment {
         TextView humidityOutput = view.findViewById(R.id.humidity_output);
         TextView pressureOutput = view.findViewById(R.id.pressure_output);
         TextView windSpeedOutput = view.findViewById(R.id.wind_speed_output);
-        TextView windDirectionOutput = view.findViewById(R.id.wind_direction_output);
-        TextView aqiUsOutput = view.findViewById(R.id.aqi_us_output);
-        TextView mainPollutantUsOutput = view.findViewById(R.id.aqi_us_main_pollutant_output);
+        ImageView windDirectionOutput = view.findViewById(R.id.wind_direction_output);
+        //TextView aqiUsOutput = view.findViewById(R.id.aqi_us_output);
+        //TextView mainPollutantUsOutput = view.findViewById(R.id.aqi_us_main_pollutant_output);
         PieChart pieChart = view.findViewById(R.id.air_visual_chart);
 
         AirTemplate airTemplate = new AirTemplate();
@@ -68,8 +69,8 @@ public class AirVisualFragment extends Fragment {
         airTemplate.setPreassureOutput(pressureOutput);
         airTemplate.setWindDirectionOuptut(windDirectionOutput);
         airTemplate.setWindSpeedOutput(windSpeedOutput);
-        airTemplate.setAqiUsOutput(aqiUsOutput);
-        airTemplate.setMainPollutantUsOutput(mainPollutantUsOutput);
+        //airTemplate.setAqiUsOutput(aqiUsOutput);
+        //airTemplate.setMainPollutantUsOutput(mainPollutantUsOutput);
 
         new GetAirVisualData(locationId, airTemplate, progressBar, pieChart, getContext()).execute();
     }
