@@ -14,12 +14,10 @@ import es.uji.geonews.model.services.GeocodeService;
 
 public class LocationManager {
     private Map<Integer, Location> locations;
-    private Map<Integer, Location> favoriteLocations;
     private final LocationCreator locationCreator;
 
     public LocationManager(GeocodeService geocodeService) {
         this.locations = new HashMap<>();
-        this.favoriteLocations = new HashMap<>();
         this.locationCreator = new LocationCreator(geocodeService);
     }
 
@@ -45,7 +43,11 @@ public class LocationManager {
     }
 
     public List<Location> getFavouriteLocations() {
-        return new ArrayList<>(favoriteLocations.values());
+        List<Location> favoriteLocations = new ArrayList<>();
+        for (Location location: locations.values()){
+            if (location.isFavorite()) favoriteLocations.add(location);
+        }
+        return favoriteLocations;
     }
 
     public Location createLocation(String location) throws NotValidCoordinatesException,
@@ -72,19 +74,17 @@ public class LocationManager {
 
     public boolean addToFavorites(int locationId){
         Location location = locations.get(locationId);
-        if (location != null){
-            favoriteLocations.put(locationId, location);
-            locations.remove(locationId);
+        if (location != null && !location.isFavorite()){
+            location.setIsFavorite(true);
             return true;
         }
         return false;
     }
 
     public boolean removeFromFavorites(int locationId){
-        Location location = favoriteLocations.get(locationId);
-        if (location != null){
-            locations.put(locationId, location);
-            favoriteLocations.remove(locationId);
+        Location location = locations.get(locationId);
+        if (location != null && location.isFavorite()){
+            location.setIsFavorite(false);
             return true;
         }
         return false;
@@ -120,7 +120,7 @@ public class LocationManager {
     public boolean activateLocation(int id) throws NoLocationRegisteredException {
         Location location = getLocation(id);
         if (location != null && !location.isActive()) {
-            getLocation(id).activate();
+            location.setIsActive(true);
             return true;
         }
         return false;
@@ -129,7 +129,9 @@ public class LocationManager {
     public boolean deactivateLocation(int id) {
         Location location = locations.get(id);
         if (location != null && location.isActive()){
-            return location.deactivate();
+            location.setIsActive(false);
+            location.setIsFavorite(false);
+            return true;
         }
         return false;
     }
@@ -137,10 +139,6 @@ public class LocationManager {
 
     public void setLocations(Map<Integer, Location> locations) {
         this.locations = locations;
-    }
-
-    public void setFavoriteLocations(Map<Integer, Location> favoriteLocations) {
-        this.favoriteLocations = favoriteLocations;
     }
 
     public int getLocationCounter(){

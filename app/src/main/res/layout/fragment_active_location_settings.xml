@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.fragments.LocationInfoFragment">
+    tools:context=".controller.fragments.ActiveLocationInfoFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="100dp"
             android:orientation="vertical"
             tools:ignore="UselessParent">
 
@@ -39,6 +38,7 @@
                     android:id="@+id/location_alias_label"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="sans-serif-black"
                     android:text="Alias: "
                     android:textSize="18sp"
@@ -49,20 +49,21 @@
                     android:id="@+id/location_alias_output"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
                     android:text="Sin alias asignado"
                     android:textSize="18sp"
                     app:layout_constraintStart_toEndOf="@+id/location_alias_label"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/location_alias_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="more_info"
                     android:src="@drawable/edit"
-                    android:contentDescription="more_info" />
+                    app:layout_constraintStart_toEndOf="@+id/location_alias_output"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -100,12 +101,11 @@
                     android:layout_height="40dp"
                     android:textSize="18sp"
                     android:fontFamily="sans-serif-black"
-                    android:text="Coordenadas geográficas: " />
+                    android:text="Coordenadas: " />
 
                 <TextView
                     android:id="@+id/location_coords_output"
                     android:layout_width="wrap_content"
-
                     android:textSize="18sp"
                     android:layout_height="wrap_content" />
 
@@ -149,8 +149,8 @@
                     android:id="@+id/open_weather_service_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintStart_toEndOf="@+id/open_weather_service_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="40dp"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
@@ -175,8 +175,8 @@
                     android:id="@+id/air_visual_service_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintStart_toEndOf="@+id/air_visual_service_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="40dp"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
@@ -201,9 +201,9 @@
                     android:id="@+id/currents_service_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@+id/currents_service_label"
+                    android:layout_marginEnd="40dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="20dp"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -228,6 +228,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dar de baja"
+                    android:enabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

@@ -11,12 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.PieChart;
+
 import es.uji.geonews.R;
 import es.uji.geonews.controller.tasks.GetAirVisualData;
+import es.uji.geonews.controller.template.AirTemplate;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
@@ -53,16 +57,21 @@ public class AirVisualFragment extends Fragment {
         TextView temperatureOutput = view.findViewById(R.id.temperature_output);
         TextView humidityOutput = view.findViewById(R.id.humidity_output);
         TextView pressureOutput = view.findViewById(R.id.pressure_output);
-        Button loadButton = view.findViewById(R.id.load_air_data_button);
+        TextView windSpeedOutput = view.findViewById(R.id.wind_speed_output);
+        ImageView windDirectionOutput = view.findViewById(R.id.wind_direction_output);
+        //TextView aqiUsOutput = view.findViewById(R.id.aqi_us_output);
+        //TextView mainPollutantUsOutput = view.findViewById(R.id.aqi_us_main_pollutant_output);
+        PieChart pieChart = view.findViewById(R.id.air_visual_chart);
 
-        loadButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View v) {
-                // Show the dialog
-                new GetAirVisualData(locationId, temperatureOutput, pressureOutput,
-                        humidityOutput, progressBar, getContext()).execute();
-            }
-        });
+        AirTemplate airTemplate = new AirTemplate();
+        airTemplate.setTempertaureOutput(temperatureOutput);
+        airTemplate.setHumidityOutput(humidityOutput);
+        airTemplate.setPreassureOutput(pressureOutput);
+        airTemplate.setWindDirectionOuptut(windDirectionOutput);
+        airTemplate.setWindSpeedOutput(windSpeedOutput);
+        //airTemplate.setAqiUsOutput(aqiUsOutput);
+        //airTemplate.setMainPollutantUsOutput(mainPollutantUsOutput);
+
+        new GetAirVisualData(locationId, airTemplate, progressBar, pieChart, getContext()).execute();
     }
 }

@@ -58,7 +58,6 @@ public class GeoNewsManager {
             UnrecognizedPlaceNameException {
         Location newLocation = locationManager.createLocation(location);
         boolean added = locationManager.addLocation(newLocation);
-
         if (added){
             serviceManager.initLocationServices(newLocation);
             databaseManager.saveAll(userId, locationManager, serviceManager);

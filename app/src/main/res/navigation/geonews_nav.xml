@@ -11,14 +11,14 @@
         android:label="fragment_location_list"
         tools:layout="@layout/fragment_location_list" >
         <action
-            android:id="@+id/action_locationListFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-        <action
             android:id="@+id/action_locationListFragment_to_locationFragment"
             app:destination="@id/locationServicesFragment" />
         <action
-            android:id="@+id/action_locationListFragment_to_locationInfo"
-            app:destination="@id/locationInfo" />
+            android:id="@+id/action_locationListFragment_to_nonActiveLocationInfoFragment"
+            app:destination="@id/nonActiveLocationInfoFragment" />
+        <action
+            android:id="@+id/action_locationListFragment_to_activeLocationInfoFragment"
+            app:destination="@id/activeLocationInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationServicesFragment"
@@ -32,29 +32,26 @@
             android:name="locationId"
             app:argType="integer"
             android:defaultValue="0" />
-        <action
-            android:id="@+id/action_locationFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/locationInfo"
-        android:name="es.uji.geonews.controller.fragments.LocationInfoFragment"
-        android:label="fragment_location_settings"
-        tools:layout="@layout/fragment_location_settings" >
-        <action
-            android:id="@+id/action_locationInfo_to_locationListFragment"
-            app:destination="@id/locationListFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="es.uji.geonews.controller.fragments.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/activeLocationInfoFragment"
+        android:name="es.uji.geonews.controller.fragments.ActiveLocationInfoFragment"
+        android:label="ActiveLocationInfoFragment" >
         <action
-            android:id="@+id/action_settingsFragment_to_locationListFragment"
+            android:id="@+id/action_activeLocationInfoFragment_to_locationListFragment"
             app:destination="@id/locationListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nonActiveLocationInfoFragment"
+        android:name="es.uji.geonews.controller.fragments.NonActiveLocationInfoFragment"
+        android:label="NonActiveLocationInfoFragment" >
         <action
-            android:id="@+id/action_settingsFragment_to_locationFragment"
-            app:destination="@id/locationServicesFragment" />
+            android:id="@+id/action_nonActiveLocationInfoFragment_to_locationListFragment"
+            app:destination="@id/locationListFragment" />
     </fragment>
 </navigation>

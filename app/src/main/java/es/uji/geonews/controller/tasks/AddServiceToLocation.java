@@ -1,7 +1,9 @@
 package es.uji.geonews.controller.tasks;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.widget.Switch;
 
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -13,15 +15,17 @@ public class AddServiceToLocation extends UserTask {
     private final GeoNewsManager geoNewsManager;
     private final Context context;
     private final ServiceName serviceName;
+    private final @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switchButton;
     private final int locationId;
     private String error;
 
 
-    public AddServiceToLocation(Context context, ServiceName serviceName, int locationId){
+    public AddServiceToLocation(Context context, ServiceName serviceName, int locationId, Switch switchButton){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.serviceName = serviceName;
         this.locationId = locationId;
+        this.switchButton = switchButton;
     }
 
     @Override
@@ -36,7 +40,10 @@ public class AddServiceToLocation extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        if (error != null) showAlertError();
+                        if (error != null){
+                            switchButton.setChecked(false);
+                            showAlertError();
+                        }
                     }
                 });
             }
