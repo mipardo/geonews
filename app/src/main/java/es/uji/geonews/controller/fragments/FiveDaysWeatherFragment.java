@@ -7,11 +7,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.MotionEventCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -50,6 +53,29 @@ public class FiveDaysWeatherFragment extends Fragment {
         ConstraintLayout layout = view.findViewById(R.id.fiveDaysLayout);
         layout.setBackground(getSeasonBackground());
         RecyclerView recyclerView = view.findViewById(R.id.five_days_recycler_view);
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                int action = e.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_MOVE:
+                        if (rv.canScrollVertically(-1))
+                            rv.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
         ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
 
         List<Data> forecast = new ArrayList<>();
