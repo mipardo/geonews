@@ -4,31 +4,24 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import java.util.List;
 
 import es.uji.geonews.R;
-import es.uji.geonews.controller.tasks.AddLocation;
-import es.uji.geonews.controller.tasks.AddLocationByGPS;
+import es.uji.geonews.controller.tasks.ActivateLocation;
 import es.uji.geonews.controller.tasks.AddServiceToLocation;
 import es.uji.geonews.controller.tasks.DeactivateLocation;
 import es.uji.geonews.controller.tasks.EditLocationAlias;
@@ -38,23 +31,20 @@ import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
-import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceName;
 
-public class LocationInfoFragment extends Fragment {
+public class NonActiveLocationInfoFragment extends Fragment {
     private GeoNewsManager geoNewsManager;
-    private Button deactivateLocation;
+    private Button activateLocation;
     private Button deleteLocation;
-    private ImageButton editAliasButton;
+    private ImageView editAliasButton;
     private TextView locationAliasOutput;
+    private ProgressBar progressBar;
     private int locationId;
-    private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch weatherServiceSwitch;
-    private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch airServiceSwitch;
-    private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch currentsServiceSwitch;
     List<ServiceName> activeServices;
 
 
-    public LocationInfoFragment() {
+    public NonActiveLocationInfoFragment() {
         // Required empty public constructor
     }
 
@@ -62,17 +52,13 @@ public class LocationInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         geoNewsManager = GeoNewsManagerSingleton.getInstance(getContext());
-
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_location_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_non_active_location_settings, container, false);
 
-        //Igual  esto tiene que ir en el onCreateView?
         locationId = getArguments().getInt("locationId");
         Location location  = null;
         try {
@@ -84,20 +70,15 @@ public class LocationInfoFragment extends Fragment {
         TextView locationPlaceNameOutput = view.findViewById(R.id.location_placename_output);
         TextView locationCoordsOutput = view.findViewById(R.id.location_coords_output);
         locationAliasOutput = view.findViewById(R.id.location_alias_output);
-        weatherServiceSwitch = view.findViewById(R.id.open_weather_service_switch);
-        airServiceSwitch = view.findViewById(R.id.air_visual_service_switch);
-        currentsServiceSwitch = view.findViewById(R.id.currents_service_switch);
-        deactivateLocation = view.findViewById(R.id.deactivate_location);
+        activateLocation = view.findViewById(R.id.activate_location);
         deleteLocation = view.findViewById(R.id.delete_location);
         editAliasButton = view.findViewById(R.id.location_alias_button);
+        progressBar = view.findViewById(R.id.activate_location_progress_bar);
 
         if (!location.getAlias().equals("")) locationAliasOutput.setText(location.getAlias());
         if (location.getPlaceName() != null) locationPlaceNameOutput.setText(location.getPlaceName());
         locationCoordsOutput.setText(location.getGeographCoords().toString());
         activeServices = geoNewsManager.getServicesOfLocation(locationId);
-        if (activeServices.contains(ServiceName.OPEN_WEATHER)) weatherServiceSwitch.setChecked(true);
-        if (activeServices.contains(ServiceName.AIR_VISUAL)) airServiceSwitch.setChecked(true);
-        if (activeServices.contains(ServiceName.CURRENTS)) currentsServiceSwitch.setChecked(true);
 
         return view;
     }
@@ -106,56 +87,29 @@ public class LocationInfoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        weatherServiceSwitch.setOnClickListener(new View.OnClickListener() {
+        activateLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(activeServices.contains(ServiceName.OPEN_WEATHER)){
-                    new RemoveServiceFromLocation(getContext(), ServiceName.OPEN_WEATHER, locationId)
-                            .execute();
-                } else {
-                    new AddServiceToLocation(getContext(), ServiceName.OPEN_WEATHER, locationId)
-                            .execute();
-                }
-            }
-        });
-
-        airServiceSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(activeServices.contains(ServiceName.AIR_VISUAL)){
-                    new RemoveServiceFromLocation(getContext(), ServiceName.AIR_VISUAL, locationId)
-                            .execute();
-                } else {
-                    new AddServiceToLocation(getContext(), ServiceName.AIR_VISUAL, locationId)
-                            .execute();
-                }
-            }
-        });
-
-        currentsServiceSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(activeServices.contains(ServiceName.CURRENTS)){
-                    new RemoveServiceFromLocation(getContext(), ServiceName.CURRENTS, locationId)
-                            .execute();
-                } else {
-                    new AddServiceToLocation(getContext(), ServiceName.CURRENTS, locationId)
-                            .execute();
-                }
-            }
-        });
-
-        deactivateLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DeactivateLocation(getContext(), locationId).execute();
+                progressBar.setVisibility(View.VISIBLE);
+                new ActivateLocation(getContext(), locationId, progressBar,view).execute();
             }
         });
 
         deleteLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RemoveLocation(getContext(), locationId, view).execute();
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("¿Seguro que desea eliminar la ubicación?");
+                builder.setMessage("No la podrá recuperar");
+                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new RemoveLocation(getContext(), locationId, view).execute();
+                    }
+                });
+                builder.setNegativeButton("Cancelar", null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 

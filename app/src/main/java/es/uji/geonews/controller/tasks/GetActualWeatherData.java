@@ -40,8 +40,9 @@ public class GetActualWeatherData extends UserTask {
             public void run() {
                 try {
                     // TODO borrar addServiceToLocation de aquí
-                    GeoNewsManagerSingleton.getInstance(context).addServiceToLocation(ServiceName.OPEN_WEATHER, locationId);
+                    //GeoNewsManagerSingleton.getInstance(context).addServiceToLocation(ServiceName.OPEN_WEATHER, locationId);
                     data = (OpenWeatherData) GeoNewsManagerSingleton.getInstance(context).getData(ServiceName.OPEN_WEATHER, locationId);
+                    if (data == null) error = "Esta ubicación no esta suscrita al servicio de clima";
                 } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
                     error = e.getMessage();
 

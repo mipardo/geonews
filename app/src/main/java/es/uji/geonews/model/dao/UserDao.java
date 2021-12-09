@@ -13,7 +13,6 @@ public class UserDao {
     private String userId;
     private int locationCounter;
     private Map<String, Location> locations;
-    private Map<String, Location> favoriteLocations;
     private Map<String, ServiceDao> services;
     private Map<String, List<String>> locationServices;
     private Map<String, Map<String, Data>> lastData;
@@ -25,7 +24,6 @@ public class UserDao {
         this.userId = userId;
         this.locationCounter = locationManager.getLocationCounter();
         this.locations = UserDaoConverter.convertLocationsToHashMap(locationManager.getLocations());
-        this.favoriteLocations = UserDaoConverter.convertLocationsToHashMap(locationManager.getFavouriteLocations());
         this.services = ServiceWrapper.convertServices(serviceManager.getServices());
         this.locationServices =  UserDaoConverter.convertLocationServicesHashMap(serviceManager.getLocationServices());
         this.lastData = UserDaoConverter.convertLastData(serviceManager.getLastData());
@@ -33,7 +31,6 @@ public class UserDao {
     }
 
     // Getter & Setters
-
     public String getUserId() {
         return userId;
     }
@@ -48,14 +45,6 @@ public class UserDao {
 
     public void setLocations(Map<String, Location> locations) {
         this.locations = locations;
-    }
-
-    public Map<String, Location> getFavoriteLocations() {
-        return favoriteLocations;
-    }
-
-    public void setFavoriteLocations(Map<String, Location> favoriteLocations) {
-        this.favoriteLocations = favoriteLocations;
     }
 
     public Map<String, ServiceDao> getServices() {

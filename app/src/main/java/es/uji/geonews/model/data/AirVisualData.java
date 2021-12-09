@@ -1,22 +1,5 @@
 package es.uji.geonews.model.data;
 
-/* AQI: Air quality index
-    aqiUs: Air quality index based on EPA standard (US)
-        De 0-50     Good
-        De 51-100   Acceptable/Moderate
-        De 101-150  Unhealthy for sensitive groups of population
-        De 151-200  Unhealthy
-        De 201-250  Very Unhealthy
-        De 251-300  Hazardous
-    aqiCn: Air quality index based on MEP standard (CHINA) NO CAMBIA???
-        De 0-50     Good
-        De 51-100   Acceptable/Moderate
-        De 101-150  Unhealthy for sensitive groups of population
-        De 151-200  Unhealthy
-        De 201-250  Very Unhealthy
-        De 251-300  Hazardous
-* */
-
 public class AirVisualData implements Data {
     private int temperature;        // In celsius
     private int pressure;           // In hPa

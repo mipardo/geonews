@@ -8,7 +8,6 @@
     tools:context=".controller.fragments.SettingsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -36,12 +35,14 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="258dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="250dp"
-            android:layout_marginBottom="634dp"
+            android:layout_marginStart="9dp"
+            android:layout_marginEnd="144dp"
+            android:layout_marginBottom="633dp"
             android:fontFamily="sans-serif-black"
             android:text="Ajustes en los Servicios"
             tools:layout_conversion_absoluteHeight="40dp"
@@ -68,8 +69,10 @@
             android:id="@+id/importar_Id"
             android:layout_width="226dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginStart="22dp"
             android:layout_marginEnd="163dp"
             android:layout_marginBottom="245dp"
             android:fontFamily="sans-serif-black"

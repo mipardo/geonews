@@ -58,7 +58,6 @@ public class GeoNewsManager {
             UnrecognizedPlaceNameException {
         Location newLocation = locationManager.createLocation(location);
         boolean added = locationManager.addLocation(newLocation);
-
         if (added){
             serviceManager.initLocationServices(newLocation);
             databaseManager.saveAll(userId, locationManager, serviceManager);
@@ -157,6 +156,12 @@ public class GeoNewsManager {
             throws ServiceNotAvailableException, NoLocationRegisteredException {
         Location location = getLocation(locationId);
         return serviceManager.getData(serviceName, location);
+    }
+
+    public List<Data> getFutureData(ServiceName serviceName, int locationId)
+            throws ServiceNotAvailableException, NoLocationRegisteredException {
+        Location location = getLocation(locationId);
+        return serviceManager.getFutureData(serviceName, location);
     }
 
     public Service getService(ServiceName serviceName) {
