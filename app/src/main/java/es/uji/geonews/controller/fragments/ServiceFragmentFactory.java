@@ -2,18 +2,20 @@ package es.uji.geonews.controller.fragments;
 
 import androidx.fragment.app.Fragment;
 
+import es.uji.geonews.model.services.ServiceName;
+
 public class ServiceFragmentFactory {
 
-    public static Fragment createServiceFragment(int position, int locationId) {
-        switch (position) {
-            case 0:
+    public static Fragment createServiceFragment(ServiceName serviceName, int locationId) {
+        switch (serviceName) {
+            case OPEN_WEATHER:
                 return new OpenWeatherFragment(locationId);
-            case 1:
+            case AIR_VISUAL:
                 return new AirVisualFragment(locationId);
-            case 2:
+            case CURRENTS:
                 return new CurrentsFragment(locationId);
             default:
-                return null;
+                return new NoServiceAvailableFragment();
 
         }
     }
