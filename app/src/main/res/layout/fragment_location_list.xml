@@ -76,15 +76,15 @@
         android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@+id/add_location_relative_layout"
-        app:layout_constraintBottom_toTopOf="@+id/add_location_relative_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <!-- ADD LOCATION CARD BUTTON -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/add_location_relative_layout"
+        android:id="@+id/add_location_floating_button_layout"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 

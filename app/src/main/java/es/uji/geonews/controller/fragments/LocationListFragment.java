@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -67,8 +68,8 @@ public class LocationListFragment extends Fragment {
         settings.setVisibility(View.VISIBLE);
 
         FloatingActionButton addLocationFloatingButton = view.findViewById(R.id.add_location_floating_button);
-        ImageView addLocationButton = view.findViewById(R.id.add_location_button);
         RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
+        ImageView addLocationButton = view.findViewById(R.id.add_location_button);
         ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
         Spinner listSelector = view.findViewById(R.id.list_selector_input);
         String[] listSelections = new String[] {"Activas", "Favoritas", "No activas"};
