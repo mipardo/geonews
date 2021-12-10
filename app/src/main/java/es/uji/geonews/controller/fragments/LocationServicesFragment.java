@@ -19,10 +19,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import java.util.Collections;
+import java.util.List;
+
 import es.uji.geonews.R;
+import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
+import es.uji.geonews.model.services.ServiceName;
 
 public class LocationServicesFragment extends Fragment {
-    private static final int NUM_PAGES = 3;
     private int locationId;
     private ViewPager2 mPager;
     private ScreenSlidePagerAdapter pagerAdapter;
@@ -52,24 +56,34 @@ public class LocationServicesFragment extends Fragment {
         RelativeLayout settings =  getActivity().findViewById(R.id.settings);
         settings.setVisibility(View.VISIBLE);
 
+        List<ServiceName> locationServices = GeoNewsManagerSingleton.getInstance(getContext()).getServicesOfLocation(locationId);
         mPager = view.findViewById(R.id.pager);
-        pagerAdapter = new ScreenSlidePagerAdapter(getActivity());
+        pagerAdapter = new ScreenSlidePagerAdapter(getActivity(), locationServices);
         mPager.setAdapter(pagerAdapter);
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
-        public ScreenSlidePagerAdapter(FragmentActivity fa) {
+        private final List<ServiceName> locationServices;
+        private final int num_pages;
+
+        public ScreenSlidePagerAdapter(FragmentActivity fa, List<ServiceName> locationServices) {
             super(fa);
+            this.locationServices = locationServices;
+            Collections.sort(this.locationServices);
+
+            this.num_pages = locationServices.size() > 0 ? locationServices.size() : 1;
         }
 
         @Override
         public Fragment createFragment(int position) {
-            return ServiceFragmentFactory.createServiceFragment(position, locationId);
+            return locationServices.size() > 0 ?
+                    ServiceFragmentFactory.createServiceFragment(locationServices.get(position), locationId) :
+                    new NoServiceAvailableFragment();
         }
 
         @Override
         public int getItemCount() {
-            return NUM_PAGES;
+            return num_pages;
         }
     }
 }
