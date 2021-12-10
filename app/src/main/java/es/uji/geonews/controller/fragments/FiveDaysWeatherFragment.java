@@ -53,29 +53,29 @@ public class FiveDaysWeatherFragment extends Fragment {
         ConstraintLayout layout = view.findViewById(R.id.fiveDaysLayout);
         layout.setBackground(getSeasonBackground());
         RecyclerView recyclerView = view.findViewById(R.id.five_days_recycler_view);
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                int action = e.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_MOVE:
-                        if (rv.canScrollVertically(-1))
-                            rv.getParent().requestDisallowInterceptTouchEvent(true);
-                        break;
-                }
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
+//        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+//            @Override
+//            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+//                int action = e.getAction();
+//                switch (action) {
+//                    case MotionEvent.ACTION_MOVE:
+//                        if (rv.canScrollVertically(-1))
+//                            rv.getParent().requestDisallowInterceptTouchEvent(true);
+//                        break;
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+//
+//            }
+//        });
         ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
 
         List<Data> forecast = new ArrayList<>();
