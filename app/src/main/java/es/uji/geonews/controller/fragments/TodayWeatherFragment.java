@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.appcompat.widget.Toolbar;
 
 import com.github.mikephil.charting.charts.LineChart;
 
@@ -40,9 +41,6 @@ public class TodayWeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today_weather, container, false);
 
-        ConstraintLayout layout = view.findViewById(R.id.todayWeatherLayout);
-        layout.setBackground(getSeasonBackground());
-        layout.setAlpha(0.8f);
         LineChart lineChart = view.findViewById(R.id.todayChart);
         WeatherTemplate weatherTemplate = new WeatherTemplate();
         weatherTemplate.setDateTextview(view.findViewById(R.id.dateTextview));
@@ -62,25 +60,5 @@ public class TodayWeatherFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    private Drawable getSeasonBackground() {
-        final int DAY_SPRING_MIN = 80;
-        final int DAY_SPRING_MAX = 172;
-        final int DAY_SUMMER_MIN = DAY_SPRING_MAX;
-        final int DAY_SUMMER_MAX = 264;
-        final int DAY_FALL_MIN = DAY_SUMMER_MAX;
-        final int DAY_FALL_MAX = 355;
-
-        int dayOfYear = LocalDate.now().getDayOfYear();
-
-        if (dayOfYear > DAY_SPRING_MIN && dayOfYear <= DAY_SPRING_MAX) {
-            return AppCompatResources.getDrawable(getContext(), R.mipmap.spring);
-        } else if (dayOfYear > DAY_SUMMER_MIN && dayOfYear <= DAY_SUMMER_MAX) {
-            return AppCompatResources.getDrawable(getContext(), R.mipmap.summer);
-        } else if (dayOfYear > DAY_FALL_MIN && dayOfYear <= DAY_FALL_MAX) {
-            return AppCompatResources.getDrawable(getContext(), R.mipmap.autumn);
-        }
-        return AppCompatResources.getDrawable(getContext(), R.mipmap.winter);
     }
 }

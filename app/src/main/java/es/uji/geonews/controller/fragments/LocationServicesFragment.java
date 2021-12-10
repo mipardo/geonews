@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -60,6 +61,15 @@ public class LocationServicesFragment extends Fragment {
         mPager = view.findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getActivity(), locationServices);
         mPager.setAdapter(pagerAdapter);
+        mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                Log.e("sad", "Selected " + position);
+                Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
+                toolbar.setTitle(pagerAdapter.getFragmentLabel(position));
+            }
+        });
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
@@ -84,6 +94,10 @@ public class LocationServicesFragment extends Fragment {
         @Override
         public int getItemCount() {
             return num_pages;
+        }
+
+        public String getFragmentLabel(int position) {
+            return locationServices.get(position).label;
         }
     }
 }
