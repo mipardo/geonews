@@ -13,7 +13,6 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.UUID;
 
-import es.uji.geonews.model.dao.ServiceDataDao;
 import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.managers.LocationManager;
@@ -41,12 +40,9 @@ public class LocalDBManager implements DataBase{
     @Override
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
         UserDao userDao = new UserDao(userId, locationManager, serviceManager);
-        ServiceDataDao serviceDataDao = new ServiceDataDao(serviceManager.getOfflineData());
         String user = json.toJson(userDao);
-        String offlineData = json.toJson(serviceDataDao);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("configuracion", user);
-        editor.putString("offlineServiceData" , offlineData);
         editor.apply();
     }
 
@@ -54,12 +50,9 @@ public class LocalDBManager implements DataBase{
     @Override
     public void loadAll(String userId, Callback callback) {
         String configuracion = sharedPreferences.getString("configuracion","No existe la informacion");
-        String offlineServiceData = sharedPreferences.getString("offlineServiceData", "No existe informacion guardada de servicios");
         try {
-            Type serviceDataType = new TypeToken<List<ServiceData>>() {}.getType();
-            ServiceDataDao serviceDataDao = json.fromJson(offlineServiceData, serviceDataType);
             UserDao userDao = json.fromJson(configuracion, UserDao.class);
-            callback.onSuccess(userDao, serviceDataDao);
+            callback.onSuccess(userDao);
         } catch (Exception exception) {
             callback.onFailure(exception);
         }

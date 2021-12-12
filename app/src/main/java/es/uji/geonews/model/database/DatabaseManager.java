@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.google.gson.JsonSyntaxException;
 
-import es.uji.geonews.model.dao.ServiceDataDao;
 import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.dao.UserDaoConverter;
 import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
@@ -33,7 +32,7 @@ public class DatabaseManager  {
         // If any problem is find then we load the data from the remote db
         localDBManager.loadAll(userId, new Callback() {
             @Override
-            public void onSuccess(UserDao userDao, ServiceDataDao serviceDataDao) {
+            public void onSuccess(UserDao userDao) {
                 UserDaoConverter.fillLocationManager(locationManager, userDao);
                 UserDaoConverter.fillServiceManager(serviceManager, userDao);
             }
@@ -48,7 +47,7 @@ public class DatabaseManager  {
                 }
                 remoteDBManager.loadAll(userId, new Callback() {
                     @Override
-                    public void onSuccess(UserDao userDao, ServiceDataDao serviceDataDao) {
+                    public void onSuccess(UserDao userDao) {
                         UserDaoConverter.fillLocationManager(locationManager, userDao);
                         UserDaoConverter.fillServiceManager(serviceManager, userDao);
                     }
@@ -68,7 +67,7 @@ public class DatabaseManager  {
         if (! remoteDBManager.isAvailable()) throw new DatabaseNotAvailableException();
         remoteDBManager.loadAll(userId, new Callback() {
             @Override
-            public void onSuccess(UserDao userDao, ServiceDataDao serviceDataDao) {
+            public void onSuccess(UserDao userDao) {
                 if (userDao != null){
                     UserDaoConverter.fillLocationManager(locationManager, userDao);
                     UserDaoConverter.fillServiceManager(serviceManager, userDao);
@@ -83,7 +82,6 @@ public class DatabaseManager  {
     }
 
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
-        Log.e("SAVEALL", "DB local: " + localDBManager.isAvailable());
         if (localDBManager.isAvailable())
             localDBManager.saveAll(userId, locationManager,serviceManager);
         if (remoteDBManager.isAvailable())

@@ -53,8 +53,20 @@ public class UserDaoConverter {
     public static void fillServiceManager(ServiceManager serviceManager, UserDao userDao) {
         setServices(serviceManager, userDao);
         serviceManager.setLocationServices(convertLocationServicesBack(userDao.getLocationServices()));
-        // setOfflineData(serviceManager, userDao);
-        //serviceManager.setOfflineData(convertOfflineDataBack(userDao.getLastData()));
+        setOfflineData(serviceManager, userDao);
+    }
+
+    private static void setOfflineData(ServiceManager serviceManager, UserDao userDao){
+        Map<Integer, Map<ServiceName, ServiceData>> offlineData = serviceManager.getOfflineData();
+        for(String stringLocationId : userDao.getOfflineData().keySet()){
+            int locationId = Integer.parseInt(stringLocationId);
+            Map<String, ServiceData> locationOfflineDataLoaded = userDao.getOfflineData().get(stringLocationId);
+            if (locationOfflineDataLoaded == null) break;
+            Map<ServiceName, ServiceData> locationOfflineData = new HashMap<>();
+            for(String serviceNameString: locationOfflineDataLoaded.keySet()){
+            }
+            offlineData.put(locationId, locationOfflineData);
+        }
     }
 
     private static void setServices(ServiceManager serviceManager, UserDao userDao){
@@ -65,6 +77,22 @@ public class UserDaoConverter {
                 service.setActive(storedService.isActive());
             }
         }
+    }
+    protected static Map<String, Map<String, ServiceData>> convertOfflineData(Map<Integer, Map<ServiceName, ServiceData>> offlineData) {
+        Map<String, Map<String, ServiceData>> res = new HashMap<>();
+        for (Map.Entry<Integer, Map<ServiceName, ServiceData>> entry: offlineData.entrySet()) {
+            res.put(String.valueOf(entry.getKey()), UserDaoConverter.convertServices(entry.getValue()));
+        }
+        return res;
+    }
+
+
+    protected static Map<Integer, Map<ServiceName, ServiceData>> convertOfflineDataBack(Map<String, Map<String, ServiceData>> offlinDataLoaded) {
+        Map<Integer, Map<ServiceName, ServiceData>> res = new HashMap<>();
+        for (Map.Entry<String, Map<String, ServiceData>> entry: offlinDataLoaded.entrySet()) {
+            res.put(Integer.parseInt(entry.getKey()), UserDaoConverter.convertServicesBack(entry.getValue()));
+        }
+        return res;
     }
 
     protected static Map<Integer, List<ServiceName>> convertLocationServicesBack(Map<String, List<String>> locationServices) {

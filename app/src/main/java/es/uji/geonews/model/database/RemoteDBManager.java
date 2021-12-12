@@ -44,7 +44,7 @@ public class RemoteDBManager implements DataBase {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 UserDao userDao = documentSnapshot.toObject(UserDao.class);
-                callback.onSuccess(userDao, null);
+                callback.onSuccess(userDao);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
