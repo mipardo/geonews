@@ -49,16 +49,16 @@ public class GetAirVisualOfflineData extends UserTask {
             public void run() {
                 try {
                     airVisualData = (AirVisualData) geoNewsManager.getOfflineData(ServiceName.AIR_VISUAL, locationId);
-                    if (airVisualData == null) error = "Esta ubicación no esta suscrita al servicio de calidad del aire";
-                } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
+                    if (airVisualData == null) error = "Esta ubicación no esta suscrita al servicio de calidad del aire " +
+                            "o no se ha consultado información previamente";
+                } catch (NoLocationRegisteredException e) {
                     error = e.getMessage();
                 }
 
                 runOnUiThread(new Runnable() {
                     public void run() {
                         progressBar.setVisibility(View.INVISIBLE);
-                        if (error != null) showAlertError();
-                        else {
+                        if (error == null) {
                             fillChart(airVisualData.getAqiUs());
                             airTemplate.getTempertaureOutput().setText(airVisualData.getTemperature() + "º C");
                             airTemplate.getPreassureOutput().setText(airVisualData.getPressure() + " hPa");
@@ -74,13 +74,6 @@ public class GetAirVisualOfflineData extends UserTask {
         }).start();
     }
 
-    private void showAlertError(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(error);
-        builder.setPositiveButton("Aceptar", null);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
     private void fillChart(int aqiUs){
         // Generate dataset

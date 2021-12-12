@@ -1,7 +1,5 @@
-package es.uji.geonews.model.dao;
+package es.uji.geonews.model.daos;
 
-
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +8,6 @@ import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.data.CurrentsData;
 import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.data.ServiceData;
-import es.uji.geonews.model.managers.ServiceManager;
 import es.uji.geonews.model.services.ServiceName;
 
 public class OfflineDataDao {

@@ -1,8 +1,4 @@
-package es.uji.geonews.model.dao;
-
-import android.util.Log;
-
-import com.google.firebase.firestore.auth.User;
+package es.uji.geonews.model.daos;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -74,13 +74,12 @@ public class ServiceManager {
         return null;
     }
 
-    public ServiceData getOfflineData(ServiceName serviceName, Location location)
-            throws ServiceNotAvailableException {
+    public ServiceData getOfflineData(ServiceName serviceName, Location location) {
         List<ServiceName> activeServices = locationServices.get(location.getId());
         if (activeServices.contains(serviceName)){
             if (offlineData.get(location.getId()) == null ||
                     offlineData.get(location.getId()).get(serviceName) == null) {
-                return getData(serviceName, location);
+                return null;
             }
             return offlineData.get(location.getId()).get(serviceName);
         }

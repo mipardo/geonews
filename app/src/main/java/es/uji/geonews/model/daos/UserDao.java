@@ -1,4 +1,4 @@
-package es.uji.geonews.model.dao;
+package es.uji.geonews.model.daos;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 

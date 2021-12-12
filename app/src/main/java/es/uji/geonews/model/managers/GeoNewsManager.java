@@ -41,8 +41,6 @@ public class GeoNewsManager {
         userId = loadUserId(context);
         try {
             loadAll();
-            // Todo: Probar que se puede quitar la siguiente linea (en teoria se guarda en la db)
-            serviceManager.addService(new GpsService(context));
         } catch (DatabaseNotAvailableException e) { e.printStackTrace(); }
     }
 
@@ -161,8 +159,7 @@ public class GeoNewsManager {
         return data;
     }
 
-    public ServiceData getOfflineData(ServiceName serviceName, int locationId)
-            throws ServiceNotAvailableException, NoLocationRegisteredException {
+    public ServiceData getOfflineData(ServiceName serviceName, int locationId) throws NoLocationRegisteredException {
         Location location = getLocation(locationId);
         return serviceManager.getOfflineData(serviceName, location);
     }

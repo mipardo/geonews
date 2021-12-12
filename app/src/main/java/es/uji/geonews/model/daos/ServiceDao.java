@@ -1,4 +1,4 @@
-package es.uji.geonews.model.dao;
+package es.uji.geonews.model.daos;
 
 
 public class ServiceDao {

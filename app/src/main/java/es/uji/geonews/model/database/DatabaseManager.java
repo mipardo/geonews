@@ -1,12 +1,11 @@
 package es.uji.geonews.model.database;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.JsonSyntaxException;
 
-import es.uji.geonews.model.dao.UserDao;
-import es.uji.geonews.model.dao.UserDaoConverter;
+import es.uji.geonews.model.daos.UserDao;
+import es.uji.geonews.model.daos.UserDaoConverter;
 import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;

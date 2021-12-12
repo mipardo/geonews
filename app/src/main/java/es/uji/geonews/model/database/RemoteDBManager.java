@@ -12,7 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import es.uji.geonews.model.dao.UserDao;
+import es.uji.geonews.model.daos.UserDao;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 

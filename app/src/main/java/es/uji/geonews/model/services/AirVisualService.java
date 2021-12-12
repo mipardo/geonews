@@ -35,8 +35,6 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
             return jsonObject.getString("status").equals("success");
 
         } catch (IOException | JSONException exception){
-            //TODO: Al validar la ubicacion, si no tenemos conexion no es
-            // mejor lanzar ServiceNotAvailableException ??
             return false;
         }
     }
@@ -63,7 +61,7 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
     }
 
     @Override
-    public List<ServiceData> getFutureData(Location location) throws ServiceNotAvailableException {
+    public List<ServiceData> getFutureData(Location location) {
         return null;
     }
 

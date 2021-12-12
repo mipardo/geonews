@@ -72,7 +72,7 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
     }
 
     @Override
-    public List<ServiceData> getFutureData(Location location) throws ServiceNotAvailableException {
+    public List<ServiceData> getFutureData(Location location) {
         return null;
     }
 

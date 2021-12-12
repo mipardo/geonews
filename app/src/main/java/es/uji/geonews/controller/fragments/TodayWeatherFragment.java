@@ -51,8 +51,8 @@ public class TodayWeatherFragment extends Fragment {
         weatherTemplate.setWeatherIcon(view.findViewById(R.id.actualWeatherIconTextview));
         weatherTemplate.setProgressBar(view.findViewById(R.id.today_progress_bar));
 
-        //new GetActualWeatherData(locationId, weatherTemplate, getContext()).execute();
-        //new GetForecastChartData(locationId, lineChart, getContext(), weatherTemplate.getProgressBar()).execute();
+        new GetActualWeatherData(locationId, weatherTemplate, getContext()).execute();
+        new GetForecastChartData(locationId, lineChart, getContext(), weatherTemplate.getProgressBar()).execute();
 
         return view;
     }
