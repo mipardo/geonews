@@ -19,7 +19,7 @@ public class ServiceManager {
     private Map<ServiceName, Service> services;
     private Map<Integer, List<ServiceName>> locationServices;
     private final ContextDataGetter contextDataGetter;
-    private Map<Integer, Map<ServiceName, ServiceData>> offlineData;
+    private HashMap<Integer, HashMap<ServiceName, ServiceData>> offlineData;
 
     public ServiceManager(){
         this.services = new HashMap<>();
@@ -204,7 +204,7 @@ public class ServiceManager {
         return activeServices;
     }
 
-    public Map<Integer, Map<ServiceName, ServiceData>> getOfflineData() {
+    public HashMap<Integer, HashMap<ServiceName, ServiceData>> getOfflineData() {
         return offlineData;
     }
 
@@ -224,7 +224,7 @@ public class ServiceManager {
         this.locationServices = locationServices;
     }
 
-    public void setOfflineData(Map<Integer, Map<ServiceName, ServiceData>> offlineData) {
+    public void setOfflineData(HashMap<Integer, HashMap<ServiceName, ServiceData>> offlineData) {
         this.offlineData = offlineData;
     }
 }

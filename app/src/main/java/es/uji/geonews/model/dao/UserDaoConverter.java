@@ -1,5 +1,9 @@
 package es.uji.geonews.model.dao;
 
+import android.util.Log;
+
+import com.google.firebase.firestore.auth.User;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +11,8 @@ import java.util.Map;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.AirVisualData;
+import es.uji.geonews.model.data.CurrentsData;
+import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
@@ -57,17 +63,43 @@ public class UserDaoConverter {
     }
 
     private static void setOfflineData(ServiceManager serviceManager, UserDao userDao){
-        Map<Integer, Map<ServiceName, ServiceData>> offlineData = serviceManager.getOfflineData();
-        for(String stringLocationId : userDao.getOfflineData().keySet()){
-            int locationId = Integer.parseInt(stringLocationId);
-            Map<String, ServiceData> locationOfflineDataLoaded = userDao.getOfflineData().get(stringLocationId);
-            if (locationOfflineDataLoaded == null) break;
-            Map<ServiceName, ServiceData> locationOfflineData = new HashMap<>();
-            for(String serviceNameString: locationOfflineDataLoaded.keySet()){
+        HashMap<Integer, HashMap<ServiceName, ServiceData>> newOfflineData = new HashMap<>();
+
+        OfflineDataDao offlineDataDao = userDao.getOfflineDataDao();
+
+        Map<String, AirVisualData> airVisualOfflineData = offlineDataDao.getAirVisualOfflineData();
+        for (String locationIdString : airVisualOfflineData.keySet()){
+            int locationId = Integer.parseInt(locationIdString);
+            if (!newOfflineData.containsKey(locationId)) {
+                newOfflineData.put(locationId, new HashMap<>());
             }
-            offlineData.put(locationId, locationOfflineData);
+            Map<ServiceName, ServiceData> locationServiceData = newOfflineData.get(locationId);
+            locationServiceData.put(ServiceName.AIR_VISUAL, airVisualOfflineData.get(locationIdString));
         }
+
+        Map<String, OpenWeatherData> openWeatherOfflineData = offlineDataDao.getOpenWeatherOfflineData();
+        for (String locationIdString : openWeatherOfflineData.keySet()){
+            int locationId = Integer.parseInt(locationIdString);
+            if (!newOfflineData.containsKey(locationId)) {
+                newOfflineData.put(locationId, new HashMap<>());
+            }
+            Map<ServiceName, ServiceData> locationServiceData = newOfflineData.get(locationId);
+            locationServiceData.put(ServiceName.OPEN_WEATHER, openWeatherOfflineData.get(locationIdString));
+        }
+
+        Map<String, CurrentsData> currentsOfflineData = offlineDataDao.getCurrentsOfflineData();
+        for (String locationIdString : currentsOfflineData.keySet()){
+            int locationId = Integer.parseInt(locationIdString);
+            if (!newOfflineData.containsKey(locationId)) {
+                newOfflineData.put(locationId, new HashMap<>());
+            }
+            Map<ServiceName, ServiceData> locationServiceData = newOfflineData.get(locationId);
+            locationServiceData.put(ServiceName.CURRENTS, currentsOfflineData.get(locationIdString));
+        }
+
+        serviceManager.setOfflineData(newOfflineData);
     }
+
 
     private static void setServices(ServiceManager serviceManager, UserDao userDao){
         for(Service service: serviceManager.getServices().values()){
@@ -78,22 +110,7 @@ public class UserDaoConverter {
             }
         }
     }
-    protected static Map<String, Map<String, ServiceData>> convertOfflineData(Map<Integer, Map<ServiceName, ServiceData>> offlineData) {
-        Map<String, Map<String, ServiceData>> res = new HashMap<>();
-        for (Map.Entry<Integer, Map<ServiceName, ServiceData>> entry: offlineData.entrySet()) {
-            res.put(String.valueOf(entry.getKey()), UserDaoConverter.convertServices(entry.getValue()));
-        }
-        return res;
-    }
 
-
-    protected static Map<Integer, Map<ServiceName, ServiceData>> convertOfflineDataBack(Map<String, Map<String, ServiceData>> offlinDataLoaded) {
-        Map<Integer, Map<ServiceName, ServiceData>> res = new HashMap<>();
-        for (Map.Entry<String, Map<String, ServiceData>> entry: offlinDataLoaded.entrySet()) {
-            res.put(Integer.parseInt(entry.getKey()), UserDaoConverter.convertServicesBack(entry.getValue()));
-        }
-        return res;
-    }
 
     protected static Map<Integer, List<ServiceName>> convertLocationServicesBack(Map<String, List<String>> locationServices) {
         Map<Integer, List<ServiceName>> convertedMap = new HashMap<>();

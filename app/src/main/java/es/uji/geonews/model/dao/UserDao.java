@@ -16,7 +16,7 @@ public class UserDao implements Serializable {
     private Map<String, Location> locations;
     private Map<String, ServiceDao> services;
     private Map<String, List<String>> locationServices;
-    private Map<String, Map<String, ServiceData>> offlineData;
+    private OfflineDataDao offlineData;
     private String lastModification;
 
     public UserDao() {}
@@ -27,7 +27,7 @@ public class UserDao implements Serializable {
         this.locations = UserDaoConverter.convertLocationsToHashMap(locationManager.getLocations());
         this.services = ServiceWrapper.convertServices(serviceManager.getServices());
         this.locationServices =  UserDaoConverter.convertLocationServicesHashMap(serviceManager.getLocationServices());
-        this.offlineData = UserDaoConverter.convertOfflineData(serviceManager.getOfflineData());
+        this.offlineData = new OfflineDataDao(serviceManager.getOfflineData());
         this.lastModification = LocalDateTime.now().toString();
     }
 
@@ -64,12 +64,12 @@ public class UserDao implements Serializable {
         this.locationServices = locationServices;
     }
 
-    public Map<String, Map<String, ServiceData>> getOfflineData() {
-        return offlineData;
+    public void setOfflineData(OfflineDataDao offlineDataDao) {
+        this.offlineData = offlineDataDao;
     }
 
-    public void setLastData(Map<String, Map<String, ServiceData>> offlineData) {
-        this.offlineData = offlineData;
+    public OfflineDataDao getOfflineDataDao() {
+        return offlineData;
     }
 
     public String getLastModification() {
