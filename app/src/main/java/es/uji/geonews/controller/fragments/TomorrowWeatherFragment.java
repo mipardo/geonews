@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -40,9 +41,6 @@ public class TomorrowWeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tomorrow_weather, container, false);
 
-        ConstraintLayout layout = view.findViewById(R.id.tomorrowWeatherLayout);
-        layout.setBackground(getSeasonBackground());
-        layout.setAlpha(0.8f);
         LineChart lineChart = view.findViewById(R.id.tomorrowChart);
         WeatherTemplate weatherTemplate = new WeatherTemplate();
         weatherTemplate.setDateTextview(view.findViewById(R.id.dateTextview));
@@ -62,25 +60,5 @@ public class TomorrowWeatherFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    private Drawable getSeasonBackground() {
-        final int DAY_SPRING_MIN = 80;
-        final int DAY_SPRING_MAX = 172;
-        final int DAY_SUMMER_MIN = DAY_SPRING_MAX;
-        final int DAY_SUMMER_MAX = 264;
-        final int DAY_FALL_MIN = DAY_SUMMER_MAX;
-        final int DAY_FALL_MAX = 355;
-
-        int dayOfYear = LocalDate.now().getDayOfYear();
-
-        if (dayOfYear > DAY_SPRING_MIN && dayOfYear <= DAY_SPRING_MAX) {
-            return AppCompatResources.getDrawable(getContext(), R.mipmap.spring);
-        } else if (dayOfYear > DAY_SUMMER_MIN && dayOfYear <= DAY_SUMMER_MAX) {
-            return AppCompatResources.getDrawable(getContext(), R.mipmap.summer);
-        } else if (dayOfYear > DAY_FALL_MIN && dayOfYear <= DAY_FALL_MAX) {
-            return AppCompatResources.getDrawable(getContext(), R.mipmap.autumn);
-        }
-        return AppCompatResources.getDrawable(getContext(), R.mipmap.winter);
     }
 }

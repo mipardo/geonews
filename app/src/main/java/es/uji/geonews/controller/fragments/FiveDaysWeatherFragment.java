@@ -1,17 +1,22 @@
 package es.uji.geonews.controller.fragments;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.MotionEventCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -47,9 +52,30 @@ public class FiveDaysWeatherFragment extends Fragment {
         settings.setVisibility(View.VISIBLE);
 
         View view = inflater.inflate(R.layout.fragment_five_days_weather, container, false);
-        ConstraintLayout layout = view.findViewById(R.id.fiveDaysLayout);
-        layout.setBackground(getSeasonBackground());
         RecyclerView recyclerView = view.findViewById(R.id.five_days_recycler_view);
+//        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+//            @Override
+//            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+//                int action = e.getAction();
+//                switch (action) {
+//                    case MotionEvent.ACTION_MOVE:
+//                        if (rv.canScrollVertically(-1))
+//                            rv.getParent().requestDisallowInterceptTouchEvent(true);
+//                        break;
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+//
+//            }
+//        });
         ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
 
         List<ServiceData> forecast = new ArrayList<>();
@@ -62,25 +88,5 @@ public class FiveDaysWeatherFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    private Drawable getSeasonBackground() {
-        final int DAY_SPRING_MIN = 80;
-        final int DAY_SPRING_MAX = 172;
-        final int DAY_SUMMER_MIN = DAY_SPRING_MAX;
-        final int DAY_SUMMER_MAX = 264;
-        final int DAY_FALL_MIN = DAY_SUMMER_MAX;
-        final int DAY_FALL_MAX = 355;
-
-        int dayOfYear = LocalDate.now().getDayOfYear();
-
-        if (dayOfYear > DAY_SPRING_MIN && dayOfYear <= DAY_SPRING_MAX) {
-            return AppCompatResources.getDrawable(getContext(), R.mipmap.spring);
-        } else if (dayOfYear > DAY_SUMMER_MIN && dayOfYear <= DAY_SUMMER_MAX) {
-            return AppCompatResources.getDrawable(getContext(), R.mipmap.summer);
-        } else if (dayOfYear > DAY_FALL_MIN && dayOfYear <= DAY_FALL_MAX) {
-            return AppCompatResources.getDrawable(getContext(), R.mipmap.autumn);
-        }
-        return AppCompatResources.getDrawable(getContext(), R.mipmap.winter);
     }
 }

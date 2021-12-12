@@ -5,8 +5,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +53,9 @@ public class AirVisualFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
+        toolbar.setTitle("Calidad del aire");
+
         RelativeLayout settings =  getActivity().findViewById(R.id.settings);
         settings.setVisibility(View.VISIBLE);
 
@@ -71,5 +76,15 @@ public class AirVisualFragment extends Fragment {
 
         new GetAirVisualOfflineData(locationId, airTemplate, progressBar, pieChart, getContext()).execute();
         new GetAirVisualData(locationId, airTemplate, progressBar, pieChart, getContext()).execute();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
+            toolbar.setTitle("Calidad del aire");
+        }
+        Log.e("dsadsa", "VISIBLE");
     }
 }

@@ -1,16 +1,18 @@
 package es.uji.geonews.model.services;
 
 public enum ServiceName {
-    GEOCODE ("Geocode"),
-    OPEN_WEATHER ("OpenWeather"),
-    AIR_VISUAL ("AirVisual"),
-    CURRENTS ("Currents"),
-    GPS ("Gps");
+    GEOCODE ("Geocode", "Coordenadas"),
+    OPEN_WEATHER ("OpenWeather", "Tiempo"),
+    AIR_VISUAL ("AirVisual", "Calidad del aire"),
+    CURRENTS ("Currents", "Noticias"),
+    GPS ("Gps", "Gps");
 
     public final String name;
+    public final String label;
 
-    ServiceName(String name){
+    ServiceName(String name, String label){
         this.name = name;
+        this.label = label;
     }
 
     public static ServiceName fromString (String text) {
