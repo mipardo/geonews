@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
-import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.data.OpenWeatherForecastData;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
@@ -32,7 +32,7 @@ public class GetForecastChartData extends UserTask {
     private int locationId;
     private LineChart lineChart;
     private ProgressBar progressBar;
-    private List<Data> forecast;
+    private List<ServiceData> forecast;
     private String error;
 
     private static final ValueFormatter celsiusFormatter = new ValueFormatter() {
@@ -98,7 +98,7 @@ public class GetForecastChartData extends UserTask {
 //        double maxMean = 0;
         double actualMean = 0;
         int recordCounter = 0;
-        for (Data windowForecast : forecast) {
+        for (ServiceData windowForecast : forecast) {
             OpenWeatherForecastData forecastSection = (OpenWeatherForecastData) windowForecast;
             int day = LocalDateTime.ofInstant(Instant.ofEpochMilli(forecastSection.getTimestamp() * 1000),
                     TimeZone.getDefault().toZoneId()).getDayOfMonth();

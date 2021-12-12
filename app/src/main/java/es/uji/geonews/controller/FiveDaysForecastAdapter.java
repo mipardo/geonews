@@ -20,18 +20,18 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import es.uji.geonews.R;
-import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.data.OpenWeatherForecastData;
+import es.uji.geonews.model.data.ServiceData;
 
 public class FiveDaysForecastAdapter extends RecyclerView.Adapter<FiveDaysForecastAdapter.ViewHolder> {
-    private List<Data> forecast;
+    private List<ServiceData> forecast;
 
-    public FiveDaysForecastAdapter(List<Data> forecast) {
+    public FiveDaysForecastAdapter(List<ServiceData> forecast) {
         this.forecast = forecast;
     }
 
-    public void updateForecast(List<Data> forecast) {
+    public void updateForecast(List<ServiceData> forecast) {
         this.forecast = forecast;
         notifyDataSetChanged();
     }

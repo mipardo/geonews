@@ -1,9 +1,10 @@
 package es.uji.geonews.model.services;
 
+import java.io.Serializable;
 import java.util.List;
 
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 
 public class ContextDataGetter {
@@ -17,14 +18,14 @@ public class ContextDataGetter {
         this.service = service;
     }
 
-    public Data getData(Location location) throws ServiceNotAvailableException {
+    public ServiceData getData(Location location) throws ServiceNotAvailableException {
         if (service != null) {
             return service.getData(location);
         }
         return null;
     }
 
-    public List<Data> getFutureData(Location location) throws ServiceNotAvailableException {
+    public List<ServiceData> getFutureData(Location location) throws ServiceNotAvailableException {
         if (service != null) {
             return service.getFutureData(location);
         }

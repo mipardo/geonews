@@ -1,8 +1,11 @@
 package es.uji.geonews.model.database;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.JsonSyntaxException;
+
+import es.uji.geonews.model.dao.ServiceDataDao;
 import es.uji.geonews.model.dao.UserDao;
 import es.uji.geonews.model.dao.UserDaoConverter;
 import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
@@ -30,19 +33,22 @@ public class DatabaseManager  {
         // If any problem is find then we load the data from the remote db
         localDBManager.loadAll(userId, new Callback() {
             @Override
-            public void onSuccess(UserDao userDao) {
+            public void onSuccess(UserDao userDao, ServiceDataDao serviceDataDao) {
                 UserDaoConverter.fillLocationManager(locationManager, userDao);
                 UserDaoConverter.fillServiceManager(serviceManager, userDao);
             }
             @Override
             public void onFailure(Exception e) {
+                e.printStackTrace();
                 if (e instanceof JsonSyntaxException) {
                     //If we get this exception is the first time the app is running
                     return;
+                } else {
+                    e.printStackTrace();
                 }
                 remoteDBManager.loadAll(userId, new Callback() {
                     @Override
-                    public void onSuccess(UserDao userDao) {
+                    public void onSuccess(UserDao userDao, ServiceDataDao serviceDataDao) {
                         UserDaoConverter.fillLocationManager(locationManager, userDao);
                         UserDaoConverter.fillServiceManager(serviceManager, userDao);
                     }
@@ -62,7 +68,7 @@ public class DatabaseManager  {
         if (! remoteDBManager.isAvailable()) throw new DatabaseNotAvailableException();
         remoteDBManager.loadAll(userId, new Callback() {
             @Override
-            public void onSuccess(UserDao userDao) {
+            public void onSuccess(UserDao userDao, ServiceDataDao serviceDataDao) {
                 if (userDao != null){
                     UserDaoConverter.fillLocationManager(locationManager, userDao);
                     UserDaoConverter.fillServiceManager(serviceManager, userDao);
@@ -77,6 +83,7 @@ public class DatabaseManager  {
     }
 
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
+        Log.e("SAVEALL", "DB local: " + localDBManager.isAvailable());
         if (localDBManager.isAvailable())
             localDBManager.saveAll(userId, locationManager,serviceManager);
         if (remoteDBManager.isAvailable())

@@ -8,7 +8,7 @@ import java.util.List;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.AirVisualData;
-import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -42,7 +42,7 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
     }
 
     @Override
-    public Data getData(Location location) throws ServiceNotAvailableException {
+    public ServiceData getData(Location location) throws ServiceNotAvailableException {
         String url = "https://api.airvisual.com/v2/nearest_city?"
                 + "lat=" + location.getGeographCoords().getLatitude()
                 + "&lon=" + location.getGeographCoords().getLongitude()
@@ -63,7 +63,7 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
     }
 
     @Override
-    public List<Data> getFutureData(Location location) throws ServiceNotAvailableException {
+    public List<ServiceData> getFutureData(Location location) throws ServiceNotAvailableException {
         return null;
     }
 

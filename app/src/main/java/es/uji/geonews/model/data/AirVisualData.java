@@ -1,6 +1,7 @@
 package es.uji.geonews.model.data;
 
-public class AirVisualData implements Data {
+
+public class AirVisualData extends ServiceData {
     private int temperature;        // In celsius
     private int pressure;           // In hPa
     private int humidity;           // In %
@@ -13,6 +14,7 @@ public class AirVisualData implements Data {
     private String mainUs;          // Main pollutant for US AQI
     private String mainCn;          // Main pollutant for Chinese AQI
 
+    public AirVisualData (){}
 
     public int getTemperature() {
         return temperature;
@@ -93,5 +95,6 @@ public class AirVisualData implements Data {
     public void setMainCn(String mainCn) {
         this.mainCn = mainCn;
     }
+
 }
 

@@ -1,12 +1,14 @@
 package es.uji.geonews.model.data;
 
-public class OpenWeatherData implements Data {
+public class OpenWeatherData extends ServiceData {
     private double maxTemp;
     private double minTemp;
     private double actTemp;
     private String main;
     private String description;
     private String icon;
+
+    public OpenWeatherData(){ }
 
     public double getMaxTemp() {
         return maxTemp;
@@ -55,4 +57,5 @@ public class OpenWeatherData implements Data {
     public void setIcon(String icon) {
         this.icon = icon;
     }
+
 }

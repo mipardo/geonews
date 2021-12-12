@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import es.uji.geonews.controller.FiveDaysForecastAdapter;
-import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
@@ -21,7 +21,7 @@ public class GetFiveDayForecastData extends UserTask {
     private final int locationId;
     private final RecyclerView recyclerView;
     private String error;
-    private List<Data> data;
+    private List<ServiceData> data;
 
     public GetFiveDayForecastData(int locationId, RecyclerView recyclerView, ProgressBar progressBar, Context context) {
         this.locationId = locationId;

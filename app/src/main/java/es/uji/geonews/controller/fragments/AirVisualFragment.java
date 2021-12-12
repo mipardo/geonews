@@ -20,6 +20,7 @@ import com.github.mikephil.charting.charts.PieChart;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.tasks.GetAirVisualData;
+import es.uji.geonews.controller.tasks.GetAirVisualOfflineData;
 import es.uji.geonews.controller.template.AirTemplate;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
@@ -59,8 +60,6 @@ public class AirVisualFragment extends Fragment {
         TextView pressureOutput = view.findViewById(R.id.pressure_output);
         TextView windSpeedOutput = view.findViewById(R.id.wind_speed_output);
         ImageView windDirectionOutput = view.findViewById(R.id.wind_direction_output);
-        //TextView aqiUsOutput = view.findViewById(R.id.aqi_us_output);
-        //TextView mainPollutantUsOutput = view.findViewById(R.id.aqi_us_main_pollutant_output);
         PieChart pieChart = view.findViewById(R.id.air_visual_chart);
 
         AirTemplate airTemplate = new AirTemplate();
@@ -69,9 +68,8 @@ public class AirVisualFragment extends Fragment {
         airTemplate.setPreassureOutput(pressureOutput);
         airTemplate.setWindDirectionOuptut(windDirectionOutput);
         airTemplate.setWindSpeedOutput(windSpeedOutput);
-        //airTemplate.setAqiUsOutput(aqiUsOutput);
-        //airTemplate.setMainPollutantUsOutput(mainPollutantUsOutput);
 
+        new GetAirVisualOfflineData(locationId, airTemplate, progressBar, pieChart, getContext()).execute();
         new GetAirVisualData(locationId, airTemplate, progressBar, pieChart, getContext()).execute();
     }
 }

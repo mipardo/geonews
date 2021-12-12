@@ -12,6 +12,8 @@ public class News {
     private List<String> category;
     private String published;
 
+    public News(){}
+
     public String getId() {
         return id;
     }

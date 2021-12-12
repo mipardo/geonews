@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.services.ContextDataGetter;
 import es.uji.geonews.model.services.DataGetterStrategy;
@@ -19,13 +19,13 @@ public class ServiceManager {
     private Map<ServiceName, Service> services;
     private Map<Integer, List<ServiceName>> locationServices;
     private final ContextDataGetter contextDataGetter;
-    private Map<Integer, Map<ServiceName, Data>> lastData; // This is the last data loaded from services
+    private Map<Integer, Map<ServiceName, ServiceData>> offlineData;
 
     public ServiceManager(){
         this.services = new HashMap<>();
         this.locationServices = new HashMap<>();
         this.contextDataGetter = new ContextDataGetter();
-        this.lastData = new HashMap<>();
+        this.offlineData = new HashMap<>();
     }
 
     public Map<String, String> getServicesDescription() throws ServiceNotAvailableException {
@@ -58,29 +58,44 @@ public class ServiceManager {
     }
 
 
-    public Data getData(ServiceName serviceName, Location location) throws ServiceNotAvailableException {
-        List<ServiceName> activeServices = locationServices.get(location.getId());
-
+    public ServiceData getData(ServiceName serviceName, Location location) throws ServiceNotAvailableException {
         if (!services.get(serviceName).isAvailable()) {
             throw new ServiceNotAvailableException();
         }
 
+        List<ServiceName> activeServices = locationServices.get(location.getId());
         if (activeServices.contains(serviceName)) {
             DataGetterStrategy service = (DataGetterStrategy) getService(serviceName);
             contextDataGetter.setService(service);
-//            Data lastLocationServiceData = contextDataGetter.getData(location);
-//            Map<ServiceName, Data> serviceData = lastData.get(location.getId());
-//            if (serviceData == null) {
-//                serviceData = new HashMap<>();
-//            }
-//            serviceData.put(serviceName, lastLocationServiceData);
-//            lastData.put(location.getId(), serviceData);
-            return contextDataGetter.getData(location);
+            ServiceData newData = contextDataGetter.getData(location);
+            updateOfflineData(serviceName, location.getId(), newData);
+            return newData;
         }
         return null;
     }
 
-    public List<Data> getFutureData(ServiceName serviceName, Location location) throws ServiceNotAvailableException {
+    public ServiceData getOfflineData(ServiceName serviceName, Location location)
+            throws ServiceNotAvailableException {
+        List<ServiceName> activeServices = locationServices.get(location.getId());
+        if (activeServices.contains(serviceName)){
+            if (offlineData.get(location.getId()) == null ||
+                    offlineData.get(location.getId()).get(serviceName) == null) {
+                return getData(serviceName, location);
+            }
+            return offlineData.get(location.getId()).get(serviceName);
+        }
+        return null;
+    }
+
+    private void updateOfflineData(ServiceName serviceName, int locationId, ServiceData newData){
+        // Si no tenia ninguna data cargado (para ningun servicio), seteamos un hashmap vacio
+        offlineData.computeIfAbsent(locationId, k -> new HashMap<>());
+        // Cogemos el data cargado de la ubicacion. Si no tenia ninguno sera un map vacio
+        Map<ServiceName, ServiceData> locationOfflineData = offlineData.get(locationId);
+        locationOfflineData.put(serviceName, newData);
+    }
+
+    public List<ServiceData> getFutureData(ServiceName serviceName, Location location) throws ServiceNotAvailableException {
         List<ServiceName> activeServices = locationServices.get(location.getId());
 
         if (!services.get(serviceName).isAvailable()) {
@@ -189,8 +204,8 @@ public class ServiceManager {
         return activeServices;
     }
 
-    public Map<Integer, Map<ServiceName, Data>> getLastData() {
-        return lastData;
+    public Map<Integer, Map<ServiceName, ServiceData>> getOfflineData() {
+        return offlineData;
     }
 
     public Map<ServiceName, Service> getServices() {
@@ -209,7 +224,7 @@ public class ServiceManager {
         this.locationServices = locationServices;
     }
 
-    public void setLastData(Map<Integer, Map<ServiceName, Data>> lastData) {
-        this.lastData = lastData;
+    public void setOfflineData(Map<Integer, Map<ServiceName, ServiceData>> offlineData) {
+        this.offlineData = offlineData;
     }
 }

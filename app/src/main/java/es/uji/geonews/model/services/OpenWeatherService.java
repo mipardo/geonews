@@ -10,8 +10,8 @@ import java.util.List;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.OpenWeatherData;
-import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.data.OpenWeatherForecastData;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -42,7 +42,7 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
     }
 
     @Override
-    public Data getData(Location location) throws ServiceNotAvailableException {
+    public ServiceData getData(Location location) throws ServiceNotAvailableException {
         String url = "https://api.openweathermap.org/data/2.5/weather?"
                 + "lat=" + location.getGeographCoords().getLatitude()
                 + "&lon=" + location.getGeographCoords().getLongitude()
@@ -65,7 +65,7 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
     }
 
     @Override
-    public List<Data> getFutureData(Location location) throws ServiceNotAvailableException {
+    public List<ServiceData> getFutureData(Location location) throws ServiceNotAvailableException {
         String url = "https://api.openweathermap.org/data/2.5/forecast?"
                 + "lat=" + location.getGeographCoords().getLatitude()
                 + "&lon=" + location.getGeographCoords().getLongitude()
@@ -98,8 +98,8 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
         return openWeatherLocationData;
     }
 
-    private List<Data> convertToOpenWeatherForecastFutureData(JSONObject jsonObject) throws JSONException {
-        List<Data> forecastDataList = new ArrayList<>();
+    private List<ServiceData> convertToOpenWeatherForecastFutureData(JSONObject jsonObject) throws JSONException {
+        List<ServiceData> forecastDataList = new ArrayList<>();
         JSONArray futureData = jsonObject.getJSONArray("list");
         for (int i = 0; i < futureData.length(); i++) {
             JSONObject actualObject = futureData.getJSONObject(i);

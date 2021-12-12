@@ -2,10 +2,20 @@ package es.uji.geonews.model.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.UUID;
+
+import es.uji.geonews.model.dao.ServiceDataDao;
 import es.uji.geonews.model.dao.UserDao;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 
@@ -30,27 +40,27 @@ public class LocalDBManager implements DataBase{
 
     @Override
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
-        //Crear Un conjunto de datos con to-do lo que queremos guardar de Sistema
         UserDao userDao = new UserDao(userId, locationManager, serviceManager);
-        //Pasarlo a un Json
-        String configuracionUser = json.toJson(userDao);
-        //Guardarlo con Context y sharedpreferences
+        ServiceDataDao serviceDataDao = new ServiceDataDao(serviceManager.getOfflineData());
+        String user = json.toJson(userDao);
+        String offlineData = json.toJson(serviceDataDao);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("configuracion", configuracionUser);
-
+        editor.putString("configuracion", user);
+        editor.putString("offlineServiceData" , offlineData);
         editor.apply();
     }
 
 
     @Override
     public void loadAll(String userId, Callback callback) {
-        //Cargar un conjunto de datos guardado en el sistema
         String configuracion = sharedPreferences.getString("configuracion","No existe la informacion");
-        //Transformalo en la clase UserDao
+        String offlineServiceData = sharedPreferences.getString("offlineServiceData", "No existe informacion guardada de servicios");
         try {
+            Type serviceDataType = new TypeToken<List<ServiceData>>() {}.getType();
+            ServiceDataDao serviceDataDao = json.fromJson(offlineServiceData, serviceDataType);
             UserDao userDao = json.fromJson(configuracion, UserDao.class);
-            callback.onSuccess(userDao);
-        } catch (JsonSyntaxException exception) {
+            callback.onSuccess(userDao, serviceDataDao);
+        } catch (Exception exception) {
             callback.onFailure(exception);
         }
     }
