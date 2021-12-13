@@ -59,25 +59,6 @@
                     />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/categoryLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/newsTitleLayout">
-
-                <TextView
-                    android:id="@+id/textviewCategory1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/common_google_signin_btn_text_light"
-                    android:textSize="14sp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
-                    />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
             <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="match_parent"
@@ -85,26 +66,7 @@
                 android:contentDescription="imagen de la noticia"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/categoryLayout"/>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/authorLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView1">
-
-                <TextView
-                    android:id="@+id/textAuthor1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
-                    android:textStyle="bold"
-                    />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                app:layout_constraintTop_toBottomOf="@id/newsTitleLayout"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/descriptionLayout"
@@ -113,7 +75,7 @@
                 android:layout_marginBottom="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/authorLayout">
+                app:layout_constraintTop_toBottomOf="@id/imageView1">
 
                 <TextView
                     android:id="@+id/textDescripcion1"
@@ -138,15 +100,71 @@
                 app:layout_constraintTop_toBottomOf="@id/descriptionLayout"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/authorLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lastDivider">
 
                 <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Autor: "/>
+
+                <TextView
+                    android:id="@+id/textAuthor1"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:textStyle="bold"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/categoryLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/authorLayout">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Categorías: "/>
+
+                <TextView
+                    android:id="@+id/textviewCategory1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/common_google_signin_btn_text_light"
+                    android:textSize="12sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/categoryLayout">
+
+                <TextView
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:layout_marginTop="10dp"

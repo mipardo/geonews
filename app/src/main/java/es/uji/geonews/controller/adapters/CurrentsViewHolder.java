@@ -47,7 +47,7 @@ public class CurrentsViewHolder extends RecyclerView.ViewHolder {
     public void bind(News news) {
         publishedDate.setText(parseDate(news.getPublished()));
         title.setText(news.getTitle());
-        category.setText("Categorías: " + String.join(", ", news.getCategory()));
+        category.setText(String.join(", ", news.getCategory()));
         author.setText(news.getAuthor());
         description.setText(news.getDescription());
         Picasso.get()
