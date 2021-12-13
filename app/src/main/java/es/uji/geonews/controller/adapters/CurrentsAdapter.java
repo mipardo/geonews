@@ -32,7 +32,7 @@ public class CurrentsAdapter extends RecyclerView.Adapter<CurrentsViewHolder> {
                 parent,
                 false
         );
-        return new CurrentsViewHolder(view);
+        return new CurrentsViewHolder(view, parent.getContext());
     }
 
     @Override
