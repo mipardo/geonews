@@ -1,7 +1,6 @@
 package es.uji.geonews.controller.tasks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.squareup.picasso.Picasso;
@@ -19,9 +18,9 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GetActualWeatherData extends UserTask {
-    private WeatherTemplate weatherTemplate;
-    private int locationId;
-    private Context context;
+    private final WeatherTemplate weatherTemplate;
+    private final int locationId;
+    private final Context context;
     private OpenWeatherData data;
     private String error;
 

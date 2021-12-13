@@ -1,6 +1,5 @@
 package es.uji.geonews.controller.tasks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import es.uji.geonews.controller.template.AirTemplate;
 import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
@@ -65,8 +63,6 @@ public class GetAirVisualOfflineData extends UserTask {
                             airTemplate.getHumidityOutput().setText(airVisualData.getHumidity() + " %");
                             airTemplate.getWindSpeedOutput().setText(airVisualData.getWindSpeed() + " m/s");
                             airTemplate.getWindDirectionOuptut().setRotation(airVisualData.getWindDirection());
-                            //airTemplate.getAqiUsOutput().setText(airVisualData.getAqiUs() + "");
-                            //airTemplate.getMainPollutantUsOutput().setText(airVisualData.getMainUs() + "");
                         }
                     }
                 });
@@ -123,7 +119,7 @@ public class GetAirVisualOfflineData extends UserTask {
         else if (aqiUs < 151) color = Color.rgb(245, 226, 0);
         else if (aqiUs < 201) color = Color.rgb(231, 168, 19);
         else if (aqiUs < 251) color = Color.rgb(231, 119, 19);
-        else color = Color.rgb(231, 19, 19);;
+        else color = Color.rgb(231, 19, 19);
         return color;
     }
 }

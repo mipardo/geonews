@@ -1,13 +1,9 @@
 package es.uji.geonews.controller.fragments;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -16,8 +12,6 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
 
-import java.time.LocalDate;
-
 import es.uji.geonews.R;
 import es.uji.geonews.controller.tasks.GetForecastChartData;
 import es.uji.geonews.controller.tasks.GetTomorrowWeatherData;
@@ -25,7 +19,7 @@ import es.uji.geonews.controller.template.WeatherTemplate;
 
 
 public class TomorrowWeatherFragment extends Fragment {
-    private int locationId;
+    private final int locationId;
 
     public TomorrowWeatherFragment(int locationId) {
         this.locationId = locationId;

@@ -52,7 +52,8 @@
                 app:layout_constraintHorizontal_weight="2"
                 app:layout_constraintLeft_toRightOf="@+id/date_layout"
                 app:layout_constraintRight_toLeftOf="@+id/maxMinTemp"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="Deslice hacia arriba" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/maxMinTemp"

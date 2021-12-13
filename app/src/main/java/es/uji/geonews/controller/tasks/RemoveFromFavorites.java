@@ -1,18 +1,10 @@
 package es.uji.geonews.controller.tasks;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
 
 import es.uji.geonews.R;
-import es.uji.geonews.controller.LocationListAdapter;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 

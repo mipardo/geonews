@@ -24,9 +24,9 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GetTomorrowWeatherData extends UserTask {
-    private WeatherTemplate weatherTemplate;
-    private int locationId;
-    private Context context;
+    private final WeatherTemplate weatherTemplate;
+    private final int locationId;
+    private final Context context;
     private OpenWeatherData data;
     private String error;
 

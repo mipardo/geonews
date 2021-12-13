@@ -171,7 +171,8 @@
                 tools:layout_conversion_absoluteWidth="415dp"
                 tools:layout_editor_absoluteX="-1dp"
                 tools:layout_editor_absoluteY="286dp"
-                tools:src="@tools:sample/avatars" />
+                tools:src="@tools:sample/avatars"
+                android:contentDescription="imagen de la noticia" />
 
             <TextView
                 android:id="@+id/textAuthor1"
@@ -255,50 +256,6 @@
                     tools:layout_editor_absoluteY="253dp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="match_parent"
-                android:layout_height="252dp"
-                tools:layout_conversion_absoluteHeight="237dp"
-                tools:layout_conversion_absoluteWidth="415dp"
-                tools:layout_editor_absoluteX="-1dp"
-                tools:layout_editor_absoluteY="286dp"
-                tools:src="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/textAuthor2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Autor"
-                android:textSize="20sp"
-                tools:layout_conversion_absoluteHeight="27dp"
-                tools:layout_conversion_absoluteWidth="415dp"
-                tools:layout_editor_absoluteX="-1dp"
-                tools:layout_editor_absoluteY="523dp" />
-
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textDescripcion2"
-                        android:layout_width="match_parent"
-                        android:layout_height="198dp"
-                        android:text="Descripsao"
-                        android:textSize="20sp"
-                        tools:layout_conversion_absoluteHeight="145dp"
-                        tools:layout_conversion_absoluteWidth="415dp"
-                        tools:layout_editor_absoluteX="-1dp"
-                        tools:layout_editor_absoluteY="550dp" />
-                </LinearLayout>
-            </ScrollView>
 
 
         </LinearLayout>

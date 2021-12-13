@@ -131,7 +131,7 @@
             android:id="@+id/actualWeatherIconTextview"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            />
+            android:contentDescription="icono del clima" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -205,7 +205,8 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:src="@mipmap/swipe"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="10dp"
+            android:contentDescription="Deslice hacia arriba" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

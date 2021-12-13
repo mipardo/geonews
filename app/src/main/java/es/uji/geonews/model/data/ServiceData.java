@@ -1,7 +1,7 @@
 package es.uji.geonews.model.data;
 
 
-public class ServiceData {
+public abstract class ServiceData {
     public ServiceData(){}
 
 }

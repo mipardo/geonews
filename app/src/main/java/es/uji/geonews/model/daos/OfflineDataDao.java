@@ -11,9 +11,9 @@ import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.services.ServiceName;
 
 public class OfflineDataDao {
-    private Map<String, AirVisualData> airVisualOfflineData;
-    private Map<String, OpenWeatherData> openWeatherOfflineData;
-    private Map<String, CurrentsData> currentsOfflineData;
+    private final Map<String, AirVisualData> airVisualOfflineData;
+    private final Map<String, OpenWeatherData> openWeatherOfflineData;
+    private final Map<String, CurrentsData> currentsOfflineData;
 
     public OfflineDataDao(HashMap<Integer, HashMap<ServiceName, ServiceData>> offlineData) {
         airVisualOfflineData = new HashMap<>();

@@ -1,6 +1,5 @@
 package es.uji.geonews.controller.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -24,12 +22,10 @@ import es.uji.geonews.R;
 import es.uji.geonews.controller.tasks.GetAirVisualData;
 import es.uji.geonews.controller.tasks.GetAirVisualOfflineData;
 import es.uji.geonews.controller.template.AirTemplate;
-import es.uji.geonews.model.managers.GeoNewsManager;
-import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 
 public class AirVisualFragment extends Fragment {
-    private int locationId;
+    private final int locationId;
 
     public AirVisualFragment(int locationId) {
         this.locationId = locationId;

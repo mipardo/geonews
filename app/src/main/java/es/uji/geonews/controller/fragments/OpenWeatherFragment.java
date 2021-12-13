@@ -6,9 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -21,7 +18,7 @@ import es.uji.geonews.R;
 
 public class OpenWeatherFragment extends Fragment {
     private static final int NUM_PAGES = 3;
-    private int locationId;
+    private final int locationId;
     private ViewPager2 weatherPager;
     private ScreenSlideWeatherPagerAdapter weatherPagerAdapter;
 

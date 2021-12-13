@@ -1,6 +1,5 @@
 package es.uji.geonews.model.services;
 
-import java.io.Serializable;
 import java.util.List;
 
 import es.uji.geonews.model.Location;

@@ -7,13 +7,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
 
 import es.uji.geonews.R;
-import es.uji.geonews.controller.LocationListAdapter;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;

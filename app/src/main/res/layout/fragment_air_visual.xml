@@ -90,7 +90,8 @@
                         app:layout_constraintBottom_toBottomOf="@+id/temperature_label"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/temperature_label"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="Termometro" />
 
                     <TextView
                         android:id="@+id/temperature_output"
@@ -175,7 +176,8 @@
                         android:src="@drawable/arrow"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/wind_speed_output"
-                        app:layout_constraintTop_toBottomOf="@+id/wind_label" />
+                        app:layout_constraintTop_toBottomOf="@+id/wind_label"
+                        android:contentDescription="Dirección del viento" />
 
                     <ImageView
                         android:id="@+id/wind_image"
@@ -186,7 +188,8 @@
                         android:src="@drawable/wind"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/wind_label"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="Viento" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -218,7 +221,8 @@
                         app:layout_constraintBottom_toBottomOf="@+id/humidity_label"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/humidity_label"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="Humedad relativa" />
 
                     <TextView
                         android:id="@+id/humidity_output"

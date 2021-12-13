@@ -2,7 +2,6 @@ package es.uji.geonews.controller.tasks;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -10,7 +9,6 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
@@ -28,10 +26,10 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GetForecastChartData extends UserTask {
-    private Context context;
-    private int locationId;
-    private LineChart lineChart;
-    private ProgressBar progressBar;
+    private final Context context;
+    private final int locationId;
+    private final LineChart lineChart;
+    private final ProgressBar progressBar;
     private List<ServiceData> forecast;
     private String error;
 

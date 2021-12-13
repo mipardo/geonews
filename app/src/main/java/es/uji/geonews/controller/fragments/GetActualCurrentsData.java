@@ -2,10 +2,8 @@ package es.uji.geonews.controller.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -17,10 +15,8 @@ import java.util.Locale;
 
 import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.controller.template.CurrentsTemplate;
-import es.uji.geonews.controller.template.WeatherTemplate;
 import es.uji.geonews.model.data.CurrentsData;
 import es.uji.geonews.model.data.News;
-import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManager;
@@ -28,9 +24,9 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GetActualCurrentsData extends UserTask {
-    private GeoNewsManager geoNewsManager;
-    private ProgressBar progressBar;
-    private List<CurrentsTemplate> currentsTemplateList;
+    private final GeoNewsManager geoNewsManager;
+    private final ProgressBar progressBar;
+    private final List<CurrentsTemplate> currentsTemplateList;
     private final int locationId;
     private final Context context;
     private String error;

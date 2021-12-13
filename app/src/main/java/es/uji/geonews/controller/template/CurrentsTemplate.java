@@ -1,7 +1,6 @@
 package es.uji.geonews.controller.template;
 
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;

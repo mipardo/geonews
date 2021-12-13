@@ -1,6 +1,5 @@
 package es.uji.geonews.controller.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,11 +20,8 @@ import java.util.List;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.tasks.ActivateLocation;
-import es.uji.geonews.controller.tasks.AddServiceToLocation;
-import es.uji.geonews.controller.tasks.DeactivateLocation;
 import es.uji.geonews.controller.tasks.EditLocationAlias;
 import es.uji.geonews.controller.tasks.RemoveLocation;
-import es.uji.geonews.controller.tasks.RemoveServiceFromLocation;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManager;

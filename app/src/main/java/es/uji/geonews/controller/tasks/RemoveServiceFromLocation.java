@@ -2,19 +2,8 @@ package es.uji.geonews.controller.tasks;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.view.View;
-import android.widget.ProgressBar;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.List;
-
-import es.uji.geonews.controller.LocationListAdapter;
-import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
-import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
-import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;

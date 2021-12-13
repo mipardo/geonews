@@ -20,7 +20,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import es.uji.geonews.R;
-import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.data.OpenWeatherForecastData;
 import es.uji.geonews.model.data.ServiceData;
 

@@ -14,11 +14,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import es.uji.geonews.R;
-import es.uji.geonews.model.GeographCoords;
-import es.uji.geonews.model.Location;
-
-import java.time.LocalDate;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private NavController navController;

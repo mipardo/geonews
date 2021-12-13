@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -33,7 +32,6 @@ import es.uji.geonews.R;
 import es.uji.geonews.controller.LocationListAdapter;
 import es.uji.geonews.controller.tasks.AddLocation;
 import es.uji.geonews.controller.tasks.AddLocationByGPS;
-import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManager;

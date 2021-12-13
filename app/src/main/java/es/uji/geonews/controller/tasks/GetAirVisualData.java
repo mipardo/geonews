@@ -5,18 +5,15 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
 import es.uji.geonews.controller.template.AirTemplate;
-import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -68,8 +65,6 @@ public class GetAirVisualData extends UserTask {
                             airTemplate.getHumidityOutput().setText(airVisualData.getHumidity() + " %");
                             airTemplate.getWindSpeedOutput().setText(airVisualData.getWindSpeed() + " m/s");
                             airTemplate.getWindDirectionOuptut().setRotation(airVisualData.getWindDirection());
-                            //airTemplate.getAqiUsOutput().setText(airVisualData.getAqiUs() + "");
-                            //airTemplate.getMainPollutantUsOutput().setText(airVisualData.getMainUs() + "");
                         }
                     }
                 });
@@ -133,7 +128,7 @@ public class GetAirVisualData extends UserTask {
         else if (aqiUs < 151) color = Color.rgb(245, 226, 0);
         else if (aqiUs < 201) color = Color.rgb(231, 168, 19);
         else if (aqiUs < 251) color = Color.rgb(231, 119, 19);
-        else color = Color.rgb(231, 19, 19);;
+        else color = Color.rgb(231, 19, 19);
         return color;
     }
 }

@@ -20,11 +20,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import es.uji.geonews.R;
-import es.uji.geonews.controller.tasks.AddLocationByGPS;
-import es.uji.geonews.controller.tasks.GetAirVisualData;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
-import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceName;
 
 /**

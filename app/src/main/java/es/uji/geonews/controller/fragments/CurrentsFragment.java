@@ -10,14 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.firestore.auth.User;
-
 import es.uji.geonews.R;
-import es.uji.geonews.controller.tasks.UserTask;
 import es.uji.geonews.controller.template.CurrentsTemplate;
 
 public class CurrentsFragment extends Fragment {
-    private int locationId;
+    private final int locationId;
     private CurrentsTemplate currentsTemplate;
     private CurrentsTemplate currentsTemplate2;
     private CurrentsTemplate currentsTemplate3;
