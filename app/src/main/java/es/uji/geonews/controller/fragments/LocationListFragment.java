@@ -29,7 +29,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import es.uji.geonews.R;
-import es.uji.geonews.controller.LocationListAdapter;
+import es.uji.geonews.controller.adapters.LocationListAdapter;
 import es.uji.geonews.controller.tasks.AddLocation;
 import es.uji.geonews.controller.tasks.AddLocationByGPS;
 import es.uji.geonews.model.Location;

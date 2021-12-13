@@ -1,4 +1,4 @@
-package es.uji.geonews.controller;
+package es.uji.geonews.controller.adapters;
 
 import android.os.Bundle;
 import android.view.View;

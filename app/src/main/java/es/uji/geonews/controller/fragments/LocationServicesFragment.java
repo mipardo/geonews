@@ -61,7 +61,6 @@ public class LocationServicesFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                Log.e("sad", "Selected " + position);
                 Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
                 toolbar.setTitle(pagerAdapter.getFragmentLabel(position));
             }
@@ -93,7 +92,9 @@ public class LocationServicesFragment extends Fragment {
         }
 
         public String getFragmentLabel(int position) {
-            return locationServices.get(position).label;
+            return locationServices.size() > 0 ?
+                    locationServices.get(position).label :
+                    "Servicios";
         }
     }
 }
