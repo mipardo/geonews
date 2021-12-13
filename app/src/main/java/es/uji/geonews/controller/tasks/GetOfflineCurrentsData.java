@@ -53,25 +53,14 @@ public class GetOfflineCurrentsData extends UserTask{
                 runOnUiThread(new Runnable() {
                     public void run() {
                         progressBar.setVisibility(View.INVISIBLE);
-                        if (error != null) showAlertError();
-                        else {
+                        if (error == null) {
                             CurrentsAdapter adapter = (CurrentsAdapter) recyclerView.getAdapter();
-                            if (adapter != null) adapter.updateNews(news);
+                            if (adapter != null && news != null) adapter.updateNews(news);
                         }
                     }
 
                 });
             }
-
         }).start();
-    }
-
-    private void showAlertError(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Error al obtener nuevas noticias");
-        builder.setMessage("Pruebe más tarde");
-        builder.setPositiveButton("Aceptar", null);
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 }

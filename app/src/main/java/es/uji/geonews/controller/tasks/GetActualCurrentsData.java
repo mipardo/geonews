@@ -44,8 +44,9 @@ public class GetActualCurrentsData extends UserTask {
             @Override
             public void run() {
                 try {
-                    news = ((CurrentsData) geoNewsManager.getData(ServiceName.CURRENTS, locationId)).getNewsList();
-                    if( news == null ) error = "No news available";
+                    CurrentsData data = ((CurrentsData) geoNewsManager.getData(ServiceName.CURRENTS, locationId));
+                    if( data == null ) error = "No news available";
+                    else news = data.getNewsList();
                 } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
                     error = e.getMessage();
                 }
@@ -55,7 +56,7 @@ public class GetActualCurrentsData extends UserTask {
                         if (error != null) showAlertError();
                         else {
                             CurrentsAdapter adapter = (CurrentsAdapter) recyclerView.getAdapter();
-                            if (adapter != null) adapter.updateNews(news);
+                            if (adapter != null && news != null) adapter.updateNews(news);
                         }
                     }
 
