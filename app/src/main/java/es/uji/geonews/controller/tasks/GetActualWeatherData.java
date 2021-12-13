@@ -1,5 +1,6 @@
 package es.uji.geonews.controller.tasks;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
 
@@ -49,7 +50,7 @@ public class GetActualWeatherData extends UserTask {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         weatherTemplate.getProgressBar().setVisibility(View.INVISIBLE);
-                        if (error != null);
+                        if (error != null) showAlertError();
                         else
                         {
                             weatherTemplate.getDateTextview().setText(getActualDateAndTime());
@@ -75,5 +76,14 @@ public class GetActualWeatherData extends UserTask {
                 .appendPattern("dd MMMM HH:mm")
                 .toFormatter(new Locale("es", "ES"));
         return LocalDateTime.now().format(fmt);
+    }
+
+    private void showAlertError(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Error al obtener la predicción del tiempo");
+        builder.setMessage("Pruebe más tarde");
+        builder.setPositiveButton("Aceptar", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

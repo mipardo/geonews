@@ -1,5 +1,6 @@
 package es.uji.geonews.controller.tasks;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -65,7 +66,7 @@ public class GetForecastChartData extends UserTask {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         progressBar.setVisibility(View.INVISIBLE);
-                        if (error != null);
+                        if (error != null) showAlertError();
                         else
                         {
                             lineChart.setData(generateGraph());
@@ -86,14 +87,10 @@ public class GetForecastChartData extends UserTask {
     }
 
     private LineData generateGraph() {
-//        List<Entry> minTempEntries = new ArrayList<>();
-//        List<Entry> maxTempEntries = new ArrayList<>();
         List<Entry> actualTempEntries = new ArrayList<>();
 
         int lastDay = LocalDateTime.ofInstant(Instant.ofEpochMilli(((OpenWeatherForecastData) forecast.get(0)).getTimestamp() * 1000),
                 TimeZone.getDefault().toZoneId()).getDayOfMonth();
-//        double minMean = 0;
-//        double maxMean = 0;
         double actualMean = 0;
         int recordCounter = 0;
         for (ServiceData windowForecast : forecast) {
@@ -102,17 +99,12 @@ public class GetForecastChartData extends UserTask {
                     TimeZone.getDefault().toZoneId()).getDayOfMonth();
 
             if (day != lastDay) {
-//                minTempEntries.add(new Entry(lastDay, Math.round(minMean / recordCounter)));
-//                maxTempEntries.add(new Entry(lastDay, Math.round(maxMean / recordCounter)));
                 actualTempEntries.add(new Entry(lastDay, Math.round(actualMean / recordCounter)));
-//                minMean = 0;
-//                maxMean = 0;
                 actualMean = 0;
                 recordCounter = 0;
                 lastDay = day;
             }
-//            minMean += forecastSection.getMinTemp();
-//            maxMean += forecastSection.getMaxTemp();
+
             actualMean += forecastSection.getActTemp();
             recordCounter ++;
 
@@ -120,22 +112,20 @@ public class GetForecastChartData extends UserTask {
 
         }
         List<ILineDataSet> dataSets = new ArrayList<>();
-
-//        LineDataSet minDataSet = new LineDataSet(minTempEntries, "Min");
-//        minDataSet.setCircleColor(Color.BLUE);
-//        minDataSet.setColor(Color.BLUE);
-//        dataSets.add(minDataSet);
-//
-//        LineDataSet maxDataSet = new LineDataSet(maxTempEntries, "Max");
-//        maxDataSet.setCircleColor(Color.RED);
-//        maxDataSet.setColor(Color.RED);
-//        dataSets.add(maxDataSet);
-
         LineDataSet actualDataSet = new LineDataSet(actualTempEntries, "Temperatura");
         actualDataSet.setCircleColor(Color.RED);
         actualDataSet.setColor(Color.RED);
         dataSets.add(actualDataSet);
 
         return new LineData(dataSets);
+    }
+
+    private void showAlertError(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Error al obtener la predicción del tiempo");
+        builder.setMessage("Pruebe más tarde");
+        builder.setPositiveButton("Aceptar", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

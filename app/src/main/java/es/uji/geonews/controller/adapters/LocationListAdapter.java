@@ -1,4 +1,4 @@
-package es.uji.geonews.controller;
+package es.uji.geonews.controller.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
