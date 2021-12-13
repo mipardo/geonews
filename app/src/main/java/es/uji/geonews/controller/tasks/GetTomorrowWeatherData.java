@@ -15,7 +15,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import es.uji.geonews.controller.template.WeatherTemplate;
-import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.data.OpenWeatherForecastData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
@@ -24,9 +24,9 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GetTomorrowWeatherData extends UserTask {
-    private WeatherTemplate weatherTemplate;
-    private int locationId;
-    private Context context;
+    private final WeatherTemplate weatherTemplate;
+    private final int locationId;
+    private final Context context;
     private OpenWeatherData data;
     private String error;
 
@@ -47,7 +47,7 @@ public class GetTomorrowWeatherData extends UserTask {
                 try {
                     // TODO borrar addServiceToLocation de aquí
                     GeoNewsManagerSingleton.getInstance(context).addServiceToLocation(ServiceName.OPEN_WEATHER, locationId);
-                    List<Data> forecast = GeoNewsManagerSingleton.getInstance(context).getFutureData(ServiceName.OPEN_WEATHER, locationId);
+                    List<ServiceData> forecast = GeoNewsManagerSingleton.getInstance(context).getFutureData(ServiceName.OPEN_WEATHER, locationId);
                     data = getTomorrowDataFromForecast(forecast);
                 } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
                     error = e.getMessage();
@@ -74,14 +74,14 @@ public class GetTomorrowWeatherData extends UserTask {
                 });
             }
 
-            private OpenWeatherData getTomorrowDataFromForecast(List<Data> forecast) {
+            private OpenWeatherData getTomorrowDataFromForecast(List<ServiceData> forecast) {
                 double minTemp = 100;
                 double maxTemp = -100;
                 double expectedTemp = 0;
                 int sectionCounter = 0;
                 OpenWeatherData result = null;
                 int tomorrowDay = LocalDate.now().getDayOfYear() + 1;
-                for (Data d : forecast) {
+                for (ServiceData d : forecast) {
                     OpenWeatherForecastData section = (OpenWeatherForecastData) d;
                     int sectionDay = LocalDateTime.ofInstant(Instant.ofEpochMilli(section.getTimestamp() * 1000),
                             TimeZone.getDefault().toZoneId()).getDayOfYear();

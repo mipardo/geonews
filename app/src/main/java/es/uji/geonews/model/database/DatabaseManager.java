@@ -3,8 +3,9 @@ package es.uji.geonews.model.database;
 import android.content.Context;
 
 import com.google.gson.JsonSyntaxException;
-import es.uji.geonews.model.dao.UserDao;
-import es.uji.geonews.model.dao.UserDaoConverter;
+
+import es.uji.geonews.model.daos.UserDao;
+import es.uji.geonews.model.daos.UserDaoConverter;
 import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
@@ -36,9 +37,12 @@ public class DatabaseManager  {
             }
             @Override
             public void onFailure(Exception e) {
+                e.printStackTrace();
                 if (e instanceof JsonSyntaxException) {
                     //If we get this exception is the first time the app is running
                     return;
+                } else {
+                    e.printStackTrace();
                 }
                 remoteDBManager.loadAll(userId, new Callback() {
                     @Override

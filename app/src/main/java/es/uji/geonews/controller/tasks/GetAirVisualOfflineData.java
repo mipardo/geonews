@@ -1,6 +1,5 @@
 package es.uji.geonews.controller.tasks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -16,12 +15,11 @@ import java.util.ArrayList;
 import es.uji.geonews.controller.template.AirTemplate;
 import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-public class GetAirVisualData extends UserTask {
+public class GetAirVisualOfflineData extends UserTask {
     private final GeoNewsManager geoNewsManager;
     private final ProgressBar progressBar;
     private final Context context;
@@ -31,7 +29,7 @@ public class GetAirVisualData extends UserTask {
     private AirVisualData airVisualData;
     private String error;
 
-    public GetAirVisualData(int locationId, AirTemplate airTemplate, ProgressBar progressBar, PieChart pieChart, Context context){
+    public GetAirVisualOfflineData(int locationId, AirTemplate airTemplate, ProgressBar progressBar, PieChart pieChart, Context context){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.progressBar = progressBar;
         this.pieChart = pieChart;
@@ -48,17 +46,17 @@ public class GetAirVisualData extends UserTask {
             @Override
             public void run() {
                 try {
-                    airVisualData = (AirVisualData) geoNewsManager.getData(ServiceName.AIR_VISUAL, locationId);
-                    if (airVisualData == null) error = "Esta ubicación no esta suscrita al servicio de calidad del aire";
-                } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
+                    airVisualData = (AirVisualData) geoNewsManager.getOfflineData(ServiceName.AIR_VISUAL, locationId);
+                    if (airVisualData == null) error = "Esta ubicación no esta suscrita al servicio de calidad del aire " +
+                            "o no se ha consultado información previamente";
+                } catch (NoLocationRegisteredException e) {
                     error = e.getMessage();
                 }
 
                 runOnUiThread(new Runnable() {
                     public void run() {
                         progressBar.setVisibility(View.INVISIBLE);
-                        if (error != null) showAlertError();
-                        else {
+                        if (error == null) {
                             fillChart(airVisualData.getAqiUs());
                             airTemplate.getTempertaureOutput().setText(airVisualData.getTemperature() + "º C");
                             airTemplate.getPreassureOutput().setText(airVisualData.getPressure() + " hPa");
@@ -72,13 +70,6 @@ public class GetAirVisualData extends UserTask {
         }).start();
     }
 
-    private void showAlertError(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(error);
-        builder.setPositiveButton("Aceptar", null);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
     private void fillChart(int aqiUs){
         // Generate dataset

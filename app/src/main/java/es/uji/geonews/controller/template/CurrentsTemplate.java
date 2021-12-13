@@ -1,7 +1,6 @@
 package es.uji.geonews.controller.template;
 
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -16,7 +15,6 @@ public class CurrentsTemplate {
     private TextView dateTextview;
     private ImageView imageView;
     private TextView aviso;
-    private ProgressBar progressBar;
 
     public CurrentsTemplate() {}
 
@@ -90,13 +88,5 @@ public class CurrentsTemplate {
 
     public void setAviso(TextView aviso) {
         this.aviso = aviso;
-    }
-
-    public ProgressBar getProgressBar() {
-        return progressBar;
-    }
-
-    public void setProgressBar(ProgressBar progressBar) {
-        this.progressBar = progressBar;
     }
 }

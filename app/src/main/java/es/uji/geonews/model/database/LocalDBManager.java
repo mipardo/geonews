@@ -2,10 +2,12 @@ package es.uji.geonews.model.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+
 import java.util.UUID;
-import es.uji.geonews.model.dao.UserDao;
+
+import es.uji.geonews.model.daos.UserDao;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 
@@ -30,27 +32,21 @@ public class LocalDBManager implements DataBase{
 
     @Override
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
-        //Crear Un conjunto de datos con to-do lo que queremos guardar de Sistema
         UserDao userDao = new UserDao(userId, locationManager, serviceManager);
-        //Pasarlo a un Json
-        String configuracionUser = json.toJson(userDao);
-        //Guardarlo con Context y sharedpreferences
+        String user = json.toJson(userDao);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("configuracion", configuracionUser);
-
+        editor.putString("configuracion", user);
         editor.apply();
     }
 
 
     @Override
     public void loadAll(String userId, Callback callback) {
-        //Cargar un conjunto de datos guardado en el sistema
         String configuracion = sharedPreferences.getString("configuracion","No existe la informacion");
-        //Transformalo en la clase UserDao
         try {
             UserDao userDao = json.fromJson(configuracion, UserDao.class);
             callback.onSuccess(userDao);
-        } catch (JsonSyntaxException exception) {
+        } catch (Exception exception) {
             callback.onFailure(exception);
         }
     }

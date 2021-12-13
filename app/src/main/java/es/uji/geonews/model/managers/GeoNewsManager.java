@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.database.DatabaseManager;
 import es.uji.geonews.model.exceptions.DatabaseNotAvailableException;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
@@ -41,7 +41,6 @@ public class GeoNewsManager {
         userId = loadUserId(context);
         try {
             loadAll();
-            serviceManager.addService(new GpsService(context));
         } catch (DatabaseNotAvailableException e) { e.printStackTrace(); }
     }
 
@@ -152,13 +151,20 @@ public class GeoNewsManager {
         return removed;
     }
 
-    public Data getData(ServiceName serviceName, int locationId)
+    public ServiceData getData(ServiceName serviceName, int locationId)
             throws ServiceNotAvailableException, NoLocationRegisteredException {
         Location location = getLocation(locationId);
-        return serviceManager.getData(serviceName, location);
+        ServiceData data = serviceManager.getData(serviceName, location);
+        saveAll(true);
+        return data;
     }
 
-    public List<Data> getFutureData(ServiceName serviceName, int locationId)
+    public ServiceData getOfflineData(ServiceName serviceName, int locationId) throws NoLocationRegisteredException {
+        Location location = getLocation(locationId);
+        return serviceManager.getOfflineData(serviceName, location);
+    }
+
+    public List<ServiceData> getFutureData(ServiceName serviceName, int locationId)
             throws ServiceNotAvailableException, NoLocationRegisteredException {
         Location location = getLocation(locationId);
         return serviceManager.getFutureData(serviceName, location);

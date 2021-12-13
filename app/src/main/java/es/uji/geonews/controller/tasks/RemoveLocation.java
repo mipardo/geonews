@@ -4,18 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 
 import es.uji.geonews.R;
-import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
-import es.uji.geonews.model.services.ServiceName;
 
 public class RemoveLocation extends UserTask {
     private final GeoNewsManager geoNewsManager;

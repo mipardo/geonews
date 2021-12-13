@@ -1,6 +1,5 @@
 package es.uji.geonews.controller.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -22,13 +20,12 @@ import com.github.mikephil.charting.charts.PieChart;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.tasks.GetAirVisualData;
+import es.uji.geonews.controller.tasks.GetAirVisualOfflineData;
 import es.uji.geonews.controller.template.AirTemplate;
-import es.uji.geonews.model.managers.GeoNewsManager;
-import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 
 public class AirVisualFragment extends Fragment {
-    private int locationId;
+    private final int locationId;
 
     public AirVisualFragment(int locationId) {
         this.locationId = locationId;
@@ -64,8 +61,6 @@ public class AirVisualFragment extends Fragment {
         TextView pressureOutput = view.findViewById(R.id.pressure_output);
         TextView windSpeedOutput = view.findViewById(R.id.wind_speed_output);
         ImageView windDirectionOutput = view.findViewById(R.id.wind_direction_output);
-        //TextView aqiUsOutput = view.findViewById(R.id.aqi_us_output);
-        //TextView mainPollutantUsOutput = view.findViewById(R.id.aqi_us_main_pollutant_output);
         PieChart pieChart = view.findViewById(R.id.air_visual_chart);
 
         AirTemplate airTemplate = new AirTemplate();
@@ -74,9 +69,8 @@ public class AirVisualFragment extends Fragment {
         airTemplate.setPreassureOutput(pressureOutput);
         airTemplate.setWindDirectionOuptut(windDirectionOutput);
         airTemplate.setWindSpeedOutput(windSpeedOutput);
-        //airTemplate.setAqiUsOutput(aqiUsOutput);
-        //airTemplate.setMainPollutantUsOutput(mainPollutantUsOutput);
 
+        new GetAirVisualOfflineData(locationId, airTemplate, progressBar, pieChart, getContext()).execute();
         new GetAirVisualData(locationId, airTemplate, progressBar, pieChart, getContext()).execute();
     }
 

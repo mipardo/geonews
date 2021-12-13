@@ -1,39 +1,29 @@
 package es.uji.geonews.controller.fragments;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.MotionEventCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.FiveDaysForecastAdapter;
 import es.uji.geonews.controller.tasks.GetFiveDayForecastData;
-import es.uji.geonews.model.data.Data;
-import es.uji.geonews.model.data.OpenWeatherForecastData;
+import es.uji.geonews.model.data.ServiceData;
 
 public class FiveDaysWeatherFragment extends Fragment {
-    private int locationId;
+    private final int locationId;
 
     public FiveDaysWeatherFragment(int locationId) {
         // Required empty public constructor
@@ -78,7 +68,7 @@ public class FiveDaysWeatherFragment extends Fragment {
 //        });
         ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
 
-        List<Data> forecast = new ArrayList<>();
+        List<ServiceData> forecast = new ArrayList<>();
         recyclerView.setAdapter(new FiveDaysForecastAdapter(forecast));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         new GetFiveDayForecastData(locationId, recyclerView, progressBar, getContext()).execute();

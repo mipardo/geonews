@@ -2,7 +2,6 @@ package es.uji.geonews.controller.tasks;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -10,7 +9,6 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
@@ -20,19 +18,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
-import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.data.OpenWeatherForecastData;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GetForecastChartData extends UserTask {
-    private Context context;
-    private int locationId;
-    private LineChart lineChart;
-    private ProgressBar progressBar;
-    private List<Data> forecast;
+    private final Context context;
+    private final int locationId;
+    private final LineChart lineChart;
+    private final ProgressBar progressBar;
+    private List<ServiceData> forecast;
     private String error;
 
     private static final ValueFormatter celsiusFormatter = new ValueFormatter() {
@@ -98,7 +96,7 @@ public class GetForecastChartData extends UserTask {
 //        double maxMean = 0;
         double actualMean = 0;
         int recordCounter = 0;
-        for (Data windowForecast : forecast) {
+        for (ServiceData windowForecast : forecast) {
             OpenWeatherForecastData forecastSection = (OpenWeatherForecastData) windowForecast;
             int day = LocalDateTime.ofInstant(Instant.ofEpochMilli(forecastSection.getTimestamp() * 1000),
                     TimeZone.getDefault().toZoneId()).getDayOfMonth();

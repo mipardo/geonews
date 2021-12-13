@@ -17,7 +17,7 @@ import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.exceptions.GPSNotAvailableException;
 
 public class GpsService extends Service {
-    private Context context;
+    private final Context context;
     private GeographCoords currentPosition;
 
     public GpsService(Context context) {

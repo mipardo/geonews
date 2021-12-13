@@ -1,21 +1,21 @@
-package es.uji.geonews.model.dao;
+package es.uji.geonews.model.daos;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
 
-public class UserDao {
+public class UserDao implements Serializable {
     private String userId;
     private int locationCounter;
     private Map<String, Location> locations;
     private Map<String, ServiceDao> services;
     private Map<String, List<String>> locationServices;
-    private Map<String, Map<String, Data>> lastData;
+    private OfflineDataDao offlineData;
     private String lastModification;
 
     public UserDao() {}
@@ -26,7 +26,7 @@ public class UserDao {
         this.locations = UserDaoConverter.convertLocationsToHashMap(locationManager.getLocations());
         this.services = ServiceWrapper.convertServices(serviceManager.getServices());
         this.locationServices =  UserDaoConverter.convertLocationServicesHashMap(serviceManager.getLocationServices());
-        this.lastData = UserDaoConverter.convertLastData(serviceManager.getLastData());
+        this.offlineData = new OfflineDataDao(serviceManager.getOfflineData());
         this.lastModification = LocalDateTime.now().toString();
     }
 
@@ -63,12 +63,12 @@ public class UserDao {
         this.locationServices = locationServices;
     }
 
-    public Map<String, Map<String, Data>> getLastData() {
-        return lastData;
+    public void setOfflineData(OfflineDataDao offlineDataDao) {
+        this.offlineData = offlineDataDao;
     }
 
-    public void setLastData(Map<String, Map<String, Data>> lastData) {
-        this.lastData = lastData;
+    public OfflineDataDao getOfflineDataDao() {
+        return offlineData;
     }
 
     public String getLastModification() {

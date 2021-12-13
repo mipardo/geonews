@@ -30,7 +30,8 @@
                     android:src="@drawable/more_info"
                     app:backgroundTint="@color/white"
                     app:elevation="0dp"
-                    app:maxImageSize="40dp" />
+                    app:maxImageSize="40dp"
+                    android:contentDescription="Ver más información" />
 
                 <ImageView
                     android:id="@+id/add_to_favorites_button"
@@ -44,7 +45,8 @@
                     app:backgroundTint="@color/white"
                     app:elevation="0dp"
                     android:src="@drawable/heart"
-                    app:maxImageSize="40dp" />
+                    app:maxImageSize="40dp"
+                    android:contentDescription="Añade a favoritas" />
 
                 <TextView
                     android:id="@+id/main_name_output"

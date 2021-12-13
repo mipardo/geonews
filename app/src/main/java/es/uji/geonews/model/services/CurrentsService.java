@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import es.uji.geonews.model.data.CurrentsData;
-import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.News;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -52,7 +52,7 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
     }
 
     @Override
-    public Data getData(Location location) throws ServiceNotAvailableException {
+    public ServiceData getData(Location location) throws ServiceNotAvailableException {
         String url = "https://api.currentsapi.services/v1/search?language=es&"
                 + "keywords=" + location.getPlaceName()
                 + "&apiKey=" + apiKey;
@@ -72,7 +72,7 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
     }
 
     @Override
-    public List<Data> getFutureData(Location location) throws ServiceNotAvailableException {
+    public List<ServiceData> getFutureData(Location location) {
         return null;
     }
 
