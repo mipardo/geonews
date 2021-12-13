@@ -65,7 +65,6 @@ public class LocationListFragment extends Fragment {
         RelativeLayout settings =  getActivity().findViewById(R.id.settings);
         settings.setVisibility(View.VISIBLE);
 
-        FloatingActionButton addLocationFloatingButton = view.findViewById(R.id.add_location_floating_button);
         RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
         ImageView addLocationButton = view.findViewById(R.id.add_location_button);
         ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
@@ -150,36 +149,6 @@ public class LocationListFragment extends Fragment {
             }
         });
 
-        addLocationFloatingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Compute the current gps coords
-                geoNewsManager.updateGpsCoords();
 
-                // Show the dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Añade una nueva ubicación ");
-                builder.setMessage("Introduzca un topónimo o unas coordenadas");
-                View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.add_location_alert, view.findViewById(R.id.location_input),false);
-                EditText locationInput = viewInflated.findViewById(R.id.location_input);
-                CheckBox byGpsInput = viewInflated.findViewById(R.id.by_coords_input);
-                builder.setView(viewInflated);
-
-                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (byGpsInput.isChecked()){
-                            new AddLocationByGPS(progressBar, getContext(), view).execute();
-                        } else {
-                            String location = locationInput.getText().toString();
-                            new AddLocation(location, progressBar, getContext(), view).execute();
-                        }
-                    }
-                });
-                builder.setNegativeButton("Cancelar", null);
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
     }
 }
