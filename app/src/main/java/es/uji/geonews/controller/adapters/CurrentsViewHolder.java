@@ -1,5 +1,6 @@
 package es.uji.geonews.controller.adapters;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import es.uji.geonews.R;
@@ -38,6 +40,18 @@ public class CurrentsViewHolder extends RecyclerView.ViewHolder {
         description.setText(news.getDescription());
         Picasso.get()
                 .load(news.getImage())
-                .into(picture);
+                .placeholder(R.drawable.progress_animation)
+                .into(picture, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        picture.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        picture.setVisibility(View.GONE);
+                    }
+                });
+
     }
 }

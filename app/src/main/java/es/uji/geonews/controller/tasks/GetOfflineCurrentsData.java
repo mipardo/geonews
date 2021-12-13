@@ -2,11 +2,11 @@ package es.uji.geonews.controller.tasks;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 import es.uji.geonews.controller.adapters.CurrentsAdapter;
@@ -18,7 +18,7 @@ import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-public class GetActualCurrentsData extends UserTask {
+public class GetOfflineCurrentsData extends UserTask{
     private final GeoNewsManager geoNewsManager;
     private final ProgressBar progressBar;
     private final RecyclerView recyclerView;
@@ -27,7 +27,7 @@ public class GetActualCurrentsData extends UserTask {
     private String error;
     private List<News> news;
 
-    public GetActualCurrentsData (int locationId, RecyclerView recyclerView,
+    public GetOfflineCurrentsData (int locationId, RecyclerView recyclerView,
                                   ProgressBar progressBar, Context context) {
         geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.locationId = locationId;
@@ -44,9 +44,9 @@ public class GetActualCurrentsData extends UserTask {
             @Override
             public void run() {
                 try {
-                    news = ((CurrentsData) geoNewsManager.getData(ServiceName.CURRENTS, locationId)).getNewsList();
+                    news = ((CurrentsData) geoNewsManager.getOfflineData(ServiceName.CURRENTS, locationId)).getNewsList();
                     if( news == null ) error = "No news available";
-                } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
+                } catch (NoLocationRegisteredException e) {
                     error = e.getMessage();
                 }
                 runOnUiThread(new Runnable() {

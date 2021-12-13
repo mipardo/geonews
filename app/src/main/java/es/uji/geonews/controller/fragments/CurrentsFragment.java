@@ -20,6 +20,7 @@ import java.util.List;
 import es.uji.geonews.R;
 import es.uji.geonews.controller.adapters.CurrentsAdapter;
 import es.uji.geonews.controller.tasks.GetActualCurrentsData;
+import es.uji.geonews.controller.tasks.GetOfflineCurrentsData;
 import es.uji.geonews.model.data.News;
 
 public class CurrentsFragment extends Fragment {
@@ -43,12 +44,13 @@ public class CurrentsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_currents, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.currents_recycler_view);
-        ProgressBar progressBar = getActivity().findViewById(R.id.my_progress_bar);
+        ProgressBar progressBar = view.findViewById(R.id.progress_bar);
 
         List<News> news = new ArrayList<>();
         recyclerView.setAdapter(new CurrentsAdapter(news));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        new GetOfflineCurrentsData(locationId, recyclerView, progressBar, getContext()).execute();
         new GetActualCurrentsData(locationId, recyclerView, progressBar, getContext()).execute();
         return view;
     }
