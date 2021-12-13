@@ -44,8 +44,9 @@ public class GetOfflineCurrentsData extends UserTask{
             @Override
             public void run() {
                 try {
-                    news = ((CurrentsData) geoNewsManager.getOfflineData(ServiceName.CURRENTS, locationId)).getNewsList();
+                    CurrentsData data = ((CurrentsData) geoNewsManager.getOfflineData(ServiceName.CURRENTS, locationId));
                     if( news == null ) error = "No news available";
+                    else news = data.getNewsList();
                 } catch (NoLocationRegisteredException e) {
                     error = e.getMessage();
                 }
