@@ -50,7 +50,7 @@
     <fragment
         android:id="@+id/nonActiveLocationInfoFragment"
         android:name="es.uji.geonews.controller.fragments.NonActiveLocationInfoFragment"
-        android:label="NonActiveLocationInfoFragment" >
+        android:label="Ajustes de ubicación">
         <action
             android:id="@+id/action_nonActiveLocationInfoFragment_to_locationListFragment"
             app:destination="@id/locationListFragment" />
