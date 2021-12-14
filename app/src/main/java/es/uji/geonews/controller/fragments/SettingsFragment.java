@@ -7,14 +7,16 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,44 +26,20 @@ import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SettingsFragment extends Fragment {
 
     private GeoNewsManager geoNewsManager;
 
-    private Button buttonMostrar ;
-    private Button buttonImportar ;
-    private Button buttonMasInfoAir ;
+    private Button buttonMasInfoAir;
     private Button buttonMasInfoOpen;
-    private Button buttonMasInfoCurrents ;
-    private TextView textViewIDDB ;
+    private Button buttonMasInfoCurrents;
 
-    Switch switchAir ;
-    Switch switchOpen ;
-    Switch switchCurrents;
+    SwitchCompat switchAir;
+    SwitchCompat switchOpen;
+    SwitchCompat switchCurrents;
 
     public SettingsFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SettingsFragment newInstance(String param1, String param2) {
-        SettingsFragment fragment = new SettingsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -84,12 +62,9 @@ public class SettingsFragment extends Fragment {
         if (activeServices.contains(ServiceName.AIR_VISUAL)) switchAir.setChecked(true);
         if (activeServices.contains(ServiceName.CURRENTS)) switchCurrents.setChecked(true);
 
-        buttonMostrar = view.findViewById(R.id.buttonMostrar);
-        buttonImportar = view.findViewById(R.id.buttonImportar);
         buttonMasInfoAir = view.findViewById(R.id.buttonMasinfoAir);
         buttonMasInfoOpen = view.findViewById(R.id.buttonMasinfoOpen);
         buttonMasInfoCurrents = view.findViewById(R.id.buttonMasinfoCurrents);
-        textViewIDDB = view.findViewById(R.id.id_DataBase);
         return view;
     }
 
@@ -101,23 +76,15 @@ public class SettingsFragment extends Fragment {
         settings.setVisibility(View.GONE);
 
 
-
-
-
         switchAir.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
                 // Show the dialog
                 if (switchAir.isChecked()) {
-
-                    geoNewsManager.getService(ServiceName.AIR_VISUAL).activate();
-
+                    geoNewsManager.activateService(ServiceName.AIR_VISUAL);
                 } else {
-
-                    geoNewsManager.getService(ServiceName.AIR_VISUAL).deactivate();
-
-
+                    geoNewsManager.deactivateService(ServiceName.AIR_VISUAL);
                 }
             }
         });
@@ -128,11 +95,9 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 // Show the dialog
                 if (switchOpen.isChecked()) {
-
-                    geoNewsManager.getService(ServiceName.OPEN_WEATHER).activate();
+                    geoNewsManager.activateService(ServiceName.OPEN_WEATHER);
                 } else {
-
-                    geoNewsManager.getService(ServiceName.OPEN_WEATHER).deactivate();
+                    geoNewsManager.deactivateService(ServiceName.OPEN_WEATHER);
                 }
             }
         });
@@ -143,47 +108,10 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 // Show the dialog
                 if (switchCurrents.isChecked()) {
-
-                    geoNewsManager.getService(ServiceName.CURRENTS).activate();
+                    geoNewsManager.activateService(ServiceName.CURRENTS);
                 } else {
-
-                    geoNewsManager.getService(ServiceName.CURRENTS).deactivate();
+                    geoNewsManager.deactivateService(ServiceName.CURRENTS);
                 }
-            }
-        });
-
-        buttonMostrar.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View v) {
-                // Show the dialog
-                //String idCliente = geoNewsManager.getIdDataBase();
-                textViewIDDB.setVisibility(View.VISIBLE);
-                textViewIDDB.setText("idCliente");
-            }
-        });
-
-        buttonImportar.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Cambia tu Configuracion ");
-                builder.setMessage("Introduzca un ID de configuracion");
-                //TODO Mirar esto
-                View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.add_location_alert, view.findViewById(R.id.location_input), false);
-                //idInput = viewInflated.findViewById(R.id.location_input);
-                builder.setView(viewInflated);
-                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //new SetIdDataBase(geoNewsManager, progressBar, getContext(), recyclerView).execute();
-
-                    }
-                });
-                builder.setNegativeButton("Cancelar", null);
-                AlertDialog dialog = builder.create();
-                dialog.show();
             }
         });
 
@@ -191,26 +119,20 @@ public class SettingsFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("AirVisual ");
-                builder.setMessage("La descripcion de Air Visual");
-                //View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.add_location_alert, view.findViewById(R.id.location_input), false);
-                //builder.setView(viewInflated);
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                LinearLayoutCompat layout = view.findViewById(R.id.air_visual_description);
+                TextView description = view.findViewById(R.id.air_description_textview);
+                expandAndShrinkView(layout, buttonMasInfoAir);
+                description.setText(geoNewsManager.getService(ServiceName.AIR_VISUAL).getDescription());
             }
         });
         buttonMasInfoOpen.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Open Weather ");
-                builder.setMessage("La descripcion de Open Weather");
-                //View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.add_location_alert, view.findViewById(R.id.location_input), false);
-                //builder.setView(viewInflated);
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                LinearLayoutCompat layout = view.findViewById(R.id.open_weather_description);
+                TextView description = view.findViewById(R.id.open_description_textview);
+                expandAndShrinkView(layout, buttonMasInfoOpen);
+                description.setText(geoNewsManager.getService(ServiceName.OPEN_WEATHER).getDescription());
             }
         });
 
@@ -218,14 +140,27 @@ public class SettingsFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Currents ");
-                builder.setMessage("La descripcion de Currents");
-                //View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.add_location_alert, view.findViewById(R.id.location_input), false);
-                //builder.setView(viewInflated);
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                LinearLayoutCompat layout = view.findViewById(R.id.currents_description);
+                TextView description = view.findViewById(R.id.currents_description_textview);
+                expandAndShrinkView(layout, buttonMasInfoCurrents);
+                description.setText(geoNewsManager.getService(ServiceName.CURRENTS).getDescription());
             }
         });
+    }
+
+    public void expandAndShrinkView(LinearLayoutCompat layout, Button button) {
+        if (layout.getVisibility() == View.VISIBLE) {
+            layout.animate()
+                    .alpha(0.0f)
+                    .setDuration(500);
+            layout.setVisibility(View.GONE);
+            button.setText(R.string.more_info);
+        } else {
+            layout.animate()
+                    .alpha(1.0f)
+                    .setDuration(500);
+            layout.setVisibility(View.VISIBLE);
+            button.setText(R.string.less_info);
+        }
     }
 }

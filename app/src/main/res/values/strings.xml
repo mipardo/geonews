@@ -16,4 +16,10 @@
     <string name="tomorrow">Mañana</string>
     <string name="five_days">5 días</string>
     <string name="no_service">No hay ningún servicio activo en este momento</string>
+    <string name="ajustes_de_servicios">Ajustes de servicios</string>
+    <string name="more_info">+ Info</string>
+    <string name="less_info">- Info</string>
+    <string name="airvisual">AirVisual</string>
+    <string name="openweather">OpenWeather</string>
+    <string name="currents">Currents</string>
 </resources>
