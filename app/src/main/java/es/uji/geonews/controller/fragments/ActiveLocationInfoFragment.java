@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class ActiveLocationInfoFragment extends Fragment {
     private Button deactivateLocationButton;
     private ImageView editAliasButton;
     private TextView locationAliasOutput;
+    private ProgressBar progressBar;
     private int locationId;
     private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch weatherServiceSwitch;
     private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch airServiceSwitch;
@@ -74,6 +76,7 @@ public class ActiveLocationInfoFragment extends Fragment {
         currentsServiceSwitch = view.findViewById(R.id.currents_service_switch);
         deactivateLocationButton = view.findViewById(R.id.deactivate_location);
         editAliasButton = view.findViewById(R.id.location_alias_button);
+        progressBar = view.findViewById(R.id.my_progress_bar);
 
         if (!location.getAlias().equals("")) locationAliasOutput.setText(location.getAlias());
         if (location.getPlaceName() != null) locationPlaceNameOutput.setText(location.getPlaceName());
@@ -97,7 +100,7 @@ public class ActiveLocationInfoFragment extends Fragment {
                     new RemoveServiceFromLocation(getContext(), ServiceName.OPEN_WEATHER, locationId)
                             .execute();
                 } else {
-                    new AddServiceToLocation(getContext(), ServiceName.OPEN_WEATHER, locationId, weatherServiceSwitch)
+                    new AddServiceToLocation(getContext(), ServiceName.OPEN_WEATHER, locationId, weatherServiceSwitch, progressBar)
                             .execute();
                 }
             }
@@ -110,7 +113,7 @@ public class ActiveLocationInfoFragment extends Fragment {
                     new RemoveServiceFromLocation(getContext(), ServiceName.AIR_VISUAL, locationId)
                             .execute();
                 } else {
-                    new AddServiceToLocation(getContext(), ServiceName.AIR_VISUAL, locationId, airServiceSwitch)
+                    new AddServiceToLocation(getContext(), ServiceName.AIR_VISUAL, locationId, airServiceSwitch, progressBar)
                             .execute();
                 }
             }
@@ -123,7 +126,7 @@ public class ActiveLocationInfoFragment extends Fragment {
                     new RemoveServiceFromLocation(getContext(), ServiceName.CURRENTS, locationId)
                             .execute();
                 } else {
-                    new AddServiceToLocation(getContext(), ServiceName.CURRENTS, locationId, currentsServiceSwitch)
+                    new AddServiceToLocation(getContext(), ServiceName.CURRENTS, locationId, currentsServiceSwitch, progressBar)
                             .execute();
                 }
             }

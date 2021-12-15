@@ -1,8 +1,12 @@
 package es.uji.geonews.controller.tasks;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
@@ -18,21 +22,29 @@ public class AddServiceToLocation extends UserTask {
     private final @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switchButton;
     private final int locationId;
     private String error;
+    private ProgressBar progressBar;
 
 
-    public AddServiceToLocation(Context context, ServiceName serviceName, int locationId, Switch switchButton){
+    public AddServiceToLocation(Context context, ServiceName serviceName, int locationId, Switch switchButton, ProgressBar progressBar){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.serviceName = serviceName;
         this.locationId = locationId;
         this.switchButton = switchButton;
+        this.progressBar = progressBar;
     }
 
     @Override
     public void execute() {
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.bringToFront();
+        ((Activity)context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
+                progressBar.setVisibility(View.INVISIBLE);
+                ((Activity)context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 try {
                     geoNewsManager.addServiceToLocation(serviceName, locationId);
                 } catch (NoLocationRegisteredException | ServiceNotAvailableException e) {
