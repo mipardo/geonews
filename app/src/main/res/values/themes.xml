@@ -19,6 +19,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.Splash" parent="Theme.GeoNews.NoActionBar">
+        <item name="android:windowBackground">@color/teal_700</item>
+    </style>
+
     <style name="Theme.GeoNews.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.GeoNews.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

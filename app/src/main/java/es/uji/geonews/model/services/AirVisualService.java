@@ -15,8 +15,16 @@ import okhttp3.Response;
 
 public class AirVisualService extends ServiceHttp implements DataGetterStrategy {
 
+    public static final String description = "AirVisual ofrece a cualquier persona acceso gratuito a" +
+            " la mayor base de datos de calidad del aire del mundo, que abarca más de 10000 lugares en" +
+            " todo el mundo, una lista que crece cada día. La aplicación y el sitio web de AirVisual " +
+            "fueron los primeros en ofrecer una previsión de la contaminación para 7 días, desarrollada" +
+            " internamente mediante aprendizaje automático e inteligencia artificial, lo que le permite " +
+            "planificar con antelación y asegurarse de que sus actividades semanales tienen lugar cuando " +
+            "la calidad del aire es más saludable.";
+
     public AirVisualService() {
-        super(ServiceName.AIR_VISUAL, "Air cuality descritption");
+        super(ServiceName.AIR_VISUAL, description);
         apiKey = "bd76ecb7-90bb-4f78-ad71-8107453e8890";
         url = "api.airvisual.org";
     }
@@ -34,7 +42,7 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
             jsonObject = new JSONObject(response.body().string());
             return jsonObject.getString("status").equals("success");
 
-        } catch (IOException | JSONException exception){
+        } catch (IOException | JSONException exception) {
             return false;
         }
     }
@@ -50,12 +58,12 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
 
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
-            if (jsonObject.getString("status").equals("success")){
-               return convertToAirVisualData(jsonObject);
+            if (jsonObject.getString("status").equals("success")) {
+                return convertToAirVisualData(jsonObject);
             }
             return null;
 
-        } catch (IOException | JSONException exception){
+        } catch (IOException | JSONException exception) {
             throw new ServiceNotAvailableException();
         }
     }

@@ -7,49 +7,48 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
-import androidx.navigation.Navigation;
+import androidx.appcompat.widget.SwitchCompat;
 
-import es.uji.geonews.R;
-import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
+import es.uji.geonews.model.services.ServiceName;
 
-public class ActivateLocation extends UserTask {
+public class ActivateService extends UserTask {
     private final GeoNewsManager geoNewsManager;
-    private final Context context;
-    private final int locationId;
-    private final View view;
+    private final ServiceName serviceName;
+    private final SwitchCompat switchCompat;
     private final ProgressBar progressBar;
+    private final Context context;
     private String error;
 
-
-    public ActivateLocation(Context context, int locationId, ProgressBar progressBar, View view){
-        this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
+    public ActivateService (ServiceName serviceName, SwitchCompat switchCompat, Context context, ProgressBar progressBar) {
+        this.serviceName = serviceName;
+        this.switchCompat = switchCompat;
+        geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
-        this.locationId = locationId;
         this.progressBar = progressBar;
-        this.view = view;
     }
 
     @Override
     public void execute() {
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.bringToFront();
+        ((Activity)context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    boolean res = geoNewsManager.activateLocation(locationId);
-                    if (!res) error = "Esta ubicación ya está activada";
-                } catch (NoLocationRegisteredException e) {
-                    e.printStackTrace();
-                }
+                boolean res = geoNewsManager.activateService(serviceName);
+                if (!res) error = "Esta servicio ya está activado";
                 runOnUiThread(new Runnable() {
                     public void run() {
                         progressBar.setVisibility(View.INVISIBLE);
                         ((Activity)context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        if (error != null) showAlertError();
-                        else{
-                            Navigation.findNavController(view).navigate(R.id.locationListFragment);
+                        if (error != null) {
+                            showAlertError();
+                            switchCompat.setChecked(false);
                         }
+                        switchCompat.setChecked(true);
                     }
                 });
             }

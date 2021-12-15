@@ -1,9 +1,11 @@
 package es.uji.geonews.controller.tasks;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 
 import androidx.navigation.Navigation;
@@ -38,6 +40,8 @@ public class AddLocation extends UserTask {
     public void execute() {
         progressBar.setVisibility(View.VISIBLE);
         progressBar.bringToFront();
+        ((Activity)context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -52,6 +56,7 @@ public class AddLocation extends UserTask {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         progressBar.setVisibility(View.INVISIBLE);
+                        ((Activity)context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         if (error != null) showAlertError();
                         else{
                             Bundle bundle = new Bundle();

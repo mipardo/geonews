@@ -19,8 +19,12 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
+    private static final String description = "El servicio Currents proporciona noticias en 15 idiomas" +
+            " diferentes en más de 50 países en forma de noticias, artículos y temas de discusión " +
+            "en foros.";
+
     public CurrentsService() {
-        super(ServiceName.CURRENTS, "News service");
+        super(ServiceName.CURRENTS, description);
         apiKey = "uVh9kGUA3ZArfrYzCaLkX4iW6nR1vy2LMHwesz40aEY4OHaj";
         url = "api.currentsapi.services";
     }
