@@ -164,10 +164,17 @@ public class GeoNewsManager {
         return serviceManager.getOfflineData(serviceName, location);
     }
 
+
     public List<ServiceData> getFutureData(ServiceName serviceName, int locationId)
             throws ServiceNotAvailableException, NoLocationRegisteredException {
         Location location = getLocation(locationId);
         return serviceManager.getFutureData(serviceName, location);
+    }
+
+    public List<ServiceData> getOfflineFutureData(ServiceName serviceName, int locationId)
+            throws NoLocationRegisteredException {
+        Location location = getLocation(locationId);
+        return serviceManager.getOfflineFutureData(serviceName, location);
     }
 
     public Service getService(ServiceName serviceName) {
@@ -229,4 +236,5 @@ public class GeoNewsManager {
     public void removeUserConfiguration(String userIdToDelete){
         databaseManager.removeUser(userIdToDelete);
     }
+
 }

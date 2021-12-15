@@ -24,14 +24,14 @@ import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-public class GetTomorrowWeatherData extends UserTask {
+public class GetOpenWeatherTomorrowData extends UserTask {
     private final WeatherTemplate weatherTemplate;
     private final int locationId;
     private final Context context;
     private OpenWeatherData data;
     private String error;
 
-    public GetTomorrowWeatherData (int locationId, WeatherTemplate weatherTemplate, Context context) {
+    public GetOpenWeatherTomorrowData(int locationId, WeatherTemplate weatherTemplate, Context context) {
         this.locationId = locationId;
         this.weatherTemplate = weatherTemplate;
         this.context = context;
@@ -46,8 +46,6 @@ public class GetTomorrowWeatherData extends UserTask {
             @Override
             public void run() {
                 try {
-                    // TODO borrar addServiceToLocation de aquí
-                    GeoNewsManagerSingleton.getInstance(context).addServiceToLocation(ServiceName.OPEN_WEATHER, locationId);
                     List<ServiceData> forecast = GeoNewsManagerSingleton.getInstance(context).getFutureData(ServiceName.OPEN_WEATHER, locationId);
                     data = getTomorrowDataFromForecast(forecast);
                 } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
@@ -95,8 +93,6 @@ public class GetTomorrowWeatherData extends UserTask {
                     }
                 }
                 double meanTemp = expectedTemp / sectionCounter;
-                // TODO En este punto tenemos la tempMin, tempMax y media de mañana, pero como sacar "la media" de
-                // los iconos por ejemplo?
                 result.setActTemp(Math.round(meanTemp));
                 result.setMinTemp(Math.round(minTemp));
                 result.setMaxTemp(Math.round(maxTemp));

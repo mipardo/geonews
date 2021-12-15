@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import com.github.mikephil.charting.charts.LineChart;
 
 import es.uji.geonews.R;
-import es.uji.geonews.controller.tasks.GetForecastChartData;
-import es.uji.geonews.controller.tasks.GetTomorrowWeatherData;
+import es.uji.geonews.controller.tasks.GetOpenWeatherChartData;
+import es.uji.geonews.controller.tasks.GetOpenWeatherTomorrowData;
 import es.uji.geonews.controller.template.WeatherTemplate;
 
 
@@ -45,8 +45,8 @@ public class TomorrowWeatherFragment extends Fragment {
         weatherTemplate.setWeatherIcon(view.findViewById(R.id.actualWeatherIconTextview));
         weatherTemplate.setProgressBar(view.findViewById(R.id.tomorrow_progress_bar));
 
-        new GetTomorrowWeatherData(locationId, weatherTemplate, getContext()).execute();
-        new GetForecastChartData(locationId, lineChart, getContext(), weatherTemplate.getProgressBar()).execute();
+        new GetOpenWeatherTomorrowData(locationId, weatherTemplate, getContext()).execute();
+        new GetOpenWeatherChartData(locationId, lineChart, getContext(), weatherTemplate.getProgressBar()).execute();
 
         return view;
     }

@@ -16,7 +16,7 @@ import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-public class GetFiveDayForecastData extends UserTask {
+public class GetOpenWeatherFiveDaysData extends UserTask {
     private final ProgressBar progressBar;
     private final Context context;
     private final int locationId;
@@ -24,7 +24,7 @@ public class GetFiveDayForecastData extends UserTask {
     private String error;
     private List<ServiceData> data;
 
-    public GetFiveDayForecastData(int locationId, RecyclerView recyclerView, ProgressBar progressBar, Context context) {
+    public GetOpenWeatherFiveDaysData(int locationId, RecyclerView recyclerView, ProgressBar progressBar, Context context) {
         this.locationId = locationId;
         this.recyclerView = recyclerView;
         this.progressBar = progressBar;
@@ -40,12 +40,9 @@ public class GetFiveDayForecastData extends UserTask {
             @Override
             public void run() {
                 try {
-                    // TODO borrar addServiceToLocation de aquí
-                    GeoNewsManagerSingleton.getInstance(context).addServiceToLocation(ServiceName.OPEN_WEATHER, locationId);
                     data = GeoNewsManagerSingleton.getInstance(context).getFutureData(ServiceName.OPEN_WEATHER, locationId);
                 } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
                     error = e.getMessage();
-
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {

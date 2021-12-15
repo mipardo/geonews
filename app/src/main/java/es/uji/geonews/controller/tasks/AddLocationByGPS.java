@@ -37,10 +37,7 @@ public class AddLocationByGPS extends UserTask {
 
     @Override
     public void execute() {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.bringToFront();
-        ((Activity)context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        lockUI(context, progressBar);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -54,8 +51,7 @@ public class AddLocationByGPS extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        ((Activity)context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        unlockUI(context, progressBar);
                         if (error != null) showAlertError();
                         else{
                             Bundle bundle = new Bundle();

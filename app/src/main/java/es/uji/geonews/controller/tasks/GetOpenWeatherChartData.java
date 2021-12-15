@@ -26,7 +26,7 @@ import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-public class GetForecastChartData extends UserTask {
+public class GetOpenWeatherChartData extends UserTask {
     private final Context context;
     private final int locationId;
     private final LineChart lineChart;
@@ -41,7 +41,7 @@ public class GetForecastChartData extends UserTask {
         }
     };
 
-    public GetForecastChartData(int locationId, LineChart lineChart, Context context, ProgressBar progressBar) {
+    public GetOpenWeatherChartData(int locationId, LineChart lineChart, Context context, ProgressBar progressBar) {
         this.locationId = locationId;
         this.lineChart = lineChart;
         this.context = context;
@@ -56,12 +56,9 @@ public class GetForecastChartData extends UserTask {
             @Override
             public void run() {
                 try {
-                    // TODO borrar addServiceToLocation de aquí
-                    GeoNewsManagerSingleton.getInstance(context).addServiceToLocation(ServiceName.OPEN_WEATHER, locationId);
                     forecast = GeoNewsManagerSingleton.getInstance(context).getFutureData(ServiceName.OPEN_WEATHER, locationId);
                 } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
                     error = e.getMessage();
-
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {

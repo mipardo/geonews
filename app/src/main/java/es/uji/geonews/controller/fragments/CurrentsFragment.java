@@ -19,8 +19,8 @@ import java.util.List;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.adapters.CurrentsAdapter;
-import es.uji.geonews.controller.tasks.GetActualCurrentsData;
-import es.uji.geonews.controller.tasks.GetOfflineCurrentsData;
+import es.uji.geonews.controller.tasks.GetCurrentsData;
+import es.uji.geonews.controller.tasks.GetCurrentsOfflineData;
 import es.uji.geonews.model.data.News;
 
 public class CurrentsFragment extends Fragment {
@@ -50,8 +50,8 @@ public class CurrentsFragment extends Fragment {
         recyclerView.setAdapter(new CurrentsAdapter(news));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        new GetOfflineCurrentsData(locationId, recyclerView, progressBar, getContext()).execute();
-        new GetActualCurrentsData(locationId, recyclerView, progressBar, getContext()).execute();
+        new GetCurrentsOfflineData(locationId, recyclerView, progressBar, getContext()).execute();
+        new GetCurrentsData(locationId, recyclerView, progressBar, getContext()).execute();
         return view;
     }
 

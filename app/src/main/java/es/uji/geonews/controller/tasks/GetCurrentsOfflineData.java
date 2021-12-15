@@ -18,7 +18,7 @@ import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-public class GetOfflineCurrentsData extends UserTask{
+public class GetCurrentsOfflineData extends UserTask{
     private final GeoNewsManager geoNewsManager;
     private final ProgressBar progressBar;
     private final RecyclerView recyclerView;
@@ -27,7 +27,7 @@ public class GetOfflineCurrentsData extends UserTask{
     private String error;
     private List<News> news;
 
-    public GetOfflineCurrentsData (int locationId, RecyclerView recyclerView,
+    public GetCurrentsOfflineData(int locationId, RecyclerView recyclerView,
                                   ProgressBar progressBar, Context context) {
         geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.locationId = locationId;
