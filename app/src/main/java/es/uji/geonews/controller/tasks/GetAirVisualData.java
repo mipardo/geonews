@@ -108,6 +108,7 @@ public class GetAirVisualData extends UserTask {
         pieChart.getDescription().setEnabled(false);
         pieChart.getLegend().setEnabled(false);
         pieChart.setEnabled(false);
+        pieChart.invalidate();
     }
 
     private String getAqiInfo(int aqiUs){

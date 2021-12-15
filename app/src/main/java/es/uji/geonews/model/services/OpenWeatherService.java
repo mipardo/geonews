@@ -17,8 +17,12 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class OpenWeatherService extends ServiceHttp implements DataGetterStrategy {
+    private static final String description = "OpenWeather es un servicio que proporciona datos " +
+            "meteorológicos globales incluyendo datos meteorológicos actuales, previsiones, nowcasts " +
+            "y datos meteorológicos históricos para cualquier ubicación geográfica.";
+
     public OpenWeatherService() {
-        super(ServiceName.OPEN_WEATHER, "Wheather service");
+        super(ServiceName.OPEN_WEATHER, description);
         apiKey = "4002e2da22764a672b4a488d77b9b54a";
         url = "api.openweathermap.org";
     }

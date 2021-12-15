@@ -1,238 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".controller.fragments.SettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
+    <ProgressBar
+        android:id="@+id/my_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/buttonImportar"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="522dp"
-            android:layout_marginEnd="271dp"
-            android:text="Importar" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/mainTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
-            android:id="@+id/buttonMostrar"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="409dp"
-            android:layout_marginEnd="17dp"
-            android:text="Mostrar" />
+                <TextView
+                    android:id="@+id/location_settings_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="@string/ajustes_de_servicios"
+                    android:textAlignment="center"
+                    android:textSize="30sp"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="258dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="9dp"
-            android:layout_marginEnd="144dp"
-            android:layout_marginBottom="633dp"
-            android:fontFamily="sans-serif-black"
-            android:text="Ajustes en los Servicios"
-            tools:layout_conversion_absoluteHeight="40dp"
-            tools:layout_conversion_absoluteWidth="411dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="101dp" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/serviceSettingLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mainTitle">
 
-        <TextView
-            android:id="@+id/mostrar_Id"
-            android:layout_width="226dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="380dp"
-            android:layout_marginEnd="163dp"
-            android:fontFamily="sans-serif-black"
-            android:text="Mostrar Id de Configuracion"
-            tools:layout_conversion_absoluteHeight="40dp"
-            tools:layout_conversion_absoluteWidth="411dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="101dp" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
 
-        <TextView
-            android:id="@+id/importar_Id"
-            android:layout_width="226dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="22dp"
-            android:layout_marginEnd="163dp"
-            android:layout_marginBottom="245dp"
-            android:fontFamily="sans-serif-black"
-            android:text="Importar Configuracion"
-            tools:layout_conversion_absoluteHeight="40dp"
-            tools:layout_conversion_absoluteWidth="411dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="101dp" />
+                    <TextView
+                        android:id="@+id/openWeather_State"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="@string/openweather" />
 
-        <TextView
-            android:id="@+id/airVisual_State"
-            android:layout_width="130dp"
-            android:layout_height="25dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="157dp"
-            android:layout_marginEnd="262dp"
-            android:text="AirVisual"
-            tools:layout_conversion_absoluteHeight="40dp"
-            tools:layout_conversion_absoluteWidth="198dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="140dp" />
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="145dp"
-            android:layout_marginEnd="139dp"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            tools:ignore="UseSwitchCompatOrMaterialXml"
-            tools:layout_conversion_absoluteHeight="27dp"
-            tools:layout_conversion_absoluteWidth="199dp"
-            tools:layout_editor_absoluteX="282dp"
-            tools:layout_editor_absoluteY="140dp" />
+                    <Button
+                        android:id="@+id/buttonMasinfoOpen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:text="@string/more_info"
+                        android:layout_marginStart="50dp"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <TextView
-            android:id="@+id/currents_State"
-            android:layout_width="131dp"
-            android:layout_height="25dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="315dp"
-            android:layout_marginEnd="261dp"
-            android:text="Currents"
-            tools:layout_conversion_absoluteHeight="40dp"
-            tools:layout_conversion_absoluteWidth="198dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="194dp" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/open_weather_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:visibility="gone"
+                    android:alpha="0"
+                    android:background="#fcfcfc">
 
-        <TextView
-            android:id="@+id/id_DataBase"
-            android:layout_width="255dp"
-            android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="420dp"
-            android:layout_marginEnd="136dp"
-            android:text="xxxx"
-            android:visibility="invisible"
-            tools:layout_conversion_absoluteHeight="40dp"
-            tools:layout_conversion_absoluteWidth="198dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="194dp" />
+                    <TextView
+                        android:id="@+id/open_description_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:justificationMode="inter_word"
+                        />
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <Switch
-            android:id="@+id/switch2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="224dp"
-            android:layout_marginEnd="139dp"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            tools:ignore="UseSwitchCompatOrMaterialXml"
-            tools:layout_conversion_absoluteHeight="27dp"
-            tools:layout_conversion_absoluteWidth="199dp"
-            tools:layout_editor_absoluteX="282dp"
-            tools:layout_editor_absoluteY="194dp" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
 
-        <Switch
-            android:id="@+id/switch3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="303dp"
-            android:layout_marginEnd="139dp"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            tools:ignore="UseSwitchCompatOrMaterialXml"
-            tools:layout_conversion_absoluteHeight="27dp"
-            tools:layout_conversion_absoluteWidth="199dp"
-            tools:layout_editor_absoluteX="282dp"
-            tools:layout_editor_absoluteY="247dp" />
+                    <TextView
+                        android:id="@+id/airVisual_State"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="@string/airvisual" />
 
-        <TextView
-            android:id="@+id/openWeather_State"
-            android:layout_width="131dp"
-            android:layout_height="23dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="238dp"
-            android:layout_marginEnd="261dp"
-            android:text="OpenWeather"
-            tools:layout_conversion_absoluteHeight="40dp"
-            tools:layout_conversion_absoluteWidth="199dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="247dp" />
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-        <ProgressBar
-            android:id="@+id/my_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="174dp"
-            android:layout_marginTop="629dp"
-            android:layout_marginEnd="189dp"
-            android:visibility="invisible"
-            tools:layout_conversion_absoluteHeight="48dp"
-            tools:layout_conversion_absoluteWidth="48dp"
-            tools:layout_editor_absoluteX="181dp"
-            tools:layout_editor_absoluteY="340dp" />
+                    <Button
+                        android:id="@+id/buttonMasinfoAir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:text="@string/more_info"
+                        android:layout_marginStart="50dp"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <Button
-            android:id="@+id/buttonMasinfoAir"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="146dp"
-            android:layout_marginEnd="16dp"
-            android:text="Mas info"
-            tools:ignore="DuplicateSpeakableTextCheck" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/air_visual_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:visibility="gone"
+                    android:alpha="0"
+                    android:background="#fcfcfc">
 
-        <Button
-            android:id="@+id/buttonMasinfoOpen"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="232dp"
-            android:layout_marginEnd="17dp"
-            android:text="Mas info" />
+                    <TextView
+                        android:id="@+id/air_description_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:justificationMode="inter_word"
+                        />
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <Button
-            android:id="@+id/buttonMasinfoCurrents"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="308dp"
-            android:layout_marginEnd="17dp"
-            android:text="Mas info" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
 
-    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/currents_State"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="@string/currents" />
 
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <Button
+                        android:id="@+id/buttonMasinfoCurrents"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:text="@string/more_info"
+                        android:layout_marginStart="50dp"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/currents_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:visibility="gone"
+                    android:alpha="0"
+                    android:background="#fcfcfc">
+
+                    <TextView
+                        android:id="@+id/currents_description_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:justificationMode="inter_word" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="20dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/serviceSettingLayout" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/shareTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/share_settings_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Importar / Exportar"
+                    android:textAlignment="center"
+                    android:textSize="30sp"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
