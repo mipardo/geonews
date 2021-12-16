@@ -165,13 +165,13 @@ public class GeoNewsManager {
     }
 
 
-    public List<ServiceData> getFutureData(ServiceName serviceName, int locationId)
+    public ServiceData getFutureData(ServiceName serviceName, int locationId)
             throws ServiceNotAvailableException, NoLocationRegisteredException {
         Location location = getLocation(locationId);
         return serviceManager.getFutureData(serviceName, location);
     }
 
-    public List<ServiceData> getOfflineFutureData(ServiceName serviceName, int locationId)
+    public ServiceData getOfflineFutureData(ServiceName serviceName, int locationId)
             throws NoLocationRegisteredException {
         Location location = getLocation(locationId);
         return serviceManager.getOfflineFutureData(serviceName, location);

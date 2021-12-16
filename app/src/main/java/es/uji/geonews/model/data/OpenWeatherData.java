@@ -7,6 +7,7 @@ public class OpenWeatherData extends ServiceData {
     private String main;
     private String description;
     private String icon;
+    private long timestamp;
 
     public OpenWeatherData(){ }
 
@@ -58,4 +59,11 @@ public class OpenWeatherData extends ServiceData {
         this.icon = icon;
     }
 
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
 }

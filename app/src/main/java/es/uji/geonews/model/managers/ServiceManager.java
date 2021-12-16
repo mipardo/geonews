@@ -20,7 +20,7 @@ public class ServiceManager {
     private Map<Integer, List<ServiceName>> locationServices;
     private final ContextDataGetter contextDataGetter;
     private HashMap<Integer, HashMap<ServiceName, ServiceData>> offlineData;
-    private HashMap<Integer, HashMap<ServiceName, List<ServiceData>>> offlineFutureData;
+    private HashMap<Integer, HashMap<ServiceName, ServiceData>> offlineFutureData;
 
     public ServiceManager(){
         this.services = new HashMap<>();
@@ -96,7 +96,7 @@ public class ServiceManager {
         locationOfflineData.put(serviceName, newData);
     }
 
-    public List<ServiceData> getFutureData(ServiceName serviceName, Location location) throws ServiceNotAvailableException {
+    public ServiceData getFutureData(ServiceName serviceName, Location location) throws ServiceNotAvailableException {
         List<ServiceName> activeServices = locationServices.get(location.getId());
 
         if (!services.get(serviceName).isAvailable()) {
@@ -106,14 +106,14 @@ public class ServiceManager {
         if (activeServices.contains(serviceName)) {
             DataGetterStrategy service = (DataGetterStrategy) getService(serviceName);
             contextDataGetter.setService(service);
-            List<ServiceData> newData = contextDataGetter.getFutureData(location);
+            ServiceData newData = contextDataGetter.getFutureData(location);
             updateOfflineFutureData(serviceName, location.getId(), newData);
             return newData;
         }
         return null;
     }
 
-    public List<ServiceData> getOfflineFutureData(ServiceName serviceName, Location location) {
+    public ServiceData getOfflineFutureData(ServiceName serviceName, Location location) {
         List<ServiceName> activeServices = locationServices.get(location.getId());
         if (activeServices.contains(serviceName)){
             if (offlineFutureData.get(location.getId()) == null ||
@@ -125,11 +125,11 @@ public class ServiceManager {
         return null;
     }
 
-    private void updateOfflineFutureData(ServiceName serviceName, int locationId, List<ServiceData> newData){
+    private void updateOfflineFutureData(ServiceName serviceName, int locationId, ServiceData newData){
         // Si no tenia ninguna data cargado (para ningun servicio), seteamos un hashmap vacio
         offlineFutureData.computeIfAbsent(locationId, k -> new HashMap<>());
         // Cogemos el data cargado de la ubicacion. Si no tenia ninguno sera un map vacio
-        Map<ServiceName, List<ServiceData>> locationOfflineData = offlineFutureData.get(locationId);
+        Map<ServiceName, ServiceData> locationOfflineData = offlineFutureData.get(locationId);
         locationOfflineData.put(serviceName, newData);
     }
 
@@ -231,7 +231,7 @@ public class ServiceManager {
         return offlineData;
     }
 
-    public HashMap<Integer, HashMap<ServiceName, List<ServiceData>>> getOfflineFutureData(){
+    public HashMap<Integer, HashMap<ServiceName, ServiceData>> getOfflineFutureData(){
         return offlineFutureData;
     }
 

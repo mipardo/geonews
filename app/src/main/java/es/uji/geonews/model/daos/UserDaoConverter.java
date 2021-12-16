@@ -61,21 +61,17 @@ public class UserDaoConverter {
     }
 
     private static void setOfflineFutureData(ServiceManager serviceManager, UserDao userDao){
-        HashMap<Integer, HashMap<ServiceName, List<ServiceData>>> newOfflineFutureData = new HashMap<>();
+        HashMap<Integer, HashMap<ServiceName, ServiceData>> newOfflineFutureData = new HashMap<>();
 
         OfflineFutureDataDao offlineFutureDataDao = userDao.getOfflineFutureData();
 
-        Map<String, List<OpenWeatherForecastData>> openWeatherOfflineFutureData = offlineFutureDataDao.getOpenWeatherOfflineFutureData();
+        Map<String, OpenWeatherForecastData> openWeatherOfflineFutureData = offlineFutureDataDao.getOpenWeatherOfflineFutureData();
         for (String locationIdString : openWeatherOfflineFutureData.keySet()){
             int locationId = Integer.parseInt(locationIdString);
             if (!newOfflineFutureData.containsKey(locationId)) {
                 newOfflineFutureData.put(locationId, new HashMap<>());
             }
-            HashMap<ServiceName, List<ServiceData>> locationServiceData = newOfflineFutureData.get(locationId);
-            List<ServiceData> serviceDataList = new ArrayList<>();
-            for (ServiceData serviceData : openWeatherOfflineFutureData.get(locationIdString)) {
-
-            }
+            HashMap<ServiceName, ServiceData> locationServiceData = newOfflineFutureData.get(locationId);
             locationServiceData.put(ServiceName.OPEN_WEATHER,
                     openWeatherOfflineFutureData.get(locationIdString));
         }

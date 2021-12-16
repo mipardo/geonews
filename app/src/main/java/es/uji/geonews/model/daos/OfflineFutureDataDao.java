@@ -14,29 +14,24 @@ import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.services.ServiceName;
 
 public class OfflineFutureDataDao {
-    private final Map<String, List<OpenWeatherForecastData>> openWeatherOfflineFutureData;
+    private final Map<String, OpenWeatherForecastData> openWeatherOfflineFutureData;
 
-    public OfflineFutureDataDao(HashMap<Integer, HashMap<ServiceName, List<ServiceData>>> offlineFutureData) {
+    public OfflineFutureDataDao(HashMap<Integer, HashMap<ServiceName, ServiceData>> offlineFutureData) {
         openWeatherOfflineFutureData = new HashMap<>();
         convertOfflineFutureData(offlineFutureData);
     }
 
 
-    private void convertOfflineFutureData(HashMap<Integer, HashMap<ServiceName, List<ServiceData>>> offlineFutureData){
+    private void convertOfflineFutureData(HashMap<Integer, HashMap<ServiceName, ServiceData>> offlineFutureData){
         for(int locationId : offlineFutureData.keySet()) {
-            Map<ServiceName, List<ServiceData>> locationOfflineFutureData = offlineFutureData.get(locationId);
+            Map<ServiceName, ServiceData> locationOfflineFutureData = offlineFutureData.get(locationId);
             if (locationOfflineFutureData != null){
                 for(ServiceName serviceName : locationOfflineFutureData.keySet()){
                     if (serviceName.equals(ServiceName.OPEN_WEATHER)) {
-                        List<ServiceData> serviceDataList = locationOfflineFutureData.get(serviceName);
+                        ServiceData serviceDataList = locationOfflineFutureData.get(serviceName);
                         if (serviceDataList != null) {
-                            List<OpenWeatherForecastData> openWeatherForecastDataList = new ArrayList<>();
-                            for (ServiceData serviceData : serviceDataList){
-                                OpenWeatherForecastData data = (OpenWeatherForecastData) serviceData;
-                                openWeatherForecastDataList.add(data);
-                            }
                             openWeatherOfflineFutureData.put(String.valueOf(locationId),
-                                    openWeatherForecastDataList);
+                                    (OpenWeatherForecastData) serviceDataList);
                         }
                     }
                 }
@@ -44,7 +39,7 @@ public class OfflineFutureDataDao {
         }
     }
 
-    public Map<String, List<OpenWeatherForecastData>> getOpenWeatherOfflineFutureData() {
+    public Map<String, OpenWeatherForecastData> getOpenWeatherOfflineFutureData() {
         return openWeatherOfflineFutureData;
     }
 

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
+import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.data.OpenWeatherForecastData;
 import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
@@ -31,13 +32,13 @@ public class GetOpenWeatherChartData extends UserTask {
     private final int locationId;
     private final LineChart lineChart;
     private final ProgressBar progressBar;
-    private List<ServiceData> forecast;
+    private OpenWeatherForecastData forecast;
     private String error;
 
     private static final ValueFormatter celsiusFormatter = new ValueFormatter() {
         @Override
         public String getFormattedValue(float value) {
-            return (int)value + "º";
+            return (int) value + "º";
         }
     };
 
@@ -56,7 +57,7 @@ public class GetOpenWeatherChartData extends UserTask {
             @Override
             public void run() {
                 try {
-                    forecast = GeoNewsManagerSingleton.getInstance(context).getFutureData(ServiceName.OPEN_WEATHER, locationId);
+                    forecast = (OpenWeatherForecastData) GeoNewsManagerSingleton.getInstance(context).getFutureData(ServiceName.OPEN_WEATHER, locationId);
                 } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
                     error = e.getMessage();
                 }
@@ -64,8 +65,7 @@ public class GetOpenWeatherChartData extends UserTask {
                     public void run() {
                         progressBar.setVisibility(View.INVISIBLE);
                         if (error != null) showAlertError();
-                        else
-                        {
+                        else {
                             lineChart.setData(generateGraph());
                             lineChart.getAxisRight().setDrawLabels(false);
                             lineChart.getXAxis().setGranularity(1f);
@@ -86,12 +86,12 @@ public class GetOpenWeatherChartData extends UserTask {
     private LineData generateGraph() {
         List<Entry> actualTempEntries = new ArrayList<>();
 
-        int lastDay = LocalDateTime.ofInstant(Instant.ofEpochMilli(((OpenWeatherForecastData) forecast.get(0)).getTimestamp() * 1000),
+        int lastDay = LocalDateTime.ofInstant(Instant.ofEpochMilli(((forecast.getOpenWeatherDataList().get(0).getTimestamp() * 1000))),
                 TimeZone.getDefault().toZoneId()).getDayOfMonth();
         double actualMean = 0;
         int recordCounter = 0;
-        for (ServiceData windowForecast : forecast) {
-            OpenWeatherForecastData forecastSection = (OpenWeatherForecastData) windowForecast;
+        for (ServiceData windowForecast : forecast.getOpenWeatherDataList()) {
+            OpenWeatherData forecastSection = (OpenWeatherData) windowForecast;
             int day = LocalDateTime.ofInstant(Instant.ofEpochMilli(forecastSection.getTimestamp() * 1000),
                     TimeZone.getDefault().toZoneId()).getDayOfMonth();
 
@@ -103,8 +103,7 @@ public class GetOpenWeatherChartData extends UserTask {
             }
 
             actualMean += forecastSection.getActTemp();
-            recordCounter ++;
-
+            recordCounter++;
 
 
         }
@@ -117,7 +116,7 @@ public class GetOpenWeatherChartData extends UserTask {
         return new LineData(dataSets);
     }
 
-    private void showAlertError(){
+    private void showAlertError() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Error al obtener la predicción del tiempo");
         builder.setMessage("Pruebe más tarde");

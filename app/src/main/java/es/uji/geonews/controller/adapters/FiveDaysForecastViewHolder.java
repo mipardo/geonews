@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import es.uji.geonews.R;
+import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.data.OpenWeatherForecastData;
 
 public class FiveDaysForecastViewHolder extends RecyclerView.ViewHolder {
@@ -33,7 +34,7 @@ public class FiveDaysForecastViewHolder extends RecyclerView.ViewHolder {
         avgTemp = itemView.findViewById(R.id.avgTempTextview);
     }
 
-    public void bind(OpenWeatherForecastData data) {
+    public void bind(OpenWeatherData data) {
         date.setText(getStringDateAndTime(data.getTimestamp()));
         String desc = data.getDescription().substring(0, 1).toUpperCase() + data.getDescription().substring(1);
         description.setText(desc);

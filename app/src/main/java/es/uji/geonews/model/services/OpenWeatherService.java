@@ -69,7 +69,7 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
     }
 
     @Override
-    public List<ServiceData> getFutureData(Location location) throws ServiceNotAvailableException {
+    public OpenWeatherForecastData getFutureData(Location location) throws ServiceNotAvailableException {
         String url = "https://api.openweathermap.org/data/2.5/forecast?"
                 + "lat=" + location.getGeographCoords().getLatitude()
                 + "&lon=" + location.getGeographCoords().getLongitude()
@@ -102,21 +102,21 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
         return openWeatherLocationData;
     }
 
-    private List<ServiceData> convertToOpenWeatherForecastFutureData(JSONObject jsonObject) throws JSONException {
-        List<ServiceData> forecastDataList = new ArrayList<>();
+    private OpenWeatherForecastData convertToOpenWeatherForecastFutureData(JSONObject jsonObject) throws JSONException {
         JSONArray futureData = jsonObject.getJSONArray("list");
+        OpenWeatherForecastData forecastData = new OpenWeatherForecastData();
         for (int i = 0; i < futureData.length(); i++) {
             JSONObject actualObject = futureData.getJSONObject(i);
-            OpenWeatherForecastData forecastData = new OpenWeatherForecastData();
-            forecastData.setTimestamp(actualObject.getLong("dt"));
-            forecastData.setActTemp(actualObject.getJSONObject("main").getDouble("temp"));
-            forecastData.setMaxTemp(actualObject.getJSONObject("main").getDouble("temp_max"));
-            forecastData.setMinTemp(actualObject.getJSONObject("main").getDouble("temp_min"));
-            forecastData.setMain(actualObject.getJSONArray("weather").getJSONObject(0).getString("main"));
-            forecastData.setDescription(actualObject.getJSONArray("weather").getJSONObject(0).getString("description"));
-            forecastData.setIcon(actualObject.getJSONArray("weather").getJSONObject(0).getString("icon"));
-            forecastDataList.add(forecastData);
+            OpenWeatherData openWeatherData = new OpenWeatherData();
+            openWeatherData.setTimestamp(actualObject.getLong("dt"));
+            openWeatherData.setActTemp(actualObject.getJSONObject("main").getDouble("temp"));
+            openWeatherData.setMaxTemp(actualObject.getJSONObject("main").getDouble("temp_max"));
+            openWeatherData.setMinTemp(actualObject.getJSONObject("main").getDouble("temp_min"));
+            openWeatherData.setMain(actualObject.getJSONArray("weather").getJSONObject(0).getString("main"));
+            openWeatherData.setDescription(actualObject.getJSONArray("weather").getJSONObject(0).getString("description"));
+            openWeatherData.setIcon(actualObject.getJSONArray("weather").getJSONObject(0).getString("icon"));
+            forecastData.addForecast(openWeatherData);
         }
-        return forecastDataList;
+        return forecastData;
     }
 }

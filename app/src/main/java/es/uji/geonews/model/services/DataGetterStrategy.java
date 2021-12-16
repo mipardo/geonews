@@ -10,5 +10,5 @@ public interface DataGetterStrategy {
 
     ServiceData getData(Location location) throws ServiceNotAvailableException;
 
-    List<ServiceData> getFutureData(Location location) throws ServiceNotAvailableException;
+    ServiceData getFutureData(Location location) throws ServiceNotAvailableException;
 }

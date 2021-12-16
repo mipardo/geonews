@@ -24,7 +24,7 @@ public class ContextDataGetter {
         return null;
     }
 
-    public List<ServiceData> getFutureData(Location location) throws ServiceNotAvailableException {
+    public ServiceData getFutureData(Location location) throws ServiceNotAvailableException {
         if (service != null) {
             return service.getFutureData(location);
         }

@@ -46,8 +46,8 @@ public class GetOpenWeatherTomorrowData extends UserTask {
             @Override
             public void run() {
                 try {
-                    List<ServiceData> forecast = GeoNewsManagerSingleton.getInstance(context).getFutureData(ServiceName.OPEN_WEATHER, locationId);
-                    data = getTomorrowDataFromForecast(forecast);
+                    ServiceData forecast = GeoNewsManagerSingleton.getInstance(context).getFutureData(ServiceName.OPEN_WEATHER, locationId);
+                    data = getTomorrowDataFromForecast((OpenWeatherForecastData) forecast);
                 } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
                     error = e.getMessage();
 
@@ -73,15 +73,14 @@ public class GetOpenWeatherTomorrowData extends UserTask {
                 });
             }
 
-            private OpenWeatherData getTomorrowDataFromForecast(List<ServiceData> forecast) {
+            private OpenWeatherData getTomorrowDataFromForecast(OpenWeatherForecastData forecast) {
                 double minTemp = 100;
                 double maxTemp = -100;
                 double expectedTemp = 0;
                 int sectionCounter = 0;
                 OpenWeatherData result = null;
                 int tomorrowDay = LocalDate.now().getDayOfYear() + 1;
-                for (ServiceData d : forecast) {
-                    OpenWeatherForecastData section = (OpenWeatherForecastData) d;
+                for (OpenWeatherData section : forecast.getOpenWeatherDataList()) {
                     int sectionDay = LocalDateTime.ofInstant(Instant.ofEpochMilli(section.getTimestamp() * 1000),
                             TimeZone.getDefault().toZoneId()).getDayOfYear();
                     if (sectionDay == tomorrowDay) {

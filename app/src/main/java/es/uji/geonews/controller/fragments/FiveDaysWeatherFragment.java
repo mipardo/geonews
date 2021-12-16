@@ -45,8 +45,7 @@ public class FiveDaysWeatherFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.five_days_recycler_view);
         ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
 
-        List<ServiceData> forecast = new ArrayList<>();
-        recyclerView.setAdapter(new FiveDaysForecastAdapter(forecast));
+        recyclerView.setAdapter(new FiveDaysForecastAdapter(new ArrayList<>()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         new GetOpenWeatherFiveDaysData(locationId, recyclerView, progressBar, getContext()).execute();
         return view;
