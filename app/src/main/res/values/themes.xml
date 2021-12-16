@@ -23,6 +23,10 @@
         <item name="android:windowBackground">@mipmap/blue_splash</item>
     </style>
 
+    <style name="WhiteToolBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
     <style name="Theme.GeoNews.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.GeoNews.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
