@@ -40,8 +40,7 @@ public class GetAirVisualOfflineData extends UserTask {
 
     @Override
     public void execute() {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.bringToFront();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -55,7 +54,6 @@ public class GetAirVisualOfflineData extends UserTask {
 
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        progressBar.setVisibility(View.INVISIBLE);
                         if (error == null) {
                             fillChart(airVisualData.getAqiUs());
                             airTemplate.getTempertaureOutput().setText(airVisualData.getTemperature() + "º C");

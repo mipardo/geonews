@@ -1,15 +1,24 @@
 package es.uji.geonews.model.data;
 
-public class OpenWeatherForecastData extends OpenWeatherData {
-    private long timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
-    public OpenWeatherForecastData(){}
+public class OpenWeatherForecastData extends ServiceData {
+    private List<OpenWeatherData> openWeatherDataList;
 
-    public long getTimestamp() {
-        return timestamp;
+    public OpenWeatherForecastData(){
+        openWeatherDataList = new ArrayList<>();
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    public List<OpenWeatherData> getOpenWeatherDataList() {
+        return openWeatherDataList;
+    }
+
+    public void setOpenWeatherDataList(List<OpenWeatherData> openWeatherDataList) {
+        this.openWeatherDataList = openWeatherDataList;
+    }
+
+    public void addForecast(OpenWeatherData openWeatherData) {
+        openWeatherDataList.add(openWeatherData);
     }
 }

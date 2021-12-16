@@ -44,8 +44,7 @@ public class ActivateLocation extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        ((Activity)context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        unlockUI(context, progressBar);
                         if (error != null) showAlertError();
                         else{
                             Navigation.findNavController(view).navigate(R.id.locationListFragment);

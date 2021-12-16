@@ -19,7 +19,7 @@ import java.util.List;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.adapters.FiveDaysForecastAdapter;
-import es.uji.geonews.controller.tasks.GetFiveDayForecastData;
+import es.uji.geonews.controller.tasks.GetOpenWeatherFiveDaysData;
 import es.uji.geonews.model.data.ServiceData;
 
 public class FiveDaysWeatherFragment extends Fragment {
@@ -45,10 +45,9 @@ public class FiveDaysWeatherFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.five_days_recycler_view);
         ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
 
-        List<ServiceData> forecast = new ArrayList<>();
-        recyclerView.setAdapter(new FiveDaysForecastAdapter(forecast));
+        recyclerView.setAdapter(new FiveDaysForecastAdapter(new ArrayList<>()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        new GetFiveDayForecastData(locationId, recyclerView, progressBar, getContext()).execute();
+        new GetOpenWeatherFiveDaysData(locationId, recyclerView, progressBar, getContext()).execute();
         return view;
     }
 

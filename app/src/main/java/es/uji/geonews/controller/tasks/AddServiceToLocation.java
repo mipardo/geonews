@@ -36,15 +36,10 @@ public class AddServiceToLocation extends UserTask {
 
     @Override
     public void execute() {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.bringToFront();
-        ((Activity)context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        lockUI(context, progressBar);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                progressBar.setVisibility(View.INVISIBLE);
-                ((Activity)context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 try {
                     geoNewsManager.addServiceToLocation(serviceName, locationId);
                 } catch (NoLocationRegisteredException | ServiceNotAvailableException e) {
@@ -56,6 +51,7 @@ public class AddServiceToLocation extends UserTask {
                             switchButton.setChecked(false);
                             showAlertError();
                         }
+                        unlockUI(context, progressBar);
                     }
                 });
             }

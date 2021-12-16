@@ -10,21 +10,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import es.uji.geonews.controller.adapters.FiveDaysForecastAdapter;
+import es.uji.geonews.model.data.OpenWeatherForecastData;
 import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-public class GetFiveDayForecastData extends UserTask {
+public class GetOpenWeatherFiveDaysOfflineData extends UserTask {
     private final ProgressBar progressBar;
     private final Context context;
     private final int locationId;
     private final RecyclerView recyclerView;
     private String error;
-    private List<ServiceData> data;
+    private ServiceData data;
 
-    public GetFiveDayForecastData(int locationId, RecyclerView recyclerView, ProgressBar progressBar, Context context) {
+    public GetOpenWeatherFiveDaysOfflineData(int locationId, RecyclerView recyclerView, ProgressBar progressBar, Context context) {
         this.locationId = locationId;
         this.recyclerView = recyclerView;
         this.progressBar = progressBar;
@@ -40,12 +41,9 @@ public class GetFiveDayForecastData extends UserTask {
             @Override
             public void run() {
                 try {
-                    // TODO borrar addServiceToLocation de aquí
-                    GeoNewsManagerSingleton.getInstance(context).addServiceToLocation(ServiceName.OPEN_WEATHER, locationId);
-                    data = GeoNewsManagerSingleton.getInstance(context).getFutureData(ServiceName.OPEN_WEATHER, locationId);
-                } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
+                    data = GeoNewsManagerSingleton.getInstance(context).getOfflineFutureData(ServiceName.OPEN_WEATHER, locationId);
+                } catch (NoLocationRegisteredException e) {
                     error = e.getMessage();
-
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
@@ -54,7 +52,7 @@ public class GetFiveDayForecastData extends UserTask {
                         else
                         {
                             FiveDaysForecastAdapter adapter = (FiveDaysForecastAdapter) recyclerView.getAdapter();
-                            if (adapter != null) adapter.updateForecast(data);
+                            if (adapter != null) adapter.updateForecast((OpenWeatherForecastData) data);
                         }
                     }
 
