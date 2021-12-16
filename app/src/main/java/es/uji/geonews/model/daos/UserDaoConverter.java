@@ -65,7 +65,7 @@ public class UserDaoConverter {
 
         OfflineFutureDataDao offlineFutureDataDao = userDao.getOfflineFutureData();
 
-        Map<String, List<ServiceData>> openWeatherOfflineFutureData = offlineFutureDataDao.getOpenWeatherOfflineFutureData();
+        Map<String, List<OpenWeatherForecastData>> openWeatherOfflineFutureData = offlineFutureDataDao.getOpenWeatherOfflineFutureData();
         for (String locationIdString : openWeatherOfflineFutureData.keySet()){
             int locationId = Integer.parseInt(locationIdString);
             if (!newOfflineFutureData.containsKey(locationId)) {
