@@ -3,6 +3,7 @@ package es.uji.geonews.controller.tasks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -19,14 +20,14 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GetOpenWeatherFiveDaysData extends UserTask {
-    private final ConstraintLayout loadingLayout;
+    private final ViewGroup loadingLayout;
     private final Context context;
     private final int locationId;
     private final RecyclerView recyclerView;
     private String error;
     private ServiceData data;
 
-    public GetOpenWeatherFiveDaysData(int locationId, RecyclerView recyclerView, ConstraintLayout loadingLayout, Context context) {
+    public GetOpenWeatherFiveDaysData(int locationId, RecyclerView recyclerView, ViewGroup loadingLayout, Context context) {
         this.locationId = locationId;
         this.recyclerView = recyclerView;
         this.loadingLayout = loadingLayout;
@@ -48,7 +49,7 @@ public class GetOpenWeatherFiveDaysData extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        loadingLayout.setVisibility(View.INVISIBLE);
+                        loadingLayout.setVisibility(View.GONE);
                         if (error != null) showAlertError();
                         else
                         {

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -33,7 +34,7 @@ public class GetOpenWeatherChartData extends UserTask {
     private final Context context;
     private final int locationId;
     private final LineChart lineChart;
-    private final ConstraintLayout loadingLayout;
+    private final ViewGroup loadingLayout;
     private OpenWeatherForecastData forecast;
     private String error;
 
@@ -44,7 +45,7 @@ public class GetOpenWeatherChartData extends UserTask {
         }
     };
 
-    public GetOpenWeatherChartData(int locationId, LineChart lineChart, Context context, ConstraintLayout loadingLayout) {
+    public GetOpenWeatherChartData(int locationId, LineChart lineChart, Context context, ViewGroup loadingLayout) {
         this.locationId = locationId;
         this.lineChart = lineChart;
         this.context = context;
@@ -65,7 +66,7 @@ public class GetOpenWeatherChartData extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        loadingLayout.setVisibility(View.INVISIBLE);
+                        loadingLayout.setVisibility(View.GONE);
                         if (error != null) showAlertError();
                         else {
                             lineChart.setData(generateGraph());

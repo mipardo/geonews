@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,7 +46,7 @@ public class FiveDaysWeatherFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_five_days_weather, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.five_days_recycler_view);
-        ConstraintLayout loadingLayout = getActivity().findViewById(R.id.greyLayout);
+        LinearLayoutCompat loadingLayout = getActivity().findViewById(R.id.greyServiceLayout);
 
         recyclerView.setAdapter(new FiveDaysForecastAdapter(new ArrayList<>()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

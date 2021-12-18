@@ -51,7 +51,7 @@ public class GetOpenWeatherTomorrowOfflineData extends UserTask {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         if (error != null) showAlertError();
-                        else
+                        else if (data != null)
                         {
                             weatherTemplate.getDateTextview().setText(getTomorrowDateAndTime());
                             weatherTemplate.getMinTempTextview().setText(Math.round(data.getMinTemp()) + "ºC");
@@ -75,22 +75,26 @@ public class GetOpenWeatherTomorrowOfflineData extends UserTask {
                 int sectionCounter = 0;
                 OpenWeatherData result = null;
                 int tomorrowDay = LocalDate.now().getDayOfYear() + 1;
-                for (OpenWeatherData section : forecast.getOpenWeatherDataList()) {
-                    int sectionDay = LocalDateTime.ofInstant(Instant.ofEpochMilli(section.getTimestamp() * 1000),
-                            TimeZone.getDefault().toZoneId()).getDayOfYear();
-                    if (sectionDay == tomorrowDay) {
-                        expectedTemp += section.getActTemp();
-                        sectionCounter++;
-                        if (section.getMinTemp() < minTemp) minTemp = section.getMinTemp();
-                        if (section.getMaxTemp() > maxTemp) maxTemp = section.getMaxTemp();
-                        if (sectionCounter == 4) result = section; // 4 = Mediodia
+
+                if (forecast != null) {
+                    for (OpenWeatherData section : forecast.getOpenWeatherDataList()) {
+                        int sectionDay = LocalDateTime.ofInstant(Instant.ofEpochMilli(section.getTimestamp() * 1000),
+                                TimeZone.getDefault().toZoneId()).getDayOfYear();
+                        if (sectionDay == tomorrowDay) {
+                            expectedTemp += section.getActTemp();
+                            sectionCounter++;
+                            if (section.getMinTemp() < minTemp) minTemp = section.getMinTemp();
+                            if (section.getMaxTemp() > maxTemp) maxTemp = section.getMaxTemp();
+                            if (sectionCounter == 4) result = section; // 4 = Mediodia
+                        }
                     }
+                    double meanTemp = expectedTemp / sectionCounter;
+                    result.setActTemp(Math.round(meanTemp));
+                    result.setMinTemp(Math.round(minTemp));
+                    result.setMaxTemp(Math.round(maxTemp));
+                    return result;
                 }
-                double meanTemp = expectedTemp / sectionCounter;
-                result.setActTemp(Math.round(meanTemp));
-                result.setMinTemp(Math.round(minTemp));
-                result.setMaxTemp(Math.round(maxTemp));
-                return result;
+                return null;
             }
 
         }).start();

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -25,7 +26,7 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class GetAirVisualData extends UserTask {
     private final GeoNewsManager geoNewsManager;
-    private final ConstraintLayout loadingLayout;
+    private final ViewGroup loadingLayout;
     private final Context context;
     private final AirTemplate airTemplate;
     private final PieChart pieChart;
@@ -33,7 +34,7 @@ public class GetAirVisualData extends UserTask {
     private AirVisualData airVisualData;
     private String error;
 
-    public GetAirVisualData(int locationId, AirTemplate airTemplate, ConstraintLayout loadingLayout, PieChart pieChart, Context context){
+    public GetAirVisualData(int locationId, AirTemplate airTemplate, ViewGroup loadingLayout, PieChart pieChart, Context context){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.loadingLayout = loadingLayout;
         this.pieChart = pieChart;
@@ -58,7 +59,7 @@ public class GetAirVisualData extends UserTask {
 
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        loadingLayout.setVisibility(View.INVISIBLE);
+                        loadingLayout.setVisibility(View.GONE);
                         if (error != null) showAlertError();
                         else {
                             fillChart(airVisualData.getAqiUs());

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -56,7 +57,7 @@ public class AirVisualFragment extends Fragment {
         RelativeLayout settings =  getActivity().findViewById(R.id.settings);
         settings.setVisibility(View.VISIBLE);
 
-        ConstraintLayout loadingLayout = getActivity().findViewById(R.id.greyLayout);
+        LinearLayoutCompat loadingLayout = getActivity().findViewById(R.id.greyServiceLayout);
         TextView temperatureOutput = view.findViewById(R.id.temperature_output);
         TextView humidityOutput = view.findViewById(R.id.humidity_output);
         TextView pressureOutput = view.findViewById(R.id.pressure_output);

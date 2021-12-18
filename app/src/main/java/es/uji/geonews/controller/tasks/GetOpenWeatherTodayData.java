@@ -46,7 +46,7 @@ public class GetOpenWeatherTodayData extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        weatherTemplate.getLoadingLayout().setVisibility(View.INVISIBLE);
+                        weatherTemplate.getLoadingLayout().setVisibility(View.GONE);
                         if (error != null) showAlertError();
                         else
                         {

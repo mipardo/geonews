@@ -45,7 +45,7 @@ public class TodayWeatherFragment extends Fragment {
         weatherTemplate.setActualTempTextview(view.findViewById(R.id.actualTempTextview));
         weatherTemplate.setWeatherDescriptionTextview(view.findViewById(R.id.actualWeatherDescriptionTextview));
         weatherTemplate.setWeatherIcon(view.findViewById(R.id.actualWeatherIconTextview));
-        weatherTemplate.setLoadingLayout(getActivity().findViewById(R.id.greyLayout));
+        weatherTemplate.setLoadingLayout(getActivity().findViewById(R.id.greyServiceLayout));
 
         new GetOpenWeatherTodayOfflineData(locationId, weatherTemplate, getContext()).execute();
         new GetOpenWeatherTodayData(locationId, weatherTemplate, getContext()).execute();
