@@ -9,6 +9,8 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManager;
@@ -22,21 +24,21 @@ public class AddServiceToLocation extends UserTask {
     private final @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switchButton;
     private final int locationId;
     private String error;
-    private ProgressBar progressBar;
+    private ConstraintLayout loadingLayout;
 
 
-    public AddServiceToLocation(Context context, ServiceName serviceName, int locationId, Switch switchButton, ProgressBar progressBar){
+    public AddServiceToLocation(Context context, ServiceName serviceName, int locationId, Switch switchButton, ConstraintLayout loadingLayout){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.serviceName = serviceName;
         this.locationId = locationId;
         this.switchButton = switchButton;
-        this.progressBar = progressBar;
+        this.loadingLayout = loadingLayout;
     }
 
     @Override
     public void execute() {
-        lockUI(context, progressBar);
+        lockUI(context, loadingLayout);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -51,7 +53,7 @@ public class AddServiceToLocation extends UserTask {
                             switchButton.setChecked(false);
                             showAlertError();
                         }
-                        unlockUI(context, progressBar);
+                        unlockUI(context, loadingLayout);
                     }
                 });
             }

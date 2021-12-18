@@ -1,13 +1,12 @@
 package es.uji.geonews.controller.tasks;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ProgressBar;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.Navigation;
 
 import es.uji.geonews.R;
@@ -21,24 +20,24 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 public class AddLocation extends UserTask {
     private final GeoNewsManager geoNewsManager;
-    private final ProgressBar progressBar;
+    private final ConstraintLayout loadingLayout;
     private final String location;
     private final Context context;
     private final View view;
     private Location newLocation;
     private String error;
 
-    public AddLocation(String location, ProgressBar progressBar, Context context, View view){
+    public AddLocation(String location, ConstraintLayout loadingLayout, Context context, View view){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.location = location;
-        this.progressBar = progressBar;
+        this.loadingLayout = loadingLayout;
         this.context = context;
         this.view = view;
     }
 
     @Override
     public void execute() {
-        lockUI(context, progressBar);
+        lockUI(context, loadingLayout);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -52,7 +51,7 @@ public class AddLocation extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        unlockUI(context, progressBar);
+                        unlockUI(context, loadingLayout);
                         if (error != null) showAlertError();
                         else{
                             Bundle bundle = new Bundle();

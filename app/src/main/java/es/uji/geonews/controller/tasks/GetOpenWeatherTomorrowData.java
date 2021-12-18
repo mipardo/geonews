@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -39,8 +38,8 @@ public class GetOpenWeatherTomorrowData extends UserTask {
 
     @Override
     public void execute() {
-        weatherTemplate.getProgressBar().setVisibility(View.VISIBLE);
-        weatherTemplate.getProgressBar().bringToFront();
+        weatherTemplate.getLoadingLayout().setVisibility(View.VISIBLE);
+        weatherTemplate.getLoadingLayout().bringToFront();
 
         new Thread(new Runnable() {
             @Override
@@ -54,7 +53,7 @@ public class GetOpenWeatherTomorrowData extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        weatherTemplate.getProgressBar().setVisibility(View.INVISIBLE);
+                        weatherTemplate.getLoadingLayout().setVisibility(View.INVISIBLE);
                         if (error != null) showAlertError();
                         else
                         {

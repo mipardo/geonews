@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -18,24 +19,24 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GetOpenWeatherFiveDaysData extends UserTask {
-    private final ProgressBar progressBar;
+    private final ConstraintLayout loadingLayout;
     private final Context context;
     private final int locationId;
     private final RecyclerView recyclerView;
     private String error;
     private ServiceData data;
 
-    public GetOpenWeatherFiveDaysData(int locationId, RecyclerView recyclerView, ProgressBar progressBar, Context context) {
+    public GetOpenWeatherFiveDaysData(int locationId, RecyclerView recyclerView, ConstraintLayout loadingLayout, Context context) {
         this.locationId = locationId;
         this.recyclerView = recyclerView;
-        this.progressBar = progressBar;
+        this.loadingLayout = loadingLayout;
         this.context = context;
     }
 
     @Override
     public void execute() {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.bringToFront();
+        loadingLayout.setVisibility(View.VISIBLE);
+        loadingLayout.bringToFront();
 
         new Thread(new Runnable() {
             @Override
@@ -47,7 +48,7 @@ public class GetOpenWeatherFiveDaysData extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        progressBar.setVisibility(View.INVISIBLE);
+                        loadingLayout.setVisibility(View.INVISIBLE);
                         if (error != null) showAlertError();
                         else
                         {

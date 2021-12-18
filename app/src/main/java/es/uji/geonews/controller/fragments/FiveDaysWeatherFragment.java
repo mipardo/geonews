@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import java.util.List;
 import es.uji.geonews.R;
 import es.uji.geonews.controller.adapters.FiveDaysForecastAdapter;
 import es.uji.geonews.controller.tasks.GetOpenWeatherFiveDaysData;
+import es.uji.geonews.controller.tasks.GetOpenWeatherFiveDaysOfflineData;
 import es.uji.geonews.model.data.ServiceData;
 
 public class FiveDaysWeatherFragment extends Fragment {
@@ -43,11 +45,13 @@ public class FiveDaysWeatherFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_five_days_weather, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.five_days_recycler_view);
-        ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
+        ConstraintLayout loadingLayout = getActivity().findViewById(R.id.greyLayout);
 
         recyclerView.setAdapter(new FiveDaysForecastAdapter(new ArrayList<>()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        new GetOpenWeatherFiveDaysData(locationId, recyclerView, progressBar, getContext()).execute();
+
+        new GetOpenWeatherFiveDaysOfflineData(locationId, recyclerView, getContext()).execute();
+        new GetOpenWeatherFiveDaysData(locationId, recyclerView, loadingLayout, getContext()).execute();
         return view;
     }
 

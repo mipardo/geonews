@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -67,7 +69,7 @@ public class LocationListFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
         ImageView addLocationButton = view.findViewById(R.id.add_location_button);
-        ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
+        ConstraintLayout loadingLayout = getActivity().findViewById(R.id.greyLayout);
         Spinner listSelector = view.findViewById(R.id.list_selector_input);
         String[] listSelections = new String[] {"Activas", "Favoritas", "No activas"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, listSelections);
@@ -136,10 +138,10 @@ public class LocationListFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (byGpsInput.isChecked()){
-                            new AddLocationByGPS(progressBar, getContext(), view).execute();
+                            new AddLocationByGPS(loadingLayout, getContext(), view).execute();
                         } else {
                             String location = locationInput.getText().toString();
-                            new AddLocation(location, progressBar, getContext(), view).execute();
+                            new AddLocation(location, loadingLayout, getContext(), view).execute();
                         }
                     }
                 });

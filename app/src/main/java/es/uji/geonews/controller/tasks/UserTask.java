@@ -7,20 +7,22 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public abstract class UserTask extends AppCompatActivity {
     
     public abstract void execute();
 
-    protected void lockUI(Context context, ProgressBar progressBar){
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.bringToFront();
+    protected void lockUI(Context context, ConstraintLayout layout){
+        layout.setVisibility(View.VISIBLE);
+        layout.bringToFront();
         ((Activity)context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    protected void unlockUI(Context context, ProgressBar progressBar){
-        progressBar.setVisibility(View.INVISIBLE);
+    protected void unlockUI(Context context, ConstraintLayout layout){
+        layout.setVisibility(View.INVISIBLE);
         ((Activity)context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 }

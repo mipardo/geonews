@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -21,19 +23,15 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class GetAirVisualOfflineData extends UserTask {
     private final GeoNewsManager geoNewsManager;
-    private final ProgressBar progressBar;
-    private final Context context;
     private final AirTemplate airTemplate;
     private final PieChart pieChart;
     private final int locationId;
     private AirVisualData airVisualData;
     private String error;
 
-    public GetAirVisualOfflineData(int locationId, AirTemplate airTemplate, ProgressBar progressBar, PieChart pieChart, Context context){
+    public GetAirVisualOfflineData(int locationId, AirTemplate airTemplate, PieChart pieChart, Context context){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
-        this.progressBar = progressBar;
         this.pieChart = pieChart;
-        this.context = context;
         this.locationId = locationId;
         this.airTemplate = airTemplate;
     }

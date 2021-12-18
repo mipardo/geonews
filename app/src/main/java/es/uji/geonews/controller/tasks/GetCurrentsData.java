@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class GetCurrentsData extends UserTask {
     private final GeoNewsManager geoNewsManager;
-    private final ProgressBar progressBar;
+    private final ConstraintLayout loadingLayout;
     private final RecyclerView recyclerView;
     private final int locationId;
     private final Context context;
@@ -28,18 +29,18 @@ public class GetCurrentsData extends UserTask {
     private List<News> news;
 
     public GetCurrentsData(int locationId, RecyclerView recyclerView,
-                           ProgressBar progressBar, Context context) {
+                           ConstraintLayout loadingLayout, Context context) {
         geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.locationId = locationId;
-        this.progressBar = progressBar;
+        this.loadingLayout = loadingLayout;
         this.recyclerView = recyclerView;
         this.context = context;
     }
 
     @Override
     public void execute() {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.bringToFront();
+        loadingLayout.setVisibility(View.VISIBLE);
+        loadingLayout.bringToFront();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -52,7 +53,7 @@ public class GetCurrentsData extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        progressBar.setVisibility(View.INVISIBLE);
+                        loadingLayout.setVisibility(View.INVISIBLE);
                         if (error != null) showAlertError();
                         else {
                             CurrentsAdapter adapter = (CurrentsAdapter) recyclerView.getAdapter();

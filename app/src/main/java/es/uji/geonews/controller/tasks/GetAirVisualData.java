@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -23,7 +25,7 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class GetAirVisualData extends UserTask {
     private final GeoNewsManager geoNewsManager;
-    private final ProgressBar progressBar;
+    private final ConstraintLayout loadingLayout;
     private final Context context;
     private final AirTemplate airTemplate;
     private final PieChart pieChart;
@@ -31,9 +33,9 @@ public class GetAirVisualData extends UserTask {
     private AirVisualData airVisualData;
     private String error;
 
-    public GetAirVisualData(int locationId, AirTemplate airTemplate, ProgressBar progressBar, PieChart pieChart, Context context){
+    public GetAirVisualData(int locationId, AirTemplate airTemplate, ConstraintLayout loadingLayout, PieChart pieChart, Context context){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
-        this.progressBar = progressBar;
+        this.loadingLayout = loadingLayout;
         this.pieChart = pieChart;
         this.context = context;
         this.locationId = locationId;
@@ -42,8 +44,8 @@ public class GetAirVisualData extends UserTask {
 
     @Override
     public void execute() {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.bringToFront();
+        loadingLayout.setVisibility(View.VISIBLE);
+        loadingLayout.bringToFront();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -56,7 +58,7 @@ public class GetAirVisualData extends UserTask {
 
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        progressBar.setVisibility(View.INVISIBLE);
+                        loadingLayout.setVisibility(View.INVISIBLE);
                         if (error != null) showAlertError();
                         else {
                             fillChart(airVisualData.getAqiUs());

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -55,7 +56,7 @@ public class AirVisualFragment extends Fragment {
         RelativeLayout settings =  getActivity().findViewById(R.id.settings);
         settings.setVisibility(View.VISIBLE);
 
-        ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
+        ConstraintLayout loadingLayout = getActivity().findViewById(R.id.greyLayout);
         TextView temperatureOutput = view.findViewById(R.id.temperature_output);
         TextView humidityOutput = view.findViewById(R.id.humidity_output);
         TextView pressureOutput = view.findViewById(R.id.pressure_output);
@@ -70,8 +71,8 @@ public class AirVisualFragment extends Fragment {
         airTemplate.setWindDirectionOuptut(windDirectionOutput);
         airTemplate.setWindSpeedOutput(windSpeedOutput);
 
-        new GetAirVisualOfflineData(locationId, airTemplate, progressBar, pieChart, getContext()).execute();
-        new GetAirVisualData(locationId, airTemplate, progressBar, pieChart, getContext()).execute();
+        new GetAirVisualOfflineData(locationId, airTemplate, pieChart, getContext()).execute();
+        new GetAirVisualData(locationId, airTemplate, loadingLayout, pieChart, getContext()).execute();
     }
 
     @Override
