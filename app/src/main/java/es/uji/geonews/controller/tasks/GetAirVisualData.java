@@ -45,8 +45,7 @@ public class GetAirVisualData extends UserTask {
 
     @Override
     public void execute() {
-        loadingLayout.setVisibility(View.VISIBLE);
-        loadingLayout.bringToFront();
+        showLoadingAnimation(loadingLayout);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -59,7 +58,7 @@ public class GetAirVisualData extends UserTask {
 
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        loadingLayout.setVisibility(View.GONE);
+                        hideLoadingAnimation(loadingLayout);
                         if (error != null) showAlertError();
                         else {
                             fillChart(airVisualData.getAqiUs());

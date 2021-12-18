@@ -21,6 +21,8 @@ import es.uji.geonews.controller.template.WeatherTemplate;
 
 public class TodayWeatherFragment extends Fragment {
     private final int locationId;
+    private LineChart lineChart;
+    private WeatherTemplate weatherTemplate;
 
     public TodayWeatherFragment(int locationId) {
         // Required empty public constructor
@@ -37,8 +39,8 @@ public class TodayWeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today_weather, container, false);
 
-        LineChart lineChart = view.findViewById(R.id.todayChart);
-        WeatherTemplate weatherTemplate = new WeatherTemplate();
+        lineChart = view.findViewById(R.id.todayChart);
+        weatherTemplate = new WeatherTemplate();
         weatherTemplate.setDateTextview(view.findViewById(R.id.dateTextview));
         weatherTemplate.setMaxTempTextview(view.findViewById(R.id.maxTempTextview));
         weatherTemplate.setMinTempTextview(view.findViewById(R.id.minTempTextview));

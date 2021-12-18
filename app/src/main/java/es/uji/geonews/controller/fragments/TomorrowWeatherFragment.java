@@ -22,6 +22,8 @@ import es.uji.geonews.controller.template.WeatherTemplate;
 
 public class TomorrowWeatherFragment extends Fragment {
     private final int locationId;
+    private LineChart lineChart;
+    private WeatherTemplate weatherTemplate;
 
     public TomorrowWeatherFragment(int locationId) {
         this.locationId = locationId;
@@ -37,8 +39,8 @@ public class TomorrowWeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tomorrow_weather, container, false);
 
-        LineChart lineChart = view.findViewById(R.id.tomorrowChart);
-        WeatherTemplate weatherTemplate = new WeatherTemplate();
+        lineChart = view.findViewById(R.id.tomorrowChart);
+        weatherTemplate = new WeatherTemplate();
         weatherTemplate.setDateTextview(view.findViewById(R.id.dateTextview));
         weatherTemplate.setMaxTempTextview(view.findViewById(R.id.maxTempTextview));
         weatherTemplate.setMinTempTextview(view.findViewById(R.id.minTempTextview));
@@ -51,7 +53,6 @@ public class TomorrowWeatherFragment extends Fragment {
         new GetOpenWeatherTomorrowData(locationId, weatherTemplate, getContext()).execute();
         new GetOpenWeatherChartOfflineData(locationId, lineChart, getContext()).execute();
         new GetOpenWeatherChartData(locationId, lineChart, getContext(), weatherTemplate.getLoadingLayout()).execute();
-
         return view;
     }
 

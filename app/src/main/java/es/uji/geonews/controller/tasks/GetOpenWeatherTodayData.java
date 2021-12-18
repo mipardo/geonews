@@ -1,5 +1,7 @@
 package es.uji.geonews.controller.tasks;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
@@ -33,8 +35,7 @@ public class GetOpenWeatherTodayData extends UserTask {
 
     @Override
     public void execute() {
-        weatherTemplate.getLoadingLayout().setVisibility(View.VISIBLE);
-        weatherTemplate.getLoadingLayout().bringToFront();
+        showLoadingAnimation(weatherTemplate.getLoadingLayout());
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -46,7 +47,7 @@ public class GetOpenWeatherTodayData extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        weatherTemplate.getLoadingLayout().setVisibility(View.GONE);
+                        hideLoadingAnimation(weatherTemplate.getLoadingLayout());
                         if (error != null) showAlertError();
                         else
                         {

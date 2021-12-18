@@ -54,8 +54,8 @@ public class GetOpenWeatherChartData extends UserTask {
 
     @Override
     public void execute() {
-        loadingLayout.setVisibility(View.VISIBLE);
-        loadingLayout.bringToFront();
+        //loadingLayout.setVisibility(View.VISIBLE);
+        //loadingLayout.bringToFront();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -66,7 +66,6 @@ public class GetOpenWeatherChartData extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        loadingLayout.setVisibility(View.GONE);
                         if (error != null) showAlertError();
                         else {
                             lineChart.setData(generateGraph());

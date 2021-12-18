@@ -20,25 +20,20 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GetOpenWeatherFiveDaysData extends UserTask {
-    private final ViewGroup loadingLayout;
     private final Context context;
     private final int locationId;
     private final RecyclerView recyclerView;
     private String error;
     private ServiceData data;
 
-    public GetOpenWeatherFiveDaysData(int locationId, RecyclerView recyclerView, ViewGroup loadingLayout, Context context) {
+    public GetOpenWeatherFiveDaysData(int locationId, RecyclerView recyclerView, Context context) {
         this.locationId = locationId;
         this.recyclerView = recyclerView;
-        this.loadingLayout = loadingLayout;
         this.context = context;
     }
 
     @Override
     public void execute() {
-        loadingLayout.setVisibility(View.VISIBLE);
-        loadingLayout.bringToFront();
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -49,9 +44,8 @@ public class GetOpenWeatherFiveDaysData extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        loadingLayout.setVisibility(View.GONE);
                         if (error != null) showAlertError();
-                        else
+                        else if (data!= null)
                         {
                             FiveDaysForecastAdapter adapter = (FiveDaysForecastAdapter) recyclerView.getAdapter();
                             if (adapter != null) adapter.updateForecast((OpenWeatherForecastData) data);

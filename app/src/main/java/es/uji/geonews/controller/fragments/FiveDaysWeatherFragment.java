@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import es.uji.geonews.model.data.ServiceData;
 
 public class FiveDaysWeatherFragment extends Fragment {
     private final int locationId;
+    private RecyclerView recyclerView;
 
     public FiveDaysWeatherFragment(int locationId) {
         // Required empty public constructor
@@ -45,14 +47,14 @@ public class FiveDaysWeatherFragment extends Fragment {
         settings.setVisibility(View.VISIBLE);
 
         View view = inflater.inflate(R.layout.fragment_five_days_weather, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.five_days_recycler_view);
-        LinearLayoutCompat loadingLayout = getActivity().findViewById(R.id.greyServiceLayout);
+        recyclerView = view.findViewById(R.id.five_days_recycler_view);
 
         recyclerView.setAdapter(new FiveDaysForecastAdapter(new ArrayList<>()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         new GetOpenWeatherFiveDaysOfflineData(locationId, recyclerView, getContext()).execute();
-        new GetOpenWeatherFiveDaysData(locationId, recyclerView, loadingLayout, getContext()).execute();
+        //new GetOpenWeatherFiveDaysData(locationId, recyclerView, getContext()).execute();
+        // TODO como cargamos el CHART en Today, squí ya debería de haber datos en el offline
         return view;
     }
 

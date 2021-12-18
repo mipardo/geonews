@@ -38,9 +38,6 @@ public class GetOpenWeatherTomorrowData extends UserTask {
 
     @Override
     public void execute() {
-        weatherTemplate.getLoadingLayout().setVisibility(View.VISIBLE);
-        weatherTemplate.getLoadingLayout().bringToFront();
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -53,7 +50,6 @@ public class GetOpenWeatherTomorrowData extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        weatherTemplate.getLoadingLayout().setVisibility(View.GONE);
                         if (error != null) showAlertError();
                         else
                         {

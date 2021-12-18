@@ -43,7 +43,7 @@ public class GetOpenWeatherFiveDaysOfflineData extends UserTask {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         if (error != null) showAlertError();
-                        else
+                        else if (data != null)
                         {
                             FiveDaysForecastAdapter adapter = (FiveDaysForecastAdapter) recyclerView.getAdapter();
                             if (adapter != null) adapter.updateForecast((OpenWeatherForecastData) data);

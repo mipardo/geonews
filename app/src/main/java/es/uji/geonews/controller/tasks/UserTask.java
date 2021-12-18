@@ -1,5 +1,7 @@
 package es.uji.geonews.controller.tasks;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
@@ -25,5 +27,13 @@ public abstract class UserTask extends AppCompatActivity {
     protected void unlockUI(Context context, ViewGroup layout){
         layout.setVisibility(View.GONE);
         ((Activity)context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    protected void showLoadingAnimation(ViewGroup layout) {
+        layout.setVisibility(View.VISIBLE);
+    }
+
+    protected void hideLoadingAnimation(ViewGroup layout) {
+        layout.setVisibility(View.GONE);
     }
 }
