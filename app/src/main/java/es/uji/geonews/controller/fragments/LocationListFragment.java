@@ -1,5 +1,7 @@
 package es.uji.geonews.controller.fragments;
 
+import static java.util.Collections.addAll;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.uji.geonews.R;
@@ -40,6 +43,8 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 public class LocationListFragment extends Fragment {
     private GeoNewsManager geoNewsManager;
     private List<Location> locations;
+    private List<Location> locations2;
+    private List<Location> locations1;
 
     public LocationListFragment() {
         // Required empty public constructor
@@ -82,7 +87,10 @@ public class LocationListFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        locations = geoNewsManager.getActiveLocations();
+                        locations1 = geoNewsManager.getFavouriteLocations();
+                        locations2 =geoNewsManager.getNoFavouriteLocations();
+
+                        (locations = new ArrayList<Location>(locations1)).addAll(locations2);
                         break;
                     case 1:
                         locations = geoNewsManager.getFavouriteLocations();

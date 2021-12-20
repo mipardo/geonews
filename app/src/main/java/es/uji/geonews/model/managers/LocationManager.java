@@ -49,6 +49,13 @@ public class LocationManager {
         }
         return favoriteLocations;
     }
+    public List<Location> getNoFavouriteLocations() {
+        List<Location> noFavoriteLocations = new ArrayList<>();
+        for (Location location: locations.values()){
+            if (!location.isFavorite()&& location.isActive()) noFavoriteLocations.add(location);
+        }
+        return noFavoriteLocations;
+    }
 
     public Location createLocation(String location) throws NotValidCoordinatesException,
             ServiceNotAvailableException, UnrecognizedPlaceNameException {
