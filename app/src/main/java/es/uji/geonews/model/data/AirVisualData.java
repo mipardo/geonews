@@ -1,6 +1,10 @@
 package es.uji.geonews.model.data;
 
 
+import android.graphics.drawable.Drawable;
+
+import es.uji.geonews.R;
+
 public class AirVisualData extends ServiceData {
     private int temperature;        // In celsius
     private int pressure;           // In hPa
@@ -109,13 +113,24 @@ public class AirVisualData extends ServiceData {
 
     public String getAqiText(){
         String info = "";
-        if (aqiUs < 51) info = "La calidad del aire es buena y no supone ningún riesgo para la salud";
+        if (aqiUs < 51) info = "La calidad del aire es buena y no supone ningún riesgo para la salud de las personas";
         else if (aqiUs < 101) info = "La calidad del aire es aceptable, aunque puede tener pequeños efectos en la salud en personas con problemas respiratorios";
-        else if (aqiUs < 151) info = "El público general no se ve afectado, aunque sí puede suponer un riesgo para la salud en ciertos grupos sensibles";
-        else if (aqiUs < 201) info = "Mucha gente puede empezar a experimentar efectos negativos en la salud";
-        else if (aqiUs < 251) info = "Toda la población de esta ubicación se puede ver gravemente afectada por la calidad del aire";
+        else if (aqiUs < 151) info = "El público general no se ve afectado, aunque sí puede suponer un riesgo para la salud de ciertos grupos sensibles";
+        else if (aqiUs < 201) info = "La calidad del aire no es buena y por tanto la salud de muchas personas puede verse afectada";
+        else if (aqiUs < 251) info = "El índice de calidad del aire es muy elevedo, esto expresa que la calidad del aire es muy baja y por tanto afecta gravemente la salud de las personas";
         else info = "Todas las personas afectadas pueden experimentar graves problemas de salud debido a la calidad del aire";
         return info;
+    }
+
+    public int getAqiImage(){
+        int image;
+        if (aqiUs < 51) image = R.drawable.aqi1;
+        else if (aqiUs < 101) image = R.drawable.aqi2;
+        else if (aqiUs < 151) image = R.drawable.aqi3;
+        else if (aqiUs < 201) image = R.drawable.aqi4;
+        else if (aqiUs < 251) image = R.drawable.aqi5;
+        else image = R.drawable.aqi6;
+        return image;
     }
 
 }

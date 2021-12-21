@@ -47,12 +47,12 @@ public class AirVisualPieChart {
 
     private int getAqiColor(int aqiUs){
         int color;
-        if (aqiUs < 51) color = Color.rgb(98, 231, 19);
-        else if (aqiUs < 101) color = Color.rgb(179, 231, 19);
-        else if (aqiUs < 151) color = Color.rgb(245, 226, 0);
-        else if (aqiUs < 201) color = Color.rgb(231, 168, 19);
-        else if (aqiUs < 251) color = Color.rgb(231, 119, 19);
-        else color = Color.rgb(231, 19, 19);
+        if (aqiUs < 51) color = Color.rgb(170, 210, 95);
+        else if (aqiUs < 101) color = Color.rgb(253, 215, 70);
+        else if (aqiUs < 151) color = Color.rgb(245, 157, 86);
+        else if (aqiUs < 201) color = Color.rgb(241, 107, 104);
+        else if (aqiUs < 251) color = Color.rgb(161, 126, 184);
+        else color = Color.rgb(159, 119, 130);
         return color;
     }
 }

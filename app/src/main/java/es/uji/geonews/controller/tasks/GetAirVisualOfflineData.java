@@ -65,6 +65,8 @@ public class GetAirVisualOfflineData extends UserTask {
                             airTemplate.getWindDirectionOuptut().setRotation(airVisualData.getWindDirection());
                             airTemplate.getAqiMainTextOutput().setText(airVisualData.getAqiMainText());
                             airTemplate.getAqiTextOutput().setText(airVisualData.getAqiText());
+                            airTemplate.getAqiImageOutput().setImageResource(airVisualData.getAqiImage());
+
                         }
                     }
                 });

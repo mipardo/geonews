@@ -13,6 +13,7 @@ import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
 
+import es.uji.geonews.R;
 import es.uji.geonews.controller.charts.AirVisualPieChart;
 import es.uji.geonews.controller.template.AirTemplate;
 import es.uji.geonews.model.data.AirVisualData;
@@ -69,6 +70,7 @@ public class GetAirVisualData extends UserTask {
                             airTemplate.getWindDirectionOuptut().setRotation(airVisualData.getWindDirection());
                             airTemplate.getAqiMainTextOutput().setText(airVisualData.getAqiMainText());
                             airTemplate.getAqiTextOutput().setText(airVisualData.getAqiText());
+                            airTemplate.getAqiImageOutput().setImageResource(airVisualData.getAqiImage());
                         }
                     }
                 });
@@ -83,5 +85,4 @@ public class GetAirVisualData extends UserTask {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
 }

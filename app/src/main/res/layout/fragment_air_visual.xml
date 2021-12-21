@@ -272,17 +272,16 @@
                 android:text="Índice de calidad del aire"
                 android:textAlignment="center"
                 android:textSize="25sp"
-                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                app:layout_constraintBottom_toTopOf="@+id/chart_and_picture_constraint_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
+                android:id="@+id/chart_and_picture_constraint_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/air_quality_tittle"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -293,42 +292,67 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/aqi_text_constraint_layout">
+                    app:layout_constraintEnd_toStartOf="@id/aqi_image_and_aqi_main_text_layout">
 
                 </com.github.mikephil.charting.charts.PieChart>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/aqi_image_and_aqi_main_text_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/aqi_text_constraint_layout"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_height="match_parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/air_visual_chart"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:id="@+id/aqi_main_text_output"
-                        android:text="Bueno"
-                        android:fontFamily="sans-serif-medium"
-                        android:textSize="22sp"
-                        app:layout_constraintBottom_toTopOf="@id/aqi_text_output"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/aqi_text_output"
-                        android:layout_width="150dp"
-                        android:layout_height="match_parent"
-                        android:text="Calidad del aire aceptable"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/aqi_image_output"
+                        android:src="@drawable/aqi1"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/aqi_main_text_output" />
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/aqi_main_text_output"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Bueno"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/aqi_image_output" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/aqi_text_constraint_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chart_and_picture_constraint_layout">
+
+                <TextView
+                    android:id="@+id/aqi_text_output"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="La calidad del aire es buena y no supone ningún riesgo para la salud de las personas"
+                    android:textSize="17sp"
+                    android:justificationMode="inter_word"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

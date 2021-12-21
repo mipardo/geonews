@@ -15,6 +15,7 @@ public class AirTemplate {
     private TextView mainPollutantCnOutput;
     private TextView aqiMainTextOutput;
     private TextView aqiTextOutput;
+    private ImageView aqiImageOutput;
 
     public AirTemplate() {}
 
@@ -106,4 +107,11 @@ public class AirTemplate {
         this.aqiTextOutput = aqiTextOutput;
     }
 
+    public ImageView getAqiImageOutput() {
+        return aqiImageOutput;
+    }
+
+    public void setAqiImageOutput(ImageView aqiImageOutput) {
+        this.aqiImageOutput = aqiImageOutput;
+    }
 }
