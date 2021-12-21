@@ -1,23 +1,19 @@
 package es.uji.geonews.controller.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,7 +38,7 @@ public class SettingsFragment extends Fragment {
     private SwitchCompat switchOpen;
     private SwitchCompat switchCurrents;
 
-    private ProgressBar progressBar;
+    private ConstraintLayout loadingLayout;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -62,7 +58,7 @@ public class SettingsFragment extends Fragment {
         switchAir = view.findViewById(R.id.switch1);
         switchOpen = view.findViewById(R.id.switch2);
         switchCurrents = view.findViewById(R.id.switch3);
-        progressBar = view.findViewById(R.id.my_progress_bar);
+        loadingLayout = getActivity().findViewById(R.id.greyLayout);
         List<ServiceName> activeServices = geoNewsManager.getActiveServices();
 
         if (activeServices.contains(ServiceName.OPEN_WEATHER)) switchOpen.setChecked(true);
@@ -89,7 +85,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 // Show the dialog
                 if (switchAir.isChecked()) {
-                    new ActivateService(ServiceName.AIR_VISUAL, switchAir, getContext(), progressBar).execute();
+                    new ActivateService(ServiceName.AIR_VISUAL, switchAir, getContext(), loadingLayout).execute();
                 } else {
                     new DeactivateService(ServiceName.AIR_VISUAL, switchAir, getContext()).execute();
                 }
@@ -102,7 +98,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 // Show the dialog
                 if (switchOpen.isChecked()) {
-                    new ActivateService(ServiceName.OPEN_WEATHER, switchOpen, getContext(), progressBar).execute();
+                    new ActivateService(ServiceName.OPEN_WEATHER, switchOpen, getContext(), loadingLayout).execute();
                 } else {
                     new DeactivateService(ServiceName.OPEN_WEATHER, switchOpen, getContext()).execute();
                 }
@@ -114,7 +110,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (switchCurrents.isChecked()) {
-                    new ActivateService(ServiceName.CURRENTS, switchCurrents, getContext(), progressBar).execute();
+                    new ActivateService(ServiceName.CURRENTS, switchCurrents, getContext(), loadingLayout).execute();
                 } else {
                     new DeactivateService(ServiceName.CURRENTS, switchCurrents, getContext()).execute();
                 }

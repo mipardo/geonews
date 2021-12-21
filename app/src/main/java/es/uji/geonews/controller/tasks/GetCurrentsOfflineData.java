@@ -20,26 +20,20 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class GetCurrentsOfflineData extends UserTask{
     private final GeoNewsManager geoNewsManager;
-    private final ProgressBar progressBar;
     private final RecyclerView recyclerView;
     private final int locationId;
-    private final Context context;
     private String error;
     private List<News> news;
 
     public GetCurrentsOfflineData(int locationId, RecyclerView recyclerView,
-                                  ProgressBar progressBar, Context context) {
+                                  Context context) {
         geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.locationId = locationId;
-        this.progressBar = progressBar;
         this.recyclerView = recyclerView;
-        this.context = context;
     }
 
     @Override
     public void execute() {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.bringToFront();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -52,7 +46,6 @@ public class GetCurrentsOfflineData extends UserTask{
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        progressBar.setVisibility(View.INVISIBLE);
                         if (error == null) {
                             CurrentsAdapter adapter = (CurrentsAdapter) recyclerView.getAdapter();
                             if (adapter != null && news != null) adapter.updateNews(news);

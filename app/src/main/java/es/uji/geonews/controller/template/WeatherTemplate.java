@@ -1,8 +1,11 @@
 package es.uji.geonews.controller.template;
 
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class WeatherTemplate {
     private TextView dateTextview;
@@ -11,7 +14,7 @@ public class WeatherTemplate {
     private TextView actualTempTextview;
     private TextView weatherDescriptionTextview;
     private ImageView weatherIcon;
-    private ProgressBar progressBar;
+    private ViewGroup loadingLayout;
 
     public WeatherTemplate() {}
 
@@ -63,11 +66,11 @@ public class WeatherTemplate {
         this.weatherIcon = weatherIcon;
     }
 
-    public ProgressBar getProgressBar() {
-        return progressBar;
+    public ViewGroup getLoadingLayout() {
+        return loadingLayout;
     }
 
-    public void setProgressBar(ProgressBar progressBar) {
-        this.progressBar = progressBar;
+    public void setLoadingLayout(ViewGroup loadingLayout) {
+        this.loadingLayout = loadingLayout;
     }
 }

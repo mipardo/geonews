@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -30,11 +28,10 @@ import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-public class GetOpenWeatherChartData extends UserTask {
+public class GetOpenWeatherChartOfflineData extends UserTask {
     private final Context context;
     private final int locationId;
     private final LineChart lineChart;
-    private final ViewGroup loadingLayout;
     private OpenWeatherForecastData forecast;
     private String error;
 
@@ -45,29 +42,25 @@ public class GetOpenWeatherChartData extends UserTask {
         }
     };
 
-    public GetOpenWeatherChartData(int locationId, LineChart lineChart, Context context, ViewGroup loadingLayout) {
+    public GetOpenWeatherChartOfflineData(int locationId, LineChart lineChart, Context context) {
         this.locationId = locationId;
         this.lineChart = lineChart;
         this.context = context;
-        this.loadingLayout = loadingLayout;
     }
-
     @Override
     public void execute() {
-        //loadingLayout.setVisibility(View.VISIBLE);
-        //loadingLayout.bringToFront();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    forecast = (OpenWeatherForecastData) GeoNewsManagerSingleton.getInstance(context).getFutureData(ServiceName.OPEN_WEATHER, locationId);
-                } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
+                    forecast = (OpenWeatherForecastData) GeoNewsManagerSingleton.getInstance(context).getOfflineFutureData(ServiceName.OPEN_WEATHER, locationId);
+                } catch (NoLocationRegisteredException e) {
                     error = e.getMessage();
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
                         if (error != null) showAlertError();
-                        else {
+                        else if (forecast != null){
                             lineChart.setData(generateGraph());
                             lineChart.getAxisRight().setDrawLabels(false);
                             lineChart.getXAxis().setGranularity(1f);

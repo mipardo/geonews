@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class ActiveLocationInfoFragment extends Fragment {
     private Button deactivateLocationButton;
     private ImageView editAliasButton;
     private TextView locationAliasOutput;
-    private ProgressBar progressBar;
+    private ConstraintLayout loadingLayout;
     private int locationId;
     private List<ServiceName> activeServicesGeneral;
     private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch weatherServiceSwitch;
@@ -78,7 +79,7 @@ public class ActiveLocationInfoFragment extends Fragment {
         currentsServiceSwitch = view.findViewById(R.id.currents_service_switch);
         deactivateLocationButton = view.findViewById(R.id.deactivate_location);
         editAliasButton = view.findViewById(R.id.location_alias_button);
-        progressBar = view.findViewById(R.id.my_progress_bar);
+        loadingLayout = getActivity().findViewById(R.id.greyLayout);
 
         if (!location.getAlias().equals("")) locationAliasOutput.setText(location.getAlias());
         if (location.getPlaceName() != null) locationPlaceNameOutput.setText(location.getPlaceName());

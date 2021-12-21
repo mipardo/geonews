@@ -4,10 +4,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +23,12 @@ import java.util.List;
 import es.uji.geonews.R;
 import es.uji.geonews.controller.adapters.FiveDaysForecastAdapter;
 import es.uji.geonews.controller.tasks.GetOpenWeatherFiveDaysData;
+import es.uji.geonews.controller.tasks.GetOpenWeatherFiveDaysOfflineData;
 import es.uji.geonews.model.data.ServiceData;
 
 public class FiveDaysWeatherFragment extends Fragment {
     private final int locationId;
+    private RecyclerView recyclerView;
 
     public FiveDaysWeatherFragment(int locationId) {
         // Required empty public constructor
@@ -42,12 +47,14 @@ public class FiveDaysWeatherFragment extends Fragment {
         settings.setVisibility(View.VISIBLE);
 
         View view = inflater.inflate(R.layout.fragment_five_days_weather, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.five_days_recycler_view);
-        ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
+        recyclerView = view.findViewById(R.id.five_days_recycler_view);
 
         recyclerView.setAdapter(new FiveDaysForecastAdapter(new ArrayList<>()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        new GetOpenWeatherFiveDaysData(locationId, recyclerView, progressBar, getContext()).execute();
+
+        new GetOpenWeatherFiveDaysOfflineData(locationId, recyclerView, getContext()).execute();
+        //new GetOpenWeatherFiveDaysData(locationId, recyclerView, getContext()).execute();
+        // TODO como cargamos el CHART en Today, squí ya debería de haber datos en el offline
         return view;
     }
 
