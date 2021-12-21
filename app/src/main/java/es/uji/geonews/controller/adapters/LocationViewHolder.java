@@ -40,7 +40,6 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
         if (location.isFavorite()) {
             favouriteButton.setVisibility(View.VISIBLE);
             favouriteButton.playAnimation();
-            //favouriteButton.setImageResource(R.drawable.heart_fully);
         } else if(location.isActive()) {
 
             favouriteButton.setVisibility(View.VISIBLE);

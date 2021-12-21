@@ -105,7 +105,7 @@ public class ActiveLocationInfoFragment extends Fragment {
                         new RemoveServiceFromLocation(getContext(), ServiceName.OPEN_WEATHER, locationId)
                                 .execute();
                     } else {
-                        new AddServiceToLocation(getContext(), ServiceName.OPEN_WEATHER, locationId, weatherServiceSwitch, progressBar)
+                        new AddServiceToLocation(getContext(), ServiceName.OPEN_WEATHER, locationId, weatherServiceSwitch, loadingLayout)
                                 .execute();
                     }
                 }
@@ -123,7 +123,7 @@ public class ActiveLocationInfoFragment extends Fragment {
                         new RemoveServiceFromLocation(getContext(), ServiceName.AIR_VISUAL, locationId)
                                 .execute();
                     } else {
-                        new AddServiceToLocation(getContext(), ServiceName.AIR_VISUAL, locationId, airServiceSwitch, progressBar)
+                        new AddServiceToLocation(getContext(), ServiceName.AIR_VISUAL, locationId, airServiceSwitch, loadingLayout)
                                 .execute();
                     }
                 }
@@ -141,7 +141,7 @@ public class ActiveLocationInfoFragment extends Fragment {
                         new RemoveServiceFromLocation(getContext(), ServiceName.CURRENTS, locationId)
                                 .execute();
                     } else {
-                        new AddServiceToLocation(getContext(), ServiceName.CURRENTS, locationId, currentsServiceSwitch, progressBar)
+                        new AddServiceToLocation(getContext(), ServiceName.CURRENTS, locationId, currentsServiceSwitch, loadingLayout)
                                 .execute();
                     }
                 }
