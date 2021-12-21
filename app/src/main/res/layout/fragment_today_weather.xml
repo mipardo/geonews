@@ -10,6 +10,38 @@
     tools:context=".controller.fragments.TodayWeatherFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/greyServiceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#999999"
+        android:alpha="0.8"
+        android:visibility="gone"
+        android:padding="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="20dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="16dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/white"
+            android:text="@string/new_info"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/selectedViewPager2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -17,8 +49,8 @@
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="1">
+        app:layout_constraintTop_toBottomOf="@id/greyServiceLayout"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,10 +68,10 @@
         android:orientation="vertical"
         android:layout_marginTop="15dp"
         android:layout_marginStart="15dp"
-        app:layout_constraintVertical_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectedViewPager2">
+        app:layout_constraintTop_toBottomOf="@id/selectedViewPager2"
+        >
 
         <TextView
             android:id="@+id/dateTextview"

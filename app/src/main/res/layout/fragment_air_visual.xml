@@ -11,13 +11,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/greyServiceLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#999999"
+            android:alpha="0.8"
+            android:visibility="gone"
+            android:padding="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="16dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/white"
+                android:text="@string/new_info"
+                />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_air_visual_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/greyServiceLayout">
 
             <TextView
                 android:id="@+id/title"

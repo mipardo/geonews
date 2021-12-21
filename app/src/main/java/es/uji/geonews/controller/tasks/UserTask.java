@@ -30,10 +30,25 @@ public abstract class UserTask extends AppCompatActivity {
     }
 
     protected void showLoadingAnimation(ViewGroup layout) {
+        layout.setAlpha(0);
+        layout.setTranslationY(-layout.getHeight());
         layout.setVisibility(View.VISIBLE);
+        layout.animate()
+                .alpha(1)
+                .translationY(0)
+                .setDuration(200);
     }
 
     protected void hideLoadingAnimation(ViewGroup layout) {
-        layout.setVisibility(View.GONE);
+        layout.animate()
+                .alpha(0)
+                .setDuration(300)
+                .translationY(-layout.getHeight())
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        layout.setVisibility(View.GONE);
+                    }
+                });
     }
 }

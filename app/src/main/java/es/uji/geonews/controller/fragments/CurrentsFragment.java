@@ -46,7 +46,7 @@ public class CurrentsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_currents, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.currents_recycler_view);
-        LinearLayoutCompat loadingLayout = getActivity().findViewById(R.id.greyServiceLayout);
+        LinearLayoutCompat loadingLayout = view.findViewById(R.id.greyServiceLayout);
 
         List<News> news = new ArrayList<>();
         recyclerView.setAdapter(new CurrentsAdapter(news));
