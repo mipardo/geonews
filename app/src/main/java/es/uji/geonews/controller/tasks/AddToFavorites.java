@@ -3,6 +3,8 @@ package es.uji.geonews.controller.tasks;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 import es.uji.geonews.R;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.GeoNewsManager;
@@ -11,11 +13,11 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 public class AddToFavorites extends UserTask {
     private final GeoNewsManager geoNewsManager;
     private final Location location;
-    private final ImageView favoritesButton;
+    private final LottieAnimationView favoritesButton;
     private boolean addedToFavorites;
 
 
-    public AddToFavorites(Context context, Location location, ImageView favoritesButton){
+    public AddToFavorites(Context context, Location location, LottieAnimationView favoritesButton){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.favoritesButton = favoritesButton;
         this.location = location;
@@ -29,7 +31,11 @@ public class AddToFavorites extends UserTask {
                 addedToFavorites = geoNewsManager.addToFavorites(location.getId());
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        if(addedToFavorites) favoritesButton.setImageResource(R.drawable.heart_fully);
+                        if(addedToFavorites) {
+                            favoritesButton.setSpeed(1);
+                            favoritesButton.playAnimation();
+                            //favoritesButton.setImageResource(R.drawable.heart_fully);
+                        }
                     }
                 });
             }
