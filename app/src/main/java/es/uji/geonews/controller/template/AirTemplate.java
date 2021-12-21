@@ -12,7 +12,9 @@ public class AirTemplate {
     private TextView aqiUsOutput;
     private TextView aqiCnOutput;
     private TextView mainPollutantUsOutput;
-    private TextView getMainPollutantCnOutput;
+    private TextView mainPollutantCnOutput;
+    private TextView aqiMainTextOutput;
+    private TextView aqiTextOutput;
 
     public AirTemplate() {}
 
@@ -80,14 +82,28 @@ public class AirTemplate {
         this.mainPollutantUsOutput = mainPollutantUsOutput;
     }
 
-    public TextView getGetMainPollutantCnOutput() {
-        return getMainPollutantCnOutput;
+    public TextView getMainPollutantCnOutput() {
+        return mainPollutantCnOutput;
     }
 
-    public void setGetMainPollutantCnOutput(TextView getMainPollutantCnOutput) {
-        this.getMainPollutantCnOutput = getMainPollutantCnOutput;
+    public void setMainPollutantCnOutput(TextView getMainPollutantCnOutput) {
+        this.mainPollutantCnOutput = mainPollutantCnOutput;
     }
 
+    public TextView getAqiMainTextOutput() {
+        return aqiMainTextOutput;
+    }
 
+    public void setAqiMainTextOutput(TextView aqiMainTextOutput) {
+        this.aqiMainTextOutput = aqiMainTextOutput;
+    }
+
+    public TextView getAqiTextOutput() {
+        return aqiTextOutput;
+    }
+
+    public void setAqiTextOutput(TextView aqiTextOutput) {
+        this.aqiTextOutput = aqiTextOutput;
+    }
 
 }

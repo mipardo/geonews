@@ -61,6 +61,8 @@ public class AirVisualFragment extends Fragment {
         TextView pressureOutput = view.findViewById(R.id.pressure_output);
         TextView windSpeedOutput = view.findViewById(R.id.wind_speed_output);
         ImageView windDirectionOutput = view.findViewById(R.id.wind_direction_output);
+        TextView aqiMainTextOutput = view.findViewById(R.id.aqi_main_text_output);
+        TextView aqiTextOutput = view.findViewById(R.id.aqi_text_output);
         PieChart pieChart = view.findViewById(R.id.air_visual_chart);
 
         AirTemplate airTemplate = new AirTemplate();
@@ -69,6 +71,8 @@ public class AirVisualFragment extends Fragment {
         airTemplate.setPreassureOutput(pressureOutput);
         airTemplate.setWindDirectionOuptut(windDirectionOutput);
         airTemplate.setWindSpeedOutput(windSpeedOutput);
+        airTemplate.setAqiMainTextOutput(aqiMainTextOutput);
+        airTemplate.setAqiTextOutput(aqiTextOutput);
 
         new GetAirVisualOfflineData(locationId, airTemplate, progressBar, pieChart, getContext()).execute();
         new GetAirVisualData(locationId, airTemplate, progressBar, pieChart, getContext()).execute();

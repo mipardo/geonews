@@ -12,6 +12,7 @@ import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
 
+import es.uji.geonews.controller.charts.AirVisualPieChart;
 import es.uji.geonews.controller.template.AirTemplate;
 import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
@@ -55,69 +56,19 @@ public class GetAirVisualOfflineData extends UserTask {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         if (error == null) {
-                            fillChart(airVisualData.getAqiUs());
+                            AirVisualPieChart airVisualPieChart = new AirVisualPieChart(pieChart);
+                            airVisualPieChart.fillChart(airVisualData.getAqiUs());
                             airTemplate.getTempertaureOutput().setText(airVisualData.getTemperature() + "º C");
                             airTemplate.getPreassureOutput().setText(airVisualData.getPressure() + " hPa");
                             airTemplate.getHumidityOutput().setText(airVisualData.getHumidity() + " %");
                             airTemplate.getWindSpeedOutput().setText(airVisualData.getWindSpeed() + " m/s");
                             airTemplate.getWindDirectionOuptut().setRotation(airVisualData.getWindDirection());
+                            airTemplate.getAqiMainTextOutput().setText(airVisualData.getAqiMainText());
+                            airTemplate.getAqiTextOutput().setText(airVisualData.getAqiText());
                         }
                     }
                 });
             }
         }).start();
-    }
-
-
-    private void fillChart(int aqiUs){
-        // Generate dataset
-        ArrayList<PieEntry> data = new ArrayList<>();
-        data.add(new PieEntry(aqiUs, ""));
-        data.add(new PieEntry(300 - aqiUs , ""));
-
-        // Assign colors:
-        int[] colorData = new int[] {
-                getAqiColor(aqiUs),
-                Color.rgb(143, 180, 189)
-        };
-
-        PieDataSet pieDataSet = new PieDataSet(data, "");
-        pieDataSet.setColors(colorData);
-        pieDataSet.setValueTextSize(15);
-
-
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
-
-        pieChart.setCenterText(getAqiInfo(aqiUs));
-        pieChart.setSaveEnabled(true);
-        pieChart.setCenterTextSize(20);
-        pieChart.setHoleRadius(70);
-        pieChart.setTransparentCircleRadius(60);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.getLegend().setEnabled(false);
-        pieChart.setEnabled(false);
-    }
-
-    private String getAqiInfo(int aqiUs){
-        String info = "";
-        if (aqiUs < 51) info = "Calidad del aire muy buena";
-        else if (aqiUs < 101) info = "Calidad del aire aceptable";
-        else if (aqiUs < 151) info = "El puede ser dañino para grupos sensibles";
-        else if (aqiUs < 201) info = "El aire puede ser dañino para gran parte de la población";
-        else if (aqiUs < 251) info = "El aire puede ser muy dañino";
-        else info = "El aire  en esta ubicación es muy peligroso";
-        return info;
-    }
-
-    private int getAqiColor(int aqiUs){
-        int color;
-        if (aqiUs < 51) color = Color.rgb(98, 231, 19);
-        else if (aqiUs < 101) color = Color.rgb(179, 231, 19);
-        else if (aqiUs < 151) color = Color.rgb(245, 226, 0);
-        else if (aqiUs < 201) color = Color.rgb(231, 168, 19);
-        else if (aqiUs < 251) color = Color.rgb(231, 119, 19);
-        else color = Color.rgb(231, 19, 19);
-        return color;
     }
 }
