@@ -45,7 +45,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:maxImageSize="40dp" />
 
-                    <ImageView
+                    <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/add_to_favorites_button"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -53,13 +53,15 @@
                         android:layout_alignParentEnd="true"
                         android:clickable="true"
                         android:contentDescription="Añade a favoritas"
-                        android:src="@drawable/heart"
                         app:backgroundTint="@color/white"
                         app:elevation="0dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:maxImageSize="40dp"
-                        tools:ignore="MissingConstraints" />
+                        tools:ignore="MissingConstraints"
+                        app:lottie_rawRes="@raw/like2"
+                        app:lottie_loop="false"
+                        app:lottie_autoPlay="false" />
 
 
 

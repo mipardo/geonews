@@ -144,6 +144,9 @@ public class GeoNewsManager {
     public List<Location> getFavouriteLocations() {
         return locationManager.getFavouriteLocations();
     }
+    public List<Location> getNoFavouriteLocations() {
+        return locationManager.getNoFavouriteLocations();
+    }
 
     public boolean removeFromFavorites(int locationId) {
         boolean removed = locationManager.removeFromFavorites(locationId);

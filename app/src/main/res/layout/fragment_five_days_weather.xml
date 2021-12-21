@@ -8,18 +8,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".controller.fragments.FiveDaysWeatherFragment">
 
-    <ProgressBar
-        android:id="@+id/my_progress_bar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/selectedViewPager"
         android:layout_width="match_parent"

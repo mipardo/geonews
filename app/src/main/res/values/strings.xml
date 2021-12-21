@@ -22,4 +22,5 @@
     <string name="airvisual">AirVisual</string>
     <string name="openweather">OpenWeather</string>
     <string name="currents">Currents</string>
+    <string name="new_info">Cargando nueva información...</string>
 </resources>

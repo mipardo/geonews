@@ -15,22 +15,22 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import es.uji.geonews.controller.template.WeatherTemplate;
-import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.data.OpenWeatherForecastData;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-public class GetOpenWeatherTomorrowData extends UserTask {
+public class GetOpenWeatherTomorrowOfflineData extends UserTask {
     private final WeatherTemplate weatherTemplate;
     private final int locationId;
     private final Context context;
     private OpenWeatherData data;
     private String error;
 
-    public GetOpenWeatherTomorrowData(int locationId, WeatherTemplate weatherTemplate, Context context) {
+    public GetOpenWeatherTomorrowOfflineData(int locationId, WeatherTemplate weatherTemplate, Context context) {
         this.locationId = locationId;
         this.weatherTemplate = weatherTemplate;
         this.context = context;
@@ -42,16 +42,16 @@ public class GetOpenWeatherTomorrowData extends UserTask {
             @Override
             public void run() {
                 try {
-                    ServiceData forecast = GeoNewsManagerSingleton.getInstance(context).getFutureData(ServiceName.OPEN_WEATHER, locationId);
+                    ServiceData forecast = GeoNewsManagerSingleton.getInstance(context).getOfflineFutureData(ServiceName.OPEN_WEATHER, locationId);
                     data = getTomorrowDataFromForecast((OpenWeatherForecastData) forecast);
-                } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
+                } catch (NoLocationRegisteredException e) {
                     error = e.getMessage();
 
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
                         if (error != null) showAlertError();
-                        else
+                        else if (data != null)
                         {
                             weatherTemplate.getDateTextview().setText(getTomorrowDateAndTime());
                             weatherTemplate.getMinTempTextview().setText(Math.round(data.getMinTemp()) + "ºC");
@@ -75,22 +75,26 @@ public class GetOpenWeatherTomorrowData extends UserTask {
                 int sectionCounter = 0;
                 OpenWeatherData result = null;
                 int tomorrowDay = LocalDate.now().getDayOfYear() + 1;
-                for (OpenWeatherData section : forecast.getOpenWeatherDataList()) {
-                    int sectionDay = LocalDateTime.ofInstant(Instant.ofEpochMilli(section.getTimestamp() * 1000),
-                            TimeZone.getDefault().toZoneId()).getDayOfYear();
-                    if (sectionDay == tomorrowDay) {
-                        expectedTemp += section.getActTemp();
-                        sectionCounter++;
-                        if (section.getMinTemp() < minTemp) minTemp = section.getMinTemp();
-                        if (section.getMaxTemp() > maxTemp) maxTemp = section.getMaxTemp();
-                        if (sectionCounter == 4) result = section; // 4 = Mediodia
+
+                if (forecast != null) {
+                    for (OpenWeatherData section : forecast.getOpenWeatherDataList()) {
+                        int sectionDay = LocalDateTime.ofInstant(Instant.ofEpochMilli(section.getTimestamp() * 1000),
+                                TimeZone.getDefault().toZoneId()).getDayOfYear();
+                        if (sectionDay == tomorrowDay) {
+                            expectedTemp += section.getActTemp();
+                            sectionCounter++;
+                            if (section.getMinTemp() < minTemp) minTemp = section.getMinTemp();
+                            if (section.getMaxTemp() > maxTemp) maxTemp = section.getMaxTemp();
+                            if (sectionCounter == 4) result = section; // 4 = Mediodia
+                        }
                     }
+                    double meanTemp = expectedTemp / sectionCounter;
+                    result.setActTemp(Math.round(meanTemp));
+                    result.setMinTemp(Math.round(minTemp));
+                    result.setMaxTemp(Math.round(maxTemp));
+                    return result;
                 }
-                double meanTemp = expectedTemp / sectionCounter;
-                result.setActTemp(Math.round(meanTemp));
-                result.setMinTemp(Math.round(minTemp));
-                result.setMaxTemp(Math.round(maxTemp));
-                return result;
+                return null;
             }
 
         }).start();

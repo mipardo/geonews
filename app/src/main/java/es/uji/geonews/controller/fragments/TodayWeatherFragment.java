@@ -14,12 +14,15 @@ import com.github.mikephil.charting.charts.LineChart;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.tasks.GetOpenWeatherChartData;
+import es.uji.geonews.controller.tasks.GetOpenWeatherChartOfflineData;
 import es.uji.geonews.controller.tasks.GetOpenWeatherTodayData;
 import es.uji.geonews.controller.tasks.GetOpenWeatherTodayOfflineData;
 import es.uji.geonews.controller.template.WeatherTemplate;
 
 public class TodayWeatherFragment extends Fragment {
     private final int locationId;
+    private LineChart lineChart;
+    private WeatherTemplate weatherTemplate;
 
     public TodayWeatherFragment(int locationId) {
         // Required empty public constructor
@@ -36,19 +39,20 @@ public class TodayWeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today_weather, container, false);
 
-        LineChart lineChart = view.findViewById(R.id.todayChart);
-        WeatherTemplate weatherTemplate = new WeatherTemplate();
+        lineChart = view.findViewById(R.id.todayChart);
+        weatherTemplate = new WeatherTemplate();
         weatherTemplate.setDateTextview(view.findViewById(R.id.dateTextview));
         weatherTemplate.setMaxTempTextview(view.findViewById(R.id.maxTempTextview));
         weatherTemplate.setMinTempTextview(view.findViewById(R.id.minTempTextview));
         weatherTemplate.setActualTempTextview(view.findViewById(R.id.actualTempTextview));
         weatherTemplate.setWeatherDescriptionTextview(view.findViewById(R.id.actualWeatherDescriptionTextview));
         weatherTemplate.setWeatherIcon(view.findViewById(R.id.actualWeatherIconTextview));
-        weatherTemplate.setProgressBar(view.findViewById(R.id.today_progress_bar));
+        weatherTemplate.setLoadingLayout(getActivity().findViewById(R.id.greyServiceLayout));
 
         new GetOpenWeatherTodayOfflineData(locationId, weatherTemplate, getContext()).execute();
         new GetOpenWeatherTodayData(locationId, weatherTemplate, getContext()).execute();
-        new GetOpenWeatherChartData(locationId, lineChart, getContext(), weatherTemplate.getProgressBar()).execute();
+        new GetOpenWeatherChartOfflineData(locationId, lineChart, getContext()).execute();
+        new GetOpenWeatherChartData(locationId, lineChart, getContext(), weatherTemplate.getLoadingLayout()).execute();
 
         return view;
     }

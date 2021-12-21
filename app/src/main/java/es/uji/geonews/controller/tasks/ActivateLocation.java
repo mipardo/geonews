@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.Navigation;
 
 import es.uji.geonews.R;
@@ -19,15 +20,15 @@ public class ActivateLocation extends UserTask {
     private final Context context;
     private final int locationId;
     private final View view;
-    private final ProgressBar progressBar;
+    private final ConstraintLayout loadingLayout;
     private String error;
 
 
-    public ActivateLocation(Context context, int locationId, ProgressBar progressBar, View view){
+    public ActivateLocation(Context context, int locationId, ConstraintLayout loadingLayout, View view){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.locationId = locationId;
-        this.progressBar = progressBar;
+        this.loadingLayout = loadingLayout;
         this.view = view;
     }
 
@@ -44,7 +45,7 @@ public class ActivateLocation extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        unlockUI(context, progressBar);
+                        unlockUI(context, loadingLayout);
                         if (error != null) showAlertError();
                         else{
                             Navigation.findNavController(view).navigate(R.id.locationListFragment);

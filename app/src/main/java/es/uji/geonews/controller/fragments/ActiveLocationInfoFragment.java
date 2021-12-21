@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import java.util.List;
@@ -29,6 +30,7 @@ import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
+import es.uji.geonews.model.services.OpenWeatherService;
 import es.uji.geonews.model.services.ServiceName;
 
 public class ActiveLocationInfoFragment extends Fragment {
@@ -36,8 +38,9 @@ public class ActiveLocationInfoFragment extends Fragment {
     private Button deactivateLocationButton;
     private ImageView editAliasButton;
     private TextView locationAliasOutput;
-    private ProgressBar progressBar;
+    private ConstraintLayout loadingLayout;
     private int locationId;
+    private List<ServiceName> activeServicesGeneral;
     private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch weatherServiceSwitch;
     private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch airServiceSwitch;
     private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch currentsServiceSwitch;
@@ -76,11 +79,12 @@ public class ActiveLocationInfoFragment extends Fragment {
         currentsServiceSwitch = view.findViewById(R.id.currents_service_switch);
         deactivateLocationButton = view.findViewById(R.id.deactivate_location);
         editAliasButton = view.findViewById(R.id.location_alias_button);
-        progressBar = view.findViewById(R.id.my_progress_bar);
+        loadingLayout = getActivity().findViewById(R.id.greyLayout);
 
         if (!location.getAlias().equals("")) locationAliasOutput.setText(location.getAlias());
         if (location.getPlaceName() != null) locationPlaceNameOutput.setText(location.getPlaceName());
         locationCoordsOutput.setText(location.getGeographCoords().toString());
+        activeServicesGeneral = geoNewsManager.getActiveServices();
         activeServices = geoNewsManager.getServicesOfLocation(locationId);
         if (activeServices.contains(ServiceName.OPEN_WEATHER)) weatherServiceSwitch.setChecked(true);
         if (activeServices.contains(ServiceName.AIR_VISUAL)) airServiceSwitch.setChecked(true);
@@ -92,45 +96,61 @@ public class ActiveLocationInfoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        weatherServiceSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(activeServices.contains(ServiceName.OPEN_WEATHER)){
-                    new RemoveServiceFromLocation(getContext(), ServiceName.OPEN_WEATHER, locationId)
-                            .execute();
-                } else {
-                    new AddServiceToLocation(getContext(), ServiceName.OPEN_WEATHER, locationId, weatherServiceSwitch, progressBar)
-                            .execute();
+        if(activeServicesGeneral.contains(ServiceName.OPEN_WEATHER)) {
+            weatherServiceSwitch.setEnabled(true);
+            weatherServiceSwitch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (activeServices.contains(ServiceName.OPEN_WEATHER)) {
+                        new RemoveServiceFromLocation(getContext(), ServiceName.OPEN_WEATHER, locationId)
+                                .execute();
+                    } else {
+                        new AddServiceToLocation(getContext(), ServiceName.OPEN_WEATHER, locationId, weatherServiceSwitch, loadingLayout)
+                                .execute();
+                    }
                 }
-            }
-        });
-
-        airServiceSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(activeServices.contains(ServiceName.AIR_VISUAL)){
-                    new RemoveServiceFromLocation(getContext(), ServiceName.AIR_VISUAL, locationId)
-                            .execute();
-                } else {
-                    new AddServiceToLocation(getContext(), ServiceName.AIR_VISUAL, locationId, airServiceSwitch, progressBar)
-                            .execute();
+            });
+        }else {
+            weatherServiceSwitch.setChecked(false);
+            weatherServiceSwitch.setEnabled(false);
+        }
+        if(activeServicesGeneral.contains(ServiceName.AIR_VISUAL)) {
+            airServiceSwitch.setEnabled(true);
+            airServiceSwitch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (activeServices.contains(ServiceName.AIR_VISUAL)) {
+                        new RemoveServiceFromLocation(getContext(), ServiceName.AIR_VISUAL, locationId)
+                                .execute();
+                    } else {
+                        new AddServiceToLocation(getContext(), ServiceName.AIR_VISUAL, locationId, airServiceSwitch, loadingLayout)
+                                .execute();
+                    }
                 }
-            }
-        });
-
-        currentsServiceSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(activeServices.contains(ServiceName.CURRENTS)){
-                    new RemoveServiceFromLocation(getContext(), ServiceName.CURRENTS, locationId)
-                            .execute();
-                } else {
-                    new AddServiceToLocation(getContext(), ServiceName.CURRENTS, locationId, currentsServiceSwitch, progressBar)
-                            .execute();
+            });
+        }else{
+            airServiceSwitch.setChecked(false);
+            airServiceSwitch.setEnabled(false);
+        }
+        if(activeServicesGeneral.contains(ServiceName.CURRENTS)) {
+            currentsServiceSwitch.setEnabled(true);
+            currentsServiceSwitch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (activeServices.contains(ServiceName.CURRENTS)) {
+                        new RemoveServiceFromLocation(getContext(), ServiceName.CURRENTS, locationId)
+                                .execute();
+                    } else {
+                        new AddServiceToLocation(getContext(), ServiceName.CURRENTS, locationId, currentsServiceSwitch, loadingLayout)
+                                .execute();
+                    }
                 }
-            }
-        });
+            });
+        }
+        else{
+            currentsServiceSwitch.setChecked(false);
+            currentsServiceSwitch.setEnabled(false);
+        }
 
         deactivateLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override

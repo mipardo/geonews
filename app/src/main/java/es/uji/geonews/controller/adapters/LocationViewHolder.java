@@ -9,6 +9,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 import es.uji.geonews.R;
 import es.uji.geonews.controller.fragments.OnItemClickListener;
 import es.uji.geonews.controller.tasks.AddToFavorites;
@@ -22,7 +24,7 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 public class LocationViewHolder extends RecyclerView.ViewHolder {
     private final TextView mainNameOutput;
     private final TextView subnameOutput;
-    private final ImageView favouriteButton;
+    private final LottieAnimationView favouriteButton;
     private final ImageView infoButton;
 
     public LocationViewHolder(View itemView) {
@@ -36,10 +38,10 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
     public void bind(Location location, OnItemClickListener listener) {
         setLocationTitleAndSubtitle(location);
         if (location.isFavorite()) {
-            favouriteButton.setImageResource(R.drawable.heart_fully);
             favouriteButton.setVisibility(View.VISIBLE);
+            favouriteButton.playAnimation();
         } else if(location.isActive()) {
-            favouriteButton.setImageResource(R.drawable.heart);
+
             favouriteButton.setVisibility(View.VISIBLE);
         } else {
             favouriteButton.setVisibility(View.INVISIBLE);
@@ -77,6 +79,7 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
                 if (location.isFavorite()){
                     new RemoveFromFavorites(itemView.getContext(), location, favouriteButton).execute();
                 } else {
+
                     new AddToFavorites(itemView.getContext(), location, favouriteButton).execute();
                 }
             }

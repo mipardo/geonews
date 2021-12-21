@@ -1,11 +1,15 @@
 package es.uji.geonews.controller.fragments;
 
+import static java.util.Collections.addAll;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -26,6 +30,7 @@ import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.uji.geonews.R;
@@ -40,6 +45,8 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 public class LocationListFragment extends Fragment {
     private GeoNewsManager geoNewsManager;
     private List<Location> locations;
+    private List<Location> locations2;
+    private List<Location> locations1;
 
     public LocationListFragment() {
         // Required empty public constructor
@@ -67,7 +74,7 @@ public class LocationListFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
         ImageView addLocationButton = view.findViewById(R.id.add_location_button);
-        ProgressBar progressBar = view.findViewById(R.id.my_progress_bar);
+        ConstraintLayout loadingLayout = getActivity().findViewById(R.id.greyLayout);
         Spinner listSelector = view.findViewById(R.id.list_selector_input);
         String[] listSelections = new String[] {"Activas", "Favoritas", "No activas"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, listSelections);
@@ -82,7 +89,10 @@ public class LocationListFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        locations = geoNewsManager.getActiveLocations();
+                        locations1 = geoNewsManager.getFavouriteLocations();
+                        locations2 =geoNewsManager.getNoFavouriteLocations();
+
+                        (locations = new ArrayList<Location>(locations1)).addAll(locations2);
                         break;
                     case 1:
                         locations = geoNewsManager.getFavouriteLocations();
@@ -136,10 +146,10 @@ public class LocationListFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (byGpsInput.isChecked()){
-                            new AddLocationByGPS(progressBar, getContext(), view).execute();
+                            new AddLocationByGPS(loadingLayout, getContext(), view).execute();
                         } else {
                             String location = locationInput.getText().toString();
-                            new AddLocation(location, progressBar, getContext(), view).execute();
+                            new AddLocation(location, loadingLayout, getContext(), view).execute();
                         }
                     }
                 });

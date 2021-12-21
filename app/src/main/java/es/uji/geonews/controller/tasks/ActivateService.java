@@ -1,13 +1,10 @@
 package es.uji.geonews.controller.tasks;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
@@ -17,21 +14,21 @@ public class ActivateService extends UserTask {
     private final GeoNewsManager geoNewsManager;
     private final ServiceName serviceName;
     private final SwitchCompat switchCompat;
-    private final ProgressBar progressBar;
+    private final ConstraintLayout loadingLayout;
     private final Context context;
     private String error;
 
-    public ActivateService (ServiceName serviceName, SwitchCompat switchCompat, Context context, ProgressBar progressBar) {
+    public ActivateService (ServiceName serviceName, SwitchCompat switchCompat, Context context, ConstraintLayout loadingLayout) {
         this.serviceName = serviceName;
         this.switchCompat = switchCompat;
         geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
-        this.progressBar = progressBar;
+        this.loadingLayout = loadingLayout;
     }
 
     @Override
     public void execute() {
-        lockUI(context, progressBar);
+        lockUI(context, loadingLayout);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -39,7 +36,7 @@ public class ActivateService extends UserTask {
                 if (!res) error = "Esta servicio ya está activado";
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        unlockUI(context, progressBar);
+                        unlockUI(context, loadingLayout);
                         if (error != null) {
                             showAlertError();
                             switchCompat.setChecked(false);

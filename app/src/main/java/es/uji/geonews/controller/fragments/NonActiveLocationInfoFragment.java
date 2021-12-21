@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class NonActiveLocationInfoFragment extends Fragment {
     private Button deleteLocation;
     private ImageView editAliasButton;
     private TextView locationAliasOutput;
-    private ProgressBar progressBar;
+    private ConstraintLayout loadingLayout;
     private int locationId;
     List<ServiceName> activeServices;
 
@@ -68,7 +69,7 @@ public class NonActiveLocationInfoFragment extends Fragment {
         activateLocation = view.findViewById(R.id.activate_location);
         deleteLocation = view.findViewById(R.id.delete_location);
         editAliasButton = view.findViewById(R.id.location_alias_button);
-        progressBar = view.findViewById(R.id.activate_location_progress_bar);
+        loadingLayout = getActivity().findViewById(R.id.greyLayout);
 
         if (!location.getAlias().equals("")) locationAliasOutput.setText(location.getAlias());
         if (location.getPlaceName() != null) locationPlaceNameOutput.setText(location.getPlaceName());
@@ -85,8 +86,8 @@ public class NonActiveLocationInfoFragment extends Fragment {
         activateLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                new ActivateLocation(getContext(), locationId, progressBar,view).execute();
+                loadingLayout.setVisibility(View.VISIBLE);
+                new ActivateLocation(getContext(), locationId, loadingLayout, view).execute();
             }
         });
 

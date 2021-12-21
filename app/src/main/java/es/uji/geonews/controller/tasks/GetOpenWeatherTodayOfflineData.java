@@ -13,7 +13,6 @@ import java.util.Locale;
 import es.uji.geonews.controller.template.WeatherTemplate;
 import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
@@ -32,8 +31,6 @@ public class GetOpenWeatherTodayOfflineData extends UserTask{
 
     @Override
     public void execute() {
-        weatherTemplate.getProgressBar().setVisibility(View.VISIBLE);
-        weatherTemplate.getProgressBar().bringToFront();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -46,7 +43,6 @@ public class GetOpenWeatherTodayOfflineData extends UserTask{
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        weatherTemplate.getProgressBar().setVisibility(View.INVISIBLE);
                         if (error != null);
                         else
                         {
