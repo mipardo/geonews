@@ -16,14 +16,14 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 
 import es.uji.geonews.R;
-import es.uji.geonews.controller.adapters.FiveDaysForecastAdapter;
+import es.uji.geonews.controller.adapters.ForecastAdapter;
 import es.uji.geonews.controller.tasks.GetOpenWeatherFiveDaysOfflineData;
 
-public class FiveDaysWeatherFragment extends Fragment {
+public class ForecastWeatherFragment extends Fragment {
     private final int locationId;
     private RecyclerView recyclerView;
 
-    public FiveDaysWeatherFragment(int locationId) {
+    public ForecastWeatherFragment(int locationId) {
         // Required empty public constructor
         this.locationId = locationId;
     }
@@ -42,7 +42,7 @@ public class FiveDaysWeatherFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_five_days_weather, container, false);
         recyclerView = view.findViewById(R.id.five_days_recycler_view);
 
-        recyclerView.setAdapter(new FiveDaysForecastAdapter(new ArrayList<>()));
+        recyclerView.setAdapter(new ForecastAdapter(new ArrayList<>()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         new GetOpenWeatherFiveDaysOfflineData(locationId, recyclerView, getContext()).execute();

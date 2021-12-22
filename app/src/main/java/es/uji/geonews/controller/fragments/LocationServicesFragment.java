@@ -15,10 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import es.uji.geonews.R;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
@@ -52,9 +56,13 @@ public class LocationServicesFragment extends Fragment {
         RelativeLayout settings =  getActivity().findViewById(R.id.settings);
         settings.setVisibility(View.VISIBLE);
 
-        List<ServiceName> locationServices = GeoNewsManagerSingleton.getInstance(getContext()).getServicesOfLocation(locationId);
+        GeoNewsManager geoNewsManager = GeoNewsManagerSingleton.getInstance(getContext());
+        Set<ServiceName> activeServices =  new HashSet<>(geoNewsManager.getServicesOfLocation(locationId));
+        Set<ServiceName> generalActiveServices = new HashSet<>(geoNewsManager.getActiveServices());
+        activeServices.retainAll(generalActiveServices);
+
         mPager = view.findViewById(R.id.pager);
-        pagerAdapter = new ScreenSlidePagerAdapter(getActivity(), locationServices);
+        pagerAdapter = new ScreenSlidePagerAdapter(getActivity(), new ArrayList<>(activeServices));
         mPager.setAdapter(pagerAdapter);
         mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override

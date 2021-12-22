@@ -5,7 +5,7 @@ import android.content.Context;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import es.uji.geonews.controller.adapters.FiveDaysForecastAdapter;
+import es.uji.geonews.controller.adapters.ForecastAdapter;
 import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
@@ -39,7 +39,7 @@ public class GetOpenWeatherFiveDaysOfflineData extends UserTask {
                         if (error != null) showAlertError();
                         else if (data != null)
                         {
-                            FiveDaysForecastAdapter adapter = (FiveDaysForecastAdapter) recyclerView.getAdapter();
+                            ForecastAdapter adapter = (ForecastAdapter) recyclerView.getAdapter();
                             if (adapter != null) adapter.updateForecast(data.getDailyWeatherList());
                         }
                     }

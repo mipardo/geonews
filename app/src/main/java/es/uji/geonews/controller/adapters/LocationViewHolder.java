@@ -41,7 +41,6 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
             favouriteButton.setVisibility(View.VISIBLE);
             favouriteButton.playAnimation();
         } else if(location.isActive()) {
-
             favouriteButton.setVisibility(View.VISIBLE);
         } else {
             favouriteButton.setVisibility(View.INVISIBLE);

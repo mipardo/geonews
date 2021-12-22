@@ -57,7 +57,7 @@ dependencies {
     implementation 'com.airbnb.android:lottie:4.2.2'
     // https://mvnrepository.com/artifact/org.mockito/mockito-all
     //testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
-    // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    //https://mvnrepository.com/artifact/org.mockito/mockito-core
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
 
 
