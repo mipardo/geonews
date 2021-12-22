@@ -20,7 +20,7 @@ public class AirVisualPieChart {
         // Generate dataset
         ArrayList<PieEntry> data = new ArrayList<>();
         data.add(new PieEntry(aqiUs, ""));
-        data.add(new PieEntry(350 - aqiUs , ""));
+        data.add(new PieEntry(Math.max((360 - aqiUs), 0), ""));
 
         // Assign colors:
         int[] colorData = new int[] {
