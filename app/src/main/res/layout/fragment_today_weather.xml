@@ -117,12 +117,12 @@
                     android:layout_height="wrap_content"
                     android:text="19º"
                     android:textSize="20sp"
-                    android:textColor="#162fba"
+                    android:textColor="#157EFB"
                     app:layout_constraintTop_toBottomOf="@id/current_temp_output"
                     app:layout_constraintStart_toStartOf="parent"/>
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/blue_termometer_image"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/blue_termometer"
@@ -139,12 +139,12 @@
                     android:textColor="#ba1616"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView"
-                    app:layout_constraintStart_toEndOf="@+id/imageView2"
+                    app:layout_constraintEnd_toStartOf="@+id/red_termometer_image"
+                    app:layout_constraintStart_toEndOf="@+id/blue_termometer_image"
                     app:layout_constraintTop_toBottomOf="@id/current_temp_output" />
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/red_termometer_image"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/red_termometer"
@@ -155,7 +155,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/pressure_constraint_layout"
+                android:id="@+id/main_weather_constraint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@+id/horizontal_divider"
@@ -188,7 +188,7 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/wind_constraint_layout"
+                android:id="@+id/sun_constraint_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -238,7 +238,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/humidity_constraint_layout"
+                android:id="@+id/others_constraint_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -313,30 +313,25 @@
 
 
 
-
-
-
-    <View
-        android:id="@+id/wdivider_1"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/precipitation_layout"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/constraint_open_weather_top"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/constraint_open_weather_top"/>
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/actualWeatherImage"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/wdivider_1">
+        <View
+            android:id="@+id/horizontal_divider_2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+            <!-- TODO: AQUI VA EL VIEW HOLDER       -->
 
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/wdivider_2"
@@ -346,7 +341,7 @@
         android:layout_marginTop="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/actualWeatherImage"/>
+        app:layout_constraintTop_toBottomOf="@id/precipitation_layout"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"
