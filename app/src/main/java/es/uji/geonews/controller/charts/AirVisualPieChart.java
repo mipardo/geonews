@@ -25,7 +25,6 @@ public class AirVisualPieChart {
         // Assign colors:
         int[] colorData = new int[] {
                 getAqiColor(aqiUs),
-                //Color.rgb(223, 223, 223)
                 Color.rgb(245, 245, 245)
         };
 
