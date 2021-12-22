@@ -45,7 +45,7 @@ public class AirVisualPieChart {
         pieChart.setEnabled(false);
         pieChart.setDrawRoundedSlices(true);
         pieChart.setRotationEnabled(false);
-        if (animate) pieChart.animateY(400);
+        if (animate) pieChart.animateY(600);
         pieChart.invalidate();
     }
 
