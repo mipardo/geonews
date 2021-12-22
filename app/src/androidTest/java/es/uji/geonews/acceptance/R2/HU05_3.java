@@ -14,7 +14,7 @@ import org.junit.Test;
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.AirVisualData;
-import es.uji.geonews.model.data.Data;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -77,7 +77,7 @@ public class HU05_3 {
         geoNewsManager.addLocation("Alicante");
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         // When
-        Data serviceData = geoNewsManager.getData(ServiceName.AIR_VISUAL, castellon.getId());
+        ServiceData serviceData = geoNewsManager.getData(ServiceName.AIR_VISUAL, castellon.getId());
 
         // Then
         assertNull(serviceData);

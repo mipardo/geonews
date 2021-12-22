@@ -10,19 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import es.uji.geonews.R;
-import es.uji.geonews.model.data.OpenWeatherData;
-import es.uji.geonews.model.data.OpenWeatherForecastData;
-import es.uji.geonews.model.data.ServiceData;
+import es.uji.geonews.model.data.DailyWeather;
 
 public class FiveDaysForecastAdapter extends RecyclerView.Adapter<FiveDaysForecastViewHolder> {
-    private List<OpenWeatherData> forecast;
+    private List<DailyWeather> forecast;
 
-    public FiveDaysForecastAdapter(List<OpenWeatherData> forecast) {
+    public FiveDaysForecastAdapter( List<DailyWeather> forecast) {
         this.forecast = forecast;
     }
 
-    public void updateForecast(OpenWeatherForecastData forecast) {
-        this.forecast = forecast.getOpenWeatherDataList();
+    public void updateForecast(List<DailyWeather> forecast) {
+        this.forecast = forecast;
         notifyDataSetChanged();
     }
 
@@ -39,8 +37,7 @@ public class FiveDaysForecastAdapter extends RecyclerView.Adapter<FiveDaysForeca
 
     @Override
     public void onBindViewHolder(@NonNull FiveDaysForecastViewHolder holder, int position) {
-        OpenWeatherData data = (OpenWeatherData) forecast.get(position);
-        holder.bind(data);
+        holder.bind(forecast.get(position));
     }
 
     @Override

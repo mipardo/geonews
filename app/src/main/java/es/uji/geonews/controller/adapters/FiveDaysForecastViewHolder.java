@@ -17,8 +17,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import es.uji.geonews.R;
-import es.uji.geonews.model.data.OpenWeatherData;
-import es.uji.geonews.model.data.OpenWeatherForecastData;
+import es.uji.geonews.model.data.DailyWeather;
 
 public class FiveDaysForecastViewHolder extends RecyclerView.ViewHolder {
     private final TextView date;
@@ -34,11 +33,11 @@ public class FiveDaysForecastViewHolder extends RecyclerView.ViewHolder {
         avgTemp = itemView.findViewById(R.id.avgTempTextview);
     }
 
-    public void bind(OpenWeatherData data) {
+    public void bind(DailyWeather data) {
         date.setText(getStringDateAndTime(data.getTimestamp()));
         String desc = data.getDescription().substring(0, 1).toUpperCase() + data.getDescription().substring(1);
         description.setText(desc);
-        avgTemp.setText(Math.round(data.getActTemp()) + "º");
+        avgTemp.setText(Math.round(data.getCurrentTemp()) + "º");
         Picasso.get()
                 .load("https://openweathermap.org/img/wn/" + data.getIcon() + "@2x.png")
                 .into(icon);

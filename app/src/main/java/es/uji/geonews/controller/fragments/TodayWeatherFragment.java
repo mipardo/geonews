@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.github.mikephil.charting.charts.LineChart;
 
 import es.uji.geonews.R;
-import es.uji.geonews.controller.tasks.GetOpenWeatherChartData;
 import es.uji.geonews.controller.tasks.GetOpenWeatherChartOfflineData;
 import es.uji.geonews.controller.tasks.GetOpenWeatherTodayData;
 import es.uji.geonews.controller.tasks.GetOpenWeatherTodayOfflineData;
@@ -52,7 +51,6 @@ public class TodayWeatherFragment extends Fragment {
         new GetOpenWeatherTodayOfflineData(locationId, weatherTemplate, getContext()).execute();
         new GetOpenWeatherTodayData(locationId, weatherTemplate, getContext()).execute();
         new GetOpenWeatherChartOfflineData(locationId, lineChart, getContext()).execute();
-        new GetOpenWeatherChartData(locationId, lineChart, getContext(), weatherTemplate.getLoadingLayout()).execute();
 
         return view;
     }

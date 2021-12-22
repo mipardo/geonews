@@ -1,69 +1,44 @@
 package es.uji.geonews.model.data;
 
+import java.util.List;
+
 public class OpenWeatherData extends ServiceData {
-    private double maxTemp;
-    private double minTemp;
-    private double actTemp;
-    private String main;
-    private String description;
-    private String icon;
-    private long timestamp;
+    private Weather currentWeather;
+    private List<MinutelyWeather> minutelyWeatherList;
+    private List<HourlyWeather> hourlyWeatherList;
+    private List<DailyWeather> dailyWeatherList;
 
-    public OpenWeatherData(){ }
+    public OpenWeatherData() {}
 
-    public double getMaxTemp() {
-        return maxTemp;
+    public Weather getCurrentWeather() {
+        return currentWeather;
     }
 
-    public void setMaxTemp(double maxTemp) {
-        this.maxTemp = maxTemp;
+    public void setCurrentWeather(Weather currentWeather) {
+        this.currentWeather = currentWeather;
     }
 
-    public double getMinTemp() {
-        return minTemp;
+    public List<MinutelyWeather> getMinutelyWeatherList() {
+        return minutelyWeatherList;
     }
 
-    public void setMinTemp(double minTemp) {
-        this.minTemp = minTemp;
+    public void setMinutelyWeatherList(List<MinutelyWeather> minutelyWeatherList) {
+        this.minutelyWeatherList = minutelyWeatherList;
     }
 
-    public double getActTemp() {
-        return actTemp;
+    public List<HourlyWeather> getHourlyWeatherList() {
+        return hourlyWeatherList;
     }
 
-    public void setActTemp(double actTemp) {
-        this.actTemp = actTemp;
+    public void setHourlyWeatherList(List<HourlyWeather> hourlyWeatherList) {
+        this.hourlyWeatherList = hourlyWeatherList;
     }
 
-    public String getMain() {
-        return main;
+    public List<DailyWeather> getDailyWeatherList() {
+        return dailyWeatherList;
     }
 
-    public void setMain(String main) {
-        this.main = main;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
+    public void setDailyWeatherList(List<DailyWeather> dailyWeatherList) {
+        this.dailyWeatherList = dailyWeatherList;
     }
 }

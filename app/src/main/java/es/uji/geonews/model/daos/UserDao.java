@@ -16,7 +16,6 @@ public class UserDao implements Serializable {
     private Map<String, ServiceDao> services;
     private Map<String, List<String>> locationServices;
     private OfflineDataDao offlineData;
-    private OfflineFutureDataDao offlineFutureData;
     private String lastModification;
 
     public UserDao() {}
@@ -28,17 +27,23 @@ public class UserDao implements Serializable {
         this.services = ServiceWrapper.convertServices(serviceManager.getServices());
         this.locationServices =  UserDaoConverter.convertLocationServicesHashMap(serviceManager.getLocationServices());
         this.offlineData = new OfflineDataDao(serviceManager.getOfflineData());
-        this.offlineFutureData = new OfflineFutureDataDao(serviceManager.getOfflineFutureData());
         this.lastModification = LocalDateTime.now().toString();
     }
 
-    // Getter & Setters
     public String getUserId() {
         return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public int getLocationCounter() {
+        return locationCounter;
+    }
+
+    public void setLocationCounter(int locationCounter) {
+        this.locationCounter = locationCounter;
     }
 
     public Map<String, Location> getLocations() {
@@ -65,12 +70,12 @@ public class UserDao implements Serializable {
         this.locationServices = locationServices;
     }
 
-    public void setOfflineData(OfflineDataDao offlineDataDao) {
-        this.offlineData = offlineDataDao;
+    public OfflineDataDao getOfflineData() {
+        return offlineData;
     }
 
-    public OfflineDataDao getOfflineDataDao() {
-        return offlineData;
+    public void setOfflineData(OfflineDataDao offlineData) {
+        this.offlineData = offlineData;
     }
 
     public String getLastModification() {
@@ -79,25 +84,5 @@ public class UserDao implements Serializable {
 
     public void setLastModification(String lastModification) {
         this.lastModification = lastModification;
-    }
-
-    public int getLocationCounter() {
-        return locationCounter;
-    }
-
-    public void setLocationCounter(int locationCounter) {
-        this.locationCounter = locationCounter;
-    }
-
-    public OfflineDataDao getOfflineData() {
-        return offlineData;
-    }
-
-    public OfflineFutureDataDao getOfflineFutureData() {
-        return offlineFutureData;
-    }
-
-    public void setOfflineFutureData(OfflineFutureDataDao offlineFutureData) {
-        this.offlineFutureData = offlineFutureData;
     }
 }

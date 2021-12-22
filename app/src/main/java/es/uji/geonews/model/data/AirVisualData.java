@@ -1,8 +1,6 @@
 package es.uji.geonews.model.data;
 
 
-import android.graphics.drawable.Drawable;
-
 import es.uji.geonews.R;
 
 public class AirVisualData extends ServiceData {

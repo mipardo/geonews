@@ -1,12 +1,8 @@
 package es.uji.geonews.controller.tasks;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ProgressBar;
 import android.widget.Switch;
 
 import androidx.constraintlayout.widget.ConstraintLayout;

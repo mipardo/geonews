@@ -1,18 +1,8 @@
 package es.uji.geonews.controller.tasks;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.view.View;
-import android.widget.ProgressBar;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-
-import java.util.ArrayList;
 
 import es.uji.geonews.controller.charts.AirVisualPieChart;
 import es.uji.geonews.controller.template.AirTemplate;

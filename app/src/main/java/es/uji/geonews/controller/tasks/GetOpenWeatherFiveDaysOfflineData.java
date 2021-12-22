@@ -2,18 +2,12 @@ package es.uji.geonews.controller.tasks;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 import es.uji.geonews.controller.adapters.FiveDaysForecastAdapter;
-import es.uji.geonews.model.data.OpenWeatherForecastData;
-import es.uji.geonews.model.data.ServiceData;
+import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
@@ -22,7 +16,7 @@ public class GetOpenWeatherFiveDaysOfflineData extends UserTask {
     private final int locationId;
     private final RecyclerView recyclerView;
     private String error;
-    private ServiceData data;
+    private OpenWeatherData data;
 
     public GetOpenWeatherFiveDaysOfflineData(int locationId, RecyclerView recyclerView, Context context) {
         this.locationId = locationId;
@@ -36,7 +30,7 @@ public class GetOpenWeatherFiveDaysOfflineData extends UserTask {
             @Override
             public void run() {
                 try {
-                    data = GeoNewsManagerSingleton.getInstance(context).getOfflineFutureData(ServiceName.OPEN_WEATHER, locationId);
+                    data = (OpenWeatherData) GeoNewsManagerSingleton.getInstance(context).getOfflineData(ServiceName.OPEN_WEATHER, locationId);
                 } catch (NoLocationRegisteredException e) {
                     error = e.getMessage();
                 }
@@ -46,7 +40,7 @@ public class GetOpenWeatherFiveDaysOfflineData extends UserTask {
                         else if (data != null)
                         {
                             FiveDaysForecastAdapter adapter = (FiveDaysForecastAdapter) recyclerView.getAdapter();
-                            if (adapter != null) adapter.updateForecast((OpenWeatherForecastData) data);
+                            if (adapter != null) adapter.updateForecast(data.getDailyWeatherList());
                         }
                     }
 

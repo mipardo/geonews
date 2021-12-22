@@ -2,10 +2,7 @@ package es.uji.geonews.controller.template;
 
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class WeatherTemplate {
     private TextView dateTextview;
