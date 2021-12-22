@@ -62,7 +62,7 @@ public class GetAirVisualData extends UserTask {
                         if (error != null) showAlertError();
                         else {
                             AirVisualPieChart airVisualPieChart = new AirVisualPieChart(pieChart);
-                            airVisualPieChart.fillChart(airVisualData.getAqiUs());
+                            airVisualPieChart.fillChart(airVisualData.getAqiUs(), false);
                             airTemplate.getTempertaureOutput().setText(airVisualData.getTemperature() + "º C");
                             airTemplate.getPreassureOutput().setText(airVisualData.getPressure() + " hPa");
                             airTemplate.getHumidityOutput().setText(airVisualData.getHumidity() + " %");

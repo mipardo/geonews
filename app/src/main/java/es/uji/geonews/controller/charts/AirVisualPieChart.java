@@ -16,16 +16,17 @@ public class AirVisualPieChart {
         this.pieChart = pieChart;
     }
 
-    public void fillChart(int aqiUs){
+    public void fillChart(int aqiUs, boolean animate){
         // Generate dataset
         ArrayList<PieEntry> data = new ArrayList<>();
         data.add(new PieEntry(aqiUs, ""));
-        data.add(new PieEntry(300 - aqiUs , ""));
+        data.add(new PieEntry(350 - aqiUs , ""));
 
         // Assign colors:
         int[] colorData = new int[] {
                 getAqiColor(aqiUs),
-                Color.rgb(143, 180, 189)
+                //Color.rgb(223, 223, 223)
+                Color.rgb(245, 245, 245)
         };
 
         PieDataSet pieDataSet = new PieDataSet(data, "");
@@ -42,6 +43,9 @@ public class AirVisualPieChart {
         pieChart.getLegend().setEnabled(false);
         pieChart.getData().setDrawValues(false);
         pieChart.setEnabled(false);
+        pieChart.setDrawRoundedSlices(true);
+        pieChart.setRotationEnabled(false);
+        if (animate) pieChart.animateY(400);
         pieChart.invalidate();
     }
 
