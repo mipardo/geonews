@@ -5,62 +5,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class WeatherTemplate {
-    private TextView dateTextview;
-    private TextView maxTempTextview;
-    private TextView minTempTextview;
-    private TextView actualTempTextview;
-    private TextView weatherDescriptionTextview;
-    private ImageView weatherIcon;
+    private TextView weatherTitleOutput;
     private ViewGroup loadingLayout;
+    private TextView currentTempOutput;
+    private TextView minTempOutput;
+    private TextView maxTempOutput;
+    private ImageView iconOutput;
+    private TextView descriptionOutput;
+    private TextView sunriseOutput;
+    private TextView sunsetOuptut;
+    private TextView uvOutput;
+    private TextView visibilityOutput;
 
-    public WeatherTemplate() {}
+    public WeatherTemplate(){ }
 
-    public TextView getDateTextview() {
-        return dateTextview;
+    public TextView getWeatherTitleOutput() {
+        return weatherTitleOutput;
     }
 
-    public void setDateTextview(TextView dateTextview) {
-        this.dateTextview = dateTextview;
-    }
-
-    public TextView getMaxTempTextview() {
-        return maxTempTextview;
-    }
-
-    public void setMaxTempTextview(TextView maxTempTextview) {
-        this.maxTempTextview = maxTempTextview;
-    }
-
-    public TextView getMinTempTextview() {
-        return minTempTextview;
-    }
-
-    public void setMinTempTextview(TextView minTempTextview) {
-        this.minTempTextview = minTempTextview;
-    }
-
-    public TextView getActualTempTextview() {
-        return actualTempTextview;
-    }
-
-    public void setActualTempTextview(TextView actualTempTextview) {
-        this.actualTempTextview = actualTempTextview;
-    }
-
-    public TextView getWeatherDescriptionTextview() {
-        return weatherDescriptionTextview;
-    }
-
-    public void setWeatherDescriptionTextview(TextView weatherDescriptionTextview) {
-        this.weatherDescriptionTextview = weatherDescriptionTextview;
-    }
-
-    public ImageView getWeatherIcon() {
-        return weatherIcon;
-    }
-
-    public void setWeatherIcon(ImageView weatherIcon) {
-        this.weatherIcon = weatherIcon;
+    public void setWeatherTitleOutput(TextView weatherTitleOutput) {
+        this.weatherTitleOutput = weatherTitleOutput;
     }
 
     public ViewGroup getLoadingLayout() {
@@ -70,4 +34,80 @@ public class WeatherTemplate {
     public void setLoadingLayout(ViewGroup loadingLayout) {
         this.loadingLayout = loadingLayout;
     }
+
+    public TextView getCurrentTempOutput() {
+        return currentTempOutput;
+    }
+
+    public void setCurrentTempOutput(TextView currentTempOutput) {
+        this.currentTempOutput = currentTempOutput;
+    }
+
+    public TextView getMinTempOutput() {
+        return minTempOutput;
+    }
+
+    public void setMinTempOutput(TextView minTempOutput) {
+        this.minTempOutput = minTempOutput;
+    }
+
+    public TextView getMaxTempOutput() {
+        return maxTempOutput;
+    }
+
+    public void setMaxTempOutput(TextView maxTempOutput) {
+        this.maxTempOutput = maxTempOutput;
+    }
+
+    public ImageView getIconOutput() {
+        return iconOutput;
+    }
+
+    public void setIconOutput(ImageView iconOutput) {
+        this.iconOutput = iconOutput;
+    }
+
+    public TextView getDescriptionOutput() {
+        return descriptionOutput;
+    }
+
+    public void setDescriptionOutput(TextView descriptionOutput) {
+        this.descriptionOutput = descriptionOutput;
+    }
+
+    public TextView getSunriseOutput() {
+        return sunriseOutput;
+    }
+
+    public void setSunriseOutput(TextView sunriseOutput) {
+        this.sunriseOutput = sunriseOutput;
+    }
+
+    public TextView getSunsetOuptut() {
+        return sunsetOuptut;
+    }
+
+    public void setSunsetOuptut(TextView sunsetOuptut) {
+        this.sunsetOuptut = sunsetOuptut;
+    }
+
+    public TextView getUvOutput() {
+        return uvOutput;
+    }
+
+    public void setUvOutput(TextView uvOutput) {
+        this.uvOutput = uvOutput;
+    }
+
+    public TextView getVisibilityOutput() {
+        return visibilityOutput;
+    }
+
+    public void setVisibilityOutput(TextView visibilityOutput) {
+        this.visibilityOutput = visibilityOutput;
+    }
+
+
+
+
 }

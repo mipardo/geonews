@@ -5,19 +5,25 @@ import android.content.Context;
 
 import com.squareup.picasso.Picasso;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import es.uji.geonews.controller.template.WeatherTemplate;
+import es.uji.geonews.model.data.DailyWeather;
 import es.uji.geonews.model.data.OpenWeatherData;
+import es.uji.geonews.model.data.Weather;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GetOpenWeatherTodayData extends UserTask {
+    private final GeoNewsManager geoNewsManager;
     private final WeatherTemplate weatherTemplate;
     private final int locationId;
     private final Context context;
@@ -25,6 +31,7 @@ public class GetOpenWeatherTodayData extends UserTask {
     private String error;
 
     public GetOpenWeatherTodayData(int locationId, WeatherTemplate weatherTemplate, Context context) {
+        geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.locationId = locationId;
         this.weatherTemplate = weatherTemplate;
         this.context = context;
@@ -48,15 +55,21 @@ public class GetOpenWeatherTodayData extends UserTask {
                         if (error != null) showAlertError();
                         else
                         {
-                            weatherTemplate.getDateTextview().setText(getActualDateAndTime());
-                            weatherTemplate.getMinTempTextview().setText(Math.round(data.getDailyWeatherList().get(0).getTempMin()) + "ºC");
-                            weatherTemplate.getMaxTempTextview().setText(Math.round(data.getDailyWeatherList().get(0).getTempMax()) + "ºC");
-                            weatherTemplate.getActualTempTextview().setText(Math.round(data.getCurrentWeather().getCurrentTemp()) + "ºC");
+                            Weather current = data.getCurrentWeather();
+                            DailyWeather today = data.getDailyWeatherList().get(0);
+                            weatherTemplate.getCurrentTempOutput().setText(Math.round(current.getCurrentTemp()) + "º C");
+                            weatherTemplate.getMinTempOutput().setText(Math.round(today.getTempMin()) + "º");
+                            weatherTemplate.getMaxTempOutput().setText(Math.round(today.getTempMax()) + "º");
                             Picasso.get()
-                                .load("https://openweathermap.org/img/wn/" + data.getCurrentWeather().getIcon() + "@2x.png")
-                                .into(weatherTemplate.getWeatherIcon());
-                            String description = data.getCurrentWeather().getDescription().substring(0, 1).toUpperCase() + data.getCurrentWeather().getDescription().substring(1);
-                            weatherTemplate.getWeatherDescriptionTextview().setText(description);
+                                .load("https://openweathermap.org/img/wn/" + current.getIcon() + "@4x.png")
+                                .into(weatherTemplate.getIconOutput());
+                            String description = current.getDescription().substring(0, 1).toUpperCase()
+                                    + current.getDescription().substring(1);
+                            weatherTemplate.getDescriptionOutput().setText(description);
+                            weatherTemplate.getSunriseOutput().setText(getFormatedTimestamp(current.getSunrise()));
+                            weatherTemplate.getSunsetOuptut().setText(getFormatedTimestamp(current.getSunset()));
+                            weatherTemplate.getVisibilityOutput().setText(current.getUvi() + "");
+                            weatherTemplate.getVisibilityOutput().setText(current.getVisibility() + "m ");
                         }
                     }
 
@@ -66,12 +79,6 @@ public class GetOpenWeatherTodayData extends UserTask {
         }).start();
     }
 
-    private String getActualDateAndTime() {
-        DateTimeFormatter fmt = new DateTimeFormatterBuilder()
-                .appendPattern("dd MMMM HH:mm")
-                .toFormatter(new Locale("es", "ES"));
-        return LocalDateTime.now().format(fmt);
-    }
 
     private void showAlertError(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

@@ -36,7 +36,8 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Location location, OnItemClickListener listener) {
-        setLocationTitleAndSubtitle(location);
+        mainNameOutput.setText(location.getMainName());
+        subnameOutput.setText(location.getSubName());
         if (location.isFavorite()) {
             favouriteButton.setVisibility(View.VISIBLE);
             favouriteButton.playAnimation();
@@ -83,27 +84,6 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
-    }
-
-    private void setLocationTitleAndSubtitle(Location location){
-        String mainName;
-        String subname;
-        if (! location.getAlias().equals("")) {     // If location has alias
-            mainName = location.getAlias();
-            if (location.getPlaceName() != null) subname = location.getPlaceName();
-            else subname = location.getGeographCoords().toString();
-        } else {                                    // If location has no alias
-            if (location.getPlaceName() != null) {
-                mainName = location.getPlaceName();
-                subname = location.getGeographCoords().toString();
-            }
-            else{
-                mainName = location.getGeographCoords().toString();
-                subname = "Topónimo desconocido";
-            }
-        }
-        mainNameOutput.setText(mainName);
-        subnameOutput.setText(subname);
     }
 }
 

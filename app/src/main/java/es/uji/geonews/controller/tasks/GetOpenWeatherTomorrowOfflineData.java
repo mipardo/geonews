@@ -5,19 +5,25 @@ import android.content.Context;
 
 import com.squareup.picasso.Picasso;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import es.uji.geonews.controller.template.WeatherTemplate;
+import es.uji.geonews.model.data.DailyWeather;
 import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.data.ServiceData;
+import es.uji.geonews.model.data.Weather;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
+import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GetOpenWeatherTomorrowOfflineData extends UserTask {
+    private final GeoNewsManager geoNewsManager;
     private final WeatherTemplate weatherTemplate;
     private final int locationId;
     private final Context context;
@@ -25,6 +31,7 @@ public class GetOpenWeatherTomorrowOfflineData extends UserTask {
     private String error;
 
     public GetOpenWeatherTomorrowOfflineData(int locationId, WeatherTemplate weatherTemplate, Context context) {
+        this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.locationId = locationId;
         this.weatherTemplate = weatherTemplate;
         this.context = context;
@@ -36,25 +43,29 @@ public class GetOpenWeatherTomorrowOfflineData extends UserTask {
             @Override
             public void run() {
                 try {
-                    ServiceData data = GeoNewsManagerSingleton.getInstance(context).getOfflineData(ServiceName.OPEN_WEATHER, locationId);
+                    data = (OpenWeatherData) geoNewsManager.getOfflineData(ServiceName.OPEN_WEATHER, locationId);
                 } catch (NoLocationRegisteredException e) {
                     error = e.getMessage();
-
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
                         if (error != null) showAlertError();
                         else if (data != null)
                         {
-                            weatherTemplate.getDateTextview().setText(getTomorrowDateAndTime());
-                            weatherTemplate.getMinTempTextview().setText(Math.round(data.getDailyWeatherList().get(1).getTempMin()) + "ºC");
-                            weatherTemplate.getMaxTempTextview().setText(Math.round(data.getDailyWeatherList().get(1).getTempMax()) + "ºC");
-                            weatherTemplate.getActualTempTextview().setText(Math.round(data.getDailyWeatherList().get(1).getCurrentTemp()) + "ºC");
+                            DailyWeather tomorrow = data.getDailyWeatherList().get(1);
+                            weatherTemplate.getCurrentTempOutput().setText(Math.round(tomorrow.getCurrentTemp()) + "º C");
+                            weatherTemplate.getMinTempOutput().setText(Math.round(tomorrow.getTempMin()) + "º");
+                            weatherTemplate.getMaxTempOutput().setText(Math.round(tomorrow.getTempMax()) + "º");
                             Picasso.get()
-                                    .load("https://openweathermap.org/img/wn/" + data.getDailyWeatherList().get(1).getIcon() + "@2x.png")
-                                    .into(weatherTemplate.getWeatherIcon());
-                            String description = data.getDailyWeatherList().get(1).getDescription().substring(0, 1).toUpperCase() + data.getDailyWeatherList().get(1).getDescription().substring(1);
-                            weatherTemplate.getWeatherDescriptionTextview().setText(description);
+                                    .load("https://openweathermap.org/img/wn/" + tomorrow.getIcon() + "@4x.png")
+                                    .into(weatherTemplate.getIconOutput());
+                            String description = tomorrow.getDescription().substring(0, 1).toUpperCase()
+                                    + tomorrow.getDescription().substring(1);
+                            weatherTemplate.getDescriptionOutput().setText(description);
+                            weatherTemplate.getSunriseOutput().setText(getFormatedTimestamp(tomorrow.getSunrise()));
+                            weatherTemplate.getSunsetOuptut().setText(getFormatedTimestamp(tomorrow.getSunset()));
+                            weatherTemplate.getVisibilityOutput().setText(tomorrow.getUvi() + "");
+                            weatherTemplate.getVisibilityOutput().setText(tomorrow.getVisibility() + "m ");
                         }
                     }
 
@@ -62,13 +73,6 @@ public class GetOpenWeatherTomorrowOfflineData extends UserTask {
             }
 
         }).start();
-    }
-
-    private String getTomorrowDateAndTime() {
-        DateTimeFormatter fmt = new DateTimeFormatterBuilder()
-                .appendPattern("dd MMMM")
-                .toFormatter(new Locale("es", "ES"));
-        return LocalDateTime.now().plusDays(1).format(fmt);
     }
 
     private void showAlertError(){

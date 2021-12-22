@@ -86,6 +86,23 @@ public class Location {
         this.isFavorite = isFavorite;
     }
 
+    public String getMainName() {
+        if (!alias.equals("")) return alias;
+        if (placeName != null) return placeName;
+        return getGeographCoords().toString();
+    }
+
+    public String getSubName(){
+        if(!alias.equals("")){
+            if (placeName != null) return placeName;
+            return geographCoords.toString();
+        }
+        if(placeName != null){
+            return  geographCoords.toString();
+        }
+        return "Topónimo desconocido";
+    }
+
     @Override
     public String toString() {
         return "Location{" +

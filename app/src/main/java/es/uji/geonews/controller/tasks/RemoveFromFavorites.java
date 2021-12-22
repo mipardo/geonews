@@ -31,7 +31,6 @@ public class RemoveFromFavorites extends UserTask {
                         if(removedFromFavorites) {
                             favoritesButton.setSpeed(-1);
                             favoritesButton.playAnimation();
-                            //favoritesButton.setImageResource(R.drawable.heart);
                         }
                     }
                 });
