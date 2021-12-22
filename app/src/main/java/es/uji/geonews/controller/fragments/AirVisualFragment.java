@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -57,12 +55,15 @@ public class AirVisualFragment extends Fragment {
         RelativeLayout settings =  getActivity().findViewById(R.id.settings);
         settings.setVisibility(View.VISIBLE);
 
-        LinearLayoutCompat loadingLayout = getActivity().findViewById(R.id.greyServiceLayout);
+        LinearLayoutCompat loadingLayout = view.findViewById(R.id.greyServiceLayout);
         TextView temperatureOutput = view.findViewById(R.id.temperature_output);
         TextView humidityOutput = view.findViewById(R.id.humidity_output);
         TextView pressureOutput = view.findViewById(R.id.pressure_output);
         TextView windSpeedOutput = view.findViewById(R.id.wind_speed_output);
         ImageView windDirectionOutput = view.findViewById(R.id.wind_direction_output);
+        TextView aqiMainTextOutput = view.findViewById(R.id.aqi_main_text_output);
+        TextView aqiTextOutput = view.findViewById(R.id.aqi_text_output);
+        ImageView aqiImageOutput = view.findViewById(R.id.aqi_image_output);
         PieChart pieChart = view.findViewById(R.id.air_visual_chart);
 
         AirTemplate airTemplate = new AirTemplate();
@@ -71,6 +72,9 @@ public class AirVisualFragment extends Fragment {
         airTemplate.setPreassureOutput(pressureOutput);
         airTemplate.setWindDirectionOuptut(windDirectionOutput);
         airTemplate.setWindSpeedOutput(windSpeedOutput);
+        airTemplate.setAqiMainTextOutput(aqiMainTextOutput);
+        airTemplate.setAqiTextOutput(aqiTextOutput);
+        airTemplate.setAqiImageOutput(aqiImageOutput);
 
         new GetAirVisualOfflineData(locationId, airTemplate, pieChart, getContext()).execute();
         new GetAirVisualData(locationId, airTemplate, loadingLayout, pieChart, getContext()).execute();

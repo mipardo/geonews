@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -46,7 +44,7 @@ public class CurrentsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_currents, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.currents_recycler_view);
-        LinearLayoutCompat loadingLayout = getActivity().findViewById(R.id.greyServiceLayout);
+        LinearLayoutCompat loadingLayout = view.findViewById(R.id.greyServiceLayout);
 
         List<News> news = new ArrayList<>();
         recyclerView.setAdapter(new CurrentsAdapter(news));

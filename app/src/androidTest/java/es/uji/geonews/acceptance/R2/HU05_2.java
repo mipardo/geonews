@@ -14,8 +14,8 @@ import org.junit.Test;
 
 import es.uji.geonews.acceptance.AuxiliaryTestClass;
 import es.uji.geonews.model.Location;
-import es.uji.geonews.model.data.Data;
 import es.uji.geonews.model.data.OpenWeatherData;
+import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -52,12 +52,12 @@ public class HU05_2 {
         OpenWeatherData serviceData = (OpenWeatherData) geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon.getId());
 
         // Then
-        assertTrue(serviceData.getMaxTemp() > - 10 && serviceData.getMaxTemp() < 50);
-        assertTrue(serviceData.getMinTemp() > - 10 && serviceData.getMinTemp() < 50);
-        assertTrue(serviceData.getActTemp() > - 10 && serviceData.getActTemp() < 50);
-        assertNotNull(serviceData.getMain());
-        assertNotNull(serviceData.getDescription());
-        assertNotNull(serviceData.getIcon());
+        assertTrue(serviceData.getDailyWeatherList().get(0).getTempMax() > - 10 && serviceData.getDailyWeatherList().get(0).getTempMax() < 50);
+        assertTrue(serviceData.getDailyWeatherList().get(0).getTempMin() > - 10 && serviceData.getDailyWeatherList().get(0).getTempMin() < 50);
+        assertTrue(serviceData.getCurrentWeather().getCurrentTemp() > - 10 && serviceData.getCurrentWeather().getCurrentTemp() < 50);
+        assertNotNull(serviceData.getDailyWeatherList().get(0).getMain());
+        assertNotNull(serviceData.getDailyWeatherList().get(0).getDescription());
+        assertNotNull(serviceData.getDailyWeatherList().get(0).getIcon());
     }
 
     @Test (expected = ServiceNotAvailableException.class)
@@ -80,7 +80,7 @@ public class HU05_2 {
         geoNewsManager.addLocation("Alicante");
         Location castellon = geoNewsManager.addLocation("Castelló de la plana");
         // When
-        Data serviceData = geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon.getId());
+        ServiceData serviceData = geoNewsManager.getData(ServiceName.OPEN_WEATHER, castellon.getId());
 
         // Then
         assertNull(serviceData);

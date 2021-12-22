@@ -13,9 +13,7 @@ import android.view.ViewGroup;
 import com.github.mikephil.charting.charts.LineChart;
 
 import es.uji.geonews.R;
-import es.uji.geonews.controller.tasks.GetOpenWeatherChartData;
 import es.uji.geonews.controller.tasks.GetOpenWeatherChartOfflineData;
-import es.uji.geonews.controller.tasks.GetOpenWeatherTomorrowData;
 import es.uji.geonews.controller.tasks.GetOpenWeatherTomorrowOfflineData;
 import es.uji.geonews.controller.template.WeatherTemplate;
 
@@ -47,12 +45,9 @@ public class TomorrowWeatherFragment extends Fragment {
         weatherTemplate.setActualTempTextview(view.findViewById(R.id.actualTempTextview));
         weatherTemplate.setWeatherDescriptionTextview(view.findViewById(R.id.actualWeatherDescriptionTextview));
         weatherTemplate.setWeatherIcon(view.findViewById(R.id.actualWeatherIconTextview));
-        weatherTemplate.setLoadingLayout(getActivity().findViewById(R.id.greyServiceLayout));
 
         new GetOpenWeatherTomorrowOfflineData(locationId, weatherTemplate, getContext()).execute();
-        new GetOpenWeatherTomorrowData(locationId, weatherTemplate, getContext()).execute();
         new GetOpenWeatherChartOfflineData(locationId, lineChart, getContext()).execute();
-        new GetOpenWeatherChartData(locationId, lineChart, getContext(), weatherTemplate.getLoadingLayout()).execute();
         return view;
     }
 

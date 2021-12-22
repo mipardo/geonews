@@ -1,11 +1,9 @@
 package es.uji.geonews.controller.tasks;
 
 import android.content.Context;
-import android.widget.ImageView;
 
 import com.airbnb.lottie.LottieAnimationView;
 
-import es.uji.geonews.R;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;

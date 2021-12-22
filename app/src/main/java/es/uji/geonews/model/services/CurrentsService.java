@@ -75,10 +75,6 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
         }
     }
 
-    @Override
-    public ServiceData getFutureData(Location location) {
-        return null;
-    }
 
     private CurrentsData convertToCurrentsData(JSONObject jsonObject) throws JSONException {
         CurrentsData currentsData = new CurrentsData();

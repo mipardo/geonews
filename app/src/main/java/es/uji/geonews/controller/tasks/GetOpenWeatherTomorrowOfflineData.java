@@ -2,24 +2,18 @@ package es.uji.geonews.controller.tasks;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.view.View;
 
 import com.squareup.picasso.Picasso;
 
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import es.uji.geonews.controller.template.WeatherTemplate;
 import es.uji.geonews.model.data.OpenWeatherData;
-import es.uji.geonews.model.data.OpenWeatherForecastData;
 import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
@@ -42,8 +36,7 @@ public class GetOpenWeatherTomorrowOfflineData extends UserTask {
             @Override
             public void run() {
                 try {
-                    ServiceData forecast = GeoNewsManagerSingleton.getInstance(context).getOfflineFutureData(ServiceName.OPEN_WEATHER, locationId);
-                    data = getTomorrowDataFromForecast((OpenWeatherForecastData) forecast);
+                    ServiceData data = GeoNewsManagerSingleton.getInstance(context).getOfflineData(ServiceName.OPEN_WEATHER, locationId);
                 } catch (NoLocationRegisteredException e) {
                     error = e.getMessage();
 
@@ -54,47 +47,18 @@ public class GetOpenWeatherTomorrowOfflineData extends UserTask {
                         else if (data != null)
                         {
                             weatherTemplate.getDateTextview().setText(getTomorrowDateAndTime());
-                            weatherTemplate.getMinTempTextview().setText(Math.round(data.getMinTemp()) + "ºC");
-                            weatherTemplate.getMaxTempTextview().setText(Math.round(data.getMaxTemp()) + "ºC");
-                            weatherTemplate.getActualTempTextview().setText(Math.round(data.getActTemp()) + "ºC");
+                            weatherTemplate.getMinTempTextview().setText(Math.round(data.getDailyWeatherList().get(1).getTempMin()) + "ºC");
+                            weatherTemplate.getMaxTempTextview().setText(Math.round(data.getDailyWeatherList().get(1).getTempMax()) + "ºC");
+                            weatherTemplate.getActualTempTextview().setText(Math.round(data.getDailyWeatherList().get(1).getCurrentTemp()) + "ºC");
                             Picasso.get()
-                                    .load("https://openweathermap.org/img/wn/" + data.getIcon() + "@2x.png")
+                                    .load("https://openweathermap.org/img/wn/" + data.getDailyWeatherList().get(1).getIcon() + "@2x.png")
                                     .into(weatherTemplate.getWeatherIcon());
-                            String description = data.getDescription().substring(0, 1).toUpperCase() + data.getDescription().substring(1);
+                            String description = data.getDailyWeatherList().get(1).getDescription().substring(0, 1).toUpperCase() + data.getDailyWeatherList().get(1).getDescription().substring(1);
                             weatherTemplate.getWeatherDescriptionTextview().setText(description);
                         }
                     }
 
                 });
-            }
-
-            private OpenWeatherData getTomorrowDataFromForecast(OpenWeatherForecastData forecast) {
-                double minTemp = 100;
-                double maxTemp = -100;
-                double expectedTemp = 0;
-                int sectionCounter = 0;
-                OpenWeatherData result = null;
-                int tomorrowDay = LocalDate.now().getDayOfYear() + 1;
-
-                if (forecast != null) {
-                    for (OpenWeatherData section : forecast.getOpenWeatherDataList()) {
-                        int sectionDay = LocalDateTime.ofInstant(Instant.ofEpochMilli(section.getTimestamp() * 1000),
-                                TimeZone.getDefault().toZoneId()).getDayOfYear();
-                        if (sectionDay == tomorrowDay) {
-                            expectedTemp += section.getActTemp();
-                            sectionCounter++;
-                            if (section.getMinTemp() < minTemp) minTemp = section.getMinTemp();
-                            if (section.getMaxTemp() > maxTemp) maxTemp = section.getMaxTemp();
-                            if (sectionCounter == 4) result = section; // 4 = Mediodia
-                        }
-                    }
-                    double meanTemp = expectedTemp / sectionCounter;
-                    result.setActTemp(Math.round(meanTemp));
-                    result.setMinTemp(Math.round(minTemp));
-                    result.setMaxTemp(Math.round(maxTemp));
-                    return result;
-                }
-                return null;
             }
 
         }).start();

@@ -1,10 +1,7 @@
 package es.uji.geonews.controller.tasks;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.view.View;
 
 import com.squareup.picasso.Picasso;
 
@@ -52,13 +49,13 @@ public class GetOpenWeatherTodayData extends UserTask {
                         else
                         {
                             weatherTemplate.getDateTextview().setText(getActualDateAndTime());
-                            weatherTemplate.getMinTempTextview().setText(Math.round(data.getMinTemp()) + "ºC");
-                            weatherTemplate.getMaxTempTextview().setText(Math.round(data.getMaxTemp()) + "ºC");
-                            weatherTemplate.getActualTempTextview().setText(Math.round(data.getActTemp()) + "ºC");
+                            weatherTemplate.getMinTempTextview().setText(Math.round(data.getDailyWeatherList().get(0).getTempMin()) + "ºC");
+                            weatherTemplate.getMaxTempTextview().setText(Math.round(data.getDailyWeatherList().get(0).getTempMax()) + "ºC");
+                            weatherTemplate.getActualTempTextview().setText(Math.round(data.getCurrentWeather().getCurrentTemp()) + "ºC");
                             Picasso.get()
-                                .load("https://openweathermap.org/img/wn/" + data.getIcon() + "@2x.png")
+                                .load("https://openweathermap.org/img/wn/" + data.getCurrentWeather().getIcon() + "@2x.png")
                                 .into(weatherTemplate.getWeatherIcon());
-                            String description = data.getDescription().substring(0, 1).toUpperCase() + data.getDescription().substring(1);
+                            String description = data.getCurrentWeather().getDescription().substring(0, 1).toUpperCase() + data.getCurrentWeather().getDescription().substring(1);
                             weatherTemplate.getWeatherDescriptionTextview().setText(description);
                         }
                     }

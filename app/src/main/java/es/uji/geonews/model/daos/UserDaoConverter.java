@@ -9,7 +9,6 @@ import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.AirVisualData;
 import es.uji.geonews.model.data.CurrentsData;
 import es.uji.geonews.model.data.OpenWeatherData;
-import es.uji.geonews.model.data.OpenWeatherForecastData;
 import es.uji.geonews.model.data.ServiceData;
 import es.uji.geonews.model.managers.LocationManager;
 import es.uji.geonews.model.managers.ServiceManager;
@@ -57,32 +56,14 @@ public class UserDaoConverter {
         setServices(serviceManager, userDao);
         serviceManager.setLocationServices(convertLocationServicesBack(userDao.getLocationServices()));
         setOfflineData(serviceManager, userDao);
-        setOfflineFutureData(serviceManager, userDao);
-    }
-
-    private static void setOfflineFutureData(ServiceManager serviceManager, UserDao userDao){
-        HashMap<Integer, HashMap<ServiceName, ServiceData>> newOfflineFutureData = new HashMap<>();
-
-        OfflineFutureDataDao offlineFutureDataDao = userDao.getOfflineFutureData();
-
-        Map<String, OpenWeatherForecastData> openWeatherOfflineFutureData = offlineFutureDataDao.getOpenWeatherOfflineFutureData();
-        for (String locationIdString : openWeatherOfflineFutureData.keySet()){
-            int locationId = Integer.parseInt(locationIdString);
-            if (!newOfflineFutureData.containsKey(locationId)) {
-                newOfflineFutureData.put(locationId, new HashMap<>());
-            }
-            HashMap<ServiceName, ServiceData> locationServiceData = newOfflineFutureData.get(locationId);
-            locationServiceData.put(ServiceName.OPEN_WEATHER,
-                    openWeatherOfflineFutureData.get(locationIdString));
-        }
     }
 
     private static void setOfflineData(ServiceManager serviceManager, UserDao userDao){
         HashMap<Integer, HashMap<ServiceName, ServiceData>> newOfflineData = new HashMap<>();
 
-        OfflineDataDao offlineDataDao = userDao.getOfflineDataDao();
+        OfflineDataDao offlineData = userDao.getOfflineData();
 
-        Map<String, AirVisualData> airVisualOfflineData = offlineDataDao.getAirVisualOfflineData();
+        Map<String, AirVisualData> airVisualOfflineData = offlineData.getAirVisualOfflineData();
         for (String locationIdString : airVisualOfflineData.keySet()){
             int locationId = Integer.parseInt(locationIdString);
             if (!newOfflineData.containsKey(locationId)) {
@@ -92,7 +73,7 @@ public class UserDaoConverter {
             locationServiceData.put(ServiceName.AIR_VISUAL, airVisualOfflineData.get(locationIdString));
         }
 
-        Map<String, OpenWeatherData> openWeatherOfflineData = offlineDataDao.getOpenWeatherOfflineData();
+        Map<String, OpenWeatherData> openWeatherOfflineData = offlineData.getOpenWeatherOfflineData();
         for (String locationIdString : openWeatherOfflineData.keySet()){
             int locationId = Integer.parseInt(locationIdString);
             if (!newOfflineData.containsKey(locationId)) {
@@ -102,7 +83,7 @@ public class UserDaoConverter {
             locationServiceData.put(ServiceName.OPEN_WEATHER, openWeatherOfflineData.get(locationIdString));
         }
 
-        Map<String, CurrentsData> currentsOfflineData = offlineDataDao.getCurrentsOfflineData();
+        Map<String, CurrentsData> currentsOfflineData = offlineData.getCurrentsOfflineData();
         for (String locationIdString : currentsOfflineData.keySet()){
             int locationId = Integer.parseInt(locationIdString);
             if (!newOfflineData.containsKey(locationId)) {

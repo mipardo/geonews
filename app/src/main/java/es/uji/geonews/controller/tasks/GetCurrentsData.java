@@ -2,12 +2,8 @@ package es.uji.geonews.controller.tasks;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 

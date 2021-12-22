@@ -1,9 +1,6 @@
 package es.uji.geonews.controller.tasks;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,7 +10,6 @@ import es.uji.geonews.controller.adapters.CurrentsAdapter;
 import es.uji.geonews.model.data.CurrentsData;
 import es.uji.geonews.model.data.News;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
