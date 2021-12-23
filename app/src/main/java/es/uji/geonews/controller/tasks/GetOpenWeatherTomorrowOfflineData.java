@@ -5,7 +5,9 @@ import android.content.Context;
 
 import com.squareup.picasso.Picasso;
 
+import es.uji.geonews.controller.adapters.PrecipitationListAdapter;
 import es.uji.geonews.controller.template.WeatherTemplate;
+import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.DailyWeather;
 import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
@@ -30,6 +32,12 @@ public class GetOpenWeatherTomorrowOfflineData extends UserTask {
 
     @Override
     public void execute() {
+        try {
+            Location location = geoNewsManager.getLocation(locationId);
+            weatherTemplate.getWeatherTitleOutput().setText("Mañana" + " en " + location.getMainName());
+        } catch (NoLocationRegisteredException e) {
+            weatherTemplate.getWeatherTitleOutput().setText("Mañana" + " en " + "...");
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -57,6 +65,9 @@ public class GetOpenWeatherTomorrowOfflineData extends UserTask {
                             weatherTemplate.getSunsetOuptut().setText(getFormatedTimestamp(tomorrow.getSunset()));
                             weatherTemplate.getVisibilityOutput().setText(tomorrow.getUvi() + "");
                             weatherTemplate.getVisibilityOutput().setText(tomorrow.getVisibility() + "m ");
+                            PrecipitationListAdapter adapter = (PrecipitationListAdapter)
+                                    weatherTemplate.getPrecipitationsOutput().getAdapter();
+                            if (adapter != null) adapter.updatePrecipitations(data.getHourlyWeatherList().subList(10, 20));
                         }
                     }
 

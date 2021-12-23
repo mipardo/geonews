@@ -47,7 +47,7 @@ public class ForecastViewHolder extends RecyclerView.ViewHolder {
         LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp * 1000),
                 TimeZone.getDefault().toZoneId());
         DateTimeFormatter fmt = new DateTimeFormatterBuilder()
-                .appendPattern("dd MMMM HH:mm")
+                .appendPattern("dd MMMM")
                 .toFormatter(new Locale("es", "ES"));
         return date.format(fmt);
     }

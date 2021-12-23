@@ -175,7 +175,7 @@ public class ActiveLocationInfoFragment extends Fragment {
                 // Show the dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Asigna o edita el alias para esta ubicación ");
-                View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.set_alias_alert, view.findViewById(R.id.new_alias_input),false);
+                View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.alert_set_alias, view.findViewById(R.id.new_alias_input),false);
                 EditText newAlias = viewInflated.findViewById(R.id.new_alias_input);
                 builder.setView(viewInflated);
 

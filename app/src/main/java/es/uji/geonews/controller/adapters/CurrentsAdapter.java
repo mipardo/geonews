@@ -28,7 +28,7 @@ public class CurrentsAdapter extends RecyclerView.Adapter<CurrentsViewHolder> {
     @Override
     public CurrentsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.currents_card,
+                R.layout.card_currents,
                 parent,
                 false
         );

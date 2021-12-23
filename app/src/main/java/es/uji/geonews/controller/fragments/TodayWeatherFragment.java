@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.adapters.PrecipitationListAdapter;
-import es.uji.geonews.controller.tasks.GetOpenWeatherTodayData;
+import es.uji.geonews.controller.tasks.GetOpenWeatherData;
 import es.uji.geonews.controller.tasks.GetOpenWeatherTodayOfflineData;
 import es.uji.geonews.controller.template.WeatherTemplate;
 
@@ -74,7 +74,7 @@ public class TodayWeatherFragment extends Fragment {
         weatherTemplate.setPrecipitationsOutput(recyclerView);
 
         new GetOpenWeatherTodayOfflineData(locationId, weatherTemplate, getContext()).execute();
-        new GetOpenWeatherTodayData(locationId, weatherTemplate, getContext()).execute();
+        new GetOpenWeatherData(locationId, weatherTemplate, getContext()).execute();
         return view;
     }
 

@@ -12,16 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.adapters.ForecastAdapter;
-import es.uji.geonews.controller.tasks.GetOpenWeatherFiveDaysOfflineData;
+import es.uji.geonews.controller.tasks.GetOpenWeatherForecastOfflineData;
 
 public class ForecastWeatherFragment extends Fragment {
     private final int locationId;
-    private RecyclerView recyclerView;
 
     public ForecastWeatherFragment(int locationId) {
         // Required empty public constructor
@@ -36,18 +36,16 @@ public class ForecastWeatherFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RelativeLayout settings =  getActivity().findViewById(R.id.settings);
-        settings.setVisibility(View.VISIBLE);
 
-        View view = inflater.inflate(R.layout.fragment_five_days_weather, container, false);
-        recyclerView = view.findViewById(R.id.five_days_recycler_view);
+        View view = inflater.inflate(R.layout.fragment_forecast_weather, container, false);
+
+        TextView titleOutput = view.findViewById(R.id.forecast_weather_title);
+        RecyclerView recyclerView = view.findViewById(R.id.five_days_recycler_view);
 
         recyclerView.setAdapter(new ForecastAdapter(new ArrayList<>()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        new GetOpenWeatherFiveDaysOfflineData(locationId, recyclerView, getContext()).execute();
-        //new GetOpenWeatherFiveDaysData(locationId, recyclerView, getContext()).execute();
-        // TODO como cargamos el CHART en Today, squí ya debería de haber datos en el offline
+        new GetOpenWeatherForecastOfflineData(locationId, titleOutput, recyclerView, getContext()).execute();
         return view;
     }
 

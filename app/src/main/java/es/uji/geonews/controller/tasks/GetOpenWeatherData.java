@@ -16,7 +16,7 @@ import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-public class GetOpenWeatherTodayData extends UserTask {
+public class GetOpenWeatherData extends UserTask {
     private final GeoNewsManager geoNewsManager;
     private final WeatherTemplate weatherTemplate;
     private final int locationId;
@@ -24,7 +24,7 @@ public class GetOpenWeatherTodayData extends UserTask {
     private OpenWeatherData data;
     private String error;
 
-    public GetOpenWeatherTodayData(int locationId, WeatherTemplate weatherTemplate, Context context) {
+    public GetOpenWeatherData(int locationId, WeatherTemplate weatherTemplate, Context context) {
         geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.locationId = locationId;
         this.weatherTemplate = weatherTemplate;

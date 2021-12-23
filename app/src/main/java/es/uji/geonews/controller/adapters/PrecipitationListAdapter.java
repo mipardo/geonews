@@ -28,7 +28,7 @@ public class PrecipitationListAdapter extends RecyclerView.Adapter<Precipitation
     @Override
     public PrecipitationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.precipitation_card,
+                R.layout.card_precipitation,
                 parent,
                 false
         );

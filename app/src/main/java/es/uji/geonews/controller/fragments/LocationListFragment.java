@@ -21,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -128,7 +127,7 @@ public class LocationListFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Añade una nueva ubicación ");
                 builder.setMessage("Introduzca un topónimo o unas coordenadas");
-                View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.add_location_alert, view.findViewById(R.id.location_input),false);
+                View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.alert_add_location, view.findViewById(R.id.location_input),false);
                 EditText locationInput = viewInflated.findViewById(R.id.location_input);
                 CheckBox byGpsInput = viewInflated.findViewById(R.id.by_coords_input);
                 builder.setView(viewInflated);
