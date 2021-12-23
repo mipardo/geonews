@@ -29,6 +29,7 @@ import es.uji.geonews.controller.tasks.ActivateService;
 import es.uji.geonews.controller.tasks.AddLocation;
 import es.uji.geonews.controller.tasks.AddLocationByGPS;
 import es.uji.geonews.controller.tasks.DeactivateService;
+import es.uji.geonews.controller.tasks.ImportConfiguration;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
@@ -194,8 +195,7 @@ public class SettingsFragment extends Fragment {
     private void showExportDialog(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setTitle("Código de exportación ");
-        // TODO crear código
-        builder.setMessage("Su código de exportación es: ");
+        builder.setMessage("Su código de exportación es: \n\n" + geoNewsManager.loadUserId(view.getContext()));
         builder.setPositiveButton("Aceptar", null);
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -213,7 +213,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 String code = codeInput.getText().toString();
                 if (code.length() > 0){
-                    // TODO Task para importar conf
+                    new ImportConfiguration(code, loadingLayout, getContext()).execute();
                 }
             }
         });

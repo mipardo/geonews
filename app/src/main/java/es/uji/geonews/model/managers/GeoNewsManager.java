@@ -24,7 +24,7 @@ import es.uji.geonews.model.services.Service;
 import es.uji.geonews.model.services.ServiceName;
 
 public class GeoNewsManager {
-    private final String userId;
+    private String userId;
     private final LocationManager locationManager;
     private final ServiceManager serviceManager;
     private final DatabaseManager databaseManager;
@@ -50,6 +50,10 @@ public class GeoNewsManager {
         this.serviceManager = serviceManager;
         this.databaseManager = databaseManager;
         this.userId = userId;
+    }
+
+    public void setUserId(String code) {
+        this.userId = code;
     }
 
     public Location addLocation(String location)
