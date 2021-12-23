@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -78,5 +79,12 @@ public abstract class UserTask extends AppCompatActivity {
                         layout.setVisibility(View.GONE);
                     }
                 });
+    }
+
+    protected int getHoursLeftOfToday(){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime tomorrow = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth() + 1, 0, 0);
+        long hoursLeft = ChronoUnit.HOURS.between(now, tomorrow);
+        return (int) hoursLeft + 1;
     }
 }

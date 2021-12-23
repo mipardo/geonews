@@ -66,7 +66,7 @@ public class GetOpenWeatherData extends UserTask {
                             weatherTemplate.getVisibilityOutput().setText(current.getVisibility() + "m ");
                             PrecipitationListAdapter adapter = (PrecipitationListAdapter)
                                     weatherTemplate.getPrecipitationsOutput().getAdapter();
-                            if (adapter != null) adapter.updatePrecipitations(data.getHourlyWeatherList().subList(0, 10));
+                            if (adapter != null) adapter.updatePrecipitations(data.getHourlyWeatherList().subList(0, getHoursLeftOfToday()));
                         }
                     }
 

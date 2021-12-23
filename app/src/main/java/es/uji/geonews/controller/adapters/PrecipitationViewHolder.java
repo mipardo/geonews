@@ -29,7 +29,7 @@ public class PrecipitationViewHolder extends RecyclerView.ViewHolder {
     public void bind(HourlyWeather hourlyWeather) {
         long precipitation = Math.round(hourlyWeather.getPop() * 100);
         hourOutput.setText(getStringTime(hourlyWeather.getTimestamp()) + "");
-        precipitationOutput.setText(precipitation + "");
+        precipitationOutput.setText(precipitation + "%");
     }
 
     private String getStringTime(long timestamp) {
