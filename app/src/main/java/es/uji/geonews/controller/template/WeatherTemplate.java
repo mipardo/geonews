@@ -4,6 +4,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public class WeatherTemplate {
     private TextView weatherTitleOutput;
     private ViewGroup loadingLayout;
@@ -16,6 +18,8 @@ public class WeatherTemplate {
     private TextView sunsetOuptut;
     private TextView uvOutput;
     private TextView visibilityOutput;
+    private RecyclerView precipitationsOutput;
+
 
     public WeatherTemplate(){ }
 
@@ -107,7 +111,11 @@ public class WeatherTemplate {
         this.visibilityOutput = visibilityOutput;
     }
 
+    public RecyclerView getPrecipitationsOutput() {
+        return precipitationsOutput;
+    }
 
-
-
+    public void setPrecipitationsOutput(RecyclerView precipitationsOutput) {
+        this.precipitationsOutput = precipitationsOutput;
+    }
 }

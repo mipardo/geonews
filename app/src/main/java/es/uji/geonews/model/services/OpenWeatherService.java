@@ -114,7 +114,7 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
             hourlyWeather.setMain(jsonArray.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("main"));
             hourlyWeather.setDescription(jsonArray.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("description"));
             hourlyWeather.setIcon(jsonArray.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("icon"));
-            hourlyWeather.setPop(jsonArray.getJSONObject(i).getInt("pop"));
+            hourlyWeather.setPop(jsonArray.getJSONObject(i).getDouble("pop"));
             hourlyWeatherList.add(hourlyWeather);
         }
         openWeatherLocationData.setHourlyWeatherList(hourlyWeatherList);

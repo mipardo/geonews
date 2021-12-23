@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.github.mikephil.charting.charts.LineChart;
 
 import es.uji.geonews.R;
-import es.uji.geonews.controller.tasks.GetOpenWeatherTomorrowOfflineData;
 import es.uji.geonews.controller.template.WeatherTemplate;
 
 

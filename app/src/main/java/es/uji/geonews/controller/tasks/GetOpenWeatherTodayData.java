@@ -5,13 +5,7 @@ import android.content.Context;
 
 import com.squareup.picasso.Picasso;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Locale;
-import java.util.TimeZone;
-
+import es.uji.geonews.controller.adapters.PrecipitationListAdapter;
 import es.uji.geonews.controller.template.WeatherTemplate;
 import es.uji.geonews.model.data.DailyWeather;
 import es.uji.geonews.model.data.OpenWeatherData;
@@ -44,7 +38,7 @@ public class GetOpenWeatherTodayData extends UserTask {
             @Override
             public void run() {
                 try {
-                    data = (OpenWeatherData) GeoNewsManagerSingleton.getInstance(context).getData(ServiceName.OPEN_WEATHER, locationId);
+                    data = (OpenWeatherData) geoNewsManager.getData(ServiceName.OPEN_WEATHER, locationId);
                     if (data == null) error = "Esta ubicación no esta suscrita al servicio de clima";
                 } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
                     error = e.getMessage();
@@ -70,6 +64,9 @@ public class GetOpenWeatherTodayData extends UserTask {
                             weatherTemplate.getSunsetOuptut().setText(getFormatedTimestamp(current.getSunset()));
                             weatherTemplate.getVisibilityOutput().setText(current.getUvi() + "");
                             weatherTemplate.getVisibilityOutput().setText(current.getVisibility() + "m ");
+                            PrecipitationListAdapter adapter = (PrecipitationListAdapter)
+                                    weatherTemplate.getPrecipitationsOutput().getAdapter();
+                            if (adapter != null) adapter.updatePrecipitations(data.getHourlyWeatherList().subList(0, 10));
                         }
                     }
 

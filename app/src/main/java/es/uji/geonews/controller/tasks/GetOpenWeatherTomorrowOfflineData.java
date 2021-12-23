@@ -5,18 +5,9 @@ import android.content.Context;
 
 import com.squareup.picasso.Picasso;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Locale;
-import java.util.TimeZone;
-
 import es.uji.geonews.controller.template.WeatherTemplate;
 import es.uji.geonews.model.data.DailyWeather;
 import es.uji.geonews.model.data.OpenWeatherData;
-import es.uji.geonews.model.data.ServiceData;
-import es.uji.geonews.model.data.Weather;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;

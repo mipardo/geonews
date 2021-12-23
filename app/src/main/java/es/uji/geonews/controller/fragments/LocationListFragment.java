@@ -63,9 +63,6 @@ public class LocationListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RelativeLayout settings =  getActivity().findViewById(R.id.settings);
-        settings.setVisibility(View.VISIBLE);
-
         RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
         ImageView addLocationButton = view.findViewById(R.id.add_location_button);
         ConstraintLayout loadingLayout = getActivity().findViewById(R.id.greyLayout);

@@ -4,13 +4,7 @@ import android.content.Context;
 
 import com.squareup.picasso.Picasso;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Locale;
-import java.util.TimeZone;
-
+import es.uji.geonews.controller.adapters.PrecipitationListAdapter;
 import es.uji.geonews.controller.template.WeatherTemplate;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.DailyWeather;
@@ -73,6 +67,9 @@ public class GetOpenWeatherTodayOfflineData extends UserTask{
                             weatherTemplate.getSunsetOuptut().setText(getFormatedTimestamp(current.getSunset()));
                             weatherTemplate.getVisibilityOutput().setText(current.getUvi() + "");
                             weatherTemplate.getVisibilityOutput().setText(current.getVisibility() + "m ");
+                            PrecipitationListAdapter adapter = (PrecipitationListAdapter)
+                                    weatherTemplate.getPrecipitationsOutput().getAdapter();
+                            if (adapter != null) adapter.updatePrecipitations(data.getHourlyWeatherList().subList(0, 10));
                         }
                     }
 
