@@ -23,4 +23,6 @@
     <string name="openweather">OpenWeather</string>
     <string name="currents">Currents</string>
     <string name="new_info">Cargando nueva información...</string>
+    <string name="export_input">Exportar</string>
+    <string name="import_input">Importar</string>
 </resources>

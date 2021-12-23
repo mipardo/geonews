@@ -1,6 +1,8 @@
 package es.uji.geonews.controller.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,13 +16,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import es.uji.geonews.R;
+import es.uji.geonews.controller.MainActivity;
 import es.uji.geonews.controller.tasks.ActivateService;
+import es.uji.geonews.controller.tasks.AddLocation;
+import es.uji.geonews.controller.tasks.AddLocationByGPS;
 import es.uji.geonews.controller.tasks.DeactivateService;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
@@ -33,6 +40,8 @@ public class SettingsFragment extends Fragment {
     private Button buttonMasInfoAir;
     private Button buttonMasInfoOpen;
     private Button buttonMasInfoCurrents;
+    private Button exportButton;
+    private Button importButton;
 
     private SwitchCompat switchAir;
     private SwitchCompat switchOpen;
@@ -68,6 +77,8 @@ public class SettingsFragment extends Fragment {
         buttonMasInfoAir = view.findViewById(R.id.buttonMasinfoAir);
         buttonMasInfoOpen = view.findViewById(R.id.buttonMasinfoOpen);
         buttonMasInfoCurrents = view.findViewById(R.id.buttonMasinfoCurrents);
+        exportButton = view.findViewById(R.id.export_button);
+        importButton = view.findViewById(R.id.import_button);
         return view;
     }
 
@@ -148,6 +159,20 @@ public class SettingsFragment extends Fragment {
                 description.setText(geoNewsManager.getService(ServiceName.CURRENTS).getDescription());
             }
         });
+
+        exportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showExportDialog(view);
+            }
+        });
+
+        importButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showImportDialog(view);
+            }
+        });
     }
 
     public void expandAndShrinkView(LinearLayoutCompat layout, Button button) {
@@ -164,5 +189,36 @@ public class SettingsFragment extends Fragment {
             layout.setVisibility(View.VISIBLE);
             button.setText(R.string.less_info);
         }
+    }
+
+    private void showExportDialog(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setTitle("Código de exportación ");
+        // TODO crear código
+        builder.setMessage("Su código de exportación es: ");
+        builder.setPositiveButton("Aceptar", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showImportDialog(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setTitle("Importar configuración");
+        builder.setMessage("Introduzca el código de la configuración que desea importar");
+        EditText codeInput = new EditText(view.getContext());
+        builder.setView(codeInput);
+
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String code = codeInput.getText().toString();
+                if (code.length() > 0){
+                    // TODO Task para importar conf
+                }
+            }
+        });
+        builder.setNegativeButton("Cancelar", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
