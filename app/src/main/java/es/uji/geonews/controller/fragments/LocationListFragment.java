@@ -81,8 +81,7 @@ public class LocationListFragment extends Fragment {
                     case 0:
                         locations1 = geoNewsManager.getFavouriteLocations();
                         locations2 =geoNewsManager.getNoFavouriteLocations();
-
-                        (locations = new ArrayList<Location>(locations1)).addAll(locations2);
+                        (locations = new ArrayList<>(locations1)).addAll(locations2);
                         break;
                     case 1:
                         locations = geoNewsManager.getFavouriteLocations();

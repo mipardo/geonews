@@ -40,9 +40,10 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
         subnameOutput.setText(location.getSubName());
         if (location.isFavorite()) {
             favouriteButton.setVisibility(View.VISIBLE);
-            favouriteButton.playAnimation();
+            favouriteButton.setProgress(favouriteButton.getMaxFrame());
         } else if(location.isActive()) {
             favouriteButton.setVisibility(View.VISIBLE);
+            favouriteButton.setProgress(favouriteButton.getMinFrame());
         } else {
             favouriteButton.setVisibility(View.INVISIBLE);
         }
@@ -79,7 +80,6 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
                 if (location.isFavorite()){
                     new RemoveFromFavorites(itemView.getContext(), location, favouriteButton).execute();
                 } else {
-
                     new AddToFavorites(itemView.getContext(), location, favouriteButton).execute();
                 }
             }
