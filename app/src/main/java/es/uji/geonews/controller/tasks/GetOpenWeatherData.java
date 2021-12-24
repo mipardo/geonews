@@ -64,6 +64,10 @@ public class GetOpenWeatherData extends UserTask {
                             weatherTemplate.getSunsetOuptut().setText(getFormatedTimestamp(current.getSunset()));
                             weatherTemplate.getVisibilityOutput().setText(current.getUvi() + "");
                             weatherTemplate.getVisibilityOutput().setText(current.getVisibility() + "m ");
+                            weatherTemplate.getMoonriseOutput().setText(getFormatedTimestamp(today.getMoonrise()));
+                            weatherTemplate.getMoonsetOutput().setText(getFormatedTimestamp(today.getMoonset()));
+                            weatherTemplate.getFeelsLikeOutput().setText(Math.round(current.getFeelsLikeTemp()) + "º C");
+                            weatherTemplate.getCloudsPercentageOutput().setText(current.getClouds() + "%");
                             PrecipitationListAdapter adapter = (PrecipitationListAdapter)
                                     weatherTemplate.getPrecipitationsOutput().getAdapter();
                             if (adapter != null) adapter.updatePrecipitations(data.getHourlyWeatherList().subList(0, getHoursLeftOfToday()));

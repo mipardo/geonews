@@ -52,6 +52,10 @@ public class TodayWeatherFragment extends Fragment {
         TextView sunsetOuptut = view.findViewById(R.id.sunset_output);
         TextView uvOutput = view.findViewById(R.id.uv_output);
         TextView visibilityOutput = view.findViewById(R.id.visibility_output);
+        TextView moonriseOutput = view.findViewById(R.id.moonrise_output);
+        TextView moonsetOutput = view.findViewById(R.id.moonset_output);
+        TextView feelsLikeOutput = view.findViewById(R.id.feels_like_output);
+        TextView cloudsPercentageOutput = view.findViewById(R.id.clouds_percentage_output);
 
         RecyclerView recyclerView = view.findViewById(R.id.precipitation_recycler_view);
         recyclerView.setAdapter(new PrecipitationListAdapter(new ArrayList<>()));
@@ -72,6 +76,10 @@ public class TodayWeatherFragment extends Fragment {
         weatherTemplate.setUvOutput(uvOutput);
         weatherTemplate.setVisibilityOutput(visibilityOutput);
         weatherTemplate.setPrecipitationsOutput(recyclerView);
+        weatherTemplate.setMoonriseOutput(moonriseOutput);
+        weatherTemplate.setMoonsetOutput(moonsetOutput);
+        weatherTemplate.setFeelsLikeOutput(feelsLikeOutput);
+        weatherTemplate.setCloudsPercentageOutput(cloudsPercentageOutput);
 
         new GetOpenWeatherTodayOfflineData(locationId, weatherTemplate, getContext()).execute();
         new GetOpenWeatherData(locationId, weatherTemplate, getContext()).execute();

@@ -18,6 +18,10 @@ public class WeatherTemplate {
     private TextView sunsetOuptut;
     private TextView uvOutput;
     private TextView visibilityOutput;
+    private TextView moonsetOutput;
+    private TextView moonriseOutput;
+    private TextView cloudsPercentageOutput;
+    private TextView feelsLikeOutput;
     private RecyclerView precipitationsOutput;
 
 
@@ -109,6 +113,38 @@ public class WeatherTemplate {
 
     public void setVisibilityOutput(TextView visibilityOutput) {
         this.visibilityOutput = visibilityOutput;
+    }
+
+    public TextView getMoonsetOutput() {
+        return moonsetOutput;
+    }
+
+    public void setMoonsetOutput(TextView moonsetOutput) {
+        this.moonsetOutput = moonsetOutput;
+    }
+
+    public TextView getMoonriseOutput() {
+        return moonriseOutput;
+    }
+
+    public void setMoonriseOutput(TextView moonriseOutput) {
+        this.moonriseOutput = moonriseOutput;
+    }
+
+    public TextView getCloudsPercentageOutput() {
+        return cloudsPercentageOutput;
+    }
+
+    public void setCloudsPercentageOutput(TextView cloudsPercentageOutput) {
+        this.cloudsPercentageOutput = cloudsPercentageOutput;
+    }
+
+    public TextView getFeelsLikeOutput() {
+        return feelsLikeOutput;
+    }
+
+    public void setFeelsLikeOutput(TextView feelsLikeOutput) {
+        this.feelsLikeOutput = feelsLikeOutput;
     }
 
     public RecyclerView getPrecipitationsOutput() {
