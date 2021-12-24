@@ -52,9 +52,6 @@ public class AirVisualFragment extends Fragment {
         Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
         toolbar.setTitle("Calidad del aire");
 
-        RelativeLayout settings =  getActivity().findViewById(R.id.settings);
-        settings.setVisibility(View.VISIBLE);
-
         LinearLayoutCompat loadingLayout = view.findViewById(R.id.greyServiceLayout);
         TextView temperatureOutput = view.findViewById(R.id.temperature_output);
         TextView humidityOutput = view.findViewById(R.id.humidity_output);

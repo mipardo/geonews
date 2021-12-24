@@ -53,9 +53,6 @@ public class LocationServicesFragment extends Fragment {
 
         locationId = getArguments().getInt("locationId");
 
-        RelativeLayout settings =  getActivity().findViewById(R.id.settings);
-        settings.setVisibility(View.VISIBLE);
-
         GeoNewsManager geoNewsManager = GeoNewsManagerSingleton.getInstance(getContext());
         Set<ServiceName> activeServices =  new HashSet<>(geoNewsManager.getServicesOfLocation(locationId));
         Set<ServiceName> generalActiveServices = new HashSet<>(geoNewsManager.getActiveServices());

@@ -35,9 +35,9 @@ public class GetOpenWeatherForecastOfflineData extends UserTask {
     public void execute() {
         try {
             Location location = geoNewsManager.getLocation(locationId);
-            titleOutput.setText("Previsión general" + " en " + location.getMainName());
+            titleOutput.setText("Previsión" + " en " + location.getMainName());
         } catch (NoLocationRegisteredException e) {
-            titleOutput.setText("Previsión general" + " en " + "...");
+            titleOutput.setText("Previsión" + " en " + "...");
         }
         new Thread(new Runnable() {
             @Override

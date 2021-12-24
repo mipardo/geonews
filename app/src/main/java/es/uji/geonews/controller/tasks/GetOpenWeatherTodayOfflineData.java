@@ -69,7 +69,7 @@ public class GetOpenWeatherTodayOfflineData extends UserTask{
                             weatherTemplate.getSunriseOutput().setText(getFormatedTimestamp(current.getSunrise()));
                             weatherTemplate.getSunsetOuptut().setText(getFormatedTimestamp(current.getSunset()));
                             weatherTemplate.getVisibilityOutput().setText(current.getUvi() + "");
-                            weatherTemplate.getVisibilityOutput().setText(current.getVisibility() + "m ");
+                            weatherTemplate.getVisibilityOutput().setText(current.getVisibility() + " m");
                             weatherTemplate.getMoonriseOutput().setText(getFormatedTimestamp(today.getMoonrise()));
                             weatherTemplate.getMoonsetOutput().setText(getFormatedTimestamp(today.getMoonset()));
                             weatherTemplate.getFeelsLikeOutput().setText(Math.round(current.getFeelsLikeTemp()) + "º C");
