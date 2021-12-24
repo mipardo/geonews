@@ -165,4 +165,12 @@ public class SettingsFragment extends Fragment {
             button.setText(R.string.less_info);
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        RelativeLayout settings = getActivity().findViewById(R.id.settings);
+        settings.setVisibility(View.VISIBLE);
+    }
 }

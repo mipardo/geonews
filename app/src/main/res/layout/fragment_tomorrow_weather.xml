@@ -214,63 +214,44 @@
                 app:layout_constraintStart_toEndOf="@id/vertical_divider"
                 app:layout_constraintTop_toBottomOf="@id/horizontal_divider">
 
-                <TextView
-                    android:id="@+id/title_uv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Índice UV"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:textSize="20sp"
+                <ImageView
+                    android:id="@+id/moonrise_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/moonrise"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/uv"
-                    app:layout_constraintBottom_toTopOf="@+id/uv_output"
+                    android:id="@+id/moonset_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/moonset"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/title_uv"
+                    app:layout_constraintStart_toEndOf="@id/moonrise_icon"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/uv_output"
+                    android:id="@+id/moonrise_output"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="60"
+                    android:text="07:00"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/moonrise_icon"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title_uv" />
+                    app:layout_constraintTop_toBottomOf="@id/moonrise_icon" />
 
                 <TextView
-                    android:id="@+id/title_visibility"
+                    android:id="@+id/moonset_output"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Visibilidad"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:text="19:00"
                     android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/uv_output" />
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/spyglass"
-                    app:layout_constraintBottom_toTopOf="@+id/visibility_output"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/title_visibility"
-                    app:layout_constraintTop_toBottomOf="@id/uv_output" />
-
-                <TextView
-                    android:id="@+id/visibility_output"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="10000 metros"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title_visibility" />
+                    app:layout_constraintStart_toStartOf="@+id/moonset_icon"
+                    app:layout_constraintTop_toBottomOf="@id/moonset_icon" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

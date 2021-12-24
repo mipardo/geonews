@@ -63,8 +63,8 @@ public class GetOpenWeatherTomorrowOfflineData extends UserTask {
                             weatherTemplate.getDescriptionOutput().setText(description);
                             weatherTemplate.getSunriseOutput().setText(getFormatedTimestamp(tomorrow.getSunrise()));
                             weatherTemplate.getSunsetOuptut().setText(getFormatedTimestamp(tomorrow.getSunset()));
-                            weatherTemplate.getVisibilityOutput().setText(tomorrow.getUvi() + "");
-                            weatherTemplate.getVisibilityOutput().setText(tomorrow.getVisibility() + "m ");
+                            weatherTemplate.getMoonriseOutput().setText(getFormatedTimestamp(tomorrow.getMoonrise()));
+                            weatherTemplate.getMoonsetOutput().setText(getFormatedTimestamp(tomorrow.getMoonset()));
                             PrecipitationListAdapter adapter = (PrecipitationListAdapter)
                                     weatherTemplate.getPrecipitationsOutput().getAdapter();
                             if (adapter != null) adapter.updatePrecipitations(data.getHourlyWeatherList().

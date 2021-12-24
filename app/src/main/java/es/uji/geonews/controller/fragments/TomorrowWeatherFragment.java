@@ -54,6 +54,8 @@ public class TomorrowWeatherFragment extends Fragment {
         TextView sunsetOuptut = view.findViewById(R.id.sunset_output);
         TextView uvOutput = view.findViewById(R.id.uv_output);
         TextView visibilityOutput = view.findViewById(R.id.visibility_output);
+        TextView moonriseOutput = view.findViewById(R.id.moonrise_output);
+        TextView moonsetOutput = view.findViewById(R.id.moonset_output);
 
         RecyclerView recyclerView = view.findViewById(R.id.precipitation_recycler_view);
         recyclerView.setAdapter(new PrecipitationListAdapter(new ArrayList<>()));
@@ -74,6 +76,8 @@ public class TomorrowWeatherFragment extends Fragment {
         weatherTemplate.setUvOutput(uvOutput);
         weatherTemplate.setVisibilityOutput(visibilityOutput);
         weatherTemplate.setPrecipitationsOutput(recyclerView);
+        weatherTemplate.setMoonriseOutput(moonriseOutput);
+        weatherTemplate.setMoonsetOutput(moonsetOutput);
 
         new GetOpenWeatherTomorrowOfflineData(locationId, weatherTemplate, getContext()).execute();
 
