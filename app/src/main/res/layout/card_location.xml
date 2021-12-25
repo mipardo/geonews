@@ -38,7 +38,7 @@
                         android:layout_alignParentEnd="true"
                         android:clickable="true"
                         android:contentDescription="Ver más información"
-                        android:src="@drawable/more_info"
+                        android:src="@drawable/more_info_grey"
                         app:backgroundTint="@color/white"
                         app:elevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +60,8 @@
                         app:maxImageSize="40dp"
                         app:lottie_rawRes="@raw/like2"
                         app:lottie_loop="false"
-                        app:lottie_autoPlay="false" />
+                        app:lottie_autoPlay="false"
+                        />
 
 
 

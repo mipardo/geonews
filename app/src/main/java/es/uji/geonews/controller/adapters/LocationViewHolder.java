@@ -1,6 +1,7 @@
 package es.uji.geonews.controller.adapters;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,10 +41,10 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
         subnameOutput.setText(location.getSubName());
         if (location.isFavorite()) {
             favouriteButton.setVisibility(View.VISIBLE);
-            favouriteButton.setProgress(favouriteButton.getMaxFrame());
+            favouriteButton.setProgress(1);
         } else if(location.isActive()) {
             favouriteButton.setVisibility(View.VISIBLE);
-            favouriteButton.setProgress(favouriteButton.getMinFrame());
+            favouriteButton.setProgress(0);
         } else {
             favouriteButton.setVisibility(View.INVISIBLE);
         }
