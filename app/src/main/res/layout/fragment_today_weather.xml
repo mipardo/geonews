@@ -520,7 +520,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/more_info_layout">
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_4">
 
         <ImageView
             android:layout_width="40dp"
