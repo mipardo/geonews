@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,7 @@ public class TomorrowWeatherFragment extends Fragment {
         TextView visibilityOutput = view.findViewById(R.id.visibility_output);
         TextView moonriseOutput = view.findViewById(R.id.moonrise_output);
         TextView moonsetOutput = view.findViewById(R.id.moonset_output);
+        LineChart lineChart = view.findViewById(R.id.weather_chart);
 
         RecyclerView recyclerView = view.findViewById(R.id.precipitation_recycler_view);
         recyclerView.setAdapter(new PrecipitationListAdapter(new ArrayList<>()));
@@ -78,6 +80,7 @@ public class TomorrowWeatherFragment extends Fragment {
         weatherTemplate.setPrecipitationsOutput(recyclerView);
         weatherTemplate.setMoonriseOutput(moonriseOutput);
         weatherTemplate.setMoonsetOutput(moonsetOutput);
+        weatherTemplate.setLineChart(lineChart);
 
         new GetOpenWeatherTomorrowOfflineData(locationId, weatherTemplate, getContext()).execute();
 

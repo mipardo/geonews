@@ -6,6 +6,7 @@ import android.content.Context;
 import com.squareup.picasso.Picasso;
 
 import es.uji.geonews.controller.adapters.PrecipitationListAdapter;
+import es.uji.geonews.controller.charts.WeatherLineChart;
 import es.uji.geonews.controller.template.WeatherTemplate;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.DailyWeather;
@@ -52,6 +53,8 @@ public class GetOpenWeatherTomorrowOfflineData extends UserTask {
                         else if (data != null)
                         {
                             DailyWeather tomorrow = data.getDailyWeatherList().get(1);
+                            WeatherLineChart weatherLineChart = new WeatherLineChart(weatherTemplate.getLineChart());
+                            weatherLineChart.fillChart(data);
                             weatherTemplate.getCurrentTempOutput().setText(Math.round(tomorrow.getCurrentTemp()) + "º C");
                             weatherTemplate.getMinTempOutput().setText(Math.round(tomorrow.getTempMin()) + "º");
                             weatherTemplate.getMaxTempOutput().setText(Math.round(tomorrow.getTempMax()) + "º");

@@ -12,7 +12,7 @@ public class DailyWeather extends Weather {
     private double feelsLikeNight;
     private double feelsLikeEvening;
     private double feelsLikeMorning;
-    private int pop;
+    private double pop;
 
     public DailyWeather() {}
 
@@ -104,11 +104,11 @@ public class DailyWeather extends Weather {
         this.feelsLikeMorning = feelsLikeMorning;
     }
 
-    public int getPop() {
+    public double getPop() {
         return pop;
     }
 
-    public void setPop(int pop) {
+    public void setPop(double pop) {
         this.pop = pop;
     }
 }

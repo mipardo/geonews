@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.charts.LineChart;
+
 public class WeatherTemplate {
     private TextView weatherTitleOutput;
     private ViewGroup loadingLayout;
@@ -23,6 +25,7 @@ public class WeatherTemplate {
     private TextView cloudsPercentageOutput;
     private TextView feelsLikeOutput;
     private RecyclerView precipitationsOutput;
+    private LineChart lineChart;
 
 
     public WeatherTemplate(){ }
@@ -153,5 +156,13 @@ public class WeatherTemplate {
 
     public void setPrecipitationsOutput(RecyclerView precipitationsOutput) {
         this.precipitationsOutput = precipitationsOutput;
+    }
+
+    public LineChart getLineChart() {
+        return lineChart;
+    }
+
+    public void setLineChart(LineChart lineChart) {
+        this.lineChart = lineChart;
     }
 }
