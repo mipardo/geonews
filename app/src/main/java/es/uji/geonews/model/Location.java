@@ -7,8 +7,8 @@ public class Location {
     private String placeName;
     private GeographCoords geographCoords;
     private String registrationDate;
-    private boolean isActive;
-    private boolean isFavorite;
+    private boolean active;
+    private boolean favourite;
 
     public Location() {}
 
@@ -18,8 +18,8 @@ public class Location {
         this.geographCoords = geographCoords;
         this.registrationDate = registrationDate.toString();
         this.alias = "";
-        this.isActive = false;
-        this.isFavorite = false;
+        this.active = false;
+        this.favourite = false;
     }
 
     private String normalizePlaceName(String placeName) {
@@ -71,19 +71,19 @@ public class Location {
     }
 
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     public void setIsActive(boolean active) {
-        isActive = active;
+        this.active = active;
     }
 
-    public boolean isFavorite(){
-        return isFavorite;
+    public boolean isFavourite(){
+        return favourite;
     }
 
     public void setIsFavorite(boolean isFavorite){
-        this.isFavorite = isFavorite;
+        this.favourite = isFavorite;
     }
 
     public String getMainName() {
@@ -111,7 +111,7 @@ public class Location {
                 ", placeName='" + placeName + '\'' +
                 ", geographCoords=" + geographCoords +
                 ", registrationDate=" + registrationDate +
-                ", isActive=" + isActive +
+                ", isActive=" + active +
                 '}';
     }
 }

@@ -45,14 +45,14 @@ public class LocationManager {
     public List<Location> getFavouriteLocations() {
         List<Location> favoriteLocations = new ArrayList<>();
         for (Location location: locations.values()){
-            if (location.isFavorite()) favoriteLocations.add(location);
+            if (location.isFavourite()) favoriteLocations.add(location);
         }
         return favoriteLocations;
     }
     public List<Location> getNoFavouriteLocations() {
         List<Location> noFavoriteLocations = new ArrayList<>();
         for (Location location: locations.values()){
-            if (!location.isFavorite()&& location.isActive()) noFavoriteLocations.add(location);
+            if (!location.isFavourite()&& location.isActive()) noFavoriteLocations.add(location);
         }
         return noFavoriteLocations;
     }
@@ -81,7 +81,7 @@ public class LocationManager {
 
     public boolean addToFavorites(int locationId){
         Location location = locations.get(locationId);
-        if (location != null && !location.isFavorite()){
+        if (location != null && !location.isFavourite()){
             location.setIsFavorite(true);
             return true;
         }
@@ -90,7 +90,7 @@ public class LocationManager {
 
     public boolean removeFromFavorites(int locationId){
         Location location = locations.get(locationId);
-        if (location != null && location.isFavorite()){
+        if (location != null && location.isFavourite()){
             location.setIsFavorite(false);
             return true;
         }
