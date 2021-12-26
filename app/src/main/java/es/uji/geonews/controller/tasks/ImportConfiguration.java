@@ -10,7 +10,6 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 public class ImportConfiguration extends UserTask {
     private String importCode;
-    private String originalCode;
     private GeoNewsManager geoNewsManager;
     private ViewGroup loadingLayout;
     private Context context;
@@ -20,7 +19,6 @@ public class ImportConfiguration extends UserTask {
         this.importCode = importCode;
         this.loadingLayout = loadingLayout;
         geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
-        this.originalCode = geoNewsManager.loadUserId(context);
         this.context = context;
     }
 
@@ -31,9 +29,7 @@ public class ImportConfiguration extends UserTask {
             @Override
             public void run() {
                 try {
-                    geoNewsManager.setUserId(importCode);
-                    geoNewsManager.loadAll();
-                    geoNewsManager.setUserId(originalCode);
+                    geoNewsManager.loadRemoteState(importCode);
                 } catch (DatabaseNotAvailableException e) {
                     error = e.getMessage();
                 }
