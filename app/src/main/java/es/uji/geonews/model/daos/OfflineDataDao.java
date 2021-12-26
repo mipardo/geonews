@@ -15,6 +15,12 @@ public class OfflineDataDao {
     private final Map<String, OpenWeatherData> openWeatherOfflineData;
     private final Map<String, CurrentsData> currentsOfflineData;
 
+    public OfflineDataDao() {
+        airVisualOfflineData = new HashMap<>();
+        openWeatherOfflineData = new HashMap<>();
+        currentsOfflineData = new HashMap<>();
+    }
+
     public OfflineDataDao(HashMap<Integer, HashMap<ServiceName, ServiceData>> offlineData) {
         airVisualOfflineData = new HashMap<>();
         openWeatherOfflineData = new HashMap<>();
