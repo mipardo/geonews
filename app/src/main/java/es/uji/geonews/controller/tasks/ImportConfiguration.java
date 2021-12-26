@@ -24,31 +24,30 @@ public class ImportConfiguration extends UserTask {
 
     @Override
     public void execute() {
-        showLoadingAnimation(loadingLayout);
+        lockUI(context, loadingLayout);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 boolean codeExists = geoNewsManager.checkImportCode(importCode);
                 if (!codeExists) {
                     error = "No existe este código de importación";
-                    showAlertError();
                 } else {
                     try {
                         geoNewsManager.loadRemoteState(importCode);
                     } catch (DatabaseNotAvailableException e) {
                         error = e.getMessage();
                     }
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            hideLoadingAnimation(loadingLayout);
-                            if (error != null) showAlertError();
-                            else {
-                                showConfirmation();
-                            }
-                        }
-
-                    });
                 }
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        unlockUI(context, loadingLayout);
+                        if (error != null) showAlertError();
+                        else {
+                            showConfirmation();
+                        }
+                    }
+
+                });
             }
 
         }).start();

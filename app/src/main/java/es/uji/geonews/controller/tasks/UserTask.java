@@ -46,7 +46,7 @@ public abstract class UserTask extends AppCompatActivity {
         return localDateTime.format(fmt);
     }
 
-    protected void lockUI(Context context, ConstraintLayout layout){
+    protected void lockUI(Context context, ViewGroup layout){
         layout.setVisibility(View.VISIBLE);
         layout.bringToFront();
         ((Activity)context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
