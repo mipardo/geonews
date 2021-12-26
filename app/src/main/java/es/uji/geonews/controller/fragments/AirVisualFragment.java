@@ -22,6 +22,8 @@ import es.uji.geonews.R;
 import es.uji.geonews.controller.tasks.GetAirVisualData;
 import es.uji.geonews.controller.tasks.GetAirVisualOfflineData;
 import es.uji.geonews.controller.template.AirTemplate;
+import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
+import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 
 public class AirVisualFragment extends Fragment {
@@ -53,6 +55,12 @@ public class AirVisualFragment extends Fragment {
         toolbar.setTitle("Calidad del aire");
 
         LinearLayoutCompat loadingLayout = view.findViewById(R.id.greyServiceLayout);
+        TextView title = view.findViewById(R.id.title);
+        try {
+            title.setText("Estado del aire en " + GeoNewsManagerSingleton.getInstance(getContext()).getLocation(locationId).getMainName());
+        } catch (NoLocationRegisteredException e) {
+            e.printStackTrace();
+        }
         TextView temperatureOutput = view.findViewById(R.id.temperature_output);
         TextView humidityOutput = view.findViewById(R.id.humidity_output);
         TextView pressureOutput = view.findViewById(R.id.pressure_output);

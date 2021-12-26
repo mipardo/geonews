@@ -54,12 +54,14 @@
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:text="Estado y calidad general del aire"
                 android:textAlignment="center"
                 android:textSize="25sp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
