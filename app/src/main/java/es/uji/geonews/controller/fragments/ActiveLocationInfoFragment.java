@@ -34,7 +34,7 @@ import es.uji.geonews.model.services.ServiceName;
 public class ActiveLocationInfoFragment extends Fragment {
     private GeoNewsManager geoNewsManager;
     private Button deactivateLocationButton;
-    private ImageView editAliasButton;
+    private Button editAliasButton;
     private TextView locationAliasOutput;
     private ConstraintLayout loadingLayout;
     private int locationId;
