@@ -11,7 +11,7 @@ public class WeatherFragmentFactory {
             case 1:
                 return new TomorrowWeatherFragment(locationId);
             case 2:
-                return new FiveDaysWeatherFragment(locationId);
+                return new ForecastWeatherFragment(locationId);
             default:
                 return null;
 

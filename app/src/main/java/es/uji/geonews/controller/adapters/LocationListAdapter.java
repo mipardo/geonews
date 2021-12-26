@@ -31,7 +31,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
     @Override
     public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.location_card,
+                R.layout.card_location,
                 parent,
                 false
         );

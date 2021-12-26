@@ -43,9 +43,6 @@ public class OpenWeatherFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RelativeLayout settings =  getActivity().findViewById(R.id.settings);
-        settings.setVisibility(View.VISIBLE);
-
         weatherPager = view.findViewById(R.id.weatherPager);
         weatherPagerAdapter = new OpenWeatherFragment.ScreenSlideWeatherPagerAdapter(getActivity());
         weatherPager.setAdapter(weatherPagerAdapter);

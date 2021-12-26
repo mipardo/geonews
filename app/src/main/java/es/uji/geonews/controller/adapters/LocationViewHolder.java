@@ -1,6 +1,7 @@
 package es.uji.geonews.controller.adapters;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,13 +37,14 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Location location, OnItemClickListener listener) {
-        setLocationTitleAndSubtitle(location);
+        mainNameOutput.setText(location.getMainName());
+        subnameOutput.setText(location.getSubName());
         if (location.isFavorite()) {
             favouriteButton.setVisibility(View.VISIBLE);
-            favouriteButton.playAnimation();
+            favouriteButton.setProgress(1);
         } else if(location.isActive()) {
-
             favouriteButton.setVisibility(View.VISIBLE);
+            favouriteButton.setProgress(0);
         } else {
             favouriteButton.setVisibility(View.INVISIBLE);
         }
@@ -79,32 +81,10 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
                 if (location.isFavorite()){
                     new RemoveFromFavorites(itemView.getContext(), location, favouriteButton).execute();
                 } else {
-
                     new AddToFavorites(itemView.getContext(), location, favouriteButton).execute();
                 }
             }
         });
-    }
-
-    private void setLocationTitleAndSubtitle(Location location){
-        String mainName;
-        String subname;
-        if (! location.getAlias().equals("")) {     // If location has alias
-            mainName = location.getAlias();
-            if (location.getPlaceName() != null) subname = location.getPlaceName();
-            else subname = location.getGeographCoords().toString();
-        } else {                                    // If location has no alias
-            if (location.getPlaceName() != null) {
-                mainName = location.getPlaceName();
-                subname = location.getGeographCoords().toString();
-            }
-            else{
-                mainName = location.getGeographCoords().toString();
-                subname = "Topónimo desconocido";
-            }
-        }
-        mainNameOutput.setText(mainName);
-        subnameOutput.setText(subname);
     }
 }
 

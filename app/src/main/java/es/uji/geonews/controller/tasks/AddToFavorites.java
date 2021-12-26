@@ -30,9 +30,8 @@ public class AddToFavorites extends UserTask {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         if(addedToFavorites) {
-                            favoritesButton.setSpeed(1);
+                            favoritesButton.setSpeed(2);
                             favoritesButton.playAnimation();
-                            //favoritesButton.setImageResource(R.drawable.heart_fully);
                         }
                     }
                 });

@@ -39,9 +39,6 @@ public class CurrentsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RelativeLayout settings =  getActivity().findViewById(R.id.settings);
-        settings.setVisibility(View.VISIBLE);
-
         View view = inflater.inflate(R.layout.fragment_currents, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.currents_recycler_view);
         LinearLayoutCompat loadingLayout = view.findViewById(R.id.greyServiceLayout);

@@ -21,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -59,12 +58,10 @@ public class LocationListFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_location_list, container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        RelativeLayout settings =  getActivity().findViewById(R.id.settings);
-        settings.setVisibility(View.VISIBLE);
 
         RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
         ImageView addLocationButton = view.findViewById(R.id.add_location_button);
@@ -85,8 +82,7 @@ public class LocationListFragment extends Fragment {
                     case 0:
                         locations1 = geoNewsManager.getFavouriteLocations();
                         locations2 =geoNewsManager.getNoFavouriteLocations();
-
-                        (locations = new ArrayList<Location>(locations1)).addAll(locations2);
+                        (locations = new ArrayList<>(locations1)).addAll(locations2);
                         break;
                     case 1:
                         locations = geoNewsManager.getFavouriteLocations();
@@ -131,7 +127,7 @@ public class LocationListFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Añade una nueva ubicación ");
                 builder.setMessage("Introduzca un topónimo o unas coordenadas");
-                View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.add_location_alert, view.findViewById(R.id.location_input),false);
+                View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.alert_add_location, view.findViewById(R.id.location_input),false);
                 EditText locationInput = viewInflated.findViewById(R.id.location_input);
                 CheckBox byGpsInput = viewInflated.findViewById(R.id.by_coords_input);
                 builder.setView(viewInflated);

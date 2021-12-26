@@ -1,15 +1,15 @@
 package es.uji.geonews.model.data;
 
 public class HourlyWeather extends Weather {
-    private int pop;
+    private double pop;
 
     public HourlyWeather() {}
 
-    public int getPop() {
+    public double getPop() {
         return pop;
     }
 
-    public void setPop(int pop) {
+    public void setPop(double pop) {
         this.pop = pop;
     }
 }

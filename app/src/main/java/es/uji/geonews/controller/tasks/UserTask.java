@@ -11,9 +11,40 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoUnit;
+import java.util.Locale;
+import java.util.TimeZone;
+
 public abstract class UserTask extends AppCompatActivity {
     
     public abstract void execute();
+
+    public String getCurrentDate() {
+        DateTimeFormatter fmt = new DateTimeFormatterBuilder()
+                .appendPattern("dd MMMM")
+                .toFormatter(new Locale("es", "ES"));
+        return LocalDateTime.now().format(fmt);
+    }
+
+    private String getTomorrowDate() {
+        DateTimeFormatter fmt = new DateTimeFormatterBuilder()
+                .appendPattern("dd MMMM")
+                .toFormatter(new Locale("es", "ES"));
+        return LocalDateTime.now().plusDays(1).format(fmt);
+    }
+
+    public String getFormatedTimestamp(long timestamp){
+        DateTimeFormatter fmt = new DateTimeFormatterBuilder()
+                .appendPattern("HH:mm")
+                .toFormatter(new Locale("es", "ES"));
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp*1000),
+                TimeZone.getDefault().toZoneId());
+        return localDateTime.format(fmt);
+    }
 
     protected void lockUI(Context context, ConstraintLayout layout){
         layout.setVisibility(View.VISIBLE);
@@ -48,5 +79,12 @@ public abstract class UserTask extends AppCompatActivity {
                         layout.setVisibility(View.GONE);
                     }
                 });
+    }
+
+    protected int getHoursLeftOfToday(){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime tomorrow = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth() + 1, 0, 0);
+        long hoursLeft = ChronoUnit.HOURS.between(now, tomorrow);
+        return (int) hoursLeft + 1;
     }
 }

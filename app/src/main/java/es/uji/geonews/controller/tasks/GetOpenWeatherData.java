@@ -1,24 +1,22 @@
 package es.uji.geonews.controller.tasks;
 
+import android.app.AlertDialog;
 import android.content.Context;
 
 import com.squareup.picasso.Picasso;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-
 import es.uji.geonews.controller.adapters.PrecipitationListAdapter;
 import es.uji.geonews.controller.template.WeatherTemplate;
-import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.DailyWeather;
 import es.uji.geonews.model.data.OpenWeatherData;
 import es.uji.geonews.model.data.Weather;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
+import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 import es.uji.geonews.model.services.ServiceName;
 
-public class GetOpenWeatherTodayOfflineData extends UserTask{
+public class GetOpenWeatherData extends UserTask {
     private final GeoNewsManager geoNewsManager;
     private final WeatherTemplate weatherTemplate;
     private final int locationId;
@@ -26,8 +24,8 @@ public class GetOpenWeatherTodayOfflineData extends UserTask{
     private OpenWeatherData data;
     private String error;
 
-    public GetOpenWeatherTodayOfflineData(int locationId, WeatherTemplate weatherTemplate, Context context) {
-        this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
+    public GetOpenWeatherData(int locationId, WeatherTemplate weatherTemplate, Context context) {
+        geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.locationId = locationId;
         this.weatherTemplate = weatherTemplate;
         this.context = context;
@@ -35,24 +33,20 @@ public class GetOpenWeatherTodayOfflineData extends UserTask{
 
     @Override
     public void execute() {
-        try {
-            Location location = geoNewsManager.getLocation(locationId);
-            weatherTemplate.getWeatherTitleOutput().setText("Hoy" + " en " + location.getMainName());
-        } catch (NoLocationRegisteredException e) {
-            weatherTemplate.getWeatherTitleOutput().setText("Hoy" + " en " + "...");
-        }
+        showLoadingAnimation(weatherTemplate.getLoadingLayout());
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    data = (OpenWeatherData) geoNewsManager.getOfflineData(ServiceName.OPEN_WEATHER, locationId);
+                    data = (OpenWeatherData) geoNewsManager.getData(ServiceName.OPEN_WEATHER, locationId);
                     if (data == null) error = "Esta ubicación no esta suscrita al servicio de clima";
-                } catch (NoLocationRegisteredException e) {
+                } catch (ServiceNotAvailableException | NoLocationRegisteredException e) {
                     error = e.getMessage();
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        if (error != null);
+                        hideLoadingAnimation(weatherTemplate.getLoadingLayout());
+                        if (error != null) showAlertError();
                         else
                         {
                             Weather current = data.getCurrentWeather();
@@ -61,8 +55,8 @@ public class GetOpenWeatherTodayOfflineData extends UserTask{
                             weatherTemplate.getMinTempOutput().setText(Math.round(today.getTempMin()) + "º");
                             weatherTemplate.getMaxTempOutput().setText(Math.round(today.getTempMax()) + "º");
                             Picasso.get()
-                                    .load("https://openweathermap.org/img/wn/" + current.getIcon() + "@4x.png")
-                                    .into(weatherTemplate.getIconOutput());
+                                .load("https://openweathermap.org/img/wn/" + current.getIcon() + "@4x.png")
+                                .into(weatherTemplate.getIconOutput());
                             String description = current.getDescription().substring(0, 1).toUpperCase()
                                     + current.getDescription().substring(1);
                             weatherTemplate.getDescriptionOutput().setText(description);
@@ -87,4 +81,12 @@ public class GetOpenWeatherTodayOfflineData extends UserTask{
     }
 
 
+    private void showAlertError(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Error al obtener la predicción del tiempo");
+        builder.setMessage("Pruebe más tarde");
+        builder.setPositiveButton("Aceptar", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }
