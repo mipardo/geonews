@@ -5,6 +5,8 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.ServiceData;
@@ -217,8 +219,8 @@ public class GeoNewsManager {
         }
     }
 
-    public void loadRemoteState(String remoteUserId) throws DatabaseNotAvailableException {
-        databaseManager.loadRemoteState(remoteUserId, locationManager, serviceManager);
+    public void loadRemoteState(String importCode) throws DatabaseNotAvailableException {
+        databaseManager.loadRemoteState(importCode, locationManager, serviceManager);
     }
 
     public String loadUserId(Context context) {
@@ -231,4 +233,15 @@ public class GeoNewsManager {
         databaseManager.removeUser(userIdToDelete);
     }
 
+    public String generateExportCode() {
+        return databaseManager.saveGeneratedCode(userId);
+    }
+
+    public void loadAllSharedCodes() {
+        databaseManager.loadAllSharedCodes();
+    }
+
+    public boolean checkImportCode(String importCode) {
+        return databaseManager.checkImportCode(importCode);
+    }
 }

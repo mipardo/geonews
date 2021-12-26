@@ -28,22 +28,27 @@ public class ImportConfiguration extends UserTask {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    geoNewsManager.loadRemoteState(importCode);
-                } catch (DatabaseNotAvailableException e) {
-                    error = e.getMessage();
-                }
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        hideLoadingAnimation(loadingLayout);
-                        if (error != null) showAlertError();
-                        else
-                        {
-                            showConfirmation();
-                        }
+                boolean codeExists = geoNewsManager.checkImportCode(importCode);
+                if (!codeExists) {
+                    error = "No existe este código de importación";
+                    showAlertError();
+                } else {
+                    try {
+                        geoNewsManager.loadRemoteState(importCode);
+                    } catch (DatabaseNotAvailableException e) {
+                        error = e.getMessage();
                     }
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            hideLoadingAnimation(loadingLayout);
+                            if (error != null) showAlertError();
+                            else {
+                                showConfirmation();
+                            }
+                        }
 
-                });
+                    });
+                }
             }
 
         }).start();
@@ -52,7 +57,7 @@ public class ImportConfiguration extends UserTask {
     private void showAlertError(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Error al importar configuración");
-        builder.setMessage("El código es incorrecto. Vuelva a intentarlo.");
+        builder.setMessage(error);
         builder.setPositiveButton("Aceptar", null);
         AlertDialog dialog = builder.create();
         dialog.show();

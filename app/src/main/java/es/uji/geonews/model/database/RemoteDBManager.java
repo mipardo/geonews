@@ -8,9 +8,17 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import es.uji.geonews.model.daos.UserDao;
 import es.uji.geonews.model.managers.LocationManager;
@@ -19,9 +27,11 @@ import es.uji.geonews.model.managers.ServiceManager;
 public class RemoteDBManager implements DataBase {
 
     private final FirebaseFirestore db;
+    private HashMap<String, String> sharedCodes;
 
     public RemoteDBManager(){
         db = FirebaseFirestore.getInstance();
+        sharedCodes = new HashMap<>();
     }
 
     @Override
@@ -66,5 +76,44 @@ public class RemoteDBManager implements DataBase {
 
     public void removeUser(String remoteUserId) {
         db.collection("users").document(String.valueOf(remoteUserId)).delete();
+    }
+
+    public String saveGenerateCode(String userId) {
+        String code = createCode();
+        Map<String, String> data = new HashMap<>();
+        data.put("userId", userId);
+        db.collection("share_codes").document(code).set(data);
+        return code;
+    }
+
+    private String createCode() {
+        String[] codeWords = {
+                "nave", "cometa", "meteorito", "avestruz", "ballena", "castor", "zebra", "pingüino", "dromedario", "camello", "rana",
+                "serpiente", "sapo", "puercoespín", "pikachu", "azul", "planeta", "rojo", "amarillo", "verde", "bisonte", "canario",
+                "frodo", "bolsón", "sauron", "aragorn", "legolas", "gimli", "galadriel", "eowin", "nazgul", "gandalf", "gothmog",
+                "tom", "bombadil", "kinton"
+        };
+        int r1 = ThreadLocalRandom.current().nextInt(0, codeWords.length);
+        int r2 = ThreadLocalRandom.current().nextInt(0, codeWords.length);
+        return codeWords[r1] + " " + codeWords[r2];
+    }
+
+    public void loadAllSharedCodes() {
+        db.collection("share_codes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    sharedCodes.put(document.getId(), document.getString("userId"));
+                }
+            }
+        });
+    }
+
+    public boolean checkImportCode(String importCode) {
+        return sharedCodes.containsKey(importCode);
+    }
+
+    public String getUserIdFromSharedCodes(String importCode) {
+        return sharedCodes.get(importCode);
     }
 }

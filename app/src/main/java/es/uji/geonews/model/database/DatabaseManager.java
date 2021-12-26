@@ -61,9 +61,10 @@ public class DatabaseManager  {
         });
     }
 
-    public void loadRemoteState(String userId, LocationManager locationManager, ServiceManager serviceManager)
+    public void loadRemoteState(String importCode, LocationManager locationManager, ServiceManager serviceManager)
             throws DatabaseNotAvailableException {
         if (! remoteDBManager.isAvailable()) throw new DatabaseNotAvailableException();
+        String userId = remoteDBManager.getUserIdFromSharedCodes(importCode);
         remoteDBManager.loadAll(userId, new Callback() {
             @Override
             public void onSuccess(UserDao userDao) {
@@ -94,5 +95,17 @@ public class DatabaseManager  {
     public void removeUser(String remoteUserId) {
         localDBManager.removeUser();
         remoteDBManager.removeUser(remoteUserId);
+    }
+
+    public String saveGeneratedCode(String userId) {
+        return remoteDBManager.saveGenerateCode(userId);
+    }
+
+    public void loadAllSharedCodes() {
+        remoteDBManager.loadAllSharedCodes();
+    }
+
+    public boolean checkImportCode(String importCode) {
+        return remoteDBManager.checkImportCode(importCode);
     }
 }

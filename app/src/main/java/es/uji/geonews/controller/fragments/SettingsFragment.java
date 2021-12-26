@@ -78,8 +78,8 @@ public class SettingsFragment extends Fragment {
         buttonMasInfoAir = view.findViewById(R.id.buttonMasinfoAir);
         buttonMasInfoOpen = view.findViewById(R.id.buttonMasinfoOpen);
         buttonMasInfoCurrents = view.findViewById(R.id.buttonMasinfoCurrents);
-        exportButton = view.findViewById(R.id.export_button);
-        importButton = view.findViewById(R.id.import_button);
+        exportButton = view.findViewById(R.id.exportButton);
+        importButton = view.findViewById(R.id.importButton);
         return view;
     }
 
@@ -162,15 +162,20 @@ public class SettingsFragment extends Fragment {
         });
 
         exportButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onClick(View view) {
-                showExportDialog(view);
+            public void onClick(View v) {
+                LinearLayoutCompat layout = view.findViewById(R.id.export_description);
+                TextView description = view.findViewById(R.id.export_textview);
+                expandAndShrinkExportView(layout, exportButton);
+                description.setText("Su código de exportación es: " + geoNewsManager.generateExportCode());
             }
         });
 
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                geoNewsManager.loadAllSharedCodes();
                 showImportDialog(view);
             }
         });
@@ -189,6 +194,20 @@ public class SettingsFragment extends Fragment {
                     .setDuration(500);
             layout.setVisibility(View.VISIBLE);
             button.setText(R.string.less_info);
+        }
+    }
+
+    public void expandAndShrinkExportView(LinearLayoutCompat layout, Button button) {
+        if (layout.getVisibility() == View.VISIBLE) {
+            layout.animate()
+                    .alpha(0.0f)
+                    .setDuration(500);
+            layout.setVisibility(View.GONE);
+        } else {
+            layout.animate()
+                    .alpha(1.0f)
+                    .setDuration(500);
+            layout.setVisibility(View.VISIBLE);
         }
     }
 
