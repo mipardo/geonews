@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.Navigation;
@@ -22,29 +23,32 @@ public class AddLocationByGPS extends UserTask {
     private final GeoNewsManager geoNewsManager;
     private final Context context;
     private final ConstraintLayout loadingLayout;
+    private final TextView loadingTextview;
     private final View view;
     private Location newLocation;
     private String error;
 
-    public AddLocationByGPS(ConstraintLayout loadingLayout, Context context, View view){
+    public AddLocationByGPS(ConstraintLayout loadingLayout, TextView loadingTextview, Context context, View view){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.context = context;
         this.view = view;
         this.loadingLayout = loadingLayout;
+        this.loadingTextview = loadingTextview;
     }
 
     @Override
     public void execute() {
+        loadingTextview.setText("Añadiendo ubicación...");
+        loadingTextview.setVisibility(View.VISIBLE);
         lockUI(context, loadingLayout);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     newLocation = geoNewsManager.addLocationByGps();
-                    geoNewsManager.activateLocation(newLocation.getId());
                     if (newLocation == null) error = "No se ha podido dar de alta la ubicación. Pruebe más tarde";
                 } catch (UnrecognizedPlaceNameException | ServiceNotAvailableException |
-                        NotValidCoordinatesException | GPSNotAvailableException | NoLocationRegisteredException e) {
+                        NotValidCoordinatesException | GPSNotAvailableException e) {
                     error = e.getMessage();
                 }
                 runOnUiThread(new Runnable() {
@@ -52,9 +56,7 @@ public class AddLocationByGPS extends UserTask {
                         unlockUI(context, loadingLayout);
                         if (error != null) showAlertError();
                         else{
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("locationId", newLocation.getId());
-                            Navigation.findNavController(view).navigate(R.id.activeLocationInfoFragment, bundle);
+                            new ActivateAndOpenLocationInfo(context, newLocation.getId(), loadingLayout, loadingTextview, view).execute();
                         }
                     }
                 });

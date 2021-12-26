@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,7 @@ public class LocationListFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
         ImageView addLocationButton = view.findViewById(R.id.add_location_button);
         ConstraintLayout loadingLayout = getActivity().findViewById(R.id.greyLayout);
+        TextView loadingTextview = getActivity().findViewById(R.id.loadingDescription);
         Spinner listSelector = view.findViewById(R.id.list_selector_input);
         String[] listSelections = new String[] {"Activas", "Favoritas", "No activas"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, listSelections);
@@ -136,10 +138,10 @@ public class LocationListFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (byGpsInput.isChecked()){
-                            new AddLocationByGPS(loadingLayout, getContext(), view).execute();
+                            new AddLocationByGPS(loadingLayout, loadingTextview, getContext(), view).execute();
                         } else {
                             String location = locationInput.getText().toString();
-                            new AddLocation(location, loadingLayout, getContext(), view).execute();
+                            new AddLocation(location, loadingLayout, loadingTextview, getContext(), view).execute();
                         }
                     }
                 });
