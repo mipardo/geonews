@@ -44,6 +44,7 @@ public class CurrentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_currents, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.currents_recycler_view);
+        TextView noCurrentsTextview = view.findViewById(R.id.no_currents_textview);
         LinearLayoutCompat loadingLayout = view.findViewById(R.id.greyServiceLayout);
         TextView title = view.findViewById(R.id.title);
         try {
@@ -57,7 +58,7 @@ public class CurrentsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         new GetCurrentsOfflineData(locationId, recyclerView, getContext()).execute();
-        new GetCurrentsData(locationId, recyclerView, loadingLayout, getContext()).execute();
+        new GetCurrentsData(locationId, recyclerView, loadingLayout, noCurrentsTextview, getContext()).execute();
         return view;
     }
 

@@ -2,7 +2,9 @@ package es.uji.geonews.controller.tasks;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
@@ -20,17 +22,19 @@ public class GetCurrentsData extends UserTask {
     private final GeoNewsManager geoNewsManager;
     private final ViewGroup loadingLayout;
     private final RecyclerView recyclerView;
+    private final TextView noCurrentsTextview;
     private final int locationId;
     private final Context context;
     private String error;
     private List<News> news;
 
     public GetCurrentsData(int locationId, RecyclerView recyclerView,
-                           ViewGroup loadingLayout, Context context) {
+                           ViewGroup loadingLayout, TextView noCurrentsTextview, Context context) {
         geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
         this.locationId = locationId;
         this.loadingLayout = loadingLayout;
         this.recyclerView = recyclerView;
+        this.noCurrentsTextview = noCurrentsTextview;
         this.context = context;
     }
 
@@ -51,9 +55,12 @@ public class GetCurrentsData extends UserTask {
                     public void run() {
                         hideLoadingAnimation(loadingLayout);
                         if (error != null) showAlertError();
-                        else {
+                        else if (news != null && news.size() > 0){
+                            noCurrentsTextview.setVisibility(View.GONE);
                             CurrentsAdapter adapter = (CurrentsAdapter) recyclerView.getAdapter();
                             if (adapter != null && news != null) adapter.updateNews(news);
+                        } else {
+                            noCurrentsTextview.setVisibility(View.VISIBLE);
                         }
                     }
 
