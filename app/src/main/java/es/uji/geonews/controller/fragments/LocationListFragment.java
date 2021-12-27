@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -128,7 +129,10 @@ public class LocationListFragment extends Fragment {
                 builder.setTitle("Añade una nueva ubicación ");
                 builder.setMessage("Introduzca un topónimo o unas coordenadas");
                 View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.alert_add_location, view.findViewById(R.id.location_input),false);
-                EditText locationInput = viewInflated.findViewById(R.id.location_input);
+                AutoCompleteTextView locationInput = viewInflated.findViewById(R.id.location_input);
+                ArrayAdapter<String> autoCompletePlaceNamesAdapter = new ArrayAdapter<>(v.getContext(),
+                        android.R.layout.simple_list_item_1, getPlaceNames());
+                locationInput.setAdapter(autoCompletePlaceNamesAdapter);
                 CheckBox byGpsInput = viewInflated.findViewById(R.id.by_coords_input);
                 builder.setView(viewInflated);
 
@@ -148,7 +152,15 @@ public class LocationListFragment extends Fragment {
                 dialog.show();
             }
         });
+    }
 
-
+    private String[] getPlaceNames(){
+        return new String[]{
+            "Álava", "Albacete", "Alicante", "Almería", "Ávila", "Badajoz", "Illes Balears", "Barcelona", "Burgos", "Cáceres", "Cádiz",
+            "Castellón", "Ciudad Real", "Córdoba", "A Coruña", "Cuenca", "Girona", "Granada", "Guadalajara", "Gipuzkoa", "Huelva", "Huesca",
+            "Jaén", "León", "Lleida", "La Rioja ", "Lugo", "Madrid", "Málaga", "Murcia", "Navarra", "Ourense", "Asturias",
+            "Palencia", "Las Palmas ", "Pontevedra", "Salamanca", "Santa Cruz de Tenerife", "Cantabria", "Segovia", "Sevilla", "Soria", "Tarragona", "Teruel",
+            "Toledo", "Valencia/València", "Valladolid", "Bizkaia", "Zamora", "Zaragoza", "Ceuta", "Melilla"
+        };
     }
 }

@@ -12,11 +12,13 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -90,12 +92,9 @@ public class SettingsFragment extends Fragment {
         RelativeLayout settings = getActivity().findViewById(R.id.settings);
         settings.setVisibility(View.GONE);
 
-
-        switchAir.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
+        switchAir.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                // Show the dialog
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (switchAir.isChecked()) {
                     new ActivateService(ServiceName.AIR_VISUAL, switchAir, getContext(), loadingLayout).execute();
                 } else {
@@ -104,11 +103,9 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        switchOpen.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
+        switchOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                // Show the dialog
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (switchOpen.isChecked()) {
                     new ActivateService(ServiceName.OPEN_WEATHER, switchOpen, getContext(), loadingLayout).execute();
                 } else {
@@ -117,10 +114,9 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        switchCurrents.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
+        switchCurrents.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (switchCurrents.isChecked()) {
                     new ActivateService(ServiceName.CURRENTS, switchCurrents, getContext(), loadingLayout).execute();
                 } else {
@@ -128,6 +124,7 @@ public class SettingsFragment extends Fragment {
                 }
             }
         });
+
 
         buttonMasInfoAir.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
