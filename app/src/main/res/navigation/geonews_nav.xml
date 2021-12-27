@@ -12,13 +12,19 @@
         tools:layout="@layout/fragment_location_list">
         <action
             android:id="@+id/action_locationListFragment_to_locationFragment"
-            app:destination="@id/locationServicesFragment" />
+            app:destination="@id/locationServicesFragment"
+            app:enterAnim="@anim/zoom_in"
+            app:exitAnim="@anim/zoom_out" />
         <action
             android:id="@+id/action_locationListFragment_to_nonActiveLocationInfoFragment"
-            app:destination="@id/nonActiveLocationInfoFragment" />
+            app:destination="@id/nonActiveLocationInfoFragment"
+            app:enterAnim="@anim/entrada_izq"
+            app:exitAnim="@anim/salida_izq" />
         <action
             android:id="@+id/action_locationListFragment_to_activeLocationInfoFragment"
-            app:destination="@id/activeLocationInfoFragment" />
+            app:destination="@id/activeLocationInfoFragment"
+            app:enterAnim="@anim/entrada_der"
+            app:exitAnim="@anim/salida_der" />
     </fragment>
     <fragment
         android:id="@+id/locationServicesFragment"
@@ -27,7 +33,9 @@
         tools:layout="@layout/fragment_location_services" >
         <action
             android:id="@+id/action_locationFragment_to_locationListFragment"
-            app:destination="@id/locationListFragment" />
+            app:destination="@id/locationListFragment"
+            app:enterAnim="@anim/zoom_out"
+            app:exitAnim="@anim/zoom_in" />
         <argument
             android:name="locationId"
             app:argType="integer"
@@ -45,7 +53,9 @@
         tools:layout="@layout/fragment_active_location_settings">
         <action
             android:id="@+id/action_activeLocationInfoFragment_to_locationListFragment"
-            app:destination="@id/locationListFragment" />
+            app:destination="@id/locationListFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down" />
     </fragment>
     <fragment
         android:id="@+id/nonActiveLocationInfoFragment"
