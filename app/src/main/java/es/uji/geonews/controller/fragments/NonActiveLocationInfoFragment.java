@@ -32,7 +32,7 @@ public class NonActiveLocationInfoFragment extends Fragment {
     private GeoNewsManager geoNewsManager;
     private Button activateLocation;
     private Button deleteLocation;
-    private ImageView editAliasButton;
+    private Button editAliasButton;
     private TextView locationAliasOutput;
     private ConstraintLayout loadingLayout;
     private int locationId;
