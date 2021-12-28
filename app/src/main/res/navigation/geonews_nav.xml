@@ -18,13 +18,13 @@
         <action
             android:id="@+id/action_locationListFragment_to_nonActiveLocationInfoFragment"
             app:destination="@id/nonActiveLocationInfoFragment"
-            app:enterAnim="@anim/entrada_izq"
-            app:exitAnim="@anim/salida_izq" />
+            app:enterAnim="@anim/zoom_in"
+            app:exitAnim="@anim/zoom_out" />
         <action
             android:id="@+id/action_locationListFragment_to_activeLocationInfoFragment"
             app:destination="@id/activeLocationInfoFragment"
-            app:enterAnim="@anim/entrada_der"
-            app:exitAnim="@anim/salida_der" />
+            app:enterAnim="@anim/zoom_in"
+            app:exitAnim="@anim/zoom_out" />
     </fragment>
     <fragment
         android:id="@+id/locationServicesFragment"
