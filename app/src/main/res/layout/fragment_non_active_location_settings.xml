@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:text="Detalle de la ubicación "
+                android:textColor="@color/black"
                 android:textAlignment="center"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"

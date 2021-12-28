@@ -13,8 +13,8 @@
         <action
             android:id="@+id/action_locationListFragment_to_locationFragment"
             app:destination="@id/locationServicesFragment"
-            app:enterAnim="@anim/zoom_in"
-            app:exitAnim="@anim/zoom_out" />
+            app:enterAnim="@anim/entrada_der"
+            app:exitAnim="@anim/salida_der" />
         <action
             android:id="@+id/action_locationListFragment_to_nonActiveLocationInfoFragment"
             app:destination="@id/nonActiveLocationInfoFragment"
