@@ -64,9 +64,9 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
                 GeoNewsManager geoNewsManager = GeoNewsManagerSingleton.getInstance(view.getContext());
                 try {
                     if(geoNewsManager.getLocation(location.getId()).isActive()){
-                        navController.navigate(R.id.activeLocationInfoFragment, bundle);
+                        navController.navigate(R.id.action_locationListFragment_to_activeLocationInfoFragment, bundle);
                     } else {
-                        navController.navigate(R.id.nonActiveLocationInfoFragment, bundle);
+                        navController.navigate(R.id.action_locationListFragment_to_nonActiveLocationInfoFragment, bundle);
                     }
                 } catch (NoLocationRegisteredException e) {
                     e.printStackTrace();
