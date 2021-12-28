@@ -69,6 +69,7 @@
                     android:layout_width="270dp"
                     android:layout_height="wrap_content"
                     android:text="Main name"
+                    android:textColor="@color/black"
                     android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
