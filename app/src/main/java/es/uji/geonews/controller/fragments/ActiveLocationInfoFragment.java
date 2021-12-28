@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -34,7 +35,7 @@ import es.uji.geonews.model.services.ServiceName;
 public class ActiveLocationInfoFragment extends Fragment {
     private GeoNewsManager geoNewsManager;
     private Button deactivateLocationButton;
-    private ImageView editAliasButton;
+    private Button editAliasButton;
     private TextView locationAliasOutput;
     private ConstraintLayout loadingLayout;
     private int locationId;
@@ -94,11 +95,12 @@ public class ActiveLocationInfoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(activeServicesGeneral.contains(ServiceName.OPEN_WEATHER)) {
+
+        if (activeServicesGeneral.contains(ServiceName.OPEN_WEATHER)) {
             weatherServiceSwitch.setEnabled(true);
-            weatherServiceSwitch.setOnClickListener(new View.OnClickListener() {
+            weatherServiceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View v) {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (activeServices.contains(ServiceName.OPEN_WEATHER)) {
                         new RemoveServiceFromLocation(getContext(), ServiceName.OPEN_WEATHER, locationId)
                                 .execute();
@@ -108,15 +110,16 @@ public class ActiveLocationInfoFragment extends Fragment {
                     }
                 }
             });
-        }else {
+        } else {
             weatherServiceSwitch.setChecked(false);
             weatherServiceSwitch.setEnabled(false);
         }
-        if(activeServicesGeneral.contains(ServiceName.AIR_VISUAL)) {
+
+        if (activeServicesGeneral.contains(ServiceName.AIR_VISUAL)) {
             airServiceSwitch.setEnabled(true);
-            airServiceSwitch.setOnClickListener(new View.OnClickListener() {
+            airServiceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View v) {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (activeServices.contains(ServiceName.AIR_VISUAL)) {
                         new RemoveServiceFromLocation(getContext(), ServiceName.AIR_VISUAL, locationId)
                                 .execute();
@@ -126,15 +129,17 @@ public class ActiveLocationInfoFragment extends Fragment {
                     }
                 }
             });
-        }else{
+
+        } else {
             airServiceSwitch.setChecked(false);
             airServiceSwitch.setEnabled(false);
         }
+
         if(activeServicesGeneral.contains(ServiceName.CURRENTS)) {
             currentsServiceSwitch.setEnabled(true);
-            currentsServiceSwitch.setOnClickListener(new View.OnClickListener() {
+            currentsServiceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View v) {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (activeServices.contains(ServiceName.CURRENTS)) {
                         new RemoveServiceFromLocation(getContext(), ServiceName.CURRENTS, locationId)
                                 .execute();
@@ -145,7 +150,8 @@ public class ActiveLocationInfoFragment extends Fragment {
                 }
             });
         }
-        else{
+
+        else {
             currentsServiceSwitch.setChecked(false);
             currentsServiceSwitch.setEnabled(false);
         }

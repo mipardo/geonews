@@ -18,10 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +68,7 @@ public class LocationListFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
         ImageView addLocationButton = view.findViewById(R.id.add_location_button);
         ConstraintLayout loadingLayout = getActivity().findViewById(R.id.greyLayout);
+        TextView loadingTextview = getActivity().findViewById(R.id.loadingDescription);
         Spinner listSelector = view.findViewById(R.id.list_selector_input);
         String[] listSelections = new String[] {"Activas", "Favoritas", "No activas"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, listSelections);
@@ -128,7 +131,10 @@ public class LocationListFragment extends Fragment {
                 builder.setTitle("Añade una nueva ubicación ");
                 builder.setMessage("Introduzca un topónimo o unas coordenadas");
                 View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.alert_add_location, view.findViewById(R.id.location_input),false);
-                EditText locationInput = viewInflated.findViewById(R.id.location_input);
+                AutoCompleteTextView locationInput = viewInflated.findViewById(R.id.location_input);
+                ArrayAdapter<String> autoCompletePlaceNamesAdapter = new ArrayAdapter<>(v.getContext(),
+                        android.R.layout.simple_list_item_1, getPlaceNames());
+                locationInput.setAdapter(autoCompletePlaceNamesAdapter);
                 CheckBox byGpsInput = viewInflated.findViewById(R.id.by_coords_input);
                 builder.setView(viewInflated);
 
@@ -136,10 +142,10 @@ public class LocationListFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (byGpsInput.isChecked()){
-                            new AddLocationByGPS(loadingLayout, getContext(), view).execute();
+                            new AddLocationByGPS(loadingLayout, loadingTextview, getContext(), view).execute();
                         } else {
                             String location = locationInput.getText().toString();
-                            new AddLocation(location, loadingLayout, getContext(), view).execute();
+                            new AddLocation(location, loadingLayout, loadingTextview, getContext(), view).execute();
                         }
                     }
                 });
@@ -148,7 +154,15 @@ public class LocationListFragment extends Fragment {
                 dialog.show();
             }
         });
+    }
 
-
+    private String[] getPlaceNames(){
+        return new String[]{
+            "Álava", "Albacete", "Alicante", "Almería", "Ávila", "Badajoz", "Illes Balears", "Barcelona", "Burgos", "Cáceres", "Cádiz",
+            "Castellón", "Ciudad Real", "Córdoba", "A Coruña", "Cuenca", "Girona", "Granada", "Guadalajara", "Gipuzkoa", "Huelva", "Huesca",
+            "Jaén", "León", "Lleida", "La Rioja ", "Lugo", "Madrid", "Málaga", "Murcia", "Navarra", "Ourense", "Asturias",
+            "Palencia", "Las Palmas ", "Pontevedra", "Salamanca", "Santa Cruz de Tenerife", "Cantabria", "Segovia", "Sevilla", "Soria", "Tarragona", "Teruel",
+            "Toledo", "Valencia/València", "Valladolid", "Bizkaia", "Zamora", "Zaragoza", "Ceuta", "Melilla"
+        };
     }
 }

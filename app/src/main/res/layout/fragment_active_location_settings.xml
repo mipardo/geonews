@@ -62,16 +62,15 @@
                     app:layout_constraintStart_toEndOf="@+id/location_alias_label"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <Button
                     android:id="@+id/location_alias_button"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="20dp"
-                    android:contentDescription="more_info"
-                    android:src="@drawable/edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="Editar"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/location_alias_output"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

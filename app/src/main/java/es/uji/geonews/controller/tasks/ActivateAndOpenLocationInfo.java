@@ -10,53 +10,50 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.Navigation;
 
 import es.uji.geonews.R;
-import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NoLocationRegisteredException;
-import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
-import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
-import es.uji.geonews.model.exceptions.UnrecognizedPlaceNameException;
 import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
-public class AddLocation extends UserTask {
+public class ActivateAndOpenLocationInfo extends UserTask{
     private final GeoNewsManager geoNewsManager;
+    private final Context context;
+    private final int locationId;
+    private final View view;
     private final ConstraintLayout loadingLayout;
     private final TextView loadingTextview;
-    private final String location;
-    private final Context context;
-    private final View view;
-    private Location newLocation;
     private String error;
 
-    public AddLocation(String location, ConstraintLayout loadingLayout, TextView loadingTextview, Context context, View view){
+
+    public ActivateAndOpenLocationInfo(Context context, int locationId, ConstraintLayout loadingLayout, TextView loadingTextview, View view){
         this.geoNewsManager = GeoNewsManagerSingleton.getInstance(context);
-        this.location = location;
+        this.context = context;
+        this.locationId = locationId;
         this.loadingLayout = loadingLayout;
         this.loadingTextview = loadingTextview;
-        this.context = context;
         this.view = view;
     }
 
     @Override
     public void execute() {
-        loadingTextview.setText("Añadiendo ubicación...");
-        loadingTextview.setVisibility(View.VISIBLE);
-        lockUI(context, loadingLayout);
+        loadingTextview.setText("Validando servicios...");
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    newLocation = geoNewsManager.addLocation(location);
-                    if (newLocation == null) error = "No se ha podido dar de alta la ubicación. Pruebe más tarde";
-                } catch (UnrecognizedPlaceNameException | ServiceNotAvailableException |
-                        NotValidCoordinatesException e) {
-                    error = e.getMessage();
+                    boolean res = geoNewsManager.activateLocation(locationId);
+                    if (!res) error = "Esta ubicación ya está activada";
+                } catch (NoLocationRegisteredException e) {
+                    e.printStackTrace();
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
+                        loadingTextview.setVisibility(View.GONE);
+                        unlockUI(context, loadingLayout);
                         if (error != null) showAlertError();
                         else{
-                            new ActivateAndOpenLocationInfo(context, newLocation.getId(), loadingLayout, loadingTextview, view).execute();
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("locationId", locationId);
+                            Navigation.findNavController(view).navigate(R.id.activeLocationInfoFragment, bundle);
                         }
                     }
                 });
@@ -66,8 +63,7 @@ public class AddLocation extends UserTask {
 
     private void showAlertError(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Error al añadir una nueva ubicación ");
-        builder.setMessage(error);
+        builder.setTitle(error);
         builder.setPositiveButton("Aceptar", null);
         AlertDialog dialog = builder.create();
         dialog.show();
