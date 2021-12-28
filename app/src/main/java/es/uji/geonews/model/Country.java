@@ -1,7 +1,5 @@
 package es.uji.geonews.model;
 
-import android.util.Log;
-
 import java.util.Locale;
 
 public class Country {

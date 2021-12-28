@@ -4,9 +4,6 @@ import android.content.Context;
 
 import com.squareup.picasso.Picasso;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-
 import es.uji.geonews.controller.adapters.PrecipitationListAdapter;
 import es.uji.geonews.controller.template.WeatherTemplate;
 import es.uji.geonews.model.Location;

@@ -1,7 +1,6 @@
 package es.uji.geonews.controller.adapters;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

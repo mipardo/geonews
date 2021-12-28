@@ -20,7 +20,7 @@ public class AddServiceToLocation extends UserTask {
     private final @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switchButton;
     private final int locationId;
     private String error;
-    private ConstraintLayout loadingLayout;
+    private final ConstraintLayout loadingLayout;
 
 
     public AddServiceToLocation(Context context, ServiceName serviceName, int locationId, Switch switchButton, ConstraintLayout loadingLayout){

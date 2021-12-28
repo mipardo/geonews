@@ -5,8 +5,6 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.data.ServiceData;

@@ -14,10 +14,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import es.uji.geonews.model.daos.UserDao;
@@ -27,7 +24,7 @@ import es.uji.geonews.model.managers.ServiceManager;
 public class RemoteDBManager implements DataBase {
 
     private final FirebaseFirestore db;
-    private HashMap<String, String> sharedCodes;
+    private final HashMap<String, String> sharedCodes;
 
     public RemoteDBManager(){
         db = FirebaseFirestore.getInstance();

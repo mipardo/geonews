@@ -99,7 +99,7 @@ public class AirVisualData extends ServiceData {
     }
 
     public String getAqiMainText(){
-        String info = "";
+        String info;
         if (aqiUs < 51) info = "Bueno";
         else if (aqiUs < 101) info = "Moderado";
         else if (aqiUs < 151) info = "Dañino para grupos sensibles";
@@ -110,7 +110,7 @@ public class AirVisualData extends ServiceData {
     }
 
     public String getAqiText(){
-        String info = "";
+        String info;
         if (aqiUs < 51) info = "La calidad del aire es buena y no supone ningún riesgo para la salud de las personas";
         else if (aqiUs < 101) info = "La calidad del aire es aceptable, aunque puede tener pequeños efectos en la salud en personas con problemas respiratorios";
         else if (aqiUs < 151) info = "El público general no se ve afectado, aunque sí puede suponer un riesgo para la salud de ciertos grupos sensibles";

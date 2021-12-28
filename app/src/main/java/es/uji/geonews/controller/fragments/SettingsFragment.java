@@ -12,12 +12,10 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -26,10 +24,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import es.uji.geonews.R;
-import es.uji.geonews.controller.MainActivity;
 import es.uji.geonews.controller.tasks.ActivateService;
-import es.uji.geonews.controller.tasks.AddLocation;
-import es.uji.geonews.controller.tasks.AddLocationByGPS;
 import es.uji.geonews.controller.tasks.DeactivateService;
 import es.uji.geonews.controller.tasks.ImportConfiguration;
 import es.uji.geonews.model.managers.GeoNewsManager;

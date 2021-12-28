@@ -30,7 +30,7 @@ public class EditLocationAlias extends UserTask {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean res = false;
+                boolean res;
                 try {
                     res = geoNewsManager.setAliasToLocation(newAlias, locationId);
                     if (!res) error = "No se ha podido asignar el alias " + newAlias + " a esta ubicación";

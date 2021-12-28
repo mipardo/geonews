@@ -9,10 +9,10 @@ import es.uji.geonews.model.managers.GeoNewsManager;
 import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 
 public class ImportConfiguration extends UserTask {
-    private String importCode;
-    private GeoNewsManager geoNewsManager;
-    private ViewGroup loadingLayout;
-    private Context context;
+    private final String importCode;
+    private final GeoNewsManager geoNewsManager;
+    private final ViewGroup loadingLayout;
+    private final Context context;
     private String error;
 
     public ImportConfiguration(String importCode, ViewGroup loadingLayout, Context context) {
