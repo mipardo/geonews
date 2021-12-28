@@ -12,6 +12,7 @@ public class Country {
 
     public Country(String code) {
         this.code = code;
+        if (this.code.equals("UK")) this.code = "GB";
         Locale apiCountry = new Locale.Builder().setRegion(code).build();
         Locale langSpanish  = new Locale.Builder().setLanguage("es").build();
         this.name = apiCountry.getDisplayCountry(langSpanish);

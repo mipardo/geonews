@@ -64,6 +64,7 @@ public class NonActiveLocationInfoFragment extends Fragment {
 
         TextView locationPlaceNameOutput = view.findViewById(R.id.location_placename_output);
         TextView locationCoordsOutput = view.findViewById(R.id.location_coords_output);
+        TextView locationCountryOutput = view.findViewById(R.id.location_country_output);
         locationAliasOutput = view.findViewById(R.id.location_alias_output);
         activateLocation = view.findViewById(R.id.activate_location);
         deleteLocation = view.findViewById(R.id.delete_location);
@@ -73,6 +74,7 @@ public class NonActiveLocationInfoFragment extends Fragment {
         if (!location.getAlias().equals("")) locationAliasOutput.setText(location.getAlias());
         if (location.getPlaceName() != null) locationPlaceNameOutput.setText(location.getPlaceName());
         locationCoordsOutput.setText(location.getGeographCoords().toString());
+        locationCountryOutput.setText(location.getCountry().getName());
         activeServices = geoNewsManager.getServicesOfLocation(locationId);
 
         return view;

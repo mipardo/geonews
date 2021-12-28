@@ -44,7 +44,7 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="es.uji.geonews.controller.fragments.SettingsFragment"
-        android:label="Ajustes"
+        android:label="Ajustes generales"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/activeLocationInfoFragment"

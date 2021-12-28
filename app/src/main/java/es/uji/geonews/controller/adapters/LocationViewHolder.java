@@ -50,6 +50,8 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
         countryOutput.setText(location.getCountry().getName());
         Picasso.get()
                 .load("https://flagcdn.com/60x45/" + location.getCountry().getCode().toLowerCase() + ".png")
+                .placeholder(R.drawable.progress_animation)
+                .error(R.drawable.progress_animation)
                 .into(countryFlag, null);
         if (location.isFavourite()) {
             favouriteButton.setVisibility(View.VISIBLE);

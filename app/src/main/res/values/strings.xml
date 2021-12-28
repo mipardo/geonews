@@ -15,7 +15,7 @@
     <string name="today">Hoy</string>
     <string name="tomorrow">Mañana</string>
     <string name="five_days">5 días</string>
-    <string name="no_service">No hay ningún servicio activo en este momento</string>
+    <string name="no_service">Esta ubicación no está suscrita a ningún servicio disponible. Pruebe a suscribirse a un servicio para consultar su información.</string>
     <string name="ajustes_de_servicios">Ajustes de servicios</string>
     <string name="more_info">+ Info</string>
     <string name="less_info">- Info</string>
