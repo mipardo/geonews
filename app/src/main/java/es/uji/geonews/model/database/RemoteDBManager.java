@@ -102,7 +102,7 @@ public class RemoteDBManager implements DataBase {
         };
         int r1 = ThreadLocalRandom.current().nextInt(0, name.length);
         int r2 = ThreadLocalRandom.current().nextInt(0, surname.length);
-        return name[r1] + surname[r2];
+        return name[r1] + "_" + surname[r2];
     }
 
     public void loadAllSharedCodes() {
