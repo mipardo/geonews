@@ -17,7 +17,6 @@ import es.uji.geonews.model.services.ServiceName;
 
 public class UserDaoConverter {
 
-
     protected static Map<String, List<String>> convertLocationServicesHashMap(Map<Integer, List<ServiceName>> locationServices) {
         Map<String, List<String>> convertedMap = new HashMap<>();
         for (Map.Entry<Integer, List<ServiceName>> entry : locationServices.entrySet()) {

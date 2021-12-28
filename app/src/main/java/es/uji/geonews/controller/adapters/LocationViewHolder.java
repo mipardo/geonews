@@ -11,10 +11,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.Locale;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.fragments.OnItemClickListener;
@@ -51,7 +49,7 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
         Picasso.get()
                 .load("https://flagcdn.com/60x45/" + location.getCountry().getCode().toLowerCase() + ".png")
                 .placeholder(R.drawable.progress_animation)
-                .error(R.drawable.progress_animation)
+                .error(R.drawable.missing_flag)
                 .into(countryFlag, null);
         if (location.isFavourite()) {
             favouriteButton.setVisibility(View.VISIBLE);
