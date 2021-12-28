@@ -24,6 +24,8 @@ public class ForecastViewHolder extends RecyclerView.ViewHolder {
     private final TextView description;
     private final TextView temp;
     private final ImageView icon;
+    private final TextView maxTemp;
+    private final TextView minTemp;
 
     public ForecastViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -31,6 +33,8 @@ public class ForecastViewHolder extends RecyclerView.ViewHolder {
         description = itemView.findViewById(R.id.descriptionTextview);
         icon = itemView.findViewById(R.id.icon_layout);
         temp = itemView.findViewById(R.id.avgTempTextview);
+        maxTemp = itemView.findViewById(R.id.max_temp_output);
+        minTemp = itemView.findViewById(R.id.min_temp_output);
     }
 
     public void bind(DailyWeather data) {
@@ -41,6 +45,8 @@ public class ForecastViewHolder extends RecyclerView.ViewHolder {
         Picasso.get()
                 .load("https://openweathermap.org/img/wn/" + data.getIcon() + "@2x.png")
                 .into(icon);
+        minTemp.setText(Math.round(data.getTempMin()) + "º");
+        maxTemp.setText(Math.round(data.getTempMax()) + "º");
     }
 
     private String getStringDateAndTime(long timestamp) {
