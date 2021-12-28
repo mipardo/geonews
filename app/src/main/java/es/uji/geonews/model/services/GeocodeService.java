@@ -2,6 +2,7 @@ package es.uji.geonews.model.services;
 
 import java.io.IOException;
 
+import es.uji.geonews.model.Country;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
 import es.uji.geonews.model.exceptions.ServiceNotAvailableException;
@@ -41,6 +42,27 @@ public class GeocodeService extends ServiceHttp  {
             throw new ServiceNotAvailableException();
         }
         return geographCoords;
+    }
+
+    public Country getCountry(GeographCoords coords)
+            throws ServiceNotAvailableException {
+        String url = "https://geocode.xyz/"+ coords.toString() +"?json=1" +
+                "&auth=" + apiKey;
+        Request request = new Request.Builder().url(url).build();
+        final JSONObject jsonObject;
+        Country country;
+
+        try (Response response = client.newCall(request).execute()) {
+            jsonObject = new JSONObject(response.body().string());
+            if (jsonObject.has("error")){
+                throw new ServiceNotAvailableException();
+            }
+            String prov = jsonObject.getString("prov");
+            country = new Country(prov);
+        } catch (IOException | JSONException exception){
+            throw new ServiceNotAvailableException();
+        }
+        return country;
     }
 
         public String getPlaceName(GeographCoords coords)

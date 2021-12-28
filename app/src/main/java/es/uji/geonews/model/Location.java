@@ -9,6 +9,7 @@ public class Location {
     private String registrationDate;
     private boolean active;
     private boolean favourite;
+    private Country country;
 
     public Location() {}
 
@@ -68,6 +69,14 @@ public class Location {
 
     public void setRegistrationDate(String registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     public boolean isActive() {

@@ -3,6 +3,7 @@ package es.uji.geonews.model;
 public class GeographCoords {
     private double latitude;
     private double longitude;
+    private String country;
 
     public GeographCoords() {}
 
@@ -25,6 +26,14 @@ public class GeographCoords {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Override

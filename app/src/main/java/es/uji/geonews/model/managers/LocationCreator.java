@@ -2,6 +2,7 @@ package es.uji.geonews.model.managers;
 
 import java.time.LocalDate;
 
+import es.uji.geonews.model.Country;
 import es.uji.geonews.model.GeographCoords;
 import es.uji.geonews.model.Location;
 import es.uji.geonews.model.exceptions.NotValidCoordinatesException;
@@ -39,7 +40,10 @@ public class LocationCreator {
             throws UnrecognizedPlaceNameException, ServiceNotAvailableException {
         if(geocodeService.isAvailable()){
             GeographCoords coords = geocodeService.getCoords(placeName);
-            return new Location(idLocationCounter++,placeName, coords, LocalDate.now());
+            Country country = geocodeService.getCountry(coords);
+            Location newLocation = new Location(idLocationCounter++,placeName, coords, LocalDate.now());
+            newLocation.setCountry(country);
+            return newLocation;
         }
         throw  new ServiceNotAvailableException();
     }
@@ -54,7 +58,10 @@ public class LocationCreator {
 
         if (geocodeService.isAvailable()) {
             String placeName = geocodeService.getPlaceName(coords);
-            return new Location(idLocationCounter++, placeName, coords, LocalDate.now());
+            Country country = geocodeService.getCountry(coords);
+            Location newLocation = new Location(idLocationCounter++, placeName, coords, LocalDate.now());
+            newLocation.setCountry(country);
+            return newLocation;
         }
         throw  new ServiceNotAvailableException();
     }

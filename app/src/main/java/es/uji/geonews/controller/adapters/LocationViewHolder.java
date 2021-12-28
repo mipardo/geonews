@@ -1,6 +1,7 @@
 package es.uji.geonews.controller.adapters;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +11,10 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import java.util.Locale;
 
 import es.uji.geonews.R;
 import es.uji.geonews.controller.fragments.OnItemClickListener;
@@ -24,6 +29,8 @@ import es.uji.geonews.model.managers.GeoNewsManagerSingleton;
 public class LocationViewHolder extends RecyclerView.ViewHolder {
     private final TextView mainNameOutput;
     private final TextView subnameOutput;
+    private final TextView countryOutput;
+    private final ImageView countryFlag;
     private final LottieAnimationView favouriteButton;
     private final ImageView infoButton;
 
@@ -33,11 +40,19 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
         subnameOutput = itemView.findViewById(R.id.subname_output);
         favouriteButton = itemView.findViewById(R.id.add_to_favorites_button);
         infoButton = itemView.findViewById(R.id.location_information_button);
+        countryOutput = itemView.findViewById(R.id.country_output);
+        countryFlag = itemView.findViewById(R.id.flag_output);
     }
 
     public void bind(Location location, OnItemClickListener listener) {
         mainNameOutput.setText(location.getMainName());
         subnameOutput.setText(location.getSubName());
+        countryOutput.setText(location.getCountry().getName());
+        Log.e("dsad", location.getCountry().getCode());
+        Picasso.get()
+                .load("https://flagcdn.com/60x45/" + location.getCountry().getCode().toLowerCase() + ".png")
+                .placeholder(R.drawable.progress_animation)
+                .into(countryFlag, null);
         if (location.isFavourite()) {
             favouriteButton.setVisibility(View.VISIBLE);
             favouriteButton.setProgress(1);

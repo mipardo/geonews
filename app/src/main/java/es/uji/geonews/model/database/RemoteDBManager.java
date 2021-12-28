@@ -87,15 +87,22 @@ public class RemoteDBManager implements DataBase {
     }
 
     private String createCode() {
-        String[] codeWords = {
+        String[] name = {
                 "nave", "cometa", "meteorito", "avestruz", "ballena", "castor", "zebra", "pingüino", "dromedario", "camello", "rana",
-                "serpiente", "sapo", "puercoespín", "pikachu", "azul", "planeta", "rojo", "amarillo", "verde", "bisonte", "canario",
+                "serpiente", "sapo", "puercoespín", "pikachu", "planeta", "bisonte", "canario",
                 "frodo", "bolsón", "sauron", "aragorn", "legolas", "gimli", "galadriel", "eowin", "nazgul", "gandalf", "gothmog",
                 "tom", "bombadil", "kinton"
         };
-        int r1 = ThreadLocalRandom.current().nextInt(0, codeWords.length);
-        int r2 = ThreadLocalRandom.current().nextInt(0, codeWords.length);
-        return codeWords[r1] + " " + codeWords[r2];
+
+        String[] surname = {
+                "azul", "rojo", "amarillo", "verde", "alto", "bajo", "feo", "gordo", "elfo", "bueno", "malo",
+                "pequeño", "grande", "naranja", "morado", "violeta", "rosa", "gris", "negro", "blanco", "marrón",
+                "rápido", "lento", "rácano", "egoista", "ávaro", "rico", "pobre", "simpático", "triste", "alegre",
+                "oscuro", "claro"
+        };
+        int r1 = ThreadLocalRandom.current().nextInt(0, name.length);
+        int r2 = ThreadLocalRandom.current().nextInt(0, surname.length);
+        return name[r1] + surname[r2];
     }
 
     public void loadAllSharedCodes() {

@@ -88,6 +88,28 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/main_name_output" />
 
+                <ImageView
+                    android:id="@+id/flag_output"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/subname_output"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:src="@drawable/moonset"
+                    />
+
+                <TextView
+                    android:id="@+id/country_output"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/main_name_output"
+                    android:layout_marginTop="5dp"
+                    android:text="Country"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toEndOf="@id/flag_output"
+                    app:layout_constraintTop_toBottomOf="@+id/subname_output" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
