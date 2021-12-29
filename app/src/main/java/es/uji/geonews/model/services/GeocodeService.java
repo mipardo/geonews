@@ -56,7 +56,7 @@ public class GeocodeService extends ServiceHttp  {
             jsonObject = new JSONObject(response.body().string());
             if (jsonObject.has("error")){
                 // Coords are not from any country
-                return new Country("Unknown");
+                return new Country("Desconocido");
             }
             String prov = jsonObject.getString("prov");
             country = new Country(prov);
