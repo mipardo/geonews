@@ -56,6 +56,7 @@ public class HU01 {
         //Given
         userId = "e10a28n11v09";
         geoNewsManagerOld = createGeoNewsManager(userId, context);
+        String exportCode = geoNewsManagerOld.generateExportCode();
         geoNewsManagerOld.activateService(ServiceName.AIR_VISUAL);
         geoNewsManagerOld.activateService(ServiceName.OPEN_WEATHER);
         Location valencia = geoNewsManagerOld.addLocation("Valencia");
@@ -64,7 +65,7 @@ public class HU01 {
         geoNewsManagerOld.addToFavorites(valencia.getId());
         //When
         CountDownLatch lock = new CountDownLatch(1);
-        geoNewsManagerNew.loadRemoteState(userId);
+        geoNewsManagerNew.loadRemoteState(exportCode);
         lock.await(2000, TimeUnit.MILLISECONDS);
 
         //Then
@@ -79,6 +80,7 @@ public class HU01 {
         //Given
         userId = "e10a28n11v10";
         geoNewsManagerOld = createGeoNewsManager(userId, context);
+        String exportCode = geoNewsManagerOld.generateExportCode();
         geoNewsManagerOld.activateService(ServiceName.AIR_VISUAL);
         geoNewsManagerOld.activateService(ServiceName.OPEN_WEATHER);
         Location valencia = geoNewsManagerOld.addLocation("Alicante");
@@ -89,7 +91,7 @@ public class HU01 {
         //When
         CountDownLatch lock = new CountDownLatch(1);
         geoNewsManagerNew.addLocation("Bilbao");
-        geoNewsManagerNew.loadRemoteState(userId);
+        geoNewsManagerNew.loadRemoteState(exportCode);
         lock.await(2000, TimeUnit.MILLISECONDS);
 
         //Then
