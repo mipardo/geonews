@@ -14,6 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -28,6 +31,7 @@ import es.uji.geonews.model.services.ServiceName;
 public class LocationServicesFragment extends Fragment {
     private int locationId;
     private ViewPager2 mPager;
+    private TabLayout tabLayout;
     private ScreenSlidePagerAdapter pagerAdapter;
 
     public LocationServicesFragment() {
@@ -58,8 +62,13 @@ public class LocationServicesFragment extends Fragment {
         activeServices.retainAll(generalActiveServices);
 
         mPager = view.findViewById(R.id.pager);
+        tabLayout = view.findViewById(R.id.tabLayout);
         pagerAdapter = new ScreenSlidePagerAdapter(getActivity(), new ArrayList<>(activeServices));
         mPager.setAdapter(pagerAdapter);
+        new TabLayoutMediator(tabLayout, mPager,
+                new TabLayoutMediator.TabConfigurationStrategy() {
+                    @Override public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {}
+                }).attach();
         mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
