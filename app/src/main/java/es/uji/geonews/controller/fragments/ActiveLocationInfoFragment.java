@@ -72,6 +72,7 @@ public class ActiveLocationInfoFragment extends Fragment {
         TextView locationPlaceNameOutput = view.findViewById(R.id.location_placename_output);
         TextView locationCoordsOutput = view.findViewById(R.id.location_coords_output);
         TextView locationCountryOutput = view.findViewById(R.id.location_country_output);
+        TextView locationDateOutput = view.findViewById(R.id.location_date_output);
         locationAliasOutput = view.findViewById(R.id.location_alias_output);
         weatherServiceSwitch = view.findViewById(R.id.open_weather_service_switch);
         airServiceSwitch = view.findViewById(R.id.air_visual_service_switch);
@@ -84,6 +85,7 @@ public class ActiveLocationInfoFragment extends Fragment {
         if (location.getPlaceName() != null) locationPlaceNameOutput.setText(location.getPlaceName());
         locationCoordsOutput.setText(location.getGeographCoords().toString());
         locationCountryOutput.setText(location.getCountry().getName());
+        locationDateOutput.setText(location.getRegistrationDate());
         activeServicesGeneral = geoNewsManager.getActiveServices();
         activeServices = geoNewsManager.getServicesOfLocation(locationId);
         if (activeServices.contains(ServiceName.OPEN_WEATHER)) weatherServiceSwitch.setChecked(true);

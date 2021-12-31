@@ -14,7 +14,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp"
         android:layout_gravity="bottom"
