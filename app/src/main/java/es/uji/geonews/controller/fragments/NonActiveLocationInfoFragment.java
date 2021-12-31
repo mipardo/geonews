@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,7 +32,7 @@ public class NonActiveLocationInfoFragment extends Fragment {
     private GeoNewsManager geoNewsManager;
     private Button activateLocation;
     private Button deleteLocation;
-    private Button editAliasButton;
+    private ImageView editAliasButton;
     private TextView locationAliasOutput;
     private ConstraintLayout loadingLayout;
     private int locationId;

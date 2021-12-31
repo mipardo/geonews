@@ -201,15 +201,17 @@
                     app:layout_constraintStart_toEndOf="@+id/location_alias_label"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
+                <ImageView
                     android:id="@+id/location_alias_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:text="Editar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginEnd="10dp"
+                    android:src="@drawable/edit"
+                    android:contentDescription="editar"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/location_alias_output"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -218,7 +220,7 @@
         <View
             android:id="@+id/divider"
             android:layout_width="367dp"
-            android:layout_height="4dp"
+            android:layout_height="2dp"
             android:layout_marginTop="20dp"
             android:background="#327190"
             android:alpha="0.6"
@@ -249,6 +251,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dar de baja"
+                android:backgroundTint="#902923"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
