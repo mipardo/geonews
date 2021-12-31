@@ -34,14 +34,7 @@ public class RemoteDBManager implements DataBase {
     @Override
     public void saveAll(String userId, LocationManager locationManager, ServiceManager serviceManager) {
         UserDao userDao = new UserDao(userId, locationManager, serviceManager);
-        db.collection("users").document(String.valueOf(userId))
-                .set(userDao)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d("GeoNews", "Added userDao");
-                    }
-                });
+        db.collection("users").document(String.valueOf(userId)).set(userDao);
     }
 
     @Override

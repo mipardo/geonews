@@ -91,6 +91,5 @@ public class AirVisualFragment extends Fragment {
             Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
             toolbar.setTitle("Calidad del aire");
         }
-        Log.e("dsadsa", "VISIBLE");
     }
 }
