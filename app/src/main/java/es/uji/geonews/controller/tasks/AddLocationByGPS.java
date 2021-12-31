@@ -49,8 +49,10 @@ public class AddLocationByGPS extends UserTask {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        unlockUI(context, loadingLayout);
-                        if (error != null) showAlertError();
+                        if (error != null) {
+                            unlockUI(context, loadingLayout);
+                            showAlertError();
+                        }
                         else{
                             new ActivateAndOpenLocationInfo(context, newLocation.getId(), loadingLayout, loadingTextview, view).execute();
                         }
