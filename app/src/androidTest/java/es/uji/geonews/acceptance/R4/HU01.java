@@ -56,16 +56,22 @@ public class HU01 {
         //Given
         userId = "e10a28n11v09";
         geoNewsManagerOld = createGeoNewsManager(userId, context);
+        String exportCode = geoNewsManagerOld.generateExportCode();
         geoNewsManagerOld.activateService(ServiceName.AIR_VISUAL);
         geoNewsManagerOld.activateService(ServiceName.OPEN_WEATHER);
         Location valencia = geoNewsManagerOld.addLocation("Valencia");
         geoNewsManagerOld.addServiceToLocation(ServiceName.AIR_VISUAL, valencia.getId());
         geoNewsManagerOld.addServiceToLocation(ServiceName.OPEN_WEATHER, valencia.getId());
         geoNewsManagerOld.addToFavorites(valencia.getId());
+
         //When
-        CountDownLatch lock = new CountDownLatch(1);
-        geoNewsManagerNew.loadRemoteState(userId);
-        lock.await(2000, TimeUnit.MILLISECONDS);
+        CountDownLatch lock1 = new CountDownLatch(1);
+        geoNewsManagerNew.loadAllSharedCodes();
+        lock1.await(2000, TimeUnit.MILLISECONDS);
+
+        CountDownLatch lock2 = new CountDownLatch(1);
+        geoNewsManagerNew.loadRemoteState(exportCode);
+        lock2.await(2000, TimeUnit.MILLISECONDS);
 
         //Then
         assertEquals(1, geoNewsManagerNew.getFavouriteLocations().size());
@@ -79,6 +85,7 @@ public class HU01 {
         //Given
         userId = "e10a28n11v10";
         geoNewsManagerOld = createGeoNewsManager(userId, context);
+        String exportCode = geoNewsManagerOld.generateExportCode();
         geoNewsManagerOld.activateService(ServiceName.AIR_VISUAL);
         geoNewsManagerOld.activateService(ServiceName.OPEN_WEATHER);
         Location valencia = geoNewsManagerOld.addLocation("Alicante");
@@ -87,14 +94,17 @@ public class HU01 {
         geoNewsManagerOld.addToFavorites(valencia.getId());
 
         //When
-        CountDownLatch lock = new CountDownLatch(1);
+        CountDownLatch lock1 = new CountDownLatch(1);
         geoNewsManagerNew.addLocation("Bilbao");
-        geoNewsManagerNew.loadRemoteState(userId);
-        lock.await(2000, TimeUnit.MILLISECONDS);
+        geoNewsManagerNew.loadAllSharedCodes();
+        lock1.await(2000, TimeUnit.MILLISECONDS);
+
+        CountDownLatch lock2 = new CountDownLatch(1);
+        geoNewsManagerNew.loadRemoteState(exportCode);
+        lock2.await(2000, TimeUnit.MILLISECONDS);
 
         //Then
         assertEquals(1, geoNewsManagerNew.getFavouriteLocations().size());
-        assertEquals(0, geoNewsManagerNew.getNonActiveLocations().size());
         assertEquals("Alicante", geoNewsManagerNew.getFavouriteLocations().get(0).getPlaceName());
     }
 

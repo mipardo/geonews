@@ -82,8 +82,9 @@ public abstract class UserTask extends AppCompatActivity {
 
     protected int getHoursLeftOfToday(){
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime tomorrow = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth() + 1, 0, 0);
-        long hoursLeft = ChronoUnit.HOURS.between(now, tomorrow);
-        return (int) hoursLeft + 1;
+        LocalDateTime tomorrow = now.plusDays(1);
+        LocalDateTime tomorrowMorning = tomorrow.withHour(0);
+        long hoursLeft = ChronoUnit.HOURS.between(now, tomorrowMorning);
+        return (int) hoursLeft;
     }
 }

@@ -119,8 +119,10 @@ public class Location {
                 ", alias='" + alias + '\'' +
                 ", placeName='" + placeName + '\'' +
                 ", geographCoords=" + geographCoords +
-                ", registrationDate=" + registrationDate +
-                ", isActive=" + active +
+                ", registrationDate='" + registrationDate + '\'' +
+                ", active=" + active +
+                ", favourite=" + favourite +
+                ", country=" + country +
                 '}';
     }
 }

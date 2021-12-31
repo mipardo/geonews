@@ -18,7 +18,7 @@ public class GeocodeService extends ServiceHttp  {
 
     public GeocodeService() {
         super(ServiceName.GEOCODE, "Coordinates Search Service");
-        apiKey = "632875201820266780293x52534";
+        apiKey = "155449118387098208393x28930";
         url = "geocode.xyz";
     }
 
@@ -55,7 +55,8 @@ public class GeocodeService extends ServiceHttp  {
         try (Response response = client.newCall(request).execute()) {
             jsonObject = new JSONObject(response.body().string());
             if (jsonObject.has("error")){
-                throw new ServiceNotAvailableException();
+                // Coords are not from any country
+                return new Country("Desconocido");
             }
             String prov = jsonObject.getString("prov");
             country = new Country(prov);
