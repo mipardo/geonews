@@ -83,8 +83,8 @@ public class GetOpenWeatherData extends UserTask {
 
     private void showAlertError(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Error al obtener la predicción del tiempo");
-        builder.setMessage("Pruebe más tarde");
+        builder.setTitle("Error al obtener la predicción del tiempo. ");
+        builder.setMessage(error + " Pruebe más tarde");
         builder.setPositiveButton("Aceptar", null);
         AlertDialog dialog = builder.create();
         dialog.show();

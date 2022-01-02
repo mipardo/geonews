@@ -77,8 +77,10 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
 
         Weather currentWeather = new Weather();
         currentWeather.setTimestamp(jsonObject.getJSONObject("current").getLong("dt"));
-        currentWeather.setSunrise(jsonObject.getJSONObject("current").getLong("sunrise"));
-        currentWeather.setSunset(jsonObject.getJSONObject("current").getLong("sunset"));
+        if (jsonObject.getJSONObject("current").has("sunrise")){
+            currentWeather.setSunrise(jsonObject.getJSONObject("current").getLong("sunrise"));
+            currentWeather.setSunset(jsonObject.getJSONObject("current").getLong("sunset"));
+        }
         currentWeather.setCurrentTemp(jsonObject.getJSONObject("current").getDouble("temp"));
         currentWeather.setFeelsLikeTemp(jsonObject.getJSONObject("current").getDouble("feels_like"));
         currentWeather.setHumidity(jsonObject.getJSONObject("current").getInt("humidity"));
@@ -91,17 +93,19 @@ public class OpenWeatherService extends ServiceHttp implements DataGetterStrateg
         openWeatherLocationData.setCurrentWeather(currentWeather);
 
         List<MinutelyWeather> minutelyWeatherList = new ArrayList<>();
-        JSONArray jsonArray = jsonObject.getJSONArray("minutely");
-        for (int i = 0; i < jsonArray.length(); i++) {
-            MinutelyWeather minutelyWeather = new MinutelyWeather();
-            minutelyWeather.setTimestamp(jsonArray.getJSONObject(i).getLong("dt"));
-            minutelyWeather.setPrecipitation(jsonArray.getJSONObject(i).getInt("precipitation"));
-            minutelyWeatherList.add(minutelyWeather);
+        if (jsonObject.has("minutely")){
+            JSONArray jsonArray = jsonObject.getJSONArray("minutely");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                MinutelyWeather minutelyWeather = new MinutelyWeather();
+                minutelyWeather.setTimestamp(jsonArray.getJSONObject(i).getLong("dt"));
+                minutelyWeather.setPrecipitation(jsonArray.getJSONObject(i).getInt("precipitation"));
+                minutelyWeatherList.add(minutelyWeather);
+            }
         }
         openWeatherLocationData.setMinutelyWeatherList(minutelyWeatherList);
 
         List<HourlyWeather> hourlyWeatherList = new ArrayList<>();
-        jsonArray = jsonObject.getJSONArray("hourly");
+        JSONArray jsonArray = jsonObject.getJSONArray("hourly");
         for (int i = 0; i < jsonArray.length(); i++) {
             HourlyWeather hourlyWeather = new HourlyWeather();
             hourlyWeather.setTimestamp(jsonArray.getJSONObject(i).getLong("dt"));
