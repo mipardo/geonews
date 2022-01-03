@@ -224,9 +224,10 @@ public class SettingsFragment extends Fragment {
     private void showImportDialog(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setTitle("Importar configuración");
-        builder.setMessage("Introduzca el código de la configuración que desea importar. Tenga en cuenta que perderá toda su configuración actual.");
-        AutoCompleteTextView codeInput = new AutoCompleteTextView(view.getContext());
-        builder.setView(codeInput);
+        builder.setMessage("Introduzca el código de la configuración que desea importar. \nTenga en cuenta que perderá toda su configuración actual.");
+        View viewInflated = LayoutInflater.from(view.getContext()).inflate(R.layout.alert_import, view.findViewById(R.id.import_input),false);
+        AutoCompleteTextView codeInput = viewInflated.findViewById(R.id.import_input);
+        builder.setView(viewInflated);
 
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
