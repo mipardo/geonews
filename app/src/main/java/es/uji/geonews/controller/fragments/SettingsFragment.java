@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -223,8 +224,8 @@ public class SettingsFragment extends Fragment {
     private void showImportDialog(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setTitle("Importar configuración");
-        builder.setMessage("Introduzca el código de la configuración que desea importar");
-        EditText codeInput = new EditText(view.getContext());
+        builder.setMessage("Introduzca el código de la configuración que desea importar. Tenga en cuenta que perderá toda su configuración actual.");
+        AutoCompleteTextView codeInput = new AutoCompleteTextView(view.getContext());
         builder.setView(codeInput);
 
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
