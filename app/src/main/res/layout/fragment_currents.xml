@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:text="No existen noticias actualmente"
         android:textSize="24sp"
         android:padding="35dp"
