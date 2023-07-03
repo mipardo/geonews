@@ -24,7 +24,7 @@ public class AirVisualService extends ServiceHttp implements DataGetterStrategy 
 
     public AirVisualService() {
         super(ServiceName.AIR_VISUAL, description);
-        apiKey = "bd76ecb7-90bb-4f78-ad71-8107453e8890";
+        apiKey = "7f9615df-32fd-42fe-8c79-6fcaf18a2960";
         url = "api.airvisual.org";
     }
 

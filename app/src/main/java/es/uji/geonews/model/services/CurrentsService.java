@@ -25,7 +25,7 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
 
     public CurrentsService() {
         super(ServiceName.CURRENTS, description);
-        apiKey = "uVh9kGUA3ZArfrYzCaLkX4iW6nR1vy2LMHwesz40aEY4OHaj";
+        apiKey = "o0ZMQAdHNGTP05xNOz_nQtCyIK1EzxuMQLVX2IPKcDMwK9CL";
         url = "api.currentsapi.services";
     }
 
@@ -40,7 +40,7 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
 
     public boolean validateLocation(Location location){
         String url = "https://api.currentsapi.services/v1/search?language=es&"
-                + "keywords=" + location.getPlaceName()
+                //+ "keywords=" + location.getPlaceName()
                 + "&apiKey=" + apiKey;
 
         Request request = new Request.Builder().url(url).build();
@@ -58,7 +58,7 @@ public class CurrentsService extends ServiceHttp implements DataGetterStrategy {
     @Override
     public ServiceData getData(Location location) throws ServiceNotAvailableException {
         String url = "https://api.currentsapi.services/v1/search?language=es&"
-                + "keywords=" + location.getPlaceName()
+                //+ "keywords=" + location.getPlaceName()
                 + "&apiKey=" + apiKey;
         Request request = new Request.Builder().url(url).build();
         final JSONObject jsonObject;
